@@ -1,0 +1,11 @@
+.idea/
+*.iml
+target/
+*.war
+*.jar
+*.ear
+*.class
+*.apk
+bin/
+out/
+local.properties
