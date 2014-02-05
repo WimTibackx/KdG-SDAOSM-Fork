@@ -55,3 +55,8 @@ body{
 #stad{
     margin-top:1em;
 }
+
+#map-canvas{
+    height:79%;
+    margin-top: 1em;
+}
