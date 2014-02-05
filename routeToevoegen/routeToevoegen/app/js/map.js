@@ -32,7 +32,7 @@ function initialize() {
     //auto complete
     //get the thml input element for the autocomplete search box
     var input = document.getElementById("pac-input");
-    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     //create autocomplete object
     autocomplete = new google.maps.places.Autocomplete(input, options);
 
