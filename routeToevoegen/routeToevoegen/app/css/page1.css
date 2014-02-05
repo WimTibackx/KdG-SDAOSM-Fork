@@ -1,0 +1,62 @@
+body{
+    background-image: url('../img/baan.jpg');
+}
+
+#inline{
+    margin-left: auto;
+    margin-right: 1em;
+    width: 45%;
+    height: 690px;
+    margin-top: 1.5em;
+    background-color: rgba(100,100,100,0.2);
+    padding: 0em 1em 1em 1em;
+    border: solid 1px white;
+}
+
+#title{
+    padding-top: 1px;
+    border-bottom: solid 1px white;
+    font-size: 26px;
+}
+
+#selectWagen, #aantal{
+    float: right;
+    margin-top: -3em;
+    margin-right: 12em;
+    width: 20%;
+    /*background-color: rgba(100,160,220,0.8);
+    color: white;*/
+}
+
+#next{
+    opacity: 0.8;
+    width: 75px;
+    height: 100px;
+    position: absolute;
+    bottom: 2.5em;
+    right: 2.5em;
+    background-size: cover;
+    background-image: url('../img/pijlRechts.jpg');
+}
+
+#uur{
+    position: absolute;
+    right: 22em;
+    top: 16.5em;
+    width: 40px;
+}
+#minuut{
+    position: absolute;
+    right: 18em;
+    top: 16.5em;
+    width: 40px;
+}
+
+#stad{
+    margin-top:1em;
+}
+
+#map-canvas{
+    height:79%;
+    margin-top: 1em;
+}
