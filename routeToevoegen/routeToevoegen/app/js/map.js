@@ -4,8 +4,7 @@ var infoWindow, geoCoder;
 var markers = [];
 
 // var callnr = 0;
-
-
+var autocomplete;
 
 
 function initialize() {
@@ -24,19 +23,20 @@ function initialize() {
     // Nieuwe map aanmaken in een HTML-element met mapOptions
 
     mapBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-33.8902, 151.1759),
-        new google.maps.LatLng(-33.8474, 151.2631));
+        new google.maps.LatLng(-33.8902, 151.1759),
+        new google.maps.LatLng(-33.8474, 151.2631)
+    );
 
     var options = {bounds: mapBounds};
-
-    addListeners();
 
     //auto complete
     //get the thml input element for the autocomplete search box
     var input = document.getElementById("pac-input");
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     //create autocomplete object
-    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
 }
 
 function getLocation(point, callback) {
@@ -66,6 +66,22 @@ function decodeAddress(point, callback) {
         }
     })
 }
+
+function onPlaceChanged() {
+    var place = autocomplete.getPlace();
+    if (place.geometry) {
+        map.panTo(place.geometry.location);
+        map.setZoom(15);
+        var marker = new google.maps.Marker({
+                map: map,
+                title: place.name,
+                position: place.geometry.location
+              });
+    } else {
+        document.getElementById('autocomplete').placeholder = 'Enter a city';
+    }
+}
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 // Listener
