@@ -4,6 +4,7 @@ package be.kdg.groepa.service.impl;
 
 
 import be.kdg.groepa.exceptions.PasswordFormatException;
+import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) throws Exception {
+        if (!isValidUsername(user.getUsername())) throw new UsernameFormatException("Invalid username format (e-mail)");
         if (!isValidPassword(user.getPassword())) throw new PasswordFormatException("Invalid password format [1 uppercase, 1 lowercase, 1 digit, no whitespaces, 7-30 length]");
         user.setPassword(encryptString(user.getPassword()));   // Encrypt user password before adding
         try {
@@ -49,6 +51,11 @@ public class UserServiceImpl implements UserService {
     {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{7,30}$";
         return pw.matches(regex);
+    }
+
+    private boolean isValidUsername(String username){
+        String regex = "^[_a-z0-9-A-Z-]+(\\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\\.[a-z0-9-A-Z-]+)*(\\.[a-zA-Z]{2,4})$";
+        return username.matches(regex);
     }
 
     public String encryptString(String password) {
