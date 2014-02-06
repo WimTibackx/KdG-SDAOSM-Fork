@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <link
-            rel="stylesheet" href="css/page1.css"
+            rel="stylesheet" href="css/addRoute.css"
             type="text/css"
             />
     <script type="text/javascript"
@@ -17,11 +17,13 @@
     <title>Route toevoegen</title>
 </head>
 <body>
+<section id="menu"></section>
 <section id="inline">
     <section id="title"><h1>Route toevoegen</h1></section>
-    <button onclick="start()">Startpunt</button>
-    <button onclick="end()">Eindpunt</button>
-    <input id="pac-input" class="controls" type="text" placeholder="Begin hier te typen"> <!--bij ingeven van stad, stad tonen op google map en bij klikken op map marker plaatsen en opslagen -->
+    <button id="start" onclick="mapGoStart()">Startpunt</button>
+    <button id="end" onclick="mapGoEnd()">Eindpunt</button>
+    <button id="klaar" onclick="klaar()">Klaar</button>
+    <input id="pac-input" class="controls" type="text"> <!--bij ingeven van stad, stad tonen op google map en bij klikken op map marker plaatsen en opslagen -->
     <div id="map-canvas"></div>
 </section>
 </body>

@@ -1,16 +1,39 @@
 var map;
 var mapBounds;
 var infoWindow, geoCoder;
-var markers = [];
 
 // var callnr = 0;
 var autocomplete;
 
+var setStart = true;
+var setEnd = false;
+var setReady = false;
+var visibleEnd = false;
+var visibleReady = false;
+var markers = [];
+
+var buttonEnd;
+var buttonReady;
+
 
 function initialize() {
+    //get buttons
+    buttonEnd = document.getElementById('end');
+    buttonReady = document.getElementById('klaar');
+
+    //disable buttons end and ready (user needs to fill in a start point first before those can be clicked)
+    buttonEnd.disabled = true;
+    buttonReady.disabled = true;
+
+    //get input field for point on map to add a placeholder (text) en focus on the box
+    document.getElementById('pac-input').placeholder = 'Geef beginpunt in';
+
+    /*
     geoCoder = new google.maps.Geocoder();
     // Geocoder: omzetten van adressen naar coordinaten
+    */
 
+    //map opions (latlng = value to show map)
     var mapOptions = {
         center: new google.maps.LatLng(51.219448, 4.402464),
         zoom: 8
@@ -18,28 +41,31 @@ function initialize() {
     // mapOption: zoomlevel, middelpunt bepalen, ...
     // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
 
+    //create map with defined options
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
-    // Nieuwe map aanmaken in een HTML-element met mapOptions
 
-    mapBounds = new google.maps.LatLngBounds(
+    /*mapBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(-33.8902, 151.1759),
         new google.maps.LatLng(-33.8474, 151.2631)
-    );
+    );*/
 
-    var options = {bounds: mapBounds};
+    //var options = {bounds: mapBounds};
 
     //auto complete
-    //get the thml input element for the autocomplete search box
+    //get the html input element for the autocomplete search box
     var input = document.getElementById("pac-input");
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     //create autocomplete object
-    autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete = new google.maps.places.Autocomplete(input);
 
+    //add listener to box
     google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+
+    $('#pac-input').focus();
 }
 
-function getLocation(point, callback) {
+/*function getLocation(point, callback) {
     var markerLocation;
     if (point.coords.lat && point.coords.lng) {
         markerLocation = new google.maps.LatLng(point.coords.lat, point.coords.lng);
@@ -65,7 +91,7 @@ function decodeAddress(point, callback) {
             }, 1000);
         }
     })
-}
+}*/
 
 function onPlaceChanged() {
     var place = autocomplete.getPlace();
@@ -77,11 +103,43 @@ function onPlaceChanged() {
                 title: place.name,
                 position: place.geometry.location
               });
-    } else {
-        document.getElementById('autocomplete').placeholder = 'Enter a city';
-    }
+        //if setStart is true, the marker will be added as the beginning point
+        if(setStart==true){
+            if(markers[0]!=null){ //when there is already a beginmarker, delete this marker and replace it with the new one
+                 markers[0].setMap(null); //delete beginmarker
+            }
+            markers[0] = marker; //add beginmarker to array on the first place
+            buttonEnd.disabled = false; //make button end clickable
+        }else if(setEnd==true){ //when there is already an endmarker, delete this marker and replace it with the new one
+            if(markers[1]!=null){
+                markers[1].setMap(null); //delete endmarker
+            }
+            markers[1] = marker; //add endmarker to array on second place
+            buttonReady.disabled = false;
+        }
+    } /*else {
+        document.getElementById('pac-input').placeholder = 'Enter a city';
+    }*/
 }
 
+//click on start button to give in a beginning point
+function mapGoStart(){
+    setStart = true;
+    setEnd = false;
+    //focus on search box
+    $('#pac-input').val('').focus();
+    //change placeholder
+    document.getElementById('pac-input').placeholder = 'Geef beginpunt in';
+}
 
-google.maps.event.addDomListener(window, 'load', initialize);
+function mapGoEnd(){
+    setStart = false;
+    setEnd = true;
+    //focus on search box
+    $('#pac-input').val('').focus();
+    //change placeholder
+    document.getElementById('pac-input').placeholder = 'Geef eindpunt in';
+}
+
 // Listener
+google.maps.event.addDomListener(window, 'load', initialize);
