@@ -101,7 +101,8 @@ function onPlaceChanged() {
         var marker = new google.maps.Marker({
                 map: map,
                 title: place.name,
-                position: place.geometry.location
+                position: place.geometry.location,
+                draggable: true
               });
         //if setStart is true, the marker will be added as the beginning point
         if(setStart==true){

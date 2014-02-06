@@ -60,9 +60,11 @@ body{
 }
 
 #map-canvas{
-    height:80%;
+    height:65%;
     margin-top: 1em;
+
 }
+
 
 #menu{
     position: absolute;
@@ -73,3 +75,36 @@ body{
     height:706px;
     border: solid 1px white;
 }
+
+/* Navigation bar + text */
+
+#navbar {
+    position: relative;
+}
+
+#navtxt {
+    position: absolute;
+    height: 100px;
+    line-height: 100px;
+    width: 100%;
+}
+
+#navtxt span {
+    float: left;
+    width: 33%;
+    text-align: center;
+}
+/*
+#txtStap1 {
+    left: 50px;
+}
+
+#txtStap2 {
+    left:150px;
+}
+
+#txtStap3 {
+    left: 250px;
+}
+*/
+
