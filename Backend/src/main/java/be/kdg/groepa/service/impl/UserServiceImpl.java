@@ -3,6 +3,7 @@ package be.kdg.groepa.service.impl;
 
 
 
+import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
@@ -27,9 +28,16 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUser(username);
         if (user != null){
             if(user.getPassword() == password){
+                SessionObject session = new SessionObject(user.getUsername());
+                userDao.createSession(session);
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }
