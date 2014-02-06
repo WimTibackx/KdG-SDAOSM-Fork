@@ -61,3 +61,35 @@ body{
     height:79%;
     margin-top: 1em;
 }
+
+/* Navigation bar + text */
+
+#navbar {
+    position: relative;
+}
+
+#navtxt {
+    position: absolute;
+    height: 100px;
+    line-height: 100px;
+    width: 100%;
+}
+
+#navtxt span {
+    float: left;
+    width: 33%;
+    text-align: center;
+}
+/*
+#txtStap1 {
+    left: 50px;
+}
+
+#txtStap2 {
+    left:150px;
+}
+
+#txtStap3 {
+    left: 250px;
+}
+*/

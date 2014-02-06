@@ -75,7 +75,8 @@ function onPlaceChanged() {
         var marker = new google.maps.Marker({
                 map: map,
                 title: place.name,
-                position: place.geometry.location
+                position: place.geometry.location,
+                draggable: true
               });
     } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
