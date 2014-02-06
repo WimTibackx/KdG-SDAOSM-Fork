@@ -51,6 +51,16 @@ public class UserTests {
     }
 
     @Test
+    public void registerNoCarUser()
+    {
+        try {
+            userService.addUser(new User("Wimmetje", User.Gender.MALE, false, "testPassword", LocalDate.of(1993, 10, 20), "test@user.com"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void tooShortPassword() {
         boolean failed = false;
         try {
