@@ -9,4 +9,5 @@ public interface UserService {
 
     public boolean checkLogin(String username, String password);
     public void addUser(User user) throws Exception;
+    public User getUser(String username);
 }

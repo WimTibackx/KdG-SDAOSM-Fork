@@ -47,6 +47,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public User getUser(String username){
+        return userDao.getUser(username);
+    }
+
     private boolean isValidPassword(String pw)
     {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{7,30}$";
