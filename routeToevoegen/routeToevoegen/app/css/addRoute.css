@@ -57,11 +57,18 @@ body {
 
 #controls {
     margin-top: 1em;
-    width: 65%;
+    width: 70%;
 }
 
 .controls {
-    width: 100%;
+    width: 88%;
+}
+
+#btnSend {
+    position: absolute;
+    top: 0; right: 0;
+    height: 100%;
+    width: 10%;
 }
 
 #map-canvas {
@@ -78,4 +85,20 @@ body {
     width: 20%;
     height: 706px;
     border: solid 1px white;
+}
+
+/* Popup */
+
+#overlay {
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+#formPopup {
+    position: relative;
+    margin: 100px auto;
+    width: 700px;
+    height: 500px;
+    background-color: lightgray;
 }
