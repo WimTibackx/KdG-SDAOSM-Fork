@@ -51,12 +51,15 @@ function onPlaceChanged() {
     if (place.geometry) {
         map.panTo(place.geometry.location);
         map.setZoom(15);
+        var icon = 'img/map/marker' + currentStep + '.png';
         var marker = new google.maps.Marker({
             map: map,
             title: place.name,
             position: place.geometry.location,
-            draggable: true
+            draggable: true,
+            icon: icon
         });
+        google.maps.event.addListener(marker, 'dragend', function() { console.log(this.getPosition().toString()); })
 
         if (markers[currentStep] != null) {
             markers[currentStep].setMap(null);
