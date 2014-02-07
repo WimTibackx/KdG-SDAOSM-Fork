@@ -74,103 +74,60 @@ public class UserTests {
         assertFalse("The user could not be registered", failed);
     }
 
-    @Test
-         public void tooShortPassword() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("PasswordTooShort", User.Gender.FEMALE, true, "Abc13", LocalDate.of(1993, 5, 5), "too@short.be"));
-        } catch (Exception e)
-        {
-            if(e instanceof PasswordFormatException)
-                failed = true;
-        }
-        assertTrue("Password was correctly used", failed);
+    @Test(expected = PasswordFormatException.class)
+    public void tooShortPassword() throws Exception {
+        userService.addUser(new User("PasswordTooShort", User.Gender.FEMALE, true, "Abc13", LocalDate.of(1993, 5, 5), "too@short.be"));
+        fail();
     }
 
-    @Test
-    public void tooLongPassword() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("PasswordTooLong", User.Gender.FEMALE, true, "Abc12IkBenVeelTeLangVoorEenPaswoordEnDusZalErEenFoutOptredenDertigLetters", LocalDate.of(1993, 5, 5), "too@long.be"));
-        } catch (Exception e)
-        {
-            if(e instanceof PasswordFormatException)
-                failed = true;
-        }
-        assertTrue("Password was correctly used", failed);
+    @Test(expected = PasswordFormatException.class)
+    public void tooLongPassword() throws Exception{
+        userService.addUser(new User("PasswordTooLong", User.Gender.FEMALE, true, "Abc12IkBenVeelTeLangVoorEenPaswoordEnDusZalErEenFoutOptredenDertigLetters", LocalDate.of(1993, 5, 5), "too@long.be"));
+        fail();
     }
 
-    @Test
-    public void noNumberPassword() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("PasswordNoNumber", User.Gender.FEMALE, true, "PasswordNoNumber", LocalDate.of(1993, 5, 5), "no@number.be"));
-        } catch (Exception e)
-        {
-            if(e instanceof PasswordFormatException)
-                failed = true;
-        }
-        assertTrue("Password was correctly used", failed);
+    @Test(expected = PasswordFormatException.class)
+    public void noNumberPassword() throws Exception {
+        userService.addUser(new User("PasswordNoNumber", User.Gender.FEMALE, true, "PasswordNoNumber", LocalDate.of(1993, 5, 5), "no@number.be"));
+        fail();
     }
 
-    @Test
-    public void noCapitalPassword() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("PasswordNoCapital", User.Gender.FEMALE, true, "passwordnocapital123", LocalDate.of(1993, 5, 5), "no@capital.be"));
-        } catch (Exception e)
-        {
-            if(e instanceof PasswordFormatException)
-                failed = true;
-        }
-        assertTrue("Password was correctly used", failed);
+    @Test(expected = PasswordFormatException.class)
+    public void noCapitalPassword() throws Exception {
+        userService.addUser(new User("PasswordNoCapital", User.Gender.FEMALE, true, "passwordnocapital123", LocalDate.of(1993, 5, 5), "no@capital.be"));
+        fail();
     }
 
-    @Test
-    public void noLowercasePassword() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("PasswordNoLowercase", User.Gender.FEMALE, true, "MYCAPSLOCKISSTUCK12", LocalDate.of(1993, 5, 5), "no@lowercase.be"));
-        } catch (Exception e)
-        {
-            if(e instanceof PasswordFormatException)
-                failed = true;
-        }
-        assertTrue("Password was correctly used", failed);
+    @Test(expected = PasswordFormatException.class)
+    public void noLowercasePassword() throws Exception {
+        userService.addUser(new User("PasswordNoLowercase", User.Gender.FEMALE, true, "MYCAPSLOCKISSTUCK12", LocalDate.of(1993, 5, 5), "no@lowercase.be"));
+        fail();
     }
 
     @Test(expected = PasswordFormatException.class)
     public void whitespacePassword() throws Exception {
-        boolean failed = false;
         userService.addUser(new User("PasswordWhitespace", User.Gender.FEMALE, true, "Oh yes whitespaces12", LocalDate.of(1993, 5, 5), "white@spaces.be"));
         fail();
     }
 
-    @Test
-    public void usernameNoEmail() {
-        boolean failed = false;
-        try {
-            userService.addUser(new User("SomeName", User.Gender.FEMALE, true, "Correct1", LocalDate.of(1993, 5, 5), "TimVanRoeyen"));
-        } catch (Exception e)
-        {
-            if(e instanceof UsernameFormatException)
-                failed = true;
-        }
-        assertTrue("Username was correctly entered", failed);
+    @Test(expected = UsernameFormatException.class)
+    public void usernameNoEmail() throws Exception {
+        userService.addUser(new User("SomeName", User.Gender.FEMALE, true, "Correct1", LocalDate.of(1993, 5, 5), "TimVanRoeyen"));
+        fail();
     }
 
     @Test
     public void userWithOneCar(){
         boolean failed = false;
-            try {
-                userService.addUser(new User("My Name", User.Gender.MALE, true, "Correct1", LocalDate.of(1993, 5, 5), "ihaveacar@cars.car", "Audi", "C4", 10.2));
-            } catch (Exception e) {
-                if(e instanceof PasswordFormatException || e instanceof UsernameFormatException)
-                {} else {
-                    failed = true;
-                }
-                e.printStackTrace();
+        try {
+            userService.addUser(new User("My Name", User.Gender.MALE, true, "Correct1", LocalDate.of(1993, 5, 5), "ihaveacar@cars.car", "Audi", "C4", 10.2));
+        } catch (Exception e) {
+            if(e instanceof PasswordFormatException || e instanceof UsernameFormatException)
+            {} else {
+                failed = true;
             }
+            e.printStackTrace();
+        }
         assertFalse("User was incorrectly created", failed);
     }
 
