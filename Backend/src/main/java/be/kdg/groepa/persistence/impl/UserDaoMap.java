@@ -1,16 +1,19 @@
 package be.kdg.groepa.persistence.impl;
 
+
 import be.kdg.groepa.model.SessionObject;
+import be.kdg.groepa.exceptions.PasswordFormatException;
+import be.kdg.groepa.exceptions.UserExistException;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * Created by Thierry on 4/02/14.
- */
+
 @Repository("userDao")
 public class UserDaoMap implements UserDao {
     private final ConcurrentHashMap<String, User> users;
@@ -19,7 +22,6 @@ public class UserDaoMap implements UserDao {
     public UserDaoMap(){
         users = new ConcurrentHashMap<String, User>();
         sessions = new ConcurrentHashMap<String, SessionObject>();
-        users.put("Thierry", new User("Thierry", "succes"));
     }
 
     public User getUser(String username){
@@ -46,4 +48,11 @@ public class UserDaoMap implements UserDao {
         SessionObject session = sessions.get(token);
         session.setExperiationDate(LocalDateTime.now().plusDays(1L));
     }
+
+    public void addUser(User u) throws Exception
+    {
+        if (users.contains(u.getUsername())) throw new UserExistException("User already exists");
+        users.put(u.getUsername(), u);
+    }
+
 }

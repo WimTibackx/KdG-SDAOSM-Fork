@@ -16,4 +16,6 @@ public interface UserDao {
     public void deleteSession(SessionObject session);
 
     public void extendSession(String token);
+
+    public void addUser(User u) throws Exception;
 }

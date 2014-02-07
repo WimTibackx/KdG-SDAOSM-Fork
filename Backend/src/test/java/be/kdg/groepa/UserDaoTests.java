@@ -25,35 +25,35 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 public class UserDaoTests {
-
-
     @Autowired
     private UserDao userDao;
+
+    private String testUsername = "Thierry@test.com";
 
 
     @Test
     public void createSession() {
-        SessionObject session = new SessionObject("Thierry");
+        SessionObject session = new SessionObject(testUsername);
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession("Thierry123456"));
+        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
 
 
     }
 
     @Test
     public void deleteSession() {
-        SessionObject session = new SessionObject("Thierry");
+        SessionObject session = new SessionObject(testUsername);
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession("Thierry123456"));
+        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         userDao.deleteSession(session);
-        assertNull("Session should be deleted", userDao.getSession("Thierry123456"));
+        assertNull("Session should be deleted", userDao.getSession(testUsername + "123456"));
     }
 
     @Test
     public void extendSession() {
-        SessionObject session = new SessionObject("Thierry");
+        SessionObject session = new SessionObject(testUsername);
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession("Thierry123456"));
+        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         LocalDateTime firstVisit = session.getExperiationDate();
         //We have to sleep 1 milisecond else maven doesn't notice the difference
         try {
@@ -62,8 +62,8 @@ public class UserDaoTests {
             e.printStackTrace();
 
         }
-        userDao.extendSession("Thierry123456");
-        LocalDateTime secondVisit = userDao.getSession("Thierry123456").getExperiationDate();
+        userDao.extendSession(testUsername + "123456");
+        LocalDateTime secondVisit = userDao.getSession(testUsername + "123456").getExperiationDate();
         assertTrue("First visit earlier than second visit", firstVisit.isBefore(secondVisit));
 
     }
