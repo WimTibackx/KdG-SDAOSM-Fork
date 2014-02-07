@@ -8,7 +8,8 @@ import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
