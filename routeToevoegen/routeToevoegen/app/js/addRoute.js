@@ -1,21 +1,16 @@
 var map;
-var input;
-var autocomplete;
-var currentStep = 1;
-
-var setStart = true;
-var setEnd = false;
-var setReady = false;
-var visibleEnd = false;
-var visibleReady = false;
+var inputStart, inputEnd;
+var autocomplete = [];
+var autoStart, autoEnd;
 var markers = [];
-
-var buttonEnd;
-var buttonReady;
+var geoCoder;
 
 
 function initialize() {
-    //map opions (latlng = value to show map)
+    // Creating new Geocoder
+    geoCoder = new google.maps.Geocoder();
+
+    //map options (latlng = value to show map)
     var mapOptions = {
         center: new google.maps.LatLng(51.219448, 4.402464),
         zoom: 8
@@ -30,28 +25,34 @@ function initialize() {
 
     //auto complete
     //get the html input element for the autocomplete search box
-    input = document.getElementById("pac-input");
-    //get input field for point on map to add a placeholder (text) and focus on the box
-    input.placeholder = 'Geef beginpunt in';
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    inputStart = document.getElementById("txtStart");
+    inputEnd = document.getElementById("txtEnd");
+    inputEnd.style.display = 'none';
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('controls'));
     //create autocomplete object
-    autocomplete = new google.maps.places.Autocomplete(input);
+
+    autoStart = new google.maps.places.Autocomplete(inputStart);
+    autoEnd = new google.maps.places.Autocomplete(inputEnd);
+
+    autocomplete[0] = autoStart;
+    autocomplete[1] = autoEnd;
 
     //add listener to box
-    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-    $('#btnStep1').click(changeStep);
-    $('#txtStep1').click(changeStep);
+    google.maps.event.addListener(autoStart, 'place_changed', onPlaceChanged);
+    google.maps.event.addListener(autoEnd, 'place_changed', onPlaceChanged);
 
-    input.focus();
+    inputStart.focus();
 
 }
 
 function onPlaceChanged() {
-    var place = autocomplete.getPlace();
+    var step = autocomplete.indexOf(this);
+    var place = this.getPlace();
     if (place.geometry) {
         map.panTo(place.geometry.location);
         map.setZoom(15);
-        var icon = 'img/map/marker' + currentStep + '.png';
+        var icon = 'img/map/marker' + (step + 1) + '.png';
         var marker = new google.maps.Marker({
             map: map,
             title: place.name,
@@ -59,53 +60,43 @@ function onPlaceChanged() {
             draggable: true,
             icon: icon
         });
-        google.maps.event.addListener(marker, 'dragend', function() { console.log(this.getPosition().toString()); })
+        google.maps.event.addListener(marker, 'dragend', function () {
+            updateAddress(step, this.getPosition());
+        });
 
-        if (markers[currentStep] != null) {
-            markers[currentStep].setMap(null);
+        if (markers[step] != null) {
+            markers[step].setMap(null);
         }
-        markers[currentStep] = marker;
+        markers[step] = marker;
 
-        $('#btnStep' + (currentStep + 1))
-            .attr('class', 'enabledButton')
-            .click(changeStep);
+        if (markers[0]) {
+            inputEnd.style.display = 'block';
+        }
+        if (markers[1]) {
+            // TODO: display button
+        }
     }
 }
 
-function changeStep() {
-    $('#btnStep' + currentStep).attr('class', 'enabledButton');
-    currentStep = $(this).data('step');
-    $('#btnStep' + currentStep).attr('class', 'activeButton');
-
-    $(input).val('').focus();
-
-    switch (currentStep) {
-        case 1:
-            input.placeholder = 'Geef beginpunt in';
-            break;
-        case 2:
-            input.placeholder = 'Geef eindpunt in';
-            break;
-    }
-}
-
-//click on start button to give in a beginning point
-function mapGoStart() {
-    setStart = true;
-    setEnd = false;
-    //focus on search box
-    $('#pac-input').val('').focus();
-    //change placeholder
-    document.getElementById('pac-input').placeholder = 'Geef beginpunt in';
-}
-
-function mapGoEnd() {
-    setStart = false;
-    setEnd = true;
-    //focus on search box
-    $('#pac-input').val('').focus();
-    //change placeholder
-    document.getElementById('pac-input').placeholder = 'Geef eindpunt in';
+function updateAddress(step, latlng) {
+    geoCoder.geocode({ location: latlng }, function (result, status) {
+        if (status == "OK") {
+            console.log('------------');
+            for (var i = 0; i < result.length; i++) {
+                console.log(result[i].formatted_address);
+            }
+            if (step == 0) {
+                inputStart.value = result[0].formatted_address;
+            } else {
+                inputEnd.value = result[0].formatted_address;
+            }
+        } else {
+            console.log("Error decoding address: " + status);
+            setTimeout(function () {
+                updateAddress(step, latlng);
+            }, 1000);
+        }
+    })
 }
 
 // Listener
