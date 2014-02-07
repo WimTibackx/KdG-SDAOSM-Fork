@@ -21,24 +21,11 @@
 
     <section id="title"><h1>Route toevoegen</h1></section>
 
-    <div id="navbar" height="100">
-        <div id="navtxt">
-            <span id="txtStep1">Start</span>
-            <span id="txtStep2">Eind</span>
-            <span id="txtStep3">Klaar</span>
-        </div>
-        <svg height="100" viewbox="0 0 500 100" preserveAspectRatio="none">
-                <polygon id="btnStep1" data-step="1" class="activeButton" stroke="black" stroke-width="2"
-                         points="0,100 0,0 141,0 191,50 141,100"/>
-                <polygon id="btnStep2" data-step="2" class="disabledButton" stroke="black" stroke-width="2"
-                         points="141,100 191,50 141,0 308,0 358,50 308,100"/>
-                <polygon id="btnStep3" data-step="3" class="disabledButton" stroke="black" stroke-width="2"
-                         points="308,100 358,50 308,0 500,0 500,100"/>
-            Sorry, your browser does not support inline SVG.
-        </svg>
-    </div>
 
-    <input id="pac-input" class="controls" type="text">
+    <div id="controls">
+        <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in."><br>
+        <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+    </div>
     <!--bij ingeven van stad, stad tonen op google map en bij klikken op map marker plaatsen en opslagen -->
 
     <div id="map-canvas"></div>

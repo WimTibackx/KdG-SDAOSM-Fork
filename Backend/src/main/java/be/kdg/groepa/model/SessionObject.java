@@ -1,6 +1,6 @@
 package be.kdg.groepa.model;
 
-import java.time.LocalDateTime;
+import org.threeten.bp.LocalDateTime;
 
 /**
  * Created by Thierry on 6/02/14.

@@ -1,27 +1,27 @@
-body{
+body {
     background-image: url('../img/road.jpg');
     -webkit-background-size: cover;
     background-size: cover;
 }
 
-#inline{
-    float:right;
+#inline {
+    float: right;
     margin-right: 1em;
     width: 74%;
     height: 690px;
     margin-top: 1em;
-    background-color: rgba(100,100,100,0.2);
+    background-color: rgba(100, 100, 100, 0.2);
     padding: 0em 1em 1em 1em;
     border: solid 1px white;
 }
 
-#title{
+#title {
     padding-top: 1px;
     border-bottom: solid 1px white;
     font-size: 26px;
 }
 
-#selectWagen, #aantal{
+#selectWagen, #aantal {
     float: right;
     margin-top: -3em;
     margin-right: 12em;
@@ -30,7 +30,7 @@ body{
     color: white;*/
 }
 
-#next{
+#next {
     opacity: 0.8;
     width: 75px;
     height: 100px;
@@ -41,76 +41,41 @@ body{
     background-image: url('../img/pijlRechts.jpg');
 }
 
-#uur{
+#uur {
     position: absolute;
     right: 22em;
     top: 16.5em;
     width: 40px;
 }
-#minuut{
+
+#minuut {
     position: absolute;
     right: 18em;
     top: 16.5em;
     width: 40px;
 }
 
-#pac-input{
-    margin-top:1em;
-    width:65%;
+#controls {
+    margin-top: 1em;
+    width: 65%;
 }
 
-#map-canvas{
-    height:65%;
+.controls {
+    width: 100%;
+}
+
+#map-canvas {
+    height: 85%;
     margin-top: 1em;
 
 }
 
-
-#menu{
+#menu {
     position: absolute;
     left: 1.5em;
     top: 1.5em;
     background-color: rgba(0, 0, 0, 0.5);
     width: 20%;
-    height:706px;
+    height: 706px;
     border: solid 1px white;
 }
-
-/* Navigation bar + text */
-
-#navbar {
-    position: relative;
-    height: 100px;
-    line-height: 100px;
-    width: 100%;
-}
-
-#navtxt {
-    position: absolute;
-    height: 100px;
-    line-height: 100px;
-    width: 100%;
-    pointer-events:none;
-}
-
-#navtxt span {
-    float: left;
-    width: 33%;
-    text-align: center;
-    font-size: 2em;
-}
-
-/* Button states */
-
-.disabledButton {
-    fill: gray;
-}
-
-.enabledButton {
-    fill: white;
-}
-
-.activeButton {
-    fill: green;
-}
-
