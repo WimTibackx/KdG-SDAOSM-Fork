@@ -8,6 +8,7 @@ import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -22,6 +23,7 @@ public class UserDaoMap implements UserDao {
     public UserDaoMap(){
         users = new ConcurrentHashMap<String, User>();
         sessions = new ConcurrentHashMap<String, SessionObject>();
+        users.put("Thierry", new User("test", User.Gender.MALE, false, "test", LocalDate.of(1993, 10, 20), "test"));
     }
 
     public User getUser(String username){

@@ -11,7 +11,7 @@
 
 		<modules>
         <module>Backend</module>
-        <module>android</module>
+        <!--<module>android</module>-->
     </modules>
     
     <build>

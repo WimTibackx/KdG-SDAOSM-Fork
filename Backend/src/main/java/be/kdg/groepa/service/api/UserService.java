@@ -17,4 +17,5 @@ public interface UserService {
     public void addUser(User user) throws Exception;
     public User getUser(String username);
     public String encryptString(String password);
+    public SessionObject getUserSession(String username);
 }

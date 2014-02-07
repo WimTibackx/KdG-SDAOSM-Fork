@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    public SessionObject getUserSession(String username){
+        return userDao.getSession(username);
+    }
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -55,6 +59,8 @@ public class UserServiceImpl implements UserService {
             throw e;
         }
     }
+
+
 
     public User getUser(String username) {
         return userDao.getUser(username);
