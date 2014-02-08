@@ -18,4 +18,6 @@ public interface UserDao {
     public void extendSession(String token);
 
     public void addUser(User u) throws Exception;
+
+    public SessionObject getSessionByUserame(String username);
 }

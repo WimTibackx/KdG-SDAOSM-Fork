@@ -26,7 +26,7 @@ public class UserDaoMap implements UserDao {
     public UserDaoMap(){
         users = new ConcurrentHashMap<String, User>();
         sessions = new ConcurrentHashMap<String, SessionObject>();
-        users.put("Thierry", new User("test", User.Gender.MALE, false, "test", LocalDate.of(1993, 10, 20), "test"));
+
     }
 
     public User getUser(String username){
@@ -58,6 +58,17 @@ public class UserDaoMap implements UserDao {
     {
         if (users.contains(u.getUsername())) throw new UserExistException("User already exists");
         users.put(u.getUsername(), u);
+    }
+
+    @Override
+    public SessionObject getSessionByUserame(String username) {
+        for(SessionObject session: sessions.values() ){
+            if (session.getUsername().equals(username)){
+                return session;
+            }
+
+        }
+        return null;
     }
 
 }

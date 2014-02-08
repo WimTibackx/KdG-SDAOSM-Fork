@@ -11,6 +11,8 @@ import be.kdg.groepa.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 
 import java.security.MessageDigest;
 import java.util.HashMap;
@@ -24,6 +26,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    public UserServiceImpl(){
+
+    }
 
     public boolean checkLogin(String username, String password) {
         User user = userDao.getUser(username);
@@ -40,7 +46,11 @@ public class UserServiceImpl implements UserService {
 
 
     public SessionObject getUserSession(String username){
-        return userDao.getSession(username);
+        SessionObject session = userDao.getSessionByUserame(username);
+        if (session.getExperiationDate().isAfter(LocalDateTime.now())){
+            return session;
+        }
+        return null;
     }
 
     public void setUserDao(UserDao userDao) {
