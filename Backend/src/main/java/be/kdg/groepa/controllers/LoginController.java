@@ -32,7 +32,7 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody String login(@RequestParam("data") String data) {
+    public @ResponseBody String login(@RequestParam("data") String data, HttpServletResponse response) {
         JSONObject myJson = null;
         try {
             JSONObject json = (JSONObject) new JSONParser().parse(data);
@@ -46,12 +46,12 @@ public class LoginController {
                 session = userService.getUserSession(username);
                 myJson = new JSONObject();
                 String token = session.getSessionToken();
-                myJson.put("Token", session.getSessionToken());
-                //Cookie cookie = new Cookie("Token", session.getSessionToken());
+                myJson.put("Token", token);
+                Cookie cookie = new Cookie("Token", token);
                 //Set max age of cookie to 1 day
-                //cookie.setMaxAge(86400000);
+                cookie.setMaxAge(60 * 60 * 24g);
 
-                //response.addCookie(cookie);
+                response.addCookie(cookie);
                 return myJson.toString();
             }
 

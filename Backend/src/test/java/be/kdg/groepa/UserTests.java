@@ -155,15 +155,15 @@ public class UserTests {
         initDaoData();
     }
 
-    /*@Test
+
     public void testLogin(){
         LoginController controller = new LoginController();
         JSONObject obj = new JSONObject();
         obj.put("username", "username");
         obj.put("password", "password");
 
-        String myString = controller.login(obj.toJSONString());
-    }  */
+        //String myString = controller.login(obj.toJSONString());
+    }
 
     private void initDaoData(){
         try {
