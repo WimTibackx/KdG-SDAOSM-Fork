@@ -1,14 +1,25 @@
 var map;
-var inputStart, inputEnd;
+var txtStart, txtEnd, btnSend;
 var autocomplete = [];
 var autoStart, autoEnd;
 var markers = [];
 var geoCoder;
 
+var directionsDisplay;
+var directionsService;
+
+var points;
 
 function initialize() {
-    // Creating new Geocoder
+    // Creating new Geocoder (for turning coordinates into human-readable addresses)
     geoCoder = new google.maps.Geocoder();
+
+    // Creating directionsService
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        draggable: true
+    });
 
     //map options (latlng = value to show map)
     var mapOptions = {
@@ -21,19 +32,23 @@ function initialize() {
     //create map with defined options
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
-
+    directionsDisplay.setMap(map);
 
     //auto complete
-    //get the html input element for the autocomplete search box
-    inputStart = document.getElementById("txtStart");
-    inputEnd = document.getElementById("txtEnd");
-    inputEnd.style.display = 'none';
+    // Get the HTML control elements and store them in variables because we will need them later.
+    txtStart = document.getElementById("txtStart");
+    txtEnd = document.getElementById("txtEnd");
+    btnSend = document.getElementById('btnSend');
+
+    // Hide second box and button
+    txtEnd.style.display = 'none';
+    btnSend.style.display = 'none';
 
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('controls'));
     //create autocomplete object
 
-    autoStart = new google.maps.places.Autocomplete(inputStart);
-    autoEnd = new google.maps.places.Autocomplete(inputEnd);
+    autoStart = new google.maps.places.Autocomplete(txtStart);
+    autoEnd = new google.maps.places.Autocomplete(txtEnd);
 
     autocomplete[0] = autoStart;
     autocomplete[1] = autoEnd;
@@ -41,9 +56,12 @@ function initialize() {
     //add listener to box
     google.maps.event.addListener(autoStart, 'place_changed', onPlaceChanged);
     google.maps.event.addListener(autoEnd, 'place_changed', onPlaceChanged);
+    google.maps.event.addDomListener(btnSend, 'click', saveRoute);
 
-    inputStart.focus();
-
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        // Do something only the first time the map is loaded
+        txtStart.focus();
+    });
 }
 
 function onPlaceChanged() {
@@ -55,7 +73,7 @@ function onPlaceChanged() {
         var icon = 'img/map/marker' + (step + 1) + '.png';
         var marker = new google.maps.Marker({
             map: map,
-            title: place.name,
+            title: place.formatted_address,
             position: place.geometry.location,
             draggable: true,
             icon: icon
@@ -70,26 +88,31 @@ function onPlaceChanged() {
         markers[step] = marker;
 
         if (markers[0]) {
-            inputEnd.style.display = 'block';
+            txtEnd.style.display = 'block';
+            txtEnd.focus();
         }
         if (markers[1]) {
-            // TODO: display button
+            btnSend.style.display = 'block';
         }
+        calcRoute();
     }
 }
 
 function updateAddress(step, latlng) {
     geoCoder.geocode({ location: latlng }, function (result, status) {
         if (status == "OK") {
-            console.log('------------');
-            for (var i = 0; i < result.length; i++) {
-                console.log(result[i].formatted_address);
-            }
+            /* console.log('------------');
+             for (var i = 0; i < result.length; i++) {
+             console.log(result[i].formatted_address);
+             } */
+            //change marker title
+            markers[step].setTitle(result[0].formatted_address);
             if (step == 0) {
-                inputStart.value = result[0].formatted_address;
+                txtStart.value = result[0].formatted_address;
             } else {
-                inputEnd.value = result[0].formatted_address;
+                txtEnd.value = result[0].formatted_address;
             }
+            calcRoute();
         } else {
             console.log("Error decoding address: " + status);
             setTimeout(function () {
@@ -97,6 +120,48 @@ function updateAddress(step, latlng) {
             }, 1000);
         }
     })
+}
+
+function calcRoute() {
+    if (markers[1]) {
+        var request = {
+            origin: markers[0].getPosition(),
+            destination: markers[1].getPosition(),
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+            } else {
+                console.log("Error calculating route: " + status);
+                setTimeout(function () {
+                    calcRoute();
+                }, 1000);
+            }
+        });
+    }
+}
+
+function saveRoute() {
+    points = {};
+
+    points.start = {};
+    points.start.lat = markers[0].getPosition().lat();
+    points.start.long = markers[0].getPosition().lng();
+    points.start.address = markers[0].getTitle();
+
+    points.end = {};
+    points.end.lat = markers[1].getPosition().lat();
+    points.end.long = markers[1].getPosition().lng();
+    points.end.address = markers[1].getTitle();
+
+    console.log(JSON.stringify(points));
+
+    openWindow();
+}
+
+function openWindow() {
+
 }
 
 // Listener
