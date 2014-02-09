@@ -49,7 +49,7 @@ public class LoginController {
                 myJson.put("Token", token);
                 Cookie cookie = new Cookie("Token", token);
                 //Set max age of cookie to 1 day
-                cookie.setMaxAge(60 * 60 * 24g);
+                cookie.setMaxAge(60 * 60 * 24);
 
                 response.addCookie(cookie);
                 return myJson.toString();
