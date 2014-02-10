@@ -48,13 +48,14 @@ public class LoginController {
                 String token = session.getSessionToken();
                 myJson.put("Token", token);
                 Cookie cookie = new Cookie("Token", token);
+                cookie.setPath("/");
                 //Set max age of cookie to 1 day
                 cookie.setMaxAge(60 * 60 * 24);
 
                 response.addCookie(cookie);
                 return myJson.toString();
             }
-
+            //TODO - Return something if username-password combo is wrong
 
 
 
