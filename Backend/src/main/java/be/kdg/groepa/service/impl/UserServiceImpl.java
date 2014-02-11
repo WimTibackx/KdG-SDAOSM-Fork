@@ -9,14 +9,10 @@ import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 
 import java.security.MessageDigest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -40,7 +36,6 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
         }
-
         return false;
     }
 
