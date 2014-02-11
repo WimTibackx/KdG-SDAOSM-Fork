@@ -32,7 +32,7 @@ public class LoginController {
      * Input: { "username": "username@test1.com", "password": "Password1" }
      * Output: { "error": "ParseError" } OR { "error": "LoginComboWrong" } OR { "Token": "(a token)" } + Set-Cookie header
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody String login(@RequestParam("data") String data, HttpServletResponse response) {
         JSONObject myJson = null;
         String username, password;
