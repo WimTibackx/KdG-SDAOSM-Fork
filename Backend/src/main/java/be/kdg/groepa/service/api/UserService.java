@@ -3,7 +3,6 @@ package be.kdg.groepa.service.api;
 
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import be.kdg.groepa.model.User;
 
 /**
