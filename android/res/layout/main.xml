@@ -4,10 +4,63 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
-            />
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                android:text="User Name: "
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <EditText
+                android:text=""
+                android:id="@+id/txtUname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:text="Password: "
+                android:id="@+id/TextView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+            <EditText
+                android:text=""
+                android:id="@+id/txtPwd"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:password="true">
+            </EditText>
+        </TableRow>
+
+
+
+
+
+
+
+
+    </TableLayout>
+    <Button
+
+        android:text="Login"
+        android:id="@+id/login"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Button>
 </LinearLayout>
 
