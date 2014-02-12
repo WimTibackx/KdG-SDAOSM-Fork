@@ -45,11 +45,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public SessionObject getSession(String token) {
-        Transaction tx = HibernateUtil.getSessionFactory().openSession().beginTransaction();
-        Query query = HibernateUtil.getSession().createQuery("from SessionObject s where s.sessionToken = :token");
+        Session ses = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = ses.beginTransaction();
+        Query query = ses.createQuery("from SessionObject s where s.sessionToken = :token");
         query.setString("token", token);
         SessionObject s = (SessionObject)query.uniqueResult();
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+        tx.commit();
+        ses.close();
         return s;
     }
 
@@ -61,7 +63,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void extendSession(SessionObject session) { // String token
         //SessionObject session = sessions.get(token);
-        session.setExperiationDate(LocalDateTime.now().plusDays(1L));
+        Session dbSes = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = dbSes.beginTransaction();
+        session.setExperiationDate(session.getExperiationDate().plusDays(1L));
+        dbSes.saveOrUpdate(session);
+        tx.commit();
+        dbSes.close();
     }
 
     public void addUser(User u) throws Exception

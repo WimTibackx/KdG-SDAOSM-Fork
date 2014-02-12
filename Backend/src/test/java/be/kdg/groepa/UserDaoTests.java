@@ -1,7 +1,9 @@
 package be.kdg.groepa;
 
 import be.kdg.groepa.model.SessionObject;
+import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 
 import static org.junit.Assert.assertNull;
@@ -26,6 +29,23 @@ public class UserDaoTests {
     private UserDao userDao;
 
     private String testUsername = "Thierry@test.com";
+    private String testUsername2 = "TestUser2@test.com";
+    private String testUsername3 = "TestUser3@test.com";
+    private static boolean init = false;
+
+    @Before
+    public void init(){
+        if(!init){
+        try {
+            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername));
+            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2));
+            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername3));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            init = true;
+        }
+    }
 
 
     @Test
@@ -39,18 +59,16 @@ public class UserDaoTests {
 
     @Test
     public void deleteSession() {
-        SessionObject session = new SessionObject(userDao.getUser(testUsername));
+        SessionObject session = new SessionObject(userDao.getUser(testUsername2));
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         userDao.deleteSession(session);
-        assertNull("Session should be deleted", userDao.getSession(testUsername + "123456"));
+        assertNull("Session should be deleted", userDao.getSession(testUsername2 + "123456"));
     }
 
     @Test
     public void extendSession() {
-        SessionObject session = new SessionObject(userDao.getUser(testUsername));
+        SessionObject session = new SessionObject(userDao.getUser(testUsername3));
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         LocalDateTime firstVisit = session.getExperiationDate();
         //We have to sleep 1 milisecond else maven doesn't notice the difference
         try {
@@ -59,9 +77,8 @@ public class UserDaoTests {
             e.printStackTrace();
 
         }
-        SessionObject ses = userDao.getSession(testUsername + "123456");
-        userDao.extendSession(ses);
-        LocalDateTime secondVisit = userDao.getSession(testUsername + "123456").getExperiationDate();
+        userDao.extendSession(session);
+        LocalDateTime secondVisit = userDao.getSession(testUsername3 + "123456").getExperiationDate();
         assertTrue("First visit earlier than second visit", firstVisit.isBefore(secondVisit));
 
     }
