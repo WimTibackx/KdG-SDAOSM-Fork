@@ -73,11 +73,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public SessionObject getSessionByUsername(String username) {
-        Transaction tx = HibernateUtil.getSessionFactory().openSession().beginTransaction();
-        Query query = HibernateUtil.getSession().createQuery("from SessionObject s where s.user.username = :username");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        //Transaction tx = HibernateUtil.getSessionFactory().openSession().beginTransaction();
+        Query query = session.createQuery("from SessionObject s where s.user.username = :username");
         query.setString("username", username);
         SessionObject s = (SessionObject)query.uniqueResult();
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+        tx.commit();
+        session.close();
         return s;
     }
 
