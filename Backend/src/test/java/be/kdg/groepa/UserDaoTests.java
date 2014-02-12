@@ -2,8 +2,6 @@ package be.kdg.groepa;
 
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 
 import static org.junit.Assert.assertNull;
@@ -33,7 +30,7 @@ public class UserDaoTests {
 
     @Test
     public void createSession() {
-        SessionObject session = new SessionObject(testUsername);
+        SessionObject session = new SessionObject(userDao.getUser(testUsername));
         userDao.createSession(session);
         assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
 
@@ -42,7 +39,7 @@ public class UserDaoTests {
 
     @Test
     public void deleteSession() {
-        SessionObject session = new SessionObject(testUsername);
+        SessionObject session = new SessionObject(userDao.getUser(testUsername));
         userDao.createSession(session);
         assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         userDao.deleteSession(session);
@@ -51,7 +48,7 @@ public class UserDaoTests {
 
     @Test
     public void extendSession() {
-        SessionObject session = new SessionObject(testUsername);
+        SessionObject session = new SessionObject(userDao.getUser(testUsername));
         userDao.createSession(session);
         assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
         LocalDateTime firstVisit = session.getExperiationDate();
@@ -62,7 +59,8 @@ public class UserDaoTests {
             e.printStackTrace();
 
         }
-        userDao.extendSession(testUsername + "123456");
+        SessionObject ses = userDao.getSession(testUsername + "123456");
+        userDao.extendSession(ses);
         LocalDateTime secondVisit = userDao.getSession(testUsername + "123456").getExperiationDate();
         assertTrue("First visit earlier than second visit", firstVisit.isBefore(secondVisit));
 

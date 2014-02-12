@@ -2,19 +2,35 @@ package be.kdg.groepa.model;
 
 import org.threeten.bp.LocalDateTime;
 
+import javax.jms.Session;
+import javax.persistence.*;
+
 /**
  * Created by Thierry on 6/02/14.
  */
+@Entity
+@Table(name="t_session")
 public class SessionObject {
-    private final String sessionToken;
-    private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name="sessionToken")
+    private String sessionToken;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private User user;
+
+    @Column(name="expirationDate")
     private LocalDateTime experiationDate;
 
+    public SessionObject(){ }
 
-    public SessionObject(String username) {
-        this.username = username;
+    public SessionObject(User user) {
+        this.user = user;
         this.experiationDate = LocalDateTime.now().plusDays(1L);
-        this.sessionToken = username + "123456";
+        this.sessionToken = user.getUsername() + "123456";
 
         //this.sessionToken = UUID.randomUUID().toString();
     }
@@ -24,12 +40,12 @@ public class SessionObject {
         return sessionToken;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getExperiationDate() {
@@ -47,9 +63,8 @@ public class SessionObject {
 
         SessionObject that = (SessionObject) o;
 
-        if (sessionToken != null ? !sessionToken.equals(that.sessionToken) : that.sessionToken != null) return false;
+        return !(sessionToken != null ? !sessionToken.equals(that.sessionToken) : that.sessionToken != null);
 
-        return true;
     }
 
     @Override
