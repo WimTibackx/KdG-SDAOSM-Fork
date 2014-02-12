@@ -1,10 +1,12 @@
 package be.kdg.groepa.android;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +36,7 @@ import java.util.List;
 /**
  * Created by Thierry on 11/02/14.
  */
-public class LoginActivity extends MyActivity implements AsyncResponse {
+public class LoginActivity extends Activity implements AsyncResponse {
 
     private EditText txtUsername;
     private EditText txtPassword;
@@ -57,6 +59,7 @@ public class LoginActivity extends MyActivity implements AsyncResponse {
 
             @Override
             public void onClick(View v) {
+            Toast.makeText(getApplicationContext(), "Clicked button",Toast.LENGTH_LONG).show();
                 LoginRequestTask task = new LoginRequestTask(txtUsername.getText().toString(), txtPassword.getText().toString(),getApplicationContext(), loginActivity);
                 task.execute();
             }
@@ -65,17 +68,23 @@ public class LoginActivity extends MyActivity implements AsyncResponse {
 
     @Override
     public void processFinish(String output) {
+        if (output == null || output.isEmpty()) {
+            Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+        }
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(output);
             if (jsonObject.has("Token")) {
                 String token = jsonObject.getString("Token");
-                SharedPreferences privPref = getPreferences(MODE_PRIVATE);
+                SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
                 SharedPreferences.Editor privPrefEditor = privPref.edit();
                 privPrefEditor.putString("Token",token);
                 privPrefEditor.commit();
+                privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
+                Log.d("Logintoken test",privPref.getString("Token",""));
                 Toast.makeText(getApplicationContext(),"We logged in: token is "+token,Toast.LENGTH_LONG).show();
                 Intent goToMyActivity = new Intent(getApplicationContext(), MyActivity.class);
+                Log.d("Login", "Going to myActivity...");
                 startActivity(goToMyActivity);
             } else {
                 String error = jsonObject.getString("error");

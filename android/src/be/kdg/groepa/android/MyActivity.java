@@ -18,9 +18,11 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postlogin);
-        SharedPreferences privPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
         ((TextView) this.findViewById(R.id.userToken)).setText(privPref.getString("Token",""));
         //((TextView) this.findViewById(R.id.userToken)).invalidate();
-        Toast.makeText(getApplicationContext(),privPref.getString("Token",""),Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(),"Token = "+privPref.getString("Token",""),Toast.LENGTH_LONG).show();
     }
+
+
 }
