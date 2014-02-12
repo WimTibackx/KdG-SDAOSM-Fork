@@ -47,48 +47,8 @@ public class LoginActivity extends MyActivity {
 
             @Override
             public void onClick(View v) {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpResponse response;
-                String responseString = null;
+                new LoginRequestTask(txtUsername.getText().toString(), txtPassword.getText().toString(),getApplicationContext()).execute();
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("username", txtUsername.getText().toString());
-                    jsonObject.put("password",txtPassword.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                List<NameValuePair> param = new ArrayList<>(1);
-                param.add(new BasicNameValuePair("data",jsonObject.toString()));
-
-                HttpGet httpPost = new HttpGet("http://localhost/BackEnd/login");
-                //try {
-                    //httpPost.setEntity(new UrlEncodedFormEntity(param));
-                    HttpParams p = new BasicHttpParams();
-                    p.setParameter("data",jsonObject.toString());
-                    httpPost.setParams(p);
-                /*} catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }*/
-
-                try {
-                    response = httpclient.execute(httpPost);
-                    StatusLine statusLine = response.getStatusLine();
-                    if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                        ByteArrayOutputStream out = new ByteArrayOutputStream();
-                        response.getEntity().writeTo(out);
-                        out.close();
-                        responseString = out.toString();
-                    } else{
-                        //Closes the connection.
-                        response.getEntity().getContent().close();
-                        throw new IOException(statusLine.getReasonPhrase());
-                    }
-                } catch (IOException e) {
-                    //TODO Handle problems..
-                }
-                Toast toast = Toast.makeText(getApplicationContext(), responseString, 500);
-                toast.show();
             }
         });
     }
