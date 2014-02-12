@@ -37,21 +37,90 @@
 
 <div id="overlay">
     <div id="formPopup">
-        <h3>Met welke wagen wilt u deze route rijden?</h3>
-        <select id="selectWagen">
-            <option value="wagen1">Wagen 1</option>
-            <option value="wagen2">Wagen 2</option>
-        </select>
+        <section id="carPicker">
+            Kies uw wagen
+            <div id="carList">
+                <img alt="auto" src="img/test/delorean.jpg" data-index="0">
+                <img alt="auto" src="img/test/shelby.jpg" data-index="1" id="selectedCar">
+                <img alt="auto" src="img/test/shelby.jpg" data-index="2">
+            </div>
+        </section>
+        <section id="numberOfPlaces">
+            Aantal vrije plaatsen in de wagen
+            <div id="placePicker">
+                <span id="placeMinus">-</span>
+                <span id="placeNumber">1</span>
+                <span id="placePlus">+</span>
+            </div>
+        </section>
+        <section id="sDatePicker">
+            <input id="startDatePicker" class="datePicker" type="date">
+        </section>
+        <section id="repeating">
+            Herhalend?
+            <input type="checkbox" id="repeatBox">
+        </section>
+        <section id="repeatingTimes">
+            <div id="days">
+                <span><input type="checkbox">Ma</span>
+                <span><input type="checkbox">Di</span>
+                <span><input type="checkbox">Wo</span>
+                <span><input type="checkbox">Do</span>
+                <span><input type="checkbox">Vr</span>
+                <span><input type="checkbox">Za</span>
+                <span><input type="checkbox">Zo</span>
+            </div>
+            <div id="hours">
+                <input type="text" placeholder="9:00">
+                tot
+                <input type="text" placeholder="17:00">
+            </div>
+            <button id="addHours">Toevoegen</button>
+            <div style="clear:both;"></div>
+        </section>
+        <section id="eDatePicker">
+            <input id="endDatePicker" class="datePicker" type="date">
+        </section>
+        <section id="times">
+            <input type="text" id="depTime" placeholder="9:00">
+                tot
+            <input type="text" id="arrTime" placeholder="17:00">
+        </section>
+        <section id="finalAdd">
+            Toevoegen
+        </section>
 
-        <h3>Hoeveel personen kunnen er meerijden?</h3>
-        <input type="number" min="1" value="1" step="1" id="aantal">
+        <!--
+                <div id="col1">
+                    <p>Met welke wagen wilt u deze route rijden?</p>
 
-        <h3>Wat zijn de tijdstippen van vertrek?</h3>
-        <h4>
-            <input type="number" min="0" max="23" value="0" step="1" id="uur"><input type="number" min="1" max="59"
-                                                                                     value="0" step="1" id="minuut">
-            <input type="radio" name="type" value="eenmalig" checked>Eenmalig
-            <input type="radio" name="type" value="herhalend">Herhalend</h4>
+                    <p>Hoeveel personen kunnen er meerijden?</p>
+
+                    <p>Wat zijn de tijdstippen van vertrek?</p>
+
+
+                </div>
+                <div id="col2">
+                    <p><select id="selectWagen">
+                        <option value="wagen1">Wagen 1</option>
+                        <option value="wagen2">Wagen 2</option>
+                    </select>
+                    </p>
+
+                    <p>
+                        <input type="number" min="1" value="1" step="1" id="aantal">
+                    </p>
+
+                    <p>
+                        <input type="number" min="0" max="23" value="0" step="1" id="uur">
+                        <input type="number" min="1" max="59" value="0" step="1" id="minuut">
+                    </p>
+                </div>
+
+                <input type="radio" name="type" value="eenmalig" checked>Eenmalig
+                <input type="radio" name="type" value="herhalend">Herhalend
+                -->
+
     </div>
 </div>
 </body>

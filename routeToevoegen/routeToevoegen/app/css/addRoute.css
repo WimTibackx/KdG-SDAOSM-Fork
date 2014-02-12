@@ -21,14 +21,16 @@ body {
     font-size: 26px;
 }
 
+/*
 #selectWagen, #aantal {
     float: right;
     margin-top: -3em;
     margin-right: 12em;
     width: 20%;
     /*background-color: rgba(100,160,220,0.8);
-    color: white;*/
+    color: white;
 }
+*/
 
 #next {
     opacity: 0.8;
@@ -41,6 +43,7 @@ body {
     background-image: url('../img/pijlRechts.jpg');
 }
 
+/*
 #uur {
     position: absolute;
     right: 22em;
@@ -54,6 +57,7 @@ body {
     top: 16.5em;
     width: 40px;
 }
+*/
 
 #controls {
     margin-top: 1em;
@@ -93,12 +97,97 @@ body {
     position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
     background-color: rgba(0, 0, 0, 0.65);
+    display: none;
 }
 
 #formPopup {
     position: relative;
     margin: 100px auto;
-    width: 700px;
-    height: 500px;
+    width: 500px;
+/*    height: 500px; */
     background-color: lightgray;
+}
+
+#formPopup section {
+    border-bottom: 1px dashed white;
+    margin-top: 10px;
+}
+
+/* carPicker  */
+
+#carList {
+    height: 150px;
+    border: 1px dotted white;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+#carList img {
+    max-height: 100%;
+}
+
+/* numberOfPlaces */
+
+/* startDatePicker (input.datePicker) */
+
+/* repeating */
+
+#days span {
+    display: block;
+    border: 1px solid black;
+    float: left;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+#hours {
+    clear: both;
+    float: left;
+}
+
+#addHours {
+    float: left;
+}
+
+/* Final submit button */
+
+#finalAdd {
+    clear: both;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 2em;
+    line-height: 2em;
+    font-size: x-large;
+    cursor: pointer;
+}
+
+/*--------*/
+
+#col1, #col2 {
+    border: 0px solid #000;
+    width: 47%;
+    float: left;
+}
+
+#col1 {
+    text-align: right;
+    margin-right: 6%;
+    /*width: 60%*/
+
+}
+#col2 {
+    text-align: left;
+    /*width: 35%*/
+}
+
+#col1 p, #col2 p {
+    height: 1.5em;
+    /*border-top: 1px solid #000;
+    border-bottom: 1px solid #000;*/
+    line-height: 1.5em;
 }

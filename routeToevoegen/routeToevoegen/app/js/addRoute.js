@@ -10,7 +10,10 @@ var directionsService;
 
 var points;
 
+var timesArray = [];
+
 function initialize() {
+    addListeners();
     // Creating new Geocoder (for turning coordinates into human-readable addresses)
     geoCoder = new google.maps.Geocoder();
 
@@ -30,14 +33,14 @@ function initialize() {
     // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
 
     //create map with defined options
-    map = new google.maps.Map(document.getElementById("map-canvas"),
+    map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
     directionsDisplay.setMap(map);
 
     //auto complete
     // Get the HTML control elements and store them in variables because we will need them later.
-    txtStart = document.getElementById("txtStart");
-    txtEnd = document.getElementById("txtEnd");
+    txtStart = document.getElementById('txtStart');
+    txtEnd = document.getElementById('txtEnd');
     btnSend = document.getElementById('btnSend');
 
     // Hide second box and button
@@ -161,8 +164,52 @@ function saveRoute() {
 }
 
 function openWindow() {
+    var dateElement = $('#startDatePicker');
+    if (dateElement.prop('type') != 'date') {
+        alert(dateElement.prop('type'));
+    } else {
+        console.log("No problem");
+    }
+
+    $('#overlay').show();
+}
+
+function addTime() {
 
 }
 
-// Listener
+function submitAllData() {
+    var car = $('#selectedCar').data('index');
+    var places = $('#placeNumber').text();
+    var date = $('#startDatePicker').val();
+    var repeating = $('#repeatBox').prop('checked');
+    if (repeating) {
+        var endDate = $('#endDatePicker').val();
+    } else {
+        var depTime = $('#depTime').val();
+        var arrTime = $('#arrTime').val();
+    }
+
+    var jsonObject = {};
+    jsonObject.car = car;
+    jsonObject.freeSpots = places;
+    jsonObject.repeating = repeating;
+    jsonObject.startDate = date;
+    if (repeating) {
+        jsonObject.endDate = endDate;
+        jsonObject.repeatingDays = timesArray;
+    } else {
+        jsonObject.departureTime = depTime;
+        jsonObject.arrivalTime = arrTime;
+    }
+    jsonObject.route = points;
+
+    console.log(jsonObject);
+    jQuery.post('');
+}
+
+function addListeners() {
+    $('#finalAdd').click(submitAllData);
+}
+
 google.maps.event.addDomListener(window, 'load', initialize);
