@@ -1,0 +1,20 @@
+{
+    "car": 1,
+    "freeSpots": "3",
+    "repeating": false,
+    "startDate": "2014-02-14",
+    "departureTime": "08:30",
+    "arrivalTime": "17:00",
+    "route": {
+        "start": {
+            "lat": 51.218011,
+            "long": 4.421770000000038,
+            "address": "Koningin Astridplein 27, Antwerpen, België"
+        },
+        "end": {
+            "lat": 51.2181969,
+            "long": 4.400798399999985,
+            "address": "Nationalestraat 5, 2000 Antwerpen, België"
+        }
+    }
+}

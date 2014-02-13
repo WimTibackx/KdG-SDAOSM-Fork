@@ -10,7 +10,7 @@ var directionsService;
 
 var points;
 
-var timesArray = [];
+var timesArray = [[0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]];
 
 function initialize() {
     addListeners();
@@ -175,7 +175,14 @@ function openWindow() {
 }
 
 function addTime() {
+    console.log($('#days').find(':input:checked').length);
 
+    $('#days').find(':input:checked').each(function() {
+        var time = [];
+        time.push($('#repDepTime').val(), $('#repArrTime').val());
+
+        timesArray[$(this).data('index')] = time;
+    });
 }
 
 function submitAllData() {
@@ -204,11 +211,12 @@ function submitAllData() {
     }
     jsonObject.route = points;
 
-    console.log(jsonObject);
-    jQuery.post('');
+    console.log(JSON.stringify(jsonObject));
+    //jQuery.post('http://localhost:8080/BackEnd/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
 }
 
 function addListeners() {
+    $('#addHours').click(addTime);
     $('#finalAdd').click(submitAllData);
 }
 
