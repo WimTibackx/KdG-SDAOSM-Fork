@@ -133,7 +133,7 @@ body {
 
 /* repeating */
 
-#days span {
+#daysRedundant span {
     display: block;
     border: 1px solid black;
     float: left;
@@ -141,6 +141,25 @@ body {
     text-align: center;
     line-height: 30px;
     padding: 0 10px;
+}
+
+#days {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#days tr:first-child th {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+th:first-child {
+    text-align: left;
+}
+
+#days, #days th, #days td {
+    border: 1px solid black;
 }
 
 #hours {

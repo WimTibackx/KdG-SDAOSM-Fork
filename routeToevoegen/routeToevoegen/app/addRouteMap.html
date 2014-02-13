@@ -61,7 +61,7 @@
             <input type="checkbox" id="repeatBox">
         </section>
         <section id="repeatingTimes">
-            <div id="days">
+            <!-- <div id="daysRedundant">
                 <span><input data-index="0" type="checkbox">Ma</span>
                 <span><input data-index="1" type="checkbox">Di</span>
                 <span><input data-index="2" type="checkbox">Wo</span>
@@ -69,7 +69,39 @@
                 <span><input data-index="4" type="checkbox">Vr</span>
                 <span><input data-index="5" type="checkbox">Za</span>
                 <span><input data-index="6" type="checkbox">Zo</span>
-            </div>
+            </div> -->
+            <table id="days">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th><label><input data-index="0" type="checkbox">Ma</label></th>
+                    <th><label><input data-index="1" type="checkbox">Di</label></th>
+                    <th><label><input data-index="2" type="checkbox">Wo</label></th>
+                    <th><label><input data-index="3" type="checkbox">Do</label></th>
+                    <th><label><input data-index="4" type="checkbox">Vr</label></th>
+                    <th><label><input data-index="5" type="checkbox">Za</label></th>
+                    <th><label><input data-index="6" type="checkbox">Zo</label></th>
+                </tr>
+                <tr>
+                    <th>Dep.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Arr.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
             <div id="hours">
                 <input id="repDepTime" type="text" placeholder="9:00">
                 tot
