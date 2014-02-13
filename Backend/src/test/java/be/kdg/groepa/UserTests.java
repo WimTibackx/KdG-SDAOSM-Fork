@@ -171,6 +171,20 @@ public class UserTests {
         userService.setUserDao(new UserDaoImpl());
     }
 
+    @Test
+    public void changePassword() {
+        String oldPass = "testPw1";
+        String newPass = "Pwtest3";
+
+        try {
+            userService.addUser(new User("PJ", User.Gender.MALE, true, oldPass, LocalDate.of(1914, 2, 8), "pieterjanvdp@gmail.com"));
+            userService.changePassword("pieterjanvdp@gmail.com", oldPass, newPass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertTrue("Change password fails", userService.checkLogin("pieterjanvdp@gmail.com", newPass));
+    }
+
     public void testLogin(){
         LoginController controller = new LoginController();
         JSONObject obj = new JSONObject();

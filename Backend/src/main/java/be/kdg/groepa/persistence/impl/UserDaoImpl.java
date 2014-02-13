@@ -37,6 +37,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public void changePassword(String username, String newPassword)
+    {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("FROM User u WHERE u.username = :username").setString("username", username);
+        User u = (User)query.uniqueResult();
+        u.setPassword(newPassword);
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
     public void createSession(SessionObject session) {
         HibernateUtil.addObject(session);
     }
@@ -64,6 +75,7 @@ public class UserDaoImpl implements UserDao {
         HibernateUtil.closeSession(dbSes);
     }
 
+    @Override
     public void addUser(User u) throws Exception
     {
         HibernateUtil.addObject(u);

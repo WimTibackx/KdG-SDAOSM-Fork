@@ -11,6 +11,7 @@ import be.kdg.groepa.model.User;
  */
 public interface UserService {
 
+    public boolean changePassword(String username, String oldPassword, String newPassword);
     public boolean checkLogin(String username, String password);
 
     public void setUserDao(UserDao userDao);
