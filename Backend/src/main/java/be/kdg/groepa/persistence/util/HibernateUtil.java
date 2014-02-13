@@ -30,6 +30,17 @@ public class HibernateUtil {
         return sessionFactory.getCurrentSession();
     }
 
+    public static Session openSession(){
+        Session ses = sessionFactory.openSession();
+        ses.beginTransaction();
+        return ses;
+    }
+
+    public static void closeSession(Session ses){
+        ses.getTransaction().commit();
+        ses.close();
+    }
+
     public static void addObject(Object ob){
         Session ses = getSessionFactory().openSession();
         Transaction tx = ses.beginTransaction();
