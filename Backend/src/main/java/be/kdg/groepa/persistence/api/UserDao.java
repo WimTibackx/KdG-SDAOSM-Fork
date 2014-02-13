@@ -1,5 +1,6 @@
 package be.kdg.groepa.persistence.api;
 
+import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 
@@ -15,9 +16,11 @@ public interface UserDao {
 
     public void deleteSession(SessionObject session);
 
-    public void extendSession(String token);
+    public void extendSession(SessionObject session);
 
     public void addUser(User u) throws Exception;
 
-    public SessionObject getSessionByUserame(String username);
+    public SessionObject getSessionByUsername(String username);
+
+    public void addCarToUser(String username, Car c);
 }

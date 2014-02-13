@@ -6,9 +6,9 @@
     <session-factory>
 	  <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/carpooling_schema</property>
-        <property name="connection.username">FirstUser</property>
-        <property name="connection.password">munchkin</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/groepa</property>
+        <property name="connection.username">groepa</property>
+        <property name="connection.password">groepa</property>
 
         <!-- Create a table model-first
         <property name="hbm2ddl.auto">create</property>
@@ -16,6 +16,7 @@
 
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
@@ -32,5 +33,6 @@
         -->
         <mapping class="be.kdg.groepa.model.Car"/>
         <mapping class="be.kdg.groepa.model.User"/>
-    </session-factory>
+        <mapping class="be.kdg.groepa.model.SessionObject"/>
+        </session-factory>
 </hibernate-configuration>

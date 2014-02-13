@@ -1,14 +1,22 @@
 package be.kdg.groepa;
-
-
 import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
-import be.kdg.groepa.persistence.impl.UserDaoMap;
 import be.kdg.groepa.service.api.UserService;
+import be.kdg.groepa.controllers.LoginController;
+import be.kdg.groepa.exceptions.PasswordFormatException;
+import be.kdg.groepa.exceptions.UsernameFormatException;
+import be.kdg.groepa.model.SessionObject;
+import be.kdg.groepa.model.User;
+import be.kdg.groepa.persistence.api.UserDao;
+import be.kdg.groepa.persistence.impl.UserDaoImpl;
+import be.kdg.groepa.service.api.UserService;
+
+import be.kdg.groepa.model.Car;
+import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,12 +39,26 @@ public class UserTests {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "Thierry@test.com";
+    private static boolean setupRun = false;
+
+    private final static String testUsername = "Thierry@test.com";
 
     @Before
-    public void initData()
+    public void start()
     {
-        initDaoData();
+        if (!setupRun)
+        {
+            Car car = new Car("Audi", "A5", 11);
+            User user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car);
+            User user2 = new User("OneCarUser", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), "Onecar@test.com");
+            try {
+                userService.addUser(user);
+                userService.addUser(user2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setupRun = true;
+        }
     }
 
     @Test
@@ -57,6 +79,8 @@ public class UserTests {
             userService.addUser(new User("Wimmetje", User.Gender.MALE, false, "testPassword1", LocalDate.of(1993, 10, 20), "test@user.com"));
         } catch (Exception e) {
             failed = true;
+            System.out.println(e.getMessage());
+            String temp = e.getMessage();
             e.printStackTrace();
         }
         assertFalse("The user could not be registered", failed);
@@ -107,8 +131,10 @@ public class UserTests {
     @Test
     public void userWithOneCar(){
         boolean failed = false;
+        Car car = new Car("Audi", "C4", 10.2);
+        User user = new User("My Name", User.Gender.MALE, true, "Correct1", LocalDate.of(1993, 5, 5), "ihaveacar@cars.car", car);
         try {
-            userService.addUser(new User("My Name", User.Gender.MALE, true, "Correct1", LocalDate.of(1993, 5, 5), "ihaveacar@cars.car", "Audi", "C4", 10.2));
+            userService.addUser(user);
         } catch (Exception e) {
             if(e instanceof PasswordFormatException || e instanceof UsernameFormatException)
             {} else {
@@ -121,14 +147,18 @@ public class UserTests {
 
     @Test
     public void addCarToUser(){
-        User userWithOneCar = userService.getUser("Onecar@test.com");
-        userWithOneCar.addCar(new Car("Honda", "Civic", 9));
-        assertEquals("Wrong amount of cars", userWithOneCar.getCars().size(), 2);
+
+        userService.addCarToUser("Onecar@test.com", new Car("BMW", "X9", 11));
+        userService.addCarToUser("Onecar@test.com",new Car("Renault", "Civic", 9.9));
+        userService.addCarToUser("Onecar@test.com",new Car("Renault", "Civic", 9.9));
+        userService.addCarToUser("Onecar@test.com",new Car("Renault", "Civic", 9.9));
+        User u = userService.getUser("Onecar@test.com");
+        assertEquals("Wrong amount of cars", 4, u.getCars().size());
     }
 
     @Test
     public void checkLoginCallsSession() {
-        SessionObject session = new SessionObject(testUsername);
+        SessionObject session = new SessionObject(userService.getUser(testUsername));
         UserDao daoMock = createMock(UserDao.class);
         userService.setUserDao(daoMock);
         expect(daoMock.getUser(testUsername)).andReturn(new User("Thierry", User.Gender.MALE, false, userService.encryptString("Succes1"), LocalDate.of(1993, 10, 20), testUsername));
@@ -138,27 +168,31 @@ public class UserTests {
 
         userService.checkLogin(testUsername,"Succes1");
         verify(daoMock);
-        userService.setUserDao(new UserDaoMap());
-        initDaoData();
+        userService.setUserDao(new UserDaoImpl());
     }
 
+    public void testLogin(){
+        LoginController controller = new LoginController();
+        JSONObject obj = new JSONObject();
+        obj.put("username", "username");
+        obj.put("password", "password");
+
+        //String myString = controller.login(obj.toJSONString());
+    }
+
+    /*
     private void initDaoData(){
         try {
-            userService.addUser(new User("Thierry", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), "Thierry@test.com"));
+            Car car = new Car("Audi", "A5", 11);
+            User user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car);
+            userService.addUser(user);
+/*          userService.addUser(new User("Thierry", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), "Thierry@test.com"));
             userService.addUser(new User("OneCarUser", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), "Onecar@test.com", "Renault", "Civic", 9.9));
             userService.addUser(new User("OneCarUserTwo", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), "Onecartwo@test.com", "Renault", "Civic", 9.9));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
 
 
     }
-
-
-
-
-
-
-
-
-}

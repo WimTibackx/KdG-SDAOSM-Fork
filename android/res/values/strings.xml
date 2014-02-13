@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Carpool Groep A</string>
+
+    <string name="OK">OK</string>
+
+    <string name="LoginComboWrong_ErrorTitle">Login combination wrong.</string>
+    <string name="LoginComboWrong_ErrorMsg">The combination of username/password is wrong.</string>
 </resources>

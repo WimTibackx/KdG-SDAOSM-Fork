@@ -15,8 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,12 +32,14 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
     private String username;
     private String password;
     private Context context;
+    private AsyncResponse delegate=null;
 
-    public LoginRequestTask(String username, String password, Context context) {
+    public LoginRequestTask(String username, String password, Context context, AsyncResponse asyncResponse) {
         super();
         this.username = username;
         this.password = password;
         this.context = context;
+        this.delegate = asyncResponse;
     }
 
     @Override
@@ -58,6 +58,7 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
         List<NameValuePair> param = new ArrayList<>(1);
         param.add(new BasicNameValuePair("data",jsonObject.toString()));
 
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         PreferenceManager.setDefaultValues(this.context, R.xml.preferences, false);
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
@@ -72,7 +73,6 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
         try {
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
-            Log.d("Login statusline","Statusline is "+statusLine.getStatusCode()+" - "+statusLine.getReasonPhrase());
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
@@ -84,17 +84,12 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            //Toast toast = Toast.makeText(this.context, "IOEXCEPTION", 500);
-            //toast.show();
             Log.e("IOExc at Login",e.getMessage());
-            //TODO Handle problems..
         }
-        Log.d("Login","ResponseString at "+serverAddr+" = "+responseString);
         return responseString;
     }
 
     protected void onPostExecute(String result) {
-        Toast toast = Toast.makeText(this.context, result, 500);
-        toast.show();
+        this.delegate.processFinish(result);
     }
 }

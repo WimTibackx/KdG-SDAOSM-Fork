@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.context.annotation.Lazy;
 import org.threeten.bp.LocalDate;
 
 import javax.persistence.*;
@@ -13,38 +14,43 @@ import java.util.List;
 /**
  * Created by Thierry on 4/02/14.
  */
-// @Entity
-// @Table(name="t_user")
+@Entity
+@Table(name="t_user")
 public class User {
-    // @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // @Column(name="name")
+    @Column(name="name")
     private String name;
 
-    // @Column(name="gender")
+    @Column(name="gender")
     private Gender gender;
 
-    // @Column(name="smoker")
+    @Column(name="smoker")
     private boolean smoker;
 
-    // @Column(name="password")
+    @Column(name="password")
     private String password;
 
-    // @Column(name="dateOfBirth")
+    @Column(name="dateOfBirth")
     private LocalDate dateOfBirth;
 
-    // @Column(name="username")
+
+    @Column(name="username", unique = true)
     private String username;      // username = email
 
-    // @OneToMany(mappedBy="user")
-    // @Cascade(CascadeType.SAVE_UPDATE)
-    protected ArrayList<Car> cars;
+    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
+    protected List<Car> cars = new ArrayList<Car>();
+
+    @OneToOne(mappedBy = "user", cascade = javax.persistence.CascadeType.ALL)
+    private SessionObject sessionObject;
     // protected List<Route> routes;
     // private String avatarURL;
 
+    public User(){}
+
     public User(String name, Gender gender, boolean smoker, String password, LocalDate dateofBirth, String username) {
-        this.cars = new ArrayList<Car>();
         this.name = name;
         this.gender = gender;
         this.smoker = smoker;
@@ -53,17 +59,16 @@ public class User {
         this.username = username;
     }
 
-    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateOfBirth, String username, String brand, String type, double cons) {
+    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateOfBirth, String username, Car car) {
         this(name, gender, smoker, password, dateOfBirth, username);
-        Car myCar = new Car(brand, type, cons);
-        this.cars.add(myCar);
+        this.cars.add(car);
     }
 
     public String getUsername() {
         return username;
     }
 
-    public ArrayList<Car> getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
@@ -84,4 +89,7 @@ public class User {
         FEMALE,
     }
 
+    public void setSessionObject(SessionObject sessionObject) {
+        this.sessionObject = sessionObject;
+    }
 }

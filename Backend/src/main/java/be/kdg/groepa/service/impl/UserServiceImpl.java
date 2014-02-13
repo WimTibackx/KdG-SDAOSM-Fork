@@ -1,6 +1,7 @@
 package be.kdg.groepa.service.impl;
 
 
+import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 
 import be.kdg.groepa.exceptions.PasswordFormatException;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUser(username);
         if (user != null) {
             if (user.getPassword().equals(encryptString(password))) {
-                SessionObject session = new SessionObject(user.getUsername());
+                SessionObject session = new SessionObject(user);
                 userDao.createSession(session);
                 return true;
             }
@@ -39,19 +40,21 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-
     public SessionObject getUserSession(String username){
-        SessionObject session = userDao.getSessionByUserame(username);
+        SessionObject session = userDao.getSessionByUsername(username);
         if (session.getExperiationDate().isAfter(LocalDateTime.now())){
             return session;
         }
         return null;
     }
 
+    public void addCarToUser(String user, Car car) {
+        userDao.addCarToUser(user, car);
+    }
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
 
     public void addUser(User user) throws Exception {
         if (!isValidUsername(user.getUsername())) throw new UsernameFormatException("Invalid username format (e-mail)");

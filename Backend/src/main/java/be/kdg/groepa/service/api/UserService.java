@@ -1,6 +1,7 @@
 package be.kdg.groepa.service.api;
 
 
+import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.model.User;
@@ -17,4 +18,6 @@ public interface UserService {
     public User getUser(String username);
     public String encryptString(String password);
     public SessionObject getUserSession(String username);
+
+    public void addCarToUser(String user, Car car);
 }
