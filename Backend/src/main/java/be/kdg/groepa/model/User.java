@@ -46,8 +46,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = javax.persistence.CascadeType.ALL)
     private SessionObject sessionObject;
     // protected List<Route> routes;
-    // private String avatarURL;
 
+    /*@Column(name="avatarURL")
+    private String avatarURL;
+    */
     public User(){}
 
     public User(String name, Gender gender, boolean smoker, String password, LocalDate dateofBirth, String username) {
@@ -63,7 +65,13 @@ public class User {
         this(name, gender, smoker, password, dateOfBirth, username);
         this.cars.add(car);
     }
-
+    /*
+    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateOfBirth, String username, Car car) {
+        this(name, gender, smoker, password, dateOfBirth, username);
+        this.avatarURL;
+        this.cars.add(car);
+    }
+    */
     public String getUsername() {
         return username;
     }

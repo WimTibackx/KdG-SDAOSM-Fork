@@ -10,7 +10,15 @@ var directionsService;
 
 var points;
 
-var timesArray = [];
+var timesArray = [
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0]
+];
 
 function initialize() {
     addListeners();
@@ -65,6 +73,9 @@ function initialize() {
         // Do something only the first time the map is loaded
         txtStart.focus();
     });
+
+    // TODO: remove this
+    openWindow();
 }
 
 function onPlaceChanged() {
@@ -175,7 +186,29 @@ function openWindow() {
 }
 
 function addTime() {
+    console.log($('#days').find(':input:checked').length);
 
+    $('#days').find(':input:checked').each(function () {
+        var time = [];
+        time.push($('#repDepTime').val(), $('#repArrTime').val());
+
+        timesArray[$(this).data('index')] = time;
+
+        $(this).prop('checked', false);
+    });
+
+    fillTable();
+}
+
+function fillTable() {
+    var table = document.getElementById('days');
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < timesArray.length; j++) {
+            if (timesArray[j][i] != 0) {
+                table.rows[i + 1].cells[j + 1].innerText = timesArray[j][i];
+            }
+        }
+    }
 }
 
 function submitAllData() {
@@ -204,11 +237,12 @@ function submitAllData() {
     }
     jsonObject.route = points;
 
-    console.log(jsonObject);
-    jQuery.post('');
+    console.log(JSON.stringify(jsonObject));
+    //jQuery.post('http://localhost:8080/BackEnd/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
 }
 
 function addListeners() {
+    $('#addHours').click(addTime);
     $('#finalAdd').click(submitAllData);
 }
 

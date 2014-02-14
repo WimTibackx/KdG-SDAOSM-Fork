@@ -28,6 +28,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public boolean changePassword(String username, String oldPassword, String newPassword)
+    {
+        User user = userDao.getUser(username);
+        if (user != null) {
+            if (user.getPassword().equals(encryptString(oldPassword))) {
+                userDao.changePassword(username, encryptString(newPassword));
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean checkLogin(String username, String password) {
         User user = userDao.getUser(username);
         if (user != null) {

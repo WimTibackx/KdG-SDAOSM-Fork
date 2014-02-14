@@ -8,7 +8,6 @@ import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 
@@ -21,16 +20,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     public User getUser(String username){
-        Session ses = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = ses.beginTransaction();
+        Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("from User u where u.username = :username");
         //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
         query.setString("username", username);
         User user = (User)query.uniqueResult();
-        tx.commit();
-        ses.close();
+        HibernateUtil.closeSession(ses);
         return user;
 
+    }
+
+    @Override
+    public void changePassword(String username, String newPassword)
+    {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("FROM User u WHERE u.username = :username").setString("username", username);
+        User u = (User)query.uniqueResult();
+        u.setPassword(newPassword);
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
     }
 
     @Override
@@ -40,13 +48,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public SessionObject getSession(String token) {
-        Session ses = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = ses.beginTransaction();
+        Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("from SessionObject s where s.sessionToken = :token");
         query.setString("token", token);
         SessionObject s = (SessionObject)query.uniqueResult();
-        tx.commit();
-        ses.close();
+        HibernateUtil.closeSession(ses);
         return s;
     }
 
@@ -56,16 +62,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void extendSession(SessionObject session) { // String token
-        //SessionObject session = sessions.get(token);
-        Session dbSes = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = dbSes.beginTransaction();
+    public void extendSession(SessionObject session) {
+        Session dbSes = HibernateUtil.openSession();
         session.setExperiationDate(session.getExperiationDate().plusDays(1L));
         dbSes.saveOrUpdate(session);
-        tx.commit();
-        dbSes.close();
+        HibernateUtil.closeSession(dbSes);
     }
 
+    @Override
     public void addUser(User u) throws Exception
     {
         HibernateUtil.addObject(u);
@@ -75,27 +79,23 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public SessionObject getSessionByUsername(String username) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
+        Session session = HibernateUtil.openSession();
         Query query = session.createQuery("from SessionObject s where s.user.username = :username");
         query.setString("username", username);
-        SessionObject s = (SessionObject)query.uniqueResult();
-        tx.commit();
-        session.close();
+        SessionObject s = (SessionObject)query.uniqueResult();;
+        HibernateUtil.closeSession(session);
         return s;
     }
 
 
     @Override
     public void addCarToUser(String username, Car c) {
-        Session ses = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = ses.beginTransaction();
+        Session ses = HibernateUtil.openSession();
         User u = getUser(username);
         u.addCar(c);
         c.setUser(u);
         ses.saveOrUpdate(u);
-        ses.save(c);
-        tx.commit();
-        ses.close();
+        ses.saveOrUpdate(c);
+        HibernateUtil.closeSession(ses);
     }
 }

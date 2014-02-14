@@ -10,6 +10,8 @@ import be.kdg.groepa.model.User;
 public interface UserDao {
     public User getUser(String username);
 
+    public void changePassword(String username, String newPassword);
+
     public void createSession(SessionObject session);
 
     public SessionObject getSession(String token);

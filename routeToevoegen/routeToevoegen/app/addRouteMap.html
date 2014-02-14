@@ -40,9 +40,9 @@
         <section id="carPicker">
             Kies uw wagen
             <div id="carList">
-                <img alt="auto" src="img/test/delorean.jpg" data-index="0">
-                <img alt="auto" src="img/test/shelby.jpg" data-index="1" id="selectedCar">
-                <img alt="auto" src="img/test/shelby.jpg" data-index="2">
+                <img alt="auto" src="test/delorean.jpg" data-index="0">
+                <img alt="auto" src="test/shelby.jpg" data-index="1" id="selectedCar">
+                <img alt="auto" src="test/shelby.jpg" data-index="2">
             </div>
         </section>
         <section id="numberOfPlaces">
@@ -61,19 +61,51 @@
             <input type="checkbox" id="repeatBox">
         </section>
         <section id="repeatingTimes">
-            <div id="days">
-                <span><input type="checkbox">Ma</span>
-                <span><input type="checkbox">Di</span>
-                <span><input type="checkbox">Wo</span>
-                <span><input type="checkbox">Do</span>
-                <span><input type="checkbox">Vr</span>
-                <span><input type="checkbox">Za</span>
-                <span><input type="checkbox">Zo</span>
-            </div>
+            <!-- <div id="daysRedundant">
+                <span><input data-index="0" type="checkbox">Ma</span>
+                <span><input data-index="1" type="checkbox">Di</span>
+                <span><input data-index="2" type="checkbox">Wo</span>
+                <span><input data-index="3" type="checkbox">Do</span>
+                <span><input data-index="4" type="checkbox">Vr</span>
+                <span><input data-index="5" type="checkbox">Za</span>
+                <span><input data-index="6" type="checkbox">Zo</span>
+            </div> -->
+            <table id="days">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th><label><input data-index="0" type="checkbox">Ma</label></th>
+                    <th><label><input data-index="1" type="checkbox">Di</label></th>
+                    <th><label><input data-index="2" type="checkbox">Wo</label></th>
+                    <th><label><input data-index="3" type="checkbox">Do</label></th>
+                    <th><label><input data-index="4" type="checkbox">Vr</label></th>
+                    <th><label><input data-index="5" type="checkbox">Za</label></th>
+                    <th><label><input data-index="6" type="checkbox">Zo</label></th>
+                </tr>
+                <tr>
+                    <th>Dep.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Arr.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
             <div id="hours">
-                <input type="text" placeholder="9:00">
+                <input id="repDepTime" type="text" placeholder="9:00">
                 tot
-                <input type="text" placeholder="17:00">
+                <input id="repArrTime" type="text" placeholder="17:00">
             </div>
             <button id="addHours">Toevoegen</button>
             <div style="clear:both;"></div>
