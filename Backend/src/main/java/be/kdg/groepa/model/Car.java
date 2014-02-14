@@ -39,7 +39,13 @@ public class Car {
         this.consumption = cons;
     }
 
-<<<<<<< HEAD
+    public Car(String brand, String type, double cons, File picture) {
+        this.brand = brand;
+        this.type = type;
+        this.consumption = cons;
+        this.pictureURL = ImageHelper.writeCarImage(picture, brand + type);
+    }
+
     public Integer getCarId() {
         return carId;
     }
@@ -54,14 +60,9 @@ public class Car {
 
     public double getConsumption() {
         return consumption;
-=======
-    public Car(String brand, String type, double cons, File picture) {
-        this.brand = brand;
-        this.type = type;
-        this.consumption = cons;
-        this.pictureURL = ImageHelper.writeCarImage(picture, brand + type);
->>>>>>> 1a930fb0bc2c91629bca4a2a9660dcf7e4c899d9
     }
+
+
 
     public void setUser(User user) {
         this.user = user;
