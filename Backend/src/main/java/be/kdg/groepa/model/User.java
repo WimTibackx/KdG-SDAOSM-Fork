@@ -135,7 +135,7 @@ public class User {
     }
 
     public void removeImage(){
-        ImageHelper.removeUserImage(this.avatarURL);
+        ImageHelper.removeImage(this.avatarURL);
         this.avatarURL = null;
     }
 

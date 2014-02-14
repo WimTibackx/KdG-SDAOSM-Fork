@@ -27,4 +27,5 @@ public interface UserService {
     public void addCarToUser(String user, Car car);
     public void editUserPicture(String username, File newPicture);
     public void removeUserPicture(String username);
+    public void removeCarPicture(Car car);
 }
