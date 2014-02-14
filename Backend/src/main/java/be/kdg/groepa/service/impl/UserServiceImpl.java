@@ -44,8 +44,14 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUser(username);
         if (user != null) {
             if (user.getPassword().equals(encryptString(password))) {
-                SessionObject session = new SessionObject(user);
-                userDao.createSession(session);
+                SessionObject session = userDao.getSessionByUsername(username);
+                if (session != null){
+                    userDao.extendSession(session);
+                }else{
+                    session = new SessionObject(user);
+                    userDao.createSession(session);
+                }
+
                 return true;
             }
         }

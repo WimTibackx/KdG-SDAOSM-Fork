@@ -3,6 +3,7 @@ package be.kdg.groepa;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
+import be.kdg.groepa.service.api.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
@@ -28,6 +30,9 @@ public class UserDaoTests {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserService userService;
+
     private String testUsername = "Thierry@test.com";
     private String testUsername2 = "TestUser2@test.com";
     private String testUsername3 = "TestUser3@test.com";
@@ -37,9 +42,9 @@ public class UserDaoTests {
     public void init(){
         if(!init){
         try {
-            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername));
-            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2));
-            userDao.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername3));
+            userService.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername));
+            userService.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2));
+            userService.addUser(new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername3));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +57,7 @@ public class UserDaoTests {
     public void createSession() {
         SessionObject session = new SessionObject(userDao.getUser(testUsername));
         userDao.createSession(session);
-        assertEquals("Session has been found", session, userDao.getSession(testUsername + "123456"));
+        assertEquals("Session has been found", session, userDao.getSessionByUsername(testUsername));
 
 
     }
@@ -62,13 +67,14 @@ public class UserDaoTests {
         SessionObject session = new SessionObject(userDao.getUser(testUsername2));
         userDao.createSession(session);
         userDao.deleteSession(session);
-        assertNull("Session should be deleted", userDao.getSession(testUsername2 + "123456"));
+        assertNull("Session should be deleted", userDao.getSessionByUsername(testUsername2));
     }
 
     @Test
     public void extendSession() {
         SessionObject session = new SessionObject(userDao.getUser(testUsername3));
         userDao.createSession(session);
+        assertNotNull("Should be added", userDao.getSessionByUsername(testUsername3));
         LocalDateTime firstVisit = session.getExperiationDate();
         //We have to sleep 1 milisecond else maven doesn't notice the difference
         try {
@@ -78,7 +84,7 @@ public class UserDaoTests {
 
         }
         userDao.extendSession(session);
-        LocalDateTime secondVisit = userDao.getSession(testUsername3 + "123456").getExperiationDate();
+        LocalDateTime secondVisit = userDao.getSessionByUsername(testUsername3).getExperiationDate();
         assertTrue("First visit earlier than second visit", firstVisit.isBefore(secondVisit));
 
     }

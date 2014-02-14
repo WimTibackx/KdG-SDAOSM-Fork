@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+
+    <title>Route toevoegen</title>
+</head>
+<body>
+<section id="menu">
+    <div class="menuItem">Mijn profiel</div>
+</section>
+<section id="inline">
+
+    <section id="title"><h1 onclick="document.getElementById('txtStart').focus()">Route toevoegen</h1></section>
+
+
+    <div id="controls">
+        <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in."><br>
+        <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+        <button id="btnSend">Leg route vast</button>
+        <!-- TODO: style button -->
+    </div>
+    <!--bij ingeven van stad, stad tonen op google map en bij klikken op map marker plaatsen en opslagen -->
+
+    <div id="map-canvas"></div>
+</section>
+
+<div id="overlay">
+    <div id="formPopup">
+        <section id="carPicker">
+            Kies uw wagen
+            <div id="carList">
+                <img alt="auto" src="test/delorean.jpg" data-index="0">
+                <img alt="auto" src="test/shelby.jpg" data-index="1" id="selectedCar">
+                <img alt="auto" src="test/shelby.jpg" data-index="2">
+            </div>
+        </section>
+        <section id="numberOfPlaces">
+            Aantal vrije plaatsen in de wagen
+            <div id="placePicker">
+                <span id="placeMinus">-</span>
+                <span id="placeNumber">1</span>
+                <span id="placePlus">+</span>
+            </div>
+        </section>
+        <section id="sDatePicker">
+            <input id="startDatePicker" class="datePicker" type="date">
+        </section>
+        <section id="repeating">
+            Herhalend?
+            <input type="checkbox" id="repeatBox">
+        </section>
+        <section id="repeatingTimes">
+            <!-- <div id="daysRedundant">
+                <span><input data-index="0" type="checkbox">Ma</span>
+                <span><input data-index="1" type="checkbox">Di</span>
+                <span><input data-index="2" type="checkbox">Wo</span>
+                <span><input data-index="3" type="checkbox">Do</span>
+                <span><input data-index="4" type="checkbox">Vr</span>
+                <span><input data-index="5" type="checkbox">Za</span>
+                <span><input data-index="6" type="checkbox">Zo</span>
+            </div> -->
+            <table id="days">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th><label><input data-index="0" type="checkbox">Ma</label></th>
+                    <th><label><input data-index="1" type="checkbox">Di</label></th>
+                    <th><label><input data-index="2" type="checkbox">Wo</label></th>
+                    <th><label><input data-index="3" type="checkbox">Do</label></th>
+                    <th><label><input data-index="4" type="checkbox">Vr</label></th>
+                    <th><label><input data-index="5" type="checkbox">Za</label></th>
+                    <th><label><input data-index="6" type="checkbox">Zo</label></th>
+                </tr>
+                <tr>
+                    <th>Dep.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Arr.</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div id="hours">
+                <input id="repDepTime" type="text" placeholder="9:00">
+                tot
+                <input id="repArrTime" type="text" placeholder="17:00">
+            </div>
+            <button id="addHours">Toevoegen</button>
+            <div style="clear:both;"></div>
+        </section>
+        <section id="eDatePicker">
+            <input id="endDatePicker" class="datePicker" type="date">
+        </section>
+        <section id="times">
+            <input type="text" id="depTime" placeholder="9:00">
+                tot
+            <input type="text" id="arrTime" placeholder="17:00">
+        </section>
+        <section id="finalAdd">
+            Toevoegen
+        </section>
+
+        <!--
+                <div id="col1">
+                    <p>Met welke wagen wilt u deze route rijden?</p>
+
+                    <p>Hoeveel personen kunnen er meerijden?</p>
+
+                    <p>Wat zijn de tijdstippen van vertrek?</p>
+
+
+                </div>
+                <div id="col2">
+                    <p><select id="selectWagen">
+                        <option value="wagen1">Wagen 1</option>
+                        <option value="wagen2">Wagen 2</option>
+                    </select>
+                    </p>
+
+                    <p>
+                        <input type="number" min="1" value="1" step="1" id="aantal">
+                    </p>
+
+                    <p>
+                        <input type="number" min="0" max="23" value="0" step="1" id="uur">
+                        <input type="number" min="1" max="59" value="0" step="1" id="minuut">
+                    </p>
+                </div>
+
+                <input type="radio" name="type" value="eenmalig" checked>Eenmalig
+                <input type="radio" name="type" value="herhalend">Herhalend
+                -->
+
+    </div>
+</div>
+</body>
+</html>

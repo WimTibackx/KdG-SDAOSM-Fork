@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Route toevoegen</title>
+</head>
+<body>
+<section id="inline">
+    <section id="title"><h1>Route toevoegen</h1></section>
+    <h3>Met welke wagen wilt u deze route rijden?</h3>
+    <select id="selectWagen">
+        <option value="wagen1">Wagen 1</option>
+        <option value="wagen2">Wagen 2</option>
+    </select>
+
+    <h3>Hoeveel personen kunnen er meerijden?</h3>
+    <input type="number" min="1" value="1" step="1" id="aantal">
+
+    <h3>Wat zijn de tijdstippen van vertrek?</h3>
+    <h4>
+    <input type="number" min="0" max="23" value="0" step="1" id="uur"><input type="number" min="1" max="59" value="0"
+
+                                                                             step="1" id="minuut">
+    <input type="radio" name="type" value="eenmalig" checked>Eenmalig
+    <input type="radio" name="type" value="herhalend">Herhalend</h4>
+</section>
+</body>
+</html>

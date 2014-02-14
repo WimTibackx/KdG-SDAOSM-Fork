@@ -1,7 +1,6 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.model.SessionObject;
-import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.threeten.bp.LocalDate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -28,11 +26,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+
+
     /*
      * Input: { "username": "username@test1.com", "password": "Password1" }
      * Output: { "error": "ParseError" } OR { "error": "LoginComboWrong" } OR { "Token": "(a token)" } + Set-Cookie header
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody String login(@RequestParam("data") String data, HttpServletResponse response) {
         JSONObject myJson = null;
         String username, password;
@@ -50,15 +50,6 @@ public class LoginController {
             myJson.put("error","ParseError");
             return myJson.toString();
         }
-
-
-        try {   //TODO - We shouldn't even be doing this
-            userService.addUser(new User("username", User.Gender.MALE, false, "Password1", LocalDate.of(1993, 10, 20), "username@test.com"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    //
 
         if (!userService.checkLogin(username, password)){
             myJson = new JSONObject();
