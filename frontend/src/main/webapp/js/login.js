@@ -1,5 +1,6 @@
 //TODO - MOVE THIS TO DECENT CONFIG THINGY
 var rootUrl="http://localhost:8080/BackEnd/";
+
 $(document).ready(function() {
     var $login = $("#loginform");
     $login.submit(function(e) {
@@ -25,3 +26,4 @@ function actionLogin(username, password) {
         }
     })
 }
+

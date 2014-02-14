@@ -1,0 +1,196 @@
+#avatar {
+    height: 15em;
+    width: 12em;
+    margin-top: 1em;
+    padding: 1em;
+    border: solid 1px gray;
+}
+
+#infoUser {
+    color: white;
+}
+
+.info {
+    margin-top: 1em;
+    margin-left: -1em;
+}
+
+#profileName {
+    font-size: 2em;
+    color: white;
+    border-bottom: solid 1px gray;
+    padding: 1em 0em 0em 0em;
+    margin-right: 0.5em;
+}
+
+#blockLeft {
+    float: left;
+}
+
+.blockRight, #myRoutes {
+    border: solid 1px gray;
+    height: 530px;
+    margin-right: 1em;
+    margin-top: 1em;
+    /*width: 20em;*/
+}
+.blockRight{
+    float:right;
+}
+#myRoutes, #trajects{
+    width: 49em;
+    height:16em;
+    float: right;
+}
+
+#gender {
+    height: 1em;
+    padding-left: 0.2em;
+}
+
+/* route table */
+.routeTable {
+    margin-left: 1em;
+    padding: 0px;
+    width: 47em;
+    margin-top: 1em;
+    border: 1px solid #ffffff;
+}
+
+.routeTable table, .ritTable table, .trajectTable table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.routeTable tr:last-child td:last-child, .ritTable tr:last-child td:last-child, .trajectTable tr:last-child td:last-child {
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.routeTable table tr:first-child td:first-child, .ritTable table tr:first-child td:first-child, .trajectTable table tr:first-child td:first-child {
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.routeTable table tr:first-child td:last-child, .ritTable table tr:first-child td:last-child, .trajectTable table tr:first-child td:last-child {
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.routeTable tr:last-child td:first-child, .ritTable tr:last-child td:first-child, .trajectTable tr:last-child td:first-child {
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.routeTable tr:hover td, .ritTable tr:hover td, .trajectTable tr:hover td {
+
+}
+
+.routeTable tr:nth-child(odd), .ritTable tr:nth-child(odd), .trajectTable tr:nth-child(odd) {
+    background-color: #c4c4c4;
+}
+
+.routeTable tr:nth-child(even), .ritTable tr:nth-child(even), .trajectTable tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.routeTable td, .ritTable td, .trajectTable td {
+    vertical-align: middle;
+
+    border: 1px solid #ffffff;
+    border-width: 0px 1px 1px 0px;
+    text-align: left;
+    padding: 5px;
+    font-size: 12px;
+    font-family: Arial;
+    font-weight: normal;
+    color: #000000;
+}
+
+.routeTable tr:last-child td, .ritTable tr:last-child td, .trajectTable tr:last-child td {
+    border-width: 0px 1px 0px 0px;
+}
+
+.routeTable tr td:last-child, .ritTable tr td:last-child, .trajectTable tr td:last-child {
+    border-width: 0px 0px 1px 0px;
+}
+
+.routeTable tr:last-child td:last-child, .ritTable tr:last-child td:last-child, .trajectTable tr:last-child td:last-child {
+    border-width: 0px 0px 0px 0px;
+}
+
+.routeTable tr:first-child td, .ritTable tr:first-child td, .trajectTable tr:first-child td {
+    background: -o-linear-gradient(bottom, #353535 5%, #353535 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #353535), color-stop(1, #353535));
+    background: -moz-linear-gradient(center top, #353535 5%, #353535 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#353535", endColorstr="#353535");
+    background: -o-linear-gradient(top, #353535, 353535);
+
+    background-color: #353535;
+    border: 0px solid #ffffff;
+    border-width: 0px 0px 1px 1px;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.routeTable tr:first-child:hover td, .ritTable tr:first-child:hover td, .trajectTable tr:first-child:hover td {
+    background: -o-linear-gradient(bottom, #353535 5%, #353535 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #353535), color-stop(1, #353535));
+    background: -moz-linear-gradient(center top, #353535 5%, #353535 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#353535", endColorstr="#353535");
+    background: -o-linear-gradient(top, #353535, 353535);
+
+    background-color: #353535;
+}
+
+.routeTable tr:first-child td:first-child, .ritTable tr:first-child td:first-child, .trajectTable tr:first-child td:first-child {
+    border-width: 0px 0px 1px 0px;
+}
+
+.routeTable tr:first-child td:last-child, .ritTable tr:first-child td:last-child, .trajectTable tr:first-child td:last-child {
+    border-width: 0px 0px 1px 1px;
+}
+
+.tableTitles {
+    font-size: 1.3em;
+}
+
+.ritTable {
+    margin-left: 1em;
+    margin-right: 1em;
+    padding: 0px;
+    width: 15em;
+    margin-top: 1em;
+    border: 1px solid #ffffff;
+}
+
+.trajectTable {
+    margin-left: 1em;
+    padding: 0px;
+    width: 47em;
+    margin-top: 1em;
+    border: 1px solid #ffffff;
+}
+
+.ritTable tr td li, .trajectTable tr td li {
+    list-style-type: decimal;
+}
+
+.routeButton {
+    background: rgb(53, 53, 53);
+    color: white;
+    margin-right: 1.2em;
+    margin-top: 1em;
+    float: right;
+    padding: 0.5em;
+}
+

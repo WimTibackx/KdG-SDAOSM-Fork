@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link
+            rel="stylesheet" href="css/login.css"
+            type="text/css"
+            />
+    <link
+            rel="stylesheet" href="css/layout.css"
+            type="text/css"
+            />
+</head>
+<body>
+
+<div class="content">
+    <div id="form_wrapper" class="form_wrapper">
+        <form class="login active" id="loginform">
+            <h3>Login</h3>
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username"/>
+                <span class="error">Username is foutig</span>
+            </div>
+            <div>
+                <label>Password: <a href="forgot_password.html" rel="forgot_password" class="forgot linkform">Paswoord vergeten?</a></label>
+                <input type="password" name="password"/>
+                <span class="error">Paswoord is foutief</span>
+            </div>
+            <div class="bottom">
+                <input type="submit" value="Login" formaction="index.html#/myProfile">
+                <a href="register.html" rel="register" class="linkform">Nog geen account? Registreer je dan snel hier</a>
+
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+</html>

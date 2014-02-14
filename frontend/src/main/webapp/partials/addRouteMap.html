@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+
+    <title>Route toevoegen</title>
+</head>
+<body>
+<section id="menu">
+    <div class="menuItem">Mijn profiel</div>
+</section>
+<section id="inline">
+
+    <section id="title"><h1 onclick="document.getElementById('txtStart').focus()">Route toevoegen</h1></section>
+
+
+    <div id="controls">
+        <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in."><br>
+        <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+        <button id="btnSend">Leg route vast</button>
+        <!-- TODO: style button -->
+    </div>
+    <!--bij ingeven van stad, stad tonen op google map en bij klikken op map marker plaatsen en opslagen -->
+
+    <div id="map-canvas"></div>
+</section>
+
+<div id="overlay">
+    <div id="formPopup">
+        <h3>Met welke wagen wilt u deze route rijden?</h3>
+        <select id="selectWagen">
+            <option value="wagen1">Wagen 1</option>
+            <option value="wagen2">Wagen 2</option>
+        </select>
+
+        <h3>Hoeveel personen kunnen er meerijden?</h3>
+        <input type="number" min="1" value="1" step="1" id="aantal">
+
+        <h3>Wat zijn de tijdstippen van vertrek?</h3>
+        <h4>
+            <input type="number" min="0" max="23" value="0" step="1" id="uur"><input type="number" min="1" max="59"
+                                                                                     value="0" step="1" id="minuut">
+            <input type="radio" name="type" value="eenmalig" checked>Eenmalig
+            <input type="radio" name="type" value="herhalend">Herhalend</h4>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+body {
+    background-image: url('../img/road.jpg');
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#inline {
+    width: 90%;
+    height: 640px;
+    margin-top: 2em;
+    background-color: rgba(53, 53, 53, 0.8);
+    border: solid 1px gray;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#title {
+    padding-top: 1px;
+    border-bottom: solid 1px white;
+    font-size: 26px;
+    padding-left: 1em;
+}
+
+#selectWagen, #aantal {
+    float: right;
+    margin-top: -3em;
+    margin-right: 12em;
+    width: 20%;
+    /*background-color: rgba(100,160,220,0.8);
+    color: white;*/
+}
+
+#next {
+    opacity: 0.8;
+    width: 75px;
+    height: 100px;
+    position: absolute;
+    bottom: 2.5em;
+    right: 2.5em;
+    background-size: cover;
+    background-image: url('../img/pijlRechts.jpg');
+}
+
+#uur {
+    position: absolute;
+    right: 22em;
+    top: 16.5em;
+    width: 40px;
+}
+
+#minuut {
+    position: absolute;
+    right: 18em;
+    top: 16.5em;
+    width: 40px;
+}
+
+#controls {
+    margin-top: 1em;
+    width: 70%;
+}
+
+.controls {
+    width: 88%;
+}
+
+#btnSend {
+    position: absolute;
+    top: 0; right: 0;
+    height: 100%;
+    width: 10%;
+}
+
+#map-canvas {
+    height: 85%;
+    margin-top: 1em;
+
+}
+
+#menu {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 50px;
+    border: solid 1px white;
+}
+.menuItem{
+    height: 50px;
+    background: white;
+    width: 10%;
+    font-size: 1.2em;
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+    border-right: solid 1px gray;
+}
+#infoprofile{
+    padding-left: 1em;
+}
+
+/* Popup */
+
+#overlay {
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+#formPopup {
+    position: relative;
+    margin: 100px auto;
+    width: 700px;
+    height: 500px;
+    background-color: lightgray;
+}
