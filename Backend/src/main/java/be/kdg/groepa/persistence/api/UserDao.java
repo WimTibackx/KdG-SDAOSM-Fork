@@ -10,6 +10,8 @@ import be.kdg.groepa.model.User;
 public interface UserDao {
     public User getUser(String username);
 
+    public User getUser(Integer id);
+
     public void changePassword(String username, String newPassword);
 
     public void createSession(SessionObject session);
@@ -25,4 +27,6 @@ public interface UserDao {
     public SessionObject getSessionByUsername(String username);
 
     public void addCarToUser(String username, Car c);
+
+
 }

@@ -1,10 +1,7 @@
 package be.kdg.groepa.model;
 
-import java.security.MessageDigest;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.springframework.context.annotation.Lazy;
 import org.threeten.bp.LocalDate;
 
 import javax.persistence.*;
@@ -82,6 +79,26 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public boolean isSmoker() {
+        return smoker;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setPassword(String password) {

@@ -33,6 +33,22 @@ public class Car {
         this.consumption = cons;
     }
 
+    public Integer getCarId() {
+        return carId;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getConsumption() {
+        return consumption;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }

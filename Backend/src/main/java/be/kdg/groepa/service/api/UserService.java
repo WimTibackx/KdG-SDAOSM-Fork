@@ -17,6 +17,8 @@ public interface UserService {
     public void setUserDao(UserDao userDao);
     public void addUser(User user) throws Exception;
     public User getUser(String username);
+    public User getUserById(Integer id);
+
     public String encryptString(String password);
     public SessionObject getUserSession(String username);
 

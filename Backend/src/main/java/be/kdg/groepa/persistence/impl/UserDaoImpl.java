@@ -30,6 +30,17 @@ public class UserDaoImpl implements UserDao {
 
     }
 
+    public User getUser(Integer id){
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from User u where u.id = :id");
+        //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
+        query.setInteger("id", id);
+        User user = (User)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return user;
+
+    }
+
     @Override
     public void changePassword(String username, String newPassword)
     {
