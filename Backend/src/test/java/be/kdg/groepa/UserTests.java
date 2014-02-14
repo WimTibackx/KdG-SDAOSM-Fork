@@ -214,13 +214,13 @@ public class UserTests {
 
     @After
     public void clearImages(){
-        File[] carImages = new File("src\\main\\webapp\\carImages").listFiles();
+        File[] carImages = new File("src"+File.separator+"main"+File.separator+"webapp"+File.separator+"carImages").listFiles();
         if (carImages != null) {
             for (File file : Arrays.asList(carImages)) {
                 file.delete();
             }
         }
-        File[] userImages = new File("src\\main\\webapp\\userImages").listFiles();
+        File[] userImages = new File("src"+File.separator+"main"+File.separator+"webapp"+File.separator+"userImages").listFiles();
         if (userImages != null) {
             for (File file : Arrays.asList(userImages)) {
                 file.delete();

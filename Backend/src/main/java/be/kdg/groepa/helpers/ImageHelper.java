@@ -12,11 +12,11 @@ public class ImageHelper {
     private static Random random = new Random();
 
     public static String writeUserImage(File picture, String name){
-        return writeImage(picture, "src\\main\\webapp\\userImages\\"+name + random.nextInt());
+        return writeImage(picture, "src"+File.separator+"main"+File.separator+"webapp"+File.separator+"userImages"+File.separator+name + random.nextInt());
     }
 
     public static String writeCarImage(File picture, String name){
-        return writeImage(picture, "src\\main\\webapp\\carImages\\"+name + random.nextInt());
+        return writeImage(picture, "src"+File.separator+"main"+File.separator+"webapp"+File.separator+"carImages"+File.separator+name + random.nextInt());
     }
 
     public static String editUserImage(File newPicture, String path){
