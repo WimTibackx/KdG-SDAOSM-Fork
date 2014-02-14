@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;
 
+import java.io.File;
 import java.security.MessageDigest;
 
 /**
@@ -118,4 +119,15 @@ public class UserServiceImpl implements UserService {
         }
         return sb.toString();
     }
+
+    public void editUserPicture(String username, File newPicture){
+        userDao.editUserPicture(username, newPicture);
+    }
+
+    @Override
+    public void removeUserPicture(String username) {
+        userDao.removeUserPicture(username);
+    }
+
+
 }
