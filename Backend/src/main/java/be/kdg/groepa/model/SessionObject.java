@@ -2,8 +2,8 @@ package be.kdg.groepa.model;
 
 import org.threeten.bp.LocalDateTime;
 
-import javax.jms.Session;
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Created by Thierry on 6/02/14.
@@ -19,7 +19,7 @@ public class SessionObject {
     private String sessionToken;
 
     @OneToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name="user_id")
     private User user;
 
     @Column(name="expirationDate")
@@ -30,9 +30,9 @@ public class SessionObject {
     public SessionObject(User user) {
         this.user = user;
         this.experiationDate = LocalDateTime.now().plusDays(1L);
-        this.sessionToken = user.getUsername() + "123456";
 
-        //this.sessionToken = UUID.randomUUID().toString();
+
+        this.sessionToken = UUID.randomUUID().toString();
     }
 
 
@@ -63,7 +63,7 @@ public class SessionObject {
 
         SessionObject that = (SessionObject) o;
 
-        return !(sessionToken != null ? !sessionToken.equals(that.sessionToken) : that.sessionToken != null);
+        return !(user.getUsername() != null ? !user.getUsername().equals(that.user.getUsername()) : that.user.getUsername() != null);
 
     }
 

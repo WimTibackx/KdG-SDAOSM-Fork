@@ -35,6 +35,7 @@ public class HibernateUtil {
         Transaction tx = ses.beginTransaction();
         ses.saveOrUpdate(ob);
         tx.commit();
+        ses.close();
     }
 
     public static void deleteObject(Object ob) {
@@ -42,5 +43,6 @@ public class HibernateUtil {
         Transaction tx = ses.beginTransaction();
         ses.delete(ob);
         tx.commit();
+        ses.close();
     }
 }

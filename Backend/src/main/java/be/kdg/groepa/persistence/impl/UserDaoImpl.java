@@ -6,15 +6,10 @@ import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-
-import org.threeten.bp.LocalDateTime;
 
 
 @SuppressWarnings("JpaQlInspection")
@@ -82,7 +77,6 @@ public class UserDaoImpl implements UserDao {
     public SessionObject getSessionByUsername(String username) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        //Transaction tx = HibernateUtil.getSessionFactory().openSession().beginTransaction();
         Query query = session.createQuery("from SessionObject s where s.user.username = :username");
         query.setString("username", username);
         SessionObject s = (SessionObject)query.uniqueResult();
