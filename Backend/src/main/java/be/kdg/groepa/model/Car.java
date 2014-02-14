@@ -1,6 +1,9 @@
 package be.kdg.groepa.model;
 
+import be.kdg.groepa.helpers.ImageHelper;
+
 import javax.persistence.*;
+import java.io.File;
 
 /**
  * Created by Pieter-Jan on 5-2-14.
@@ -25,6 +28,9 @@ public class Car {
     @JoinColumn(name="userId", nullable = true)
     private User user;
 
+    @Column(name="pictureURL")
+    private String pictureURL;
+
     public Car(){}
 
     public Car(String brand, String type, double cons) {
@@ -33,6 +39,7 @@ public class Car {
         this.consumption = cons;
     }
 
+<<<<<<< HEAD
     public Integer getCarId() {
         return carId;
     }
@@ -47,12 +54,17 @@ public class Car {
 
     public double getConsumption() {
         return consumption;
+=======
+    public Car(String brand, String type, double cons, File picture) {
+        this.brand = brand;
+        this.type = type;
+        this.consumption = cons;
+        this.pictureURL = ImageHelper.writeCarImage(picture, brand + type);
+>>>>>>> 1a930fb0bc2c91629bca4a2a9660dcf7e4c899d9
     }
 
     public void setUser(User user) {
         this.user = user;
     }
-
-    // private String pictureURL;
 
 }

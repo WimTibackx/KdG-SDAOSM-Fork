@@ -10,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+
 
 @SuppressWarnings("JpaQlInspection")
 @Repository("userDao")
@@ -107,6 +109,24 @@ public class UserDaoImpl implements UserDao {
         c.setUser(u);
         ses.saveOrUpdate(u);
         ses.saveOrUpdate(c);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void editUserPicture(String username, File newPicture) {
+        Session ses = HibernateUtil.openSession();
+        User u = getUser(username);
+        u.editImage(newPicture);
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeUserPicture(String username) {
+        Session ses = HibernateUtil.openSession();
+        User u = getUser(username);
+        u.removeImage();
+        ses.saveOrUpdate(u);
         HibernateUtil.closeSession(ses);
     }
 }

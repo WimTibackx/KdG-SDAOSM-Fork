@@ -9,6 +9,7 @@ import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.persistence.impl.UserDaoImpl;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
+
+import java.io.File;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -35,6 +38,9 @@ public class UserTests {
 
     private final static String testUsername = "Thierry2@test.com";
     private final static String testUsername2 = "Onecar@test.com";
+    private final static String carPicturePath = "src\\test\\java\\be\\kdg\\groepa\\resources\\car.jpg";
+    private final static String userPicturePath = "src\\test\\java\\be\\kdg\\groepa\\resources\\user.jpg";
+    private final static String userPicturePath2 = "src\\test\\java\\be\\kdg\\groepa\\resources\\user2.png";
 
     @Before
     public void start()
@@ -42,9 +48,9 @@ public class UserTests {
         userService.setUserDao(new UserDaoImpl());
         if (!setupRun)
         {
-            Car car = new Car("Audi", "A5", 11);
-            User user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car);
-            User user2 = new User("OneCarUser", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2);
+            Car car = new Car("Audi", "A5", 11, new File(carPicturePath));
+            User user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car, new File(userPicturePath));
+            User user2 = new User("OneCarUser", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2, new File(userPicturePath2));
             try {
                 userService.addUser(user);
                 userService.addUser(user2);
@@ -187,6 +193,30 @@ public class UserTests {
         obj.put("password", "password");
 
         //String myString = controller.login(obj.toJSONString());
+    }
+
+    @Test
+    public void editUserImage(){
+        userService.editUserPicture(testUsername, new File(userPicturePath2));
+        User user = userService.getUser(testUsername);
+        assertEquals("Image has not been changed correctly.", ".png", user.getAvatarURL().substring(user.getAvatarURL().lastIndexOf("."), user.getAvatarURL().length()));
+    }
+
+    @Test
+    public void removeUserImage(){
+        userService.removeUserPicture(testUsername2);
+        User user = userService.getUser(testUsername2);
+        assertNull("User image has not been removed", user.getAvatarURL());
+    }
+
+    @After
+    public void clearImages(){
+        for(File file:new File("src\\main\\webapp\\carImages").listFiles()){
+            file.delete();
+        }
+        for(File file:new File("src\\main\\webapp\\userImages").listFiles()){
+            file.delete();
+        }
     }
 
     /*

@@ -6,6 +6,8 @@ import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.model.User;
 
+import java.io.File;
+
 /**
  * Created by Thierry on 4/02/14.
  */
@@ -23,4 +25,6 @@ public interface UserService {
     public SessionObject getUserSession(String username);
 
     public void addCarToUser(String user, Car car);
+    public void editUserPicture(String username, File newPicture);
+    public void removeUserPicture(String username);
 }
