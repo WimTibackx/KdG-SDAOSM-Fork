@@ -129,4 +129,12 @@ public class UserDaoImpl implements UserDao {
         ses.saveOrUpdate(u);
         HibernateUtil.closeSession(ses);
     }
+
+    @Override
+    public void removeCarPicture(Car car) {
+        Session ses = HibernateUtil.openSession();
+        car.removeImage();
+        ses.saveOrUpdate(car);
+        HibernateUtil.closeSession(ses);
+    }
 }

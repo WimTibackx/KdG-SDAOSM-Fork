@@ -38,7 +38,7 @@ public class ImageHelper {
     }
 
 
-    public static void removeUserImage(String imageUrl) {
+    public static void removeImage(String imageUrl) {
         File file = new File(imageUrl);
         file.delete();
     }

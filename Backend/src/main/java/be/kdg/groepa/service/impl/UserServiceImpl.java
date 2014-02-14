@@ -133,5 +133,9 @@ public class UserServiceImpl implements UserService {
         userDao.removeUserPicture(username);
     }
 
+    public void removeCarPicture(Car car){
+        userDao.removeCarPicture(car);
+    }
+
 
 }

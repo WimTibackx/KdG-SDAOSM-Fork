@@ -3,6 +3,7 @@ package be.kdg.groepa.model;
 import be.kdg.groepa.helpers.ImageHelper;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -62,10 +63,12 @@ public class Car {
         return consumption;
     }
 
-
-
     public void setUser(User user) {
         this.user = user;
     }
 
+    public void removeImage(){
+        ImageHelper.removeImage(pictureURL);
+        this.pictureURL = null;
+    }
 }
