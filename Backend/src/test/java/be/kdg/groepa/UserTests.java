@@ -20,6 +20,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -38,9 +41,9 @@ public class UserTests {
 
     private final static String testUsername = "Thierry2@test.com";
     private final static String testUsername2 = "Onecar@test.com";
-    private final static String carPicturePath = "src\\test\\java\\be\\kdg\\groepa\\resources\\car.jpg";
-    private final static String userPicturePath = "src\\test\\java\\be\\kdg\\groepa\\resources\\user.jpg";
-    private final static String userPicturePath2 = "src\\test\\java\\be\\kdg\\groepa\\resources\\user2.png";
+    private final static String carPicturePath = "src"+File.separator+"test"+File.separator+"java"+File.separator+"be"+File.separator+"kdg"+File.separator+"groepa"+File.separator+"resources"+File.separator+"car.jpg";
+    private final static String userPicturePath = "src"+File.separator+"test"+File.separator+"java"+File.separator+"be"+File.separator+"kdg"+File.separator+"groepa"+File.separator+"resources"+File.separator+"user.jpg";
+    private final static String userPicturePath2 = "src"+File.separator+"test"+File.separator+"java"+File.separator+"be"+File.separator+"kdg"+File.separator+"groepa"+File.separator+"resources"+File.separator+"user2.png";
 
     @Before
     public void start()
@@ -211,11 +214,17 @@ public class UserTests {
 
     @After
     public void clearImages(){
-        for(File file:new File("src\\main\\webapp\\carImages").listFiles()){
-            file.delete();
+        File[] carImages = new File("src\\main\\webapp\\carImages").listFiles();
+        if (carImages != null) {
+            for (File file : Arrays.asList(carImages)) {
+                file.delete();
+            }
         }
-        for(File file:new File("src\\main\\webapp\\userImages").listFiles()){
-            file.delete();
+        File[] userImages = new File("src\\main\\webapp\\userImages").listFiles();
+        if (userImages != null) {
+            for (File file : Arrays.asList(userImages)) {
+                file.delete();
+            }
         }
     }
 
