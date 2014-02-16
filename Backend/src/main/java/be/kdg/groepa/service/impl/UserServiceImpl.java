@@ -61,10 +61,29 @@ public class UserServiceImpl implements UserService {
 
     public SessionObject getUserSession(String username){
         SessionObject session = userDao.getSessionByUsername(username);
-        if (session.getExperiationDate().isAfter(LocalDateTime.now())){
-            return session;
-        }
-        return null;
+        return (this.isSessionValid(session) ? session : null);
+    }
+
+    private boolean isSessionValid(SessionObject session) {
+        return session != null && session.getExperiationDate().isAfter(LocalDateTime.now());
+    }
+
+    @Override
+    public SessionObject getUserSessionByToken(String token) {
+        SessionObject session = userDao.getSession(token);
+        return (this.isSessionValid(session) ? session : null);
+    }
+
+    //TODO: Longer-term we can't just use the above implementations as the is*-methods SHOULDN'T extend session, but get should.
+    //TODO: Or maybe extension should happen when true?
+    @Override
+    public boolean isUserSession(String username) {
+        return getUserSession(username) != null;
+    }
+
+    @Override
+    public boolean isUserSessionByToken(String token) {
+        return getUserSessionByToken(token) != null;
     }
 
     public void addCarToUser(String user, Car car) {

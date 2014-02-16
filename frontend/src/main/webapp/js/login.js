@@ -19,8 +19,8 @@ function actionLogin(username, password) {
     var data={username:username, password:password};
     $.ajax({
         url:rootUrl+"login/",
-        method:"GET",
-        data:prepData(data),
+        method:"POST",
+        data:JSON.stringify(data),
         success:function(response) {
             console.log(response);
         }

@@ -45,7 +45,7 @@ public class loginControllerTest {
     @Before
     public void init(){
         if(!init){
-            try {   //TODO - We shouldn't even be doing this
+            try {
                 userService.addUser(new User("username", User.Gender.MALE, false, "Password1", LocalDate.of(1993, 10, 20), testUsername));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -64,7 +64,7 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("Token").exists())
                 .andExpect(status().isOk());*/
         assertTrue(true);
@@ -80,9 +80,8 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("error", is("ParseError")));*/
-        assertTrue(true);
     }
 
     @Test
@@ -94,9 +93,8 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("error", is("LoginComboWrong")));*/
-        assertTrue(true);
     }
 
 

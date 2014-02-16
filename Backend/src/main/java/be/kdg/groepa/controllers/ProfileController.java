@@ -43,6 +43,11 @@ public class ProfileController {
             e.printStackTrace();
         } */
         User user = userService.getUserById(id);
+        if (user == null) {
+            myJson = new JSONObject();
+            myJson.put("error","UserDoesNotExist");
+            return myJson.toString();
+        }
 
         UserDTO userDTO = new UserDTO();
         userDTO.setCars(user.getCars());
