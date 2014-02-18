@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.LocalDate;
@@ -34,7 +35,7 @@ public class loginControllerTest {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "username@test.com";
+    private String testUsername = "username@lc.test.com";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -57,7 +58,7 @@ public class loginControllerTest {
 
     @Test
     public void succesControllerLogin() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username", testUsername);
         json.put("password", "Password1");
         String myString = json.toString();
@@ -65,15 +66,15 @@ public class loginControllerTest {
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("Token").exists())
-                .andExpect(status().isOk());*/
-        assertTrue(true);
+                .andExpect(MockMvcResultMatchers.jsonPath("Token").exists())
+                //.andExpect(jsonPath("Token").exists())
+                .andExpect(status().isOk());
 
     }
 
     @Test
     public void parseExceptionError() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username2", testUsername);
         json.put("password", "Password1");
         String myString = json.toString();
@@ -81,12 +82,12 @@ public class loginControllerTest {
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("error", is("ParseError")));*/
+                .andExpect(jsonPath("error", is("ParseError")));
     }
 
     @Test
     public void loginFailError() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username", testUsername);
         json.put("password", "Password");
         String myString = json.toString();
@@ -94,7 +95,7 @@ public class loginControllerTest {
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("error", is("LoginComboWrong")));*/
+                .andExpect(jsonPath("error", is("LoginComboWrong")));
     }
 
 
