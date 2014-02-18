@@ -75,7 +75,7 @@ function initialize() {
     });
 
     // TODO: remove this
-    openWindow();
+    // openWindow();
 }
 
 function onPlaceChanged() {
@@ -157,17 +157,17 @@ function calcRoute() {
 }
 
 function saveRoute() {
-    points = {};
+    points = [];
 
-    points.start = {};
-    points.start.lat = markers[0].getPosition().lat();
-    points.start.long = markers[0].getPosition().lng();
-    points.start.address = markers[0].getTitle();
+    points[0] = {};
+    points[0].lat = markers[0].getPosition().lat();
+    points[0].long = markers[0].getPosition().lng();
+    points[0].address = markers[0].getTitle();
 
-    points.end = {};
-    points.end.lat = markers[1].getPosition().lat();
-    points.end.long = markers[1].getPosition().lng();
-    points.end.address = markers[1].getTitle();
+    points[1] = {};
+    points[1].lat = markers[1].getPosition().lat();
+    points[1].long = markers[1].getPosition().lng();
+    points[1].address = markers[1].getTitle();
 
     console.log(JSON.stringify(points));
 
@@ -213,7 +213,7 @@ function fillTable() {
 
 function submitAllData() {
     var car = $('#selectedCar').data('index');
-    var places = $('#placeNumber').text();
+    var places = $('#placeNumber').val();
     var date = $('#startDatePicker').val();
     var repeating = $('#repeatBox').prop('checked');
     if (repeating) {
