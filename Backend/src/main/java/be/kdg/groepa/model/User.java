@@ -1,13 +1,12 @@
 package be.kdg.groepa.model;
 
-import java.security.MessageDigest;
-
+import be.kdg.groepa.helpers.ImageHelper;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.springframework.context.annotation.Lazy;
 import org.threeten.bp.LocalDate;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +46,9 @@ public class User {
     private SessionObject sessionObject;
     // protected List<Route> routes;
 
-    /*@Column(name="avatarURL")
+    @Column(name="avatarURL")
     private String avatarURL;
-    */
+
     public User(){}
 
     public User(String name, Gender gender, boolean smoker, String password, LocalDate dateofBirth, String username) {
@@ -65,13 +64,23 @@ public class User {
         this(name, gender, smoker, password, dateOfBirth, username);
         this.cars.add(car);
     }
-    /*
-    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateOfBirth, String username, Car car) {
+
+    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateofBirth, String username, File picture) {
+        this.name = name;
+        this.gender = gender;
+        this.smoker = smoker;
+        this.password = password;
+        this.dateOfBirth = dateofBirth;
+        this.username = username;
+        this.avatarURL = ImageHelper.writeUserImage(picture, name);
+    }
+
+    public User(String name, Gender gender, boolean smoker, String password, LocalDate dateOfBirth, String username, Car car, File picture) {
         this(name, gender, smoker, password, dateOfBirth, username);
-        this.avatarURL;
+        this.avatarURL = ImageHelper.writeUserImage(picture, name);
         this.cars.add(car);
     }
-    */
+
     public String getUsername() {
         return username;
     }
@@ -82,6 +91,26 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public boolean isSmoker() {
+        return smoker;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setPassword(String password) {
@@ -97,7 +126,22 @@ public class User {
         FEMALE,
     }
 
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public void editImage(File newPicture){
+        this.avatarURL = ImageHelper.editUserImage(newPicture, this.avatarURL);
+    }
+
+    public void removeImage(){
+        ImageHelper.removeImage(this.avatarURL);
+        this.avatarURL = null;
+    }
+
     public void setSessionObject(SessionObject sessionObject) {
         this.sessionObject = sessionObject;
     }
+
+
 }

@@ -12,8 +12,10 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,12 +67,13 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
         String url = "http://"+serverAddr+"/BackEnd/login";
 
         HttpPost httpPost = new HttpPost(url);
+        //httpPost.
 
 
         // Execute HTTP Post Request
 
         try {
-            httpPost.setEntity(new UrlEncodedFormEntity(param));
+            httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){

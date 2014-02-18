@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;
 
+import java.io.File;
 import java.security.MessageDigest;
 
 /**
@@ -60,10 +61,29 @@ public class UserServiceImpl implements UserService {
 
     public SessionObject getUserSession(String username){
         SessionObject session = userDao.getSessionByUsername(username);
-        if (session.getExperiationDate().isAfter(LocalDateTime.now())){
-            return session;
-        }
-        return null;
+        return (this.isSessionValid(session) ? session : null);
+    }
+
+    private boolean isSessionValid(SessionObject session) {
+        return session != null && session.getExperiationDate().isAfter(LocalDateTime.now());
+    }
+
+    @Override
+    public SessionObject getUserSessionByToken(String token) {
+        SessionObject session = userDao.getSession(token);
+        return (this.isSessionValid(session) ? session : null);
+    }
+
+    //TODO: Longer-term we can't just use the above implementations as the is*-methods SHOULDN'T extend session, but get should.
+    //TODO: Or maybe extension should happen when true?
+    @Override
+    public boolean isUserSession(String username) {
+        return getUserSession(username) != null;
+    }
+
+    @Override
+    public boolean isUserSessionByToken(String token) {
+        return getUserSessionByToken(token) != null;
     }
 
     public void addCarToUser(String user, Car car) {
@@ -92,6 +112,10 @@ public class UserServiceImpl implements UserService {
         return userDao.getUser(username);
     }
 
+    public User getUserById(Integer id){
+        return userDao.getUser(id);
+    }
+
     private boolean isValidPassword(String pw) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{7,30}$";
         return pw.matches(regex);
@@ -118,4 +142,19 @@ public class UserServiceImpl implements UserService {
         }
         return sb.toString();
     }
+
+    public void editUserPicture(String username, File newPicture){
+        userDao.editUserPicture(username, newPicture);
+    }
+
+    @Override
+    public void removeUserPicture(String username) {
+        userDao.removeUserPicture(username);
+    }
+
+    public void removeCarPicture(Car car){
+        userDao.removeCarPicture(car);
+    }
+
+
 }

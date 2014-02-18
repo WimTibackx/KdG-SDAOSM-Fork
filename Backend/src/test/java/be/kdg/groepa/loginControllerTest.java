@@ -33,7 +33,7 @@ public class loginControllerTest {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "username@test.com";
+    private String testUsername = "username@lc.test.com";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -44,7 +44,7 @@ public class loginControllerTest {
     @Before
     public void init(){
         if(!init){
-            try {   //TODO - We shouldn't even be doing this
+            try {
                 userService.addUser(new User("username", User.Gender.MALE, false, "Password1", LocalDate.of(1993, 10, 20), testUsername));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,7 +63,7 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("Token").exists())
                 .andExpect(status().isOk());
 
@@ -78,7 +78,7 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("error", is("ParseError")));
     }
 
@@ -91,7 +91,7 @@ public class loginControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .param("data", myString))
+                .content(myString))
                 .andExpect(jsonPath("error", is("LoginComboWrong")));
     }
 

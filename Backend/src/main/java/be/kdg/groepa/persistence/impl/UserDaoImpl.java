@@ -10,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+
 
 @SuppressWarnings("JpaQlInspection")
 @Repository("userDao")
@@ -24,6 +26,17 @@ public class UserDaoImpl implements UserDao {
         Query query = ses.createQuery("from User u where u.username = :username");
         //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
         query.setString("username", username);
+        User user = (User)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return user;
+
+    }
+
+    public User getUser(Integer id){
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from User u where u.id = :id");
+        //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
+        query.setInteger("id", id);
         User user = (User)query.uniqueResult();
         HibernateUtil.closeSession(ses);
         return user;
@@ -82,7 +95,7 @@ public class UserDaoImpl implements UserDao {
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("from SessionObject s where s.user.username = :username");
         query.setString("username", username);
-        SessionObject s = (SessionObject)query.uniqueResult();;
+        SessionObject s = (SessionObject)query.uniqueResult();
         HibernateUtil.closeSession(session);
         return s;
     }
@@ -96,6 +109,32 @@ public class UserDaoImpl implements UserDao {
         c.setUser(u);
         ses.saveOrUpdate(u);
         ses.saveOrUpdate(c);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void editUserPicture(String username, File newPicture) {
+        Session ses = HibernateUtil.openSession();
+        User u = getUser(username);
+        u.editImage(newPicture);
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeUserPicture(String username) {
+        Session ses = HibernateUtil.openSession();
+        User u = getUser(username);
+        u.removeImage();
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeCarPicture(Car car) {
+        Session ses = HibernateUtil.openSession();
+        car.removeImage();
+        ses.saveOrUpdate(car);
         HibernateUtil.closeSession(ses);
     }
 }
