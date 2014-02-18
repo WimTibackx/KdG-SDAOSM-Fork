@@ -3,26 +3,23 @@
     "freeSpots": "3",
     "repeating": true,
     "startDate": "2014-02-19",
-    "endDate": "2014-02-28",
-    "repeatingDays": [
-        [0, 0],
-        ["09:00", "09:30"],
-        [0, 0],
-        ["09:00", "09:30"],
-        [0, 0],
-        [0, 0],
-        [0, 0]
-    ],
+    "endDate": "2014-02-27",
+    "passages": {
+        "Di": ["09:30", "10:00"],
+        "Do": ["09:30", "10:00"],
+        "Vr": ["09:30", "10:00"],
+        "Wo": ["12:30", "13:00"]
+    },
     "route": [
-        {
-            "lat": 51.2171198,
-            "long": 4.4008122000000185,
-            "address": "Kammenstraat, 2000 Antwerpen, België"
-        },
         {
             "lat": 51.21523,
             "long": 4.398739999999975,
             "address": "Nationalestraat, 2000 Antwerpen, België"
+        },
+        {
+            "lat": 51.2171198,
+            "long": 4.4008122000000185,
+            "address": "Kammenstraat, 2000 Antwerpen, België"
         }
     ]
 }
