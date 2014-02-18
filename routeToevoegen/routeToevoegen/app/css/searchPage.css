@@ -1,0 +1,11 @@
+/* filtering left on the page */
+#filters{
+    margin-left: 1em;
+}
+.filterIcon {
+    width: 7.5em;
+    height: 7.5em;
+    border-radius: 10px;
+    margin-top: 1em;
+    cursor: pointer;
+}
