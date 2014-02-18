@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao {
         Session session = HibernateUtil.openSession();
         Query query = session.createQuery("from SessionObject s where s.user.username = :username");
         query.setString("username", username);
-        SessionObject s = (SessionObject)query.uniqueResult();;
+        SessionObject s = (SessionObject)query.uniqueResult();
         HibernateUtil.closeSession(session);
         return s;
     }
@@ -127,6 +127,14 @@ public class UserDaoImpl implements UserDao {
         User u = getUser(username);
         u.removeImage();
         ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeCarPicture(Car car) {
+        Session ses = HibernateUtil.openSession();
+        car.removeImage();
+        ses.saveOrUpdate(car);
         HibernateUtil.closeSession(ses);
     }
 }

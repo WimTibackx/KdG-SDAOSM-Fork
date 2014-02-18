@@ -33,4 +33,6 @@ public interface UserDao {
     public void editUserPicture(String username, File newPicture);
 
     public void removeUserPicture(String username);
+
+    public void removeCarPicture(Car car);
 }

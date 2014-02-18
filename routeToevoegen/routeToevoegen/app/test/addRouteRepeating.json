@@ -2,27 +2,27 @@
     "car": 1,
     "freeSpots": "3",
     "repeating": true,
-    "startDate": "2014-02-14",
-    "endDate": "2014-03-04",
+    "startDate": "2014-02-19",
+    "endDate": "2014-02-28",
     "repeatingDays": [
         [0, 0],
-        ["09:00", "10:00"],
+        ["09:00", "09:30"],
         [0, 0],
-        ["09:00", "10:00"],
+        ["09:00", "09:30"],
         [0, 0],
         [0, 0],
         [0, 0]
     ],
-    "route": {
-        "start": {
-            "lat": 51.218011,
-            "long": 4.421770000000038,
-            "address": "Koningin Astridplein 27, Antwerpen, België"
+    "route": [
+        {
+            "lat": 51.2171198,
+            "long": 4.4008122000000185,
+            "address": "Kammenstraat, 2000 Antwerpen, België"
         },
-        "end": {
-            "lat": 51.2181969,
-            "long": 4.400798399999985,
-            "address": "Nationalestraat 5, 2000 Antwerpen, België"
+        {
+            "lat": 51.21523,
+            "long": 4.398739999999975,
+            "address": "Nationalestraat, 2000 Antwerpen, België"
         }
-    }
+    ]
 }

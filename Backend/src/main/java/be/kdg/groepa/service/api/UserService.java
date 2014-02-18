@@ -23,8 +23,12 @@ public interface UserService {
 
     public String encryptString(String password);
     public SessionObject getUserSession(String username);
+    public SessionObject getUserSessionByToken(String token);
+    public boolean isUserSession(String username);
+    public boolean isUserSessionByToken(String token);
 
     public void addCarToUser(String user, Car car);
     public void editUserPicture(String username, File newPicture);
     public void removeUserPicture(String username);
+    public void removeCarPicture(Car car);
 }
