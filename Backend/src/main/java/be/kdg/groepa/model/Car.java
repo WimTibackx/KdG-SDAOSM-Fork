@@ -3,7 +3,6 @@ package be.kdg.groepa.model;
 import be.kdg.groepa.helpers.ImageHelper;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.io.File;
 
 /**
@@ -68,6 +67,7 @@ public class Car {
     public double getConsumption() {
         return consumption;
     }
+
 
     public void setUser(User user) {
         this.user = user;

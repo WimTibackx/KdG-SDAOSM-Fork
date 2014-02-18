@@ -10,15 +10,7 @@ var directionsService;
 
 var points;
 
-var timesArray = [
-    [0, 0],
-    [0, 0],
-    [0, 0],
-    [0, 0],
-    [0, 0],
-    [0, 0],
-    [0, 0]
-];
+var passages = {};
 
 function initialize() {
     addListeners();
@@ -75,7 +67,7 @@ function initialize() {
     });
 
     // TODO: remove this
-    openWindow();
+    // openWindow();
 }
 
 function onPlaceChanged() {
@@ -157,17 +149,17 @@ function calcRoute() {
 }
 
 function saveRoute() {
-    points = {};
+    points = [];
 
-    points.start = {};
-    points.start.lat = markers[0].getPosition().lat();
-    points.start.long = markers[0].getPosition().lng();
-    points.start.address = markers[0].getTitle();
+    points[0] = {};
+    points[0].lat = markers[0].getPosition().lat();
+    points[0].long = markers[0].getPosition().lng();
+    points[0].address = markers[0].getTitle();
 
-    points.end = {};
-    points.end.lat = markers[1].getPosition().lat();
-    points.end.long = markers[1].getPosition().lng();
-    points.end.address = markers[1].getTitle();
+    points[1] = {};
+    points[1].lat = markers[1].getPosition().lat();
+    points[1].long = markers[1].getPosition().lng();
+    points[1].address = markers[1].getTitle();
 
     console.log(JSON.stringify(points));
 
@@ -186,13 +178,16 @@ function openWindow() {
 }
 
 function addTime() {
+    if(typeof(passages)) {
+
+    }
     console.log($('#days').find(':input:checked').length);
 
     $('#days').find(':input:checked').each(function () {
         var time = [];
         time.push($('#repDepTime').val(), $('#repArrTime').val());
 
-        timesArray[$(this).data('index')] = time;
+        passages[$(this).data('day')] = time;
 
         $(this).prop('checked', false);
     });
@@ -203,9 +198,9 @@ function addTime() {
 function fillTable() {
     var table = document.getElementById('days');
     for (i = 0; i < 2; i++) {
-        for (j = 0; j < timesArray.length; j++) {
-            if (timesArray[j][i] != 0) {
-                table.rows[i + 1].cells[j + 1].innerText = timesArray[j][i];
+        for (j = 0; j < passages.length; j++) {
+            if (passages[j][i] != 0) {
+                table.rows[i + 1].cells[j + 1].innerText = passages[j][i];
             }
         }
     }
@@ -213,28 +208,22 @@ function fillTable() {
 
 function submitAllData() {
     var car = $('#selectedCar').data('index');
-    var places = $('#placeNumber').text();
-    var date = $('#startDatePicker').val();
+    var places = $('#placeNumber').val();
+    var startDate = $('#startDatePicker').val();
     var repeating = $('#repeatBox').prop('checked');
-    if (repeating) {
-        var endDate = $('#endDatePicker').val();
-    } else {
-        var depTime = $('#depTime').val();
-        var arrTime = $('#arrTime').val();
+    var endDate = $('#endDatePicker').val();
+    if (!repeating) {
+        endDate = startDate;
+        passages = [$('#depTime').val(), $('#arrTime').val()];
     }
 
     var jsonObject = {};
     jsonObject.car = car;
     jsonObject.freeSpots = places;
     jsonObject.repeating = repeating;
-    jsonObject.startDate = date;
-    if (repeating) {
-        jsonObject.endDate = endDate;
-        jsonObject.repeatingDays = timesArray;
-    } else {
-        jsonObject.departureTime = depTime;
-        jsonObject.arrivalTime = arrTime;
-    }
+    jsonObject.startDate = startDate;
+    jsonObject.endDate = endDate;
+    jsonObject.passages = passages;
     jsonObject.route = points;
 
     console.log(JSON.stringify(jsonObject));

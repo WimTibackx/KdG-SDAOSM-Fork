@@ -1,6 +1,6 @@
 #avatar {
-    height: 15em;
-    width: 12em;
+    height: 12em;
+    width: 10em;
     margin-top: 1em;
     padding: 1em;
     border: solid 1px gray;
@@ -29,17 +29,17 @@
 
 .blockRight, #myRoutes {
     border: solid 1px gray;
-    height: 530px;
+    height: 29.1em;
     margin-right: 1em;
     margin-top: 1em;
-    /*width: 20em;*/
+    width: 19em;
 }
 .blockRight{
     float:right;
 }
 #myRoutes, #trajects{
-    width: 49em;
-    height:16em;
+    width: 40.5em;
+    height:14em;
     float: right;
 }
 
@@ -52,7 +52,7 @@
 .routeTable {
     margin-left: 1em;
     padding: 0px;
-    width: 47em;
+    width: 38.5em;
     margin-top: 1em;
     border: 1px solid #ffffff;
 }
@@ -168,7 +168,7 @@
     margin-left: 1em;
     margin-right: 1em;
     padding: 0px;
-    width: 15em;
+    width: 17em;
     margin-top: 1em;
     border: 1px solid #ffffff;
 }
@@ -176,7 +176,7 @@
 .trajectTable {
     margin-left: 1em;
     padding: 0px;
-    width: 47em;
+    width: 38.5em;
     margin-top: 1em;
     border: 1px solid #ffffff;
 }
