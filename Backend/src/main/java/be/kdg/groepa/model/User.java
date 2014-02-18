@@ -46,7 +46,8 @@ public class User {
     private SessionObject sessionObject;
     // protected List<Route> routes;
 
-    @Column(name="avatarURL")
+
+    @Column(name="avatarURL", nullable = true)
     private String avatarURL;
 
     public User(){}

@@ -2,6 +2,7 @@ package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -34,6 +35,8 @@ public class LoginController {
         JSONObject myJson = null;
         String username, password;
 
+        Logger logger =  Logger.getLogger(LoginController.class.getName());
+        logger.info("DATA IS "+data);
         try {
             JSONObject json = (JSONObject) new JSONParser().parse(data);
             if (!json.containsKey("username") || !json.containsKey("password")) {
