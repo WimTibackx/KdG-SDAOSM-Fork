@@ -16,7 +16,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.LocalDate;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +33,7 @@ public class loginControllerTest {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "username@test.com";
+    private String testUsername = "username@lc.test.com";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -67,7 +66,6 @@ public class loginControllerTest {
                 .content(myString))
                 .andExpect(jsonPath("Token").exists())
                 .andExpect(status().isOk());
-        assertTrue(true);
 
     }
 
