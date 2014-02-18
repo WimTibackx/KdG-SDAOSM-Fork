@@ -34,7 +34,7 @@ public class ProfileControllerTest {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "username@test.com";
+    private String testUsername = "profile@test.com";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
