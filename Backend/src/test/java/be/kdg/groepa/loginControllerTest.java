@@ -57,7 +57,7 @@ public class loginControllerTest {
 
     @Test
     public void succesControllerLogin() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username", testUsername);
         json.put("password", "Password1");
         String myString = json.toString();
@@ -66,14 +66,14 @@ public class loginControllerTest {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
                 .andExpect(jsonPath("Token").exists())
-                .andExpect(status().isOk());*/
+                .andExpect(status().isOk());
         assertTrue(true);
 
     }
 
     @Test
     public void parseExceptionError() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username2", testUsername);
         json.put("password", "Password1");
         String myString = json.toString();
@@ -81,12 +81,12 @@ public class loginControllerTest {
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("error", is("ParseError")));*/
+                .andExpect(jsonPath("error", is("ParseError")));
     }
 
     @Test
     public void loginFailError() throws Exception {
-        /*JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject();
         json.put("username", testUsername);
         json.put("password", "Password");
         String myString = json.toString();
@@ -94,7 +94,7 @@ public class loginControllerTest {
         mockMvc.perform(post("/login")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("error", is("LoginComboWrong")));*/
+                .andExpect(jsonPath("error", is("LoginComboWrong")));
     }
 
 
