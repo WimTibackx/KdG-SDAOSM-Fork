@@ -13,7 +13,6 @@
             rel="stylesheet" href="css/layout.css"
             type="text/css"
             />
-    <script type="text/javascript" src="js/login.js"></script>
 </head>
 <body>
 
@@ -24,14 +23,13 @@
             <div>
                 <label>Username:</label>
                 <input type="text" name="username"/>
-                <span class="error">Username is foutig</span>
             </div>
             <div>
                 <label>Password: <a href="forgot_password.html" rel="forgot_password" class="forgot linkform">Paswoord vergeten?</a></label>
                 <input type="password" name="password"/>
-                <span class="error">Paswoord is foutief</span>
             </div>
             <div class="bottom">
+                <span id="error"></span>
                 <input type="submit" value="Login">
                 <a href="register.html" rel="register" class="linkform">Nog geen account? Registreer je dan snel hier</a>
 
