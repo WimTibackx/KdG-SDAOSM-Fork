@@ -6,7 +6,9 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
     var rootUrl = "http://localhost:8080/BackEnd/";
 
 
-    if ($.cookie("Token") == null){
+    console.log("HELLOOOOOO");
+    console.log(readCookie("Token"));
+    if (readCookie("Token") == null){
         $("#cssmenu").hide();
 
         $(document).ready(function () {
@@ -21,7 +23,37 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
 
         function actionLogin(username, password) {
             var data = {username: username, password: password};
-            $.ajax({
+            $http({
+                method: 'POST',
+                url: rootUrl + "login/",
+                data: JSON.stringify(data),
+                headers: {'Content-Type': "text/plain; charset=utf-8"}
+            }).success(function (response) {
+                    console.log(response)
+                    //var obj = JSON.parse(response);
+                    obj = response;
+                    console.log(obj);
+                    if(obj.hasOwnProperty("Token")){
+                        console.log("Test");
+                        window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
+                        $("#cssmenu").show();
+                        $("#error").hide();
+                    }else if (obj.hasOwnProperty("error")) {
+
+                        if(obj["error"] == "LoginComboWrong") {
+                            $("#error").text("Combination username/password is wrong");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+
+                        }
+                        if(obj["error"] == ("ParseError")) {
+                            $("#error").text("There is a problem with our server, please try again later");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+                        }
+                    }
+                });
+            /*$.ajax({
                 url: rootUrl + "login/",
                 method: "POST",
                 contentType: "text/plain; charset=utf-8",
@@ -49,9 +81,10 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
                         }
                     }
                 }
-            })
+            })    */
         }
     }else{
+
         window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
     }
 
@@ -62,10 +95,42 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
     $scope.gendersrc = '../app/img/female.png';
 
     var rootUrl = "http://localhost:8080/BackEnd/";
-    $.ajax({
+
+
+    var username = null;
+    $http({
+        method: 'GET',
+        url: rootUrl + "authorized/myprofile/",
+        headers: {'Content-Type': "text/plain; charset=utf-8"}
+    }).success(function (response) {
+            obj = response;
+            console.log(obj)
+            if(obj.hasOwnProperty("error")){
+                if(obj["error"] == "AuthorizationNeeded") {
+                    window.location = "http://localhost:8080/frontend/app/index.html#/login";
+                    $("#error").text("Authorization needed, please log in");
+                    $("#error").show();
+                }
+            }else {
+                username = obj["name"];
+                $scope.personname = username
+                var date = obj["dateOfBirth"];
+                $scope.dateBirth = date["day"] + "/" + date["month"] + "/" + date["year"];
+                $scope.cars = obj["cars"];
+                console.log(JSON.stringify(obj["dateOfBirth"]))
+
+
+
+            }
+
+
+        });
+
+    /*$.ajax({
+
         url: rootUrl + "authorized/myprofile/",
         method: "GET",
-        success: function (response) {
+        success: function (response, $scope) {
             console.log(response);
             var obj = JSON.parse(response);
             console.log(obj)  ;
@@ -76,7 +141,14 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
                     $("#error").show();
                 }
             }else {
-                $scope.name = obj["name"] ;
+                username = obj["name"];
+                console.log(String("Hij komt hier"));
+
+
+                $scope.$apply(function(){
+                    $scope.personname = "Test";
+                });
+
 
             }
 
@@ -84,6 +156,20 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
         }
     });
 
+    console.log(String(username));
+    $scope.personname = String(username);      */
 
 
 }]);
+
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}

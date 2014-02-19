@@ -1,18 +1,19 @@
 <section id="inline">
     <section id="infoprofile">
-        <section id="profileName">Welkom, {{name}}<img id="gender" ng-src={{gendersrc}}></section>
+        <section id="profileName">Welkom, {{personname}}<img id="gender" ng-src={{gendersrc}}></section>
         <div id="blockLeft">
             <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
             <section id="infoUser">
                 <ul>
                     <li class="info">
-                        7 december 1993
+                        {{dateBirth}}
                     </li>
                     <li class="info">{{smoker}}</li>
-                    <div ng-repeat="car in cars">
-                        <div>{{car.id}}</div>
-
-                    </div>
+                    <li>
+                        <div ng-repeat="car in cars">
+                            <div>{{car.brand}}</div>
+                        </div>
+                    </li>
                     <li class="info">peugeot 207</li>
                     <li class="info">{{username}}</li>
                 </ul>
