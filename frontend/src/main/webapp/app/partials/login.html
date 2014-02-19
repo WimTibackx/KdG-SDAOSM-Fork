@@ -1,38 +1,69 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
+<section id="loginIcons">
+    <img src="img/login/loginIcon.jpg" id="loginIcon"/><br/>
+    <img src="img/login/registerIcon.png" id="registerIcon"/><br/>
+    <img src="img/login/passwordForget.png" id="passwordIcon"/>
+</section>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <link
-            rel="stylesheet" href="css/login.css"
-            type="text/css"
-            />
-    <link
-            rel="stylesheet" href="css/layout.css"
-            type="text/css"
-            />
-</head>
-<body>
-
-<div class="content">
+<div class="content" id="login">
     <div id="form_wrapper" class="form_wrapper">
         <form class="login active" id="loginform">
             <h3>Login</h3>
+
             <div>
                 <label>Username:</label>
                 <input type="text" name="username"/>
             </div>
             <div>
-                <label>Password: <a href="forgot_password.html" rel="forgot_password" class="forgot linkform">Paswoord vergeten?</a></label>
+                <label>Password: </label>
                 <input type="password" name="password"/>
             </div>
             <div class="bottom">
                 <span id="error"></span>
                 <input type="submit" value="Login">
-                <a href="register.html" rel="register" class="linkform">Nog geen account? Registreer je dan snel hier</a>
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+    <div class="clear"></div>
+</div>
 
+<div class="content" id="register">
+    <div class="form_wrapper">
+        <form class="login active" id="registerform">
+            <h3>Registreer</h3>
+            <label for="usernameRegister">Usernaam:</label><input type="text" id="usernameRegister" name="usernameRegister"/><br/>
+            <label for="passwordRegister">Paswoord:</label><input type="password" id="passwordRegister" name="passwordRegister"/><br/>
+            <label for="name">Naam:</label><input type="text" id="name" name="nameRegister"/><br/>
+            <label>Geslacht:</label><input type="radio" name="gender" value="Man"/>Man<input type="radio" name="gender"
+                                                                                             value="Vrouw"/>Vrouw<br/>
+            <label>Roker:</label><input type="radio" name="smoker" value="Ja"/>Ja<input type="radio" name="smoker"
+                                                                                        value="Nee"/>Nee<br/>
+            <label>Geboortedatum:</label><input type="date" id="day" name="dateofbirthRegister"/>
+
+            <div class="bottom">
+                <input type="submit" value="Registreer">
+
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="content" id="password">
+    <div class="form_wrapper">
+        <form class="login active">
+            <h3>Paswoord vergeten?</h3>
+
+            <div>
+                <label>Username:</label>
+                <input type="text"/>
+                <span class="error">Username is foutief</span>
+            </div>
+
+            <div class="bottom">
+                <input type="submit" value="Stuur wachtwoord" formaction="index.html#/myProfile">
                 <div class="clear"></div>
             </div>
         </form>

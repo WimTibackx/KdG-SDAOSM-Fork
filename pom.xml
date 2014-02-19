@@ -22,7 +22,7 @@
 
     <modules>
         <module>Backend</module>
-        <module>android</module>
+        <!--module>android</module-->
         <module>frontend</module>
     </modules>
 
