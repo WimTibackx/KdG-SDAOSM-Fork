@@ -39,13 +39,15 @@ public class AuthorizeFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies ){
-            if (cookie.getName().equals("Token")) {
-                Logger.getGlobal().info("Token cookie value is: "+cookie.getValue());
-                if (userService.isUserSessionByToken(cookie.getValue())) {
-                    filterChain.doFilter(servletRequest, servletResponse);
-                    //TODO: This is an ideal place for extending the cookie, but how do we get it to here?
-                    return;
+        if (cookies!= null){
+            for (Cookie cookie : cookies ){
+                if (cookie.getName().equals("Token")) {
+                    Logger.getGlobal().info("Token cookie value is: "+cookie.getValue());
+                    if (userService.isUserSessionByToken(cookie.getValue())) {
+                        filterChain.doFilter(servletRequest, servletResponse);
+                        //TODO: This is an ideal place for extending the cookie, but how do we get it to here?
+                        return;
+                    }
                 }
             }
         }
