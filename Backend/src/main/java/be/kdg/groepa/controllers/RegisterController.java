@@ -29,9 +29,9 @@ public class RegisterController extends BaseController{
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody String register(@RequestBody String data, HttpServletRequest request, HttpServletResponse response){
         JSONObject json = new JSONObject();
-        String name, gender, password, username, carbrand, cartype, carfueltype;
+        String name, gender, password, username, carbrand = null, cartype = null, carfueltype = null;
         int birthyear, birthmonth, birthday;
-        double carconsumption;
+        double carconsumption = 0;
         boolean smoker;
 
         try {
@@ -44,10 +44,12 @@ public class RegisterController extends BaseController{
             birthmonth = (int) myJson.get("month");
             birthday = (int) myJson.get("day");
             username = (String) myJson.get("username");
-            carbrand = (String) myJson.get("brand");
-            cartype = (String) myJson.get("type");
-            carconsumption = (double) myJson.get("consumption");
-            carfueltype = (String) myJson.get("fuelType");
+            if(myJson.has("brand") && myJson.has("type") && myJson.has("consumption") && myJson.has("fuelType")){
+                carbrand = (String) myJson.get("brand");
+                cartype = (String) myJson.get("type");
+                carconsumption = (double) myJson.get("consumption");
+                carfueltype = (String) myJson.get("fuelType");
+            }
 
             LocalDate birthDate = LocalDate.of(birthyear, birthmonth, birthday);
             Car myCar = null;

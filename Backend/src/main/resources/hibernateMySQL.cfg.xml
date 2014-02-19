@@ -6,9 +6,9 @@
     <session-factory>
 	  <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/groepa</property>
-        <property name="connection.username">groepa</property>
-        <property name="connection.password">groepa</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/groepA</property>
+        <property name="connection.username">groepA</property>
+        <property name="connection.password">groepA</property>
 
         <!-- Create a table model-first
         <property name="hbm2ddl.auto">create</property>
@@ -34,5 +34,9 @@
         <mapping class="be.kdg.groepa.model.Car"/>
         <mapping class="be.kdg.groepa.model.User"/>
         <mapping class="be.kdg.groepa.model.SessionObject"/>
+        <mapping class="be.kdg.groepa.model.Place"/>
+        <mapping class="be.kdg.groepa.model.PlaceTime"/>
+        <mapping class="be.kdg.groepa.model.WeekdayRoute"/>
+        <mapping class="be.kdg.groepa.model.Route"/>
         </session-factory>
 </hibernate-configuration>

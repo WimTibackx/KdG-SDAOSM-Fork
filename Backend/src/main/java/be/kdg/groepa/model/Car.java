@@ -1,9 +1,16 @@
 package be.kdg.groepa.model;
 
 import be.kdg.groepa.helpers.ImageHelper;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pieter-Jan on 5-2-14.
@@ -31,6 +38,10 @@ public class Car {
     @JoinColumn(name="userId", nullable = true)
     private User user;
 
+    @OneToMany
+    @JoinColumn(name="routeId")
+    //@Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Route> routes = new ArrayList<Route>();
 
     @Column(name="pictureURL", nullable = true)
     private String pictureURL;
@@ -68,6 +79,10 @@ public class Car {
         return consumption;
     }
 
+    public void addRoute(Route r)
+    {
+        this.routes.add(r);
+    }
 
     public void setUser(User user) {
         this.user = user;

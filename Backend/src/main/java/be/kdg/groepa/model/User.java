@@ -40,11 +40,14 @@ public class User {
 
     @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
     @Cascade(CascadeType.ALL)
-    protected List<Car> cars = new ArrayList<Car>();
+    protected List<Car> cars = new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = javax.persistence.CascadeType.ALL)
     private SessionObject sessionObject;
-    // protected List<Route> routes;
+
+    @OneToMany
+    @JoinColumn(name="routeId")
+    protected List<Route> routes = new ArrayList<>();
 
 
     @Column(name="avatarURL", nullable = true)
@@ -120,6 +123,10 @@ public class User {
 
     public void addCar(Car car) {
         this.cars.add(car);
+    }
+
+    public void addRoute(Route r) {
+        this.routes.add(r);
     }
 
     public enum Gender {
