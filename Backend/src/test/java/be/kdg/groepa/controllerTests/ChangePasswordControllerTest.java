@@ -38,7 +38,7 @@ public class ChangePasswordControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    private String testUsername = "username@rc.test.com";
+    private String testUsername = "username@cp.test.com";
     private String oldPassword = "Password1";
     private static boolean init = false;
     private static Cookie cookie;
