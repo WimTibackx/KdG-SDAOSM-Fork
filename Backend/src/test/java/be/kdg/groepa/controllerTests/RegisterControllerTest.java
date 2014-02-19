@@ -32,10 +32,11 @@ public class RegisterControllerTest {
     @Autowired
     private UserService userService;
 
-    private String testUsername = "username@rc.test.com";
-
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    private String testUsername = "username@rc.test.com";
+    private String testUsername2 = "username2@rc.test.com";
 
     @Test
     public void succesControllerRegister() throws Exception {
@@ -52,6 +53,26 @@ public class RegisterControllerTest {
         json.put("type", "Sködalike");
         json.put("consumption", 10.3);
         json.put("fuelType", "Super98");
+
+        String myString = json.toString();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(post("/register")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(myString))
+                .andExpect(jsonPath("result", is("Logged in")));
+    }
+
+    @Test
+    public void succesControllerRegisterNoCar() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("name", "Test User");
+        json.put("gender", "Male");
+        json.put("smoker", true);
+        json.put("password", "Password1");
+        json.put("year", 1993);
+        json.put("month", 10);
+        json.put("day", 3);
+        json.put("username", testUsername2);
 
         String myString = json.toString();
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
