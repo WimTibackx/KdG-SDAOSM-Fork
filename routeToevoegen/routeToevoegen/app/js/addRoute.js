@@ -138,6 +138,13 @@ function calcRoute() {
         directionsService.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
+                var routepoints = result.routes[0].overview_path;
+                for (i = 0; i < routepoints.length; i++) {
+                    new google.maps.Marker({
+                        map: map,
+                        position: routepoints[i]
+                    });
+                }
             } else {
                 console.log("Error calculating route: " + status);
                 setTimeout(function () {
@@ -178,7 +185,7 @@ function openWindow() {
 }
 
 function addTime() {
-    if(typeof(passages)) {
+    if (typeof(passages)) {
 
     }
     console.log($('#days').find(':input:checked').length);

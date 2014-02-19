@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/login")
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;

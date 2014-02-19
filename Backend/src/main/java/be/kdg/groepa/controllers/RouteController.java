@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -16,22 +17,24 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(value = "/authorized/route")
-public class RouteController {
+public class RouteController extends BaseController {
 
     //Just to be clear, this means it is at /authorized/route/add
     @RequestMapping(value="/add", method= RequestMethod.POST)
-    public @ResponseBody String addRoute(@RequestBody String data, HttpServletResponse response) {
+    public @ResponseBody String addRoute(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
 
         try {
             AddRouteDTO dto = new AddRouteDTO(new JSONObject(data));
         } catch (MissingDataException e) {
             JSONObject missingDataJson = new JSONObject();
             missingDataJson.put("error","ParseError");
+            this.updateCookie(request, response);
             return missingDataJson.toString();
         }
 
         JSONObject respJson = new JSONObject();
         respJson.put("test","foobar");
+        this.updateCookie(request, response);
         return respJson.toString();
     }
 }

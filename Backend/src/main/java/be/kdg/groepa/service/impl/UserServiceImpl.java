@@ -65,7 +65,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isSessionValid(SessionObject session) {
-        return session != null && session.getExperiationDate().isAfter(LocalDateTime.now());
+        if (session != null && session.getExperiationDate().isAfter(LocalDateTime.now())) {
+            userDao.extendSession(session);
+            return true;
+        }
+        if (session != null) {
+            userDao.deleteSession(session);
+        }
+        return false;
     }
 
     @Override
@@ -74,8 +81,6 @@ public class UserServiceImpl implements UserService {
         return (this.isSessionValid(session) ? session : null);
     }
 
-    //TODO: Longer-term we can't just use the above implementations as the is*-methods SHOULDN'T extend session, but get should.
-    //TODO: Or maybe extension should happen when true?
     @Override
     public boolean isUserSession(String username) {
         return getUserSession(username) != null;

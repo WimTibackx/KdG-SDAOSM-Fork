@@ -43,11 +43,12 @@ public class RouteControllerIT {
 
     @Before
     public void init() throws Exception {
-        if (init) { return; }
         String username = "username@route.controller.it.example.com";
         String password = "Password1";
-        User user = new User("TestUser", User.Gender.FEMALE, false, password, LocalDate.of(1993, 1, 1), username);
-        this.userService.addUser(user);
+        if (!init) {
+            User user = new User("TestUser", User.Gender.FEMALE, false, password, LocalDate.of(1993, 1, 1), username);
+            this.userService.addUser(user);
+        }
         this.userService.checkLogin(username, password);
         SessionObject session = this.userService.getUserSession(username);
         this.cookie = new Cookie("Token", session.getSessionToken());
