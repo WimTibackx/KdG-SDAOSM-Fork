@@ -5,7 +5,6 @@
 body{
 	font-family:"Trebuchet MS", "Myriad Pro", Arial, sans-serif;
 	font-size:14px;
-	background:#f4f4f4 url("../img/bg.gif") repeat top left;
 	color:rgb(53,53,53);
 	text-shadow:1px 1px 1px #fff;
 	overflow-y:scroll;
@@ -191,6 +190,13 @@ form.forgot_password{
 }
 .form_wrapper input[type="submit"]:hover{
     background: #d1d1d1;
+}
+
+#error{
+    color: red;
+    display: none;
+    text-align: center;
+    font-size: 10;
 }
 /*.form_wrapper input[type="submit"]:hover {
 	background: #d9d9d9;

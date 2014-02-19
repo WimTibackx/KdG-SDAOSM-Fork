@@ -2,15 +2,13 @@ package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/login")
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -33,10 +31,12 @@ public class LoginController {
      * Output: { "error": "ParseError" } OR { "error": "LoginComboWrong" } OR { "Token": "(a token)" } + Set-Cookie header
      */
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String login(@RequestParam("data") String data, HttpServletResponse response) {
+    public @ResponseBody String login(@RequestBody String data, HttpServletResponse response) {
         JSONObject myJson = null;
         String username, password;
 
+        Logger logger =  Logger.getLogger(LoginController.class.getName());
+        logger.info("DATA IS "+data);
         try {
             JSONObject json = (JSONObject) new JSONParser().parse(data);
             if (!json.containsKey("username") || !json.containsKey("password")) {

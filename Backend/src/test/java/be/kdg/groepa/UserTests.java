@@ -51,7 +51,7 @@ public class UserTests {
         userService.setUserDao(new UserDaoImpl());
         if (!setupRun)
         {
-            Car car = new Car("Audi", "A5", 11, new File(carPicturePath));
+            Car car = new Car("Audi", "A5", 11, Car.FuelType.SUPER95, new File(carPicturePath));
             User user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car, new File(userPicturePath));
             User user2 = new User("OneCarUser", User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2, new File(userPicturePath2));
             try {
@@ -134,7 +134,7 @@ public class UserTests {
     @Test
     public void userWithOneCar(){
         boolean failed = false;
-        Car car = new Car("Audi", "C4", 10.2);
+        Car car = new Car("Audi", "C4", 10.2, Car.FuelType.SUPER95);
         User user = new User("My Name", User.Gender.MALE, true, "Correct1", LocalDate.of(1993, 5, 5), "ihaveacar@cars.car", car);
         try {
             userService.addUser(user);
@@ -151,10 +151,10 @@ public class UserTests {
     @Test
     public void addCarToUser(){
 
-        userService.addCarToUser(testUsername2, new Car("BMW", "X9", 11));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9));
+        userService.addCarToUser(testUsername2, new Car("BMW", "X9", 11, Car.FuelType.SUPER95));
+        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
+        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
+        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
         User u = userService.getUser(testUsername2);
         assertEquals("Wrong amount of cars", 4, u.getCars().size());
     }

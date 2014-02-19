@@ -31,6 +31,9 @@ public class Car {
     @Column(name="consumption")
     private double consumption;
 
+    @Column(name="fuelType")
+    private FuelType fuelType;
+
     @ManyToOne
     @JoinColumn(name="userId", nullable = true)
     private User user;
@@ -40,21 +43,23 @@ public class Car {
     //@Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Route> routes = new ArrayList<Route>();
 
-    @Column(name="pictureURL")
+    @Column(name="pictureURL", nullable = true)
     private String pictureURL;
 
     public Car(){}
 
-    public Car(String brand, String type, double cons) {
+    public Car(String brand, String type, double cons, FuelType fuelType) {
         this.brand = brand;
         this.type = type;
         this.consumption = cons;
+        this.fuelType = fuelType;
     }
 
-    public Car(String brand, String type, double cons, File picture) {
+    public Car(String brand, String type, double cons, FuelType fuelType, File picture) {
         this.brand = brand;
         this.type = type;
         this.consumption = cons;
+        this.fuelType = fuelType;
         this.pictureURL = ImageHelper.writeCarImage(picture, brand + type);
     }
 
@@ -86,5 +91,11 @@ public class Car {
     public void removeImage(){
         ImageHelper.removeImage(pictureURL);
         this.pictureURL = null;
+    }
+
+    public enum FuelType{
+        SUPER95,
+        SUPER98,
+        DIESEL
     }
 }

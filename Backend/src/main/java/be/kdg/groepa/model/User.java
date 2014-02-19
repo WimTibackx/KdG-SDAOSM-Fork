@@ -49,7 +49,8 @@ public class User {
     @JoinColumn(name="routeId")
     protected List<Route> routes = new ArrayList<>();
 
-    @Column(name="avatarURL")
+
+    @Column(name="avatarURL", nullable = true)
     private String avatarURL;
 
     public User(){}

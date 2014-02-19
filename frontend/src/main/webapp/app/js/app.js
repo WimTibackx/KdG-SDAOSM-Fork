@@ -2,8 +2,12 @@ var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingContr
 ]);
 
 carpoolingApp.config(['$routeProvider',
-    function($routeProvider){
+    function ($routeProvider) {
         $routeProvider.
+            when('/login', {
+                templateUrl: 'partials/login.html',
+                controller: 'loginCtrl'
+            }).
             when('/myProfile', {
                 templateUrl: 'partials/myProfile.html',
                 controller: 'myProfileCtrl'
@@ -21,6 +25,6 @@ carpoolingApp.config(['$routeProvider',
 
             }).
             otherwise({
-                redirectTo: '/myProfile'
+                redirectTo: '/login'
             });
     }]);

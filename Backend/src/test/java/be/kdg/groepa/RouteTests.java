@@ -33,7 +33,7 @@ public class RouteTests {
     @Test
     public void testRouteModel()
     {
-        Car c = new Car("Lamborghini", "Aventador", 18.3);
+        Car c = new Car("Lamborghini", "Aventador", 18.3, Car.FuelType.DIESEL);
         User u = new User("PJ", User.Gender.MALE, false, "Giovanni69", LocalDate.of(1993, 10, 20), "gio@degruyter.com", c);
         Route r = new Route(false, 69, LocalDateTime.now(), LocalDateTime.now(), u, c);
 

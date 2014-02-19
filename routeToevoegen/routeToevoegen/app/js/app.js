@@ -2,7 +2,7 @@ var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingContr
 ]);
 
 carpoolingApp.config(['$routeProvider',
-    function($routeProvider){
+    function ($routeProvider) {
         $routeProvider.
             when('/myProfile', {
                 templateUrl: 'partials/myProfile.html'
@@ -10,6 +10,9 @@ carpoolingApp.config(['$routeProvider',
             }).
             when('/addRouteMap', {
                 templateUrl: 'partials/addRouteMap.html'
+                    .
+                                when('/addRouteMap', {
+                                    templateUrl: 'partials/addRouteMap.html'
 
             }).
             when('/contact', {
@@ -18,6 +21,10 @@ carpoolingApp.config(['$routeProvider',
             }).
             when('/about', {
                 templateUrl: 'partials/about.html'
+
+            }).
+            when('/search', {
+                templateUrl: 'partials/search.html'
 
             }).
             otherwise({
