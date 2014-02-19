@@ -26,8 +26,6 @@ import java.util.UUID;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 public class SessionTests {
 
-    //TODO: Extend is not called often enough (only when logging in), delete is never called
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -53,6 +51,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSessionByUsername(user.getUsername()))
                 .andReturn(expectedSession);
+        this.userDaoMock.extendSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final SessionObject returnedSession = userService.getUserSession(user.getUsername());
@@ -67,6 +67,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSessionByUsername(user.getUsername()))
                 .andReturn(expectedSession);
+        this.userDaoMock.deleteSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final SessionObject returnedSession = userService.getUserSession(user.getUsername());
@@ -92,6 +94,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSession(expectedSession.getSessionToken()))
                 .andReturn(expectedSession);
+        this.userDaoMock.extendSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final SessionObject returnedSession = userService.getUserSessionByToken(expectedSession.getSessionToken());
@@ -106,6 +110,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSession(expectedSession.getSessionToken()))
                 .andReturn(expectedSession);
+        this.userDaoMock.deleteSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final SessionObject returnedSession = userService.getUserSessionByToken(expectedSession.getSessionToken());
@@ -132,6 +138,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSessionByUsername(user.getUsername()))
                 .andReturn(expectedSession);
+        this.userDaoMock.extendSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final boolean result = userService.isUserSession(user.getUsername());
@@ -146,6 +154,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSessionByUsername(user.getUsername()))
                 .andReturn(expectedSession);
+        this.userDaoMock.deleteSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final boolean result = userService.isUserSession(user.getUsername());
@@ -171,6 +181,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSession(expectedSession.getSessionToken()))
                 .andReturn(expectedSession);
+        this.userDaoMock.extendSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final boolean result = userService.isUserSessionByToken(expectedSession.getSessionToken());
@@ -185,6 +197,8 @@ public class SessionTests {
 
         EasyMock.expect(this.userDaoMock.getSession(expectedSession.getSessionToken()))
                 .andReturn(expectedSession);
+        this.userDaoMock.deleteSession(expectedSession);
+        EasyMock.expectLastCall();
         EasyMock.replay(this.userDaoMock);
 
         final boolean result = userService.isUserSessionByToken(expectedSession.getSessionToken());

@@ -9,6 +9,7 @@ import be.kdg.groepa.persistence.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.threeten.bp.LocalDateTime;
 
 import java.io.File;
 
@@ -77,7 +78,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void extendSession(SessionObject session) {
         Session dbSes = HibernateUtil.openSession();
-        session.setExperiationDate(session.getExperiationDate().plusDays(1L));
+        session.setExperiationDate(LocalDateTime.now().plusDays(1L));
         dbSes.saveOrUpdate(session);
         HibernateUtil.closeSession(dbSes);
     }

@@ -44,7 +44,6 @@ public class AuthorizeFilter implements Filter {
                 Logger.getGlobal().info("Token cookie value is: "+cookie.getValue());
                 if (userService.isUserSessionByToken(cookie.getValue())) {
                     filterChain.doFilter(servletRequest, servletResponse);
-                    //TODO: This is an ideal place for extending the cookie, but how do we get it to here?
                     return;
                 }
             }

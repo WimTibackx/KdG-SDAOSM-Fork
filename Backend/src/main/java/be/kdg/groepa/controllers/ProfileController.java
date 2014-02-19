@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Thierry on 14/02/14.
  */
 @Controller
-public class ProfileController {
+public class ProfileController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -33,13 +34,14 @@ public class ProfileController {
      */
     @RequestMapping(value = "/authorized/profile/{id}", method = RequestMethod.GET)
 
-    public @ResponseBody String getProfile(@PathVariable("id") Integer id) {
+    public @ResponseBody String getProfile(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
         JSONObject myJson = null;
 
         User user = userService.getUserById(id);
         if (user == null) {
             myJson = new JSONObject();
             myJson.put("error","UserDoesNotExist");
+            this.updateCookie(request, response);
             return myJson.toString();
         }
 
@@ -54,6 +56,8 @@ public class ProfileController {
         Gson gson = new Gson();
         String json = gson.toJson(userDTO);
 
+        this.updateCookie(request, response);
+
         return json;
 
     }
@@ -61,7 +65,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/authorized/myprofile", method = RequestMethod.GET)
 
-    public @ResponseBody String getMyProfile(HttpServletRequest request) {
+    public @ResponseBody String getMyProfile(HttpServletRequest request, HttpServletResponse response) {
         JSONObject myJson = null;
         String json = null;
         Cookie[] cookies = request.getCookies();
@@ -82,11 +86,13 @@ public class ProfileController {
             }
         }
         if (json != null){
+            this.updateCookie(request, response);
             return json;
         }
 
         myJson = new JSONObject();
         myJson.put("error","UserDoesNotExist");
+        this.updateCookie(request, response);
         return myJson.toString();
     }
 

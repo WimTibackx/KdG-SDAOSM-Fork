@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.threeten.bp.LocalDate;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.*;
 
@@ -19,13 +21,13 @@ import org.json.*;
  */
 @Controller
 @RequestMapping(value = "/register")
-public class RegisterController {
+public class RegisterController extends BaseController{
 
     @Autowired
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String register(@RequestBody String data, HttpServletResponse response){
+    public @ResponseBody String register(@RequestBody String data, HttpServletRequest request, HttpServletResponse response){
         JSONObject json = new JSONObject();
         String name, gender, password, username, carbrand, cartype, carfueltype;
         int birthyear, birthmonth, birthday;
@@ -64,7 +66,7 @@ public class RegisterController {
         } catch (Exception e) {
             json.put("result", e.getMessage());
         }
-
+        this.updateCookie(request, response);
         return json.toString();
 
     }
