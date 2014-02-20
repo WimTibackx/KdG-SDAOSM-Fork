@@ -1,13 +1,70 @@
 var carpoolingControllers = angular.module('carpoolingControllers', []);
 var token;
 
+carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    console.log("hey test register ctrl");
+
+    var rootUrl = "http://localhost:8080/BackEnd/";
+
+    $(document).ready(function () {
+        var registerform = $("#registerform");
+
+        registerform.submit(function (e) {
+            console.log("registration completed");
+            e.preventDefault();
+            var usernameR = $("[name=usernameRegister]").val();
+            var passwordR = $("[name=passwordRegister]").val();
+            var nameR = $("[name=nameRegister]").val();
+            var smokerR = $("[name=smokerRegister]").val();
+            var genderR = $("[name=genderRegister]").val();
+            var dateofbirthR = $("[name=dateofbirthRegister]").val();
+
+            actionRegister(usernameR, passwordR, nameR, smokerR, genderR, dateofbirthR);
+        });
+
+        function actionRegister(usernameR, passwordR, nameR, smokerR, genderR, dateofbirthR) {
+            var data = {username: usernameR, password: passwordR, name: nameR, smoker: smokerR, gender: genderR, dateofbirth: dateofbirthR};
+            $.ajax({
+                url: rootUrl + "login/",
+                method: "POST",
+                contentType: "text/plain; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    var obj = JSON.parse(response);
+                    console.log(obj);
+                    if (obj.hasOwnProperty("Token")) {
+                        console.log("Test");
+                        window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
+                        $("#cssmenu").show();
+                        $("#error").hide();
+                    } else if (obj.hasOwnProperty("error")) {
+
+                        if (obj["error"] == "RegisterWrong") {
+                            $("#error").text("One of the fiels is wrong");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+
+                        }
+                        if (obj["error"] == ("ParseError")) {
+                            $("#error").text("There is a problem with our server, please try again later");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+                        }
+                    }
+                }
+            })
+            console.log("end registration");
+        }
+    })
+}]);
+
 
 carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     var rootUrl = "http://localhost:8080/BackEnd/";
 
-
-    console.log("HELLOOOOOO");
+    console.log("hey test login ctrl");
     console.log(readCookie("Token"));
+
     if (readCookie("Token") == null) {
 
         var login = document.getElementById('login');
@@ -32,125 +89,103 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
         });
 
 
-        if ($.cookie("Token") == null) {
+        $("#cssmenu").hide();
 
-            $("#cssmenu").hide();
+        $(document).ready(function () {
+            var login = $("#loginform");
 
-            $(document).ready(function () {
-                var login = $("#loginform");
-                var registerform = $("#registerform");
 
-                login.submit(function (e) {
-                    e.preventDefault();
-                    var username = $("[name=username]").val();
-                    var password = $("[name=password]").val();
+            login.submit(function (e) {
+                e.preventDefault();
+                var username = $("[name=username]").val();
+                var password = $("[name=password]").val();
 
-                    actionLogin(username, password);
-                });
-
-                registerform.submit(function (e) {
-                    e.preventDefault();
-                    var usernameR = $("[name=usernameRegister]").val();
-                    var passwordR = $("[name=passwordRegister]").val();
-                    var nameR = $("[name=nameRegister]").val();
-                    var smokerR = $("[name=smokerRegister]").val();
-                    var genderR = $("[name=genderRegister]").val();
-                    var dateofbirthR = $("[name=dateofbirthRegister]").val();
-
-                    actionRegister(usernameR, passwordR, nameR, smokerR, genderR, dateofbirthR);
-                });
+                actionLogin(username, password);
             });
+        });
 
-            function actionLogin(username, password) {
-                var data = {username: username, password: password};
-                $http({
-                    method: 'POST',
-                    url: rootUrl + "login/",
-                    data: JSON.stringify(data),
-                    headers: {'Content-Type': "text/plain; charset=utf-8"}
-                }).success(function (response) {
-                        console.log(response)
-                        //var obj = JSON.parse(response);
-                        obj = response;
-                        console.log(obj);
-                        if (obj.hasOwnProperty("Token")) {
-                            console.log("Test");
-                            window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
-                            $("#cssmenu").show();
-                            $("#error").hide();
-                        } else if (obj.hasOwnProperty("error")) {
-
-                            if (obj["error"] == "LoginComboWrong") {
-                                $("#error").text("Combination username/password is wrong");
-                                $("#error").show();
-                                $("#cssmenu").hide();
-
-                            }
-                            if (obj["error"] == ("ParseError")) {
-                                $("#error").text("There is a problem with our server, please try again later");
-                                $("#error").show();
-                                $("#cssmenu").hide();
-                            }
-                        }
-                    });
-                /*$.ajax({
-                 url: rootUrl + "login/",
-                 method: "POST",
-                 contentType: "text/plain; charset=utf-8",
-                 data: JSON.stringify(data),
-                 success: function (response) {
-                 var obj = JSON.parse(response);
-                 console.log(obj);
-                 if (obj.hasOwnProperty("Token")) {
-                 console.log("Test");
-                 window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
-                 $("#cssmenu").show();
-                 $("#error").hide();
-                 } else if (obj.hasOwnProperty("error")) {
-
-                 if (obj["error"] == "LoginComboWrong") {
-                 $("#error").text("Combination username/password is wrong");
-                 $("#error").show();
-                 $("#cssmenu").hide();
-
-                 }
-                 if (obj["error"] == ("ParseError")) {
-                 $("#error").text("There is a problem with our server, please try again later");
-                 $("#error").show();
-                 $("#cssmenu").hide();
-                 }
-                 }
-                 }
-                 })    */
-            }
-
-        } else {
-            window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
-        }
-
-        function actionRegister(usernameR, passwordR, nameR, smokerR, genderR, dateofbirthR) {
-            var data = {username: usernameR, password: passwordR, name: nameR, smoker: smokerR, gender: genderR, dateofbirth: dateofbirthR};
-            $.ajax({
+        function actionLogin(username, password) {
+            var data = {username: username, password: password};
+            $http({
+                method: 'POST',
                 url: rootUrl + "login/",
-                method: "POST",
-                contentType: "text/plain; charset=utf-8",
                 data: JSON.stringify(data),
-                success: function (response) {
-                    var obj = JSON.parse(response);
+                headers: {'Content-Type': "text/plain; charset=utf-8"}
+            }).success(function (response) {
+                    console.log(response)
+                    //var obj = JSON.parse(response);
+                    obj = response;
                     console.log(obj);
                     if (obj.hasOwnProperty("Token")) {
                         console.log("Test");
                         window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
                         $("#cssmenu").show();
                         $("#error").hide();
+                    } else if (obj.hasOwnProperty("error")) {
+
+                        if (obj["error"] == "LoginComboWrong") {
+                            $("#error").text("Combination username/password is wrong");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+
+                        }
+                        if (obj["error"] == ("ParseError")) {
+                            $("#error").text("There is a problem with our server, please try again later");
+                            $("#error").show();
+                            $("#cssmenu").hide();
+                        }
                     }
-                }
-            })
+                });
+            /*$.ajax({
+             url: rootUrl + "login/",
+             method: "POST",
+             contentType: "text/plain; charset=utf-8",
+             data: JSON.stringify(data),
+             success: function (response) {
+             var obj = JSON.parse(response);
+             console.log(obj);
+             if (obj.hasOwnProperty("Token")) {
+             console.log("Test");
+             window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
+             $("#cssmenu").show();
+             $("#error").hide();
+             } else if (obj.hasOwnProperty("error")) {
+
+             if (obj["error"] == "LoginComboWrong") {
+             $("#error").text("Combination username/password is wrong");
+             $("#error").show();
+             $("#cssmenu").hide();
+
+             }
+             if (obj["error"] == ("ParseError")) {
+             $("#error").text("There is a problem with our server, please try again later");
+             $("#error").show();
+             $("#cssmenu").hide();
+             }
+             }
+             }
+             })    */
         }
+
+    } else {
+        window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
     }
 }
 ])
 ;
+
+carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    console.log("hey password controller test");
+
+    var password = $('#passwordform');
+
+    password.submit(function (e) {
+        console.log("start mailing...");
+        var link = "mailto:" + document.getElementById('emailadres') + "?cc=melissa.warrens@student.kdg.be" + "&subject=password forget" + "&body=your password is: test";
+        console.log("end mailing...");
+        window.location.href = link;
+    });
+}]);
 
 
 carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -158,7 +193,6 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
     $scope.gendersrc = '../app/img/female.png';
 
     var rootUrl = "http://localhost:8080/BackEnd/";
-
 
     var username = null;
     $http({
