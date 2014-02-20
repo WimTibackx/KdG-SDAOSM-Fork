@@ -98,7 +98,9 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
 
         });
 
-
+    $scope.removeCar = function (carId){
+        console.log(carId);
+    }
 }]);
 
 
