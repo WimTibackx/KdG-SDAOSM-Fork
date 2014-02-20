@@ -36,6 +36,7 @@
         <mapping class="be.kdg.groepa.model.SessionObject"/>
         <mapping class="be.kdg.groepa.model.Place"/>
         <mapping class="be.kdg.groepa.model.PlaceTime"/>
+        <mapping class="be.kdg.groepa.model.Traject"/>
         <mapping class="be.kdg.groepa.model.WeekdayRoute"/>
         <mapping class="be.kdg.groepa.model.Route"/>
         </session-factory>
