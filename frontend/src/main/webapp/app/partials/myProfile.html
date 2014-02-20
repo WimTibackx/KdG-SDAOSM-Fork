@@ -5,17 +5,31 @@
             <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
             <section id="infoUser">
                 <ul>
+                    <li class="info">{{username}}</li>
                     <li class="info">
                         {{dateBirth}}
                     </li>
                     <li class="info">{{smoker}}</li>
-                    <li>
-                        <div ng-repeat="car in cars">
-                            <div>{{car.brand}}</div>
-                        </div>
-                    </li>
-                    <li class="info">peugeot 207</li>
-                    <li class="info">{{username}}</li>
+
+                    <table class="ritTable">
+                        <tr class="tableTitles">
+                            <td>
+                                Type
+                            </td>
+                            <td>
+                                Consumption
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr ng-repeat="car in cars">
+                            <td>{{car.brand}} {{car.type}}</td>
+                            <td>{{car.consumption}}</td>
+
+                            <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.jpg"></td>
+                        </tr>
+                    </table>
                 </ul>
             </section>
         </div>
@@ -23,28 +37,27 @@
             <table class="ritTable">
                 <tr class="tableTitles">
                     <td>
-                        Bestuurder
+                        Vertrek
                     </td>
                     <td>
-                        Passagier(s)
+                        Bestemming
                     </td>
-                    <td>
-                        Kost
-                    </td>
+
                 </tr>
                 <tr>
                     <td>
-                        Melissa Warrens
+                        Fort verboomstraat 32, 9130 Kieldrecht
                     </td>
                     <td>
-                        <li>Christa Coene</li>
-                        <li>Patrick Warrens</li>
+                        Nationalestraat 22, 2000 Antwerpen
                     </td>
                     <td>
-                        10.5
+                        <img class="imgMarkup" alt="remove car" ng-src="../app/img/profilePage/editPencil.png"></td>
                     </td>
+
                 </tr>
             </table>
+
             <button class="routeButton">Voeg route toe</button>
             <button class="routeButton">Wijzig route</button>
         </div>

@@ -151,5 +151,7 @@ public class User {
         this.sessionObject = sessionObject;
     }
 
-
+    public List<Route> getRoutes() {
+        return routes;
+    }
 }

@@ -136,35 +136,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
                         }
                     }
                 });
-            /*$.ajax({
-             url: rootUrl + "login/",
-             method: "POST",
-             contentType: "text/plain; charset=utf-8",
-             data: JSON.stringify(data),
-             success: function (response) {
-             var obj = JSON.parse(response);
-             console.log(obj);
-             if (obj.hasOwnProperty("Token")) {
-             console.log("Test");
-             window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
-             $("#cssmenu").show();
-             $("#error").hide();
-             } else if (obj.hasOwnProperty("error")) {
 
-             if (obj["error"] == "LoginComboWrong") {
-             $("#error").text("Combination username/password is wrong");
-             $("#error").show();
-             $("#cssmenu").hide();
-
-             }
-             if (obj["error"] == ("ParseError")) {
-             $("#error").text("There is a problem with our server, please try again later");
-             $("#error").show();
-             $("#cssmenu").hide();
-             }
-             }
-             }
-             })    */
         }
 
     } else {
@@ -214,6 +186,12 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
                 var date = obj["dateOfBirth"];
                 $scope.dateBirth = date["day"] + "/" + date["month"] + "/" + date["year"];
                 $scope.cars = obj["cars"];
+                $scope.username = obj["username"]
+                if (obj["smoker"]) {
+                    $scope.smoker = "Smoker"
+                } else {
+                    $scope.smoker = "Non smoker"
+                }
                 console.log(JSON.stringify(obj["dateOfBirth"]))
 
 
@@ -222,42 +200,10 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
 
         });
 
-    /*$.ajax({
 
-     url: rootUrl + "authorized/myprofile/",
-     method: "GET",
-     success: function (response, $scope) {
-     console.log(response);
-     var obj = JSON.parse(response);
-     console.log(obj);
-     if (obj.hasOwnProperty("error")) {
-     if (obj["error"] == "AuthorizationNeeded") {
-     window.location = "http://localhost:8080/frontend/app/index.html#/login";
-     $("#error").text("Authorization needed, please log in");
-     $("#error").show();
-     }
-     <<<<<<< Updated upstream
-     }else {
-     username = obj["name"];
-     console.log(String("Hij komt hier"));
-
-
-     $scope.$apply(function(){
-     $scope.personname = "Test";
-     });
-
-     =======
-     } else {
-     $scope.name = obj["name"];
-     >>>>>>> Stashed changes
-
-     }
-     }
-     });
-     <<<<<<< Updated upstream
-
-     console.log(String(username));
-     $scope.personname = String(username);      */
+    $scope.removeCar = function (carId) {
+        console.log(carId);
+    }
 
 }]);
 

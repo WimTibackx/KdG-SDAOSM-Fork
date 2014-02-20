@@ -21,7 +21,7 @@ public class WeekdayRoute {
 
     // foreign keys
     @OneToMany
-    @JoinColumn(name="placetimeId")
+    @JoinColumn(name="placeTimesId")
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @ManyToOne
