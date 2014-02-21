@@ -1,0 +1,27 @@
+<form id="inline">
+    <section id="carName">Wijzig alle specificaties of verwijder de wagen ({{carChange}})</section>
+    <section id="carProfile">
+        <div>
+            <label>Naam:</label>
+            <input type="text" name="nameCar" value="{{carName}}"/>
+        </div>
+        <div>
+            <label>Type:</label>
+            <input type="text" name="typeCar" value="{{typeCar}}"/>
+        </div>
+        <label>Brandstof:</label><input type="radio" name="fuel" value="SUPER95"/>SUPER95<input type="radio" name="fuel"
+                                                                                                value="SUPER98"/>SUPER98<input
+            type="radio" name="fuel"
+            value="DIESEL"/>DIESEL<br/>
+
+        <div>
+            <label>Verbruik: </label>
+            <input type="number" step="any" min="1" max="30" name="ConsumptionCar" value="{{ConsumptionCar}}"/>
+        </div>
+
+        <input type="submit" value="Wijzig">
+        <input type="submit" value="Verwijder">
+
+        </div>
+    </section>
+</form>

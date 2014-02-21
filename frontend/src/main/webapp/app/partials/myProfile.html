@@ -10,29 +10,52 @@
                         {{dateBirth}}
                     </li>
                     <li class="info">{{smoker}}</li>
+                </ul>
+            </section>
+        </div>
 
-                    <table class="ritTable">
-                        <tr class="tableTitles">
-                            <td>
-                                Type
-                            </td>
-                            <td>
-                                Consumption
-                            </td>
-                            <td>
+        <!--div id="carsBlock">
+            <table id="carsTable">
+                <tr class="tableTitles">
+                    <td>
 
-                            </td>
-                        </tr>
-                        <tr ng-repeat="car in cars">
-                            <td>{{car.brand}} {{car.type}}</td>
-                            <td>{{car.consumption}}</td>
+                    </td>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        Consumption
+                    </td>
+                    <td>
 
+<<<<<<< Updated upstream
                             <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.png"></td>
                         </tr>
                     </table>
                 </ul>
+=======
+                    </td>
+                </tr>
+                <tr ng-repeat="car in cars">
+                    <td><img id="carImage" alt="{{car.brand}}" ng-src="../app/img/avatar.JPG"/></td>
+                    <td>{{car.brand}} {{car.type}}</td>
+                    <td>{{car.consumption}}</td>
+
+                    <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)"
+                             src="../app/img/profilePage/removeCross.jpg"></td>
+                </tr>
+            </table>
+        </div-->
+        <section id="carField">
+            <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
+                <img id="carImage" alt="{{car.brand}}" ng-src="../app/img/baan.jpg"/>
+                <section id="carSpecs">
+                    {{car.brand}}<br/>{{car.consumption}}
+                </section>
+>>>>>>> Stashed changes
             </section>
-        </div>
+        </section>
+
         <div class="blockRight">
             <table class="ritTable">
                 <tr class="tableTitles">
@@ -62,7 +85,7 @@
             <button class="routeButton">Wijzig route</button>
         </div>
 
-        <div id="myRoutes">
+        <!--div id="myRoutes">
             <table class="routeTable">
                 <tr id="routeTableTitles">
                     <td>
@@ -97,9 +120,9 @@
                 <button class="routeButton">Voeg route toe</button>
             </a>
             <button class="routeButton">Wijzig route</button>
-        </div>
+        </div-->
 
-        <div class="blockRight" id="trajects">
+        <!--div class="blockRight" id="trajects">
             <table class="trajectTable">
                 <tr class="tableTitles">
                     <td>
@@ -133,6 +156,6 @@
             </table>
             <button class="routeButton">Voeg route toe</button>
             <button class="routeButton">Wijzig route</button>
-        </div>
+        </div-->
     </section>
 </section>
