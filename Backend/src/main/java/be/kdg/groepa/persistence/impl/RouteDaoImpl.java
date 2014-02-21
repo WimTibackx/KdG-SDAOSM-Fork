@@ -57,6 +57,17 @@ public class RouteDaoImpl implements RouteDao {
     }  */
 
     @Override
+    public void addPlaceTimeToRoute(Route r, PlaceTime pt)
+    {
+        Session ses = HibernateUtil.openSession();
+        pt.setRoute(r);
+        r.addPlaceTime(pt);
+        ses.saveOrUpdate(pt);
+        ses.saveOrUpdate(r);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
     public void addWeekdayRoute(WeekdayRoute wr) {
         Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(wr);

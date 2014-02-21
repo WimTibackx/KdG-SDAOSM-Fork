@@ -72,6 +72,11 @@ public class Route {
         this.weekdayRoutes.add(wr);
     }
 
+    public void addPlaceTime(PlaceTime pt)
+    {
+        this.placeTimes.add(pt);
+    }
+
     public void addTraject(Traject traject){
         this.trajects.add(traject);
     }
