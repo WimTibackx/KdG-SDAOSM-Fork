@@ -89,4 +89,9 @@ public class CarServiceImpl implements CarService {
     public void remove(Car car) {
         userDao.deleteCar(car);
     }
+
+    @Override
+    public void update(Car car) {
+        userDao.updateCar(car);
+    }
 }

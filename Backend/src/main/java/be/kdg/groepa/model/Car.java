@@ -110,4 +110,20 @@ public class Car {
         SUPER98,
         DIESEL
     }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setConsumption(double consumption) {
+        this.consumption = consumption;
+    }
+
+    public void setFuelType(FuelType fuelType) {
+        this.fuelType = fuelType;
+    }
 }

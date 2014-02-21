@@ -18,4 +18,5 @@ public interface CarService {
     public void setPicture(Car car, InputStream picture, String originalName) throws IOException;
     public void removePicture(Car car);
     public void remove(Car car);
+    public void update(Car car);
 }

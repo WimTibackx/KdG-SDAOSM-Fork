@@ -20,23 +20,29 @@
 </script>
 
 <section id="inline">
-    <form method="get">
+	<section id="addcardata">
+    <form method="get" id="addcarform">
         <label>Merk<input type="text" id="brand"></label><br>
         <label>Model<input type="text" id="type"></label><br>
         <label>Brandstoftype
-        <select>
-            <option>Diesel</option>
-            <option>Super 95</option>
-            <option>Super 98</option>
-            <option>LPG</option>
-            <option>Rotte bananen (biobrandstof)</option>
+        <select id="fueltype">
+            <option value="DIESEL">Diesel</option>
+            <option value="SUPER95">Super 95</option>
+            <option value="SUPER98">Super 98</option>
         </select>
         </label><br>
         <label>Verbruik<input type="text" id="consumption">l/100km</label><br>
-        <label>Foto: <input type="file" id="image"></label><br>
-        <input type="submit">
+        <input type="submit" id="submit" value="Add" /><br />
+        <span id="error"></span>
     </form>
-    <div id="imgResult"></div>
+	</section>
+	<section id="addcarimage">
+		<input type="file" id="image" />
+		<button id="upload">Upload</button>
+		<button id="cancel">Cancel</button>
+		<div id="imgpreview" />
+		<span id="error"></span>
+	</section>
 </section>
 
         <!-- var file = $("#control").attr("files")[0];

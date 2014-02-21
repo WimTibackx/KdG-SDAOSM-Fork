@@ -60,7 +60,7 @@ public class CarController extends BaseController {
             return super.respondSimpleAuthorized("error", "ImageError", request, response);
         }
 
-        return super.respondSimpleAuthorized("status", "ok", request, response);
+        return super.respondSimpleAuthorized("url", car.getPictureURL(), request, response);
     }
 
     @RequestMapping(value="/authorized/user/car/{id}/deletephoto", method=RequestMethod.POST)
@@ -90,6 +90,27 @@ public class CarController extends BaseController {
         }
 
         carService.remove(car);
+        return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/authorized/user/car/{id}/update", method=RequestMethod.POST)
+    public @ResponseBody String update(@PathVariable("id") Integer id,@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        Car car;
+        try {
+            car = carService.getOfUser(this.getCurrentUser(request), id);
+        } catch (CarNotFoundException e) {
+            return super.respondSimpleAuthorized("error", "CarNotFound", request, response);
+        } catch (CarNotOfUserException e) {
+            return super.respondSimpleAuthorized("error", "CarNotYours", request, response);
+        }
+
+        JSONObject dataOb = new JSONObject(data);
+        car.setBrand(dataOb.getString("brand"));
+        car.setType(dataOb.getString("type"));
+        car.setFuelType(Car.FuelType.valueOf(dataOb.getString("fueltype").toUpperCase()));
+        car.setConsumption(dataOb.getDouble("consumption"));
+
+        carService.update(car);
         return super.respondSimpleAuthorized("status", "ok", request, response);
     }
 }
