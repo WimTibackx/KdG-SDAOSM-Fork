@@ -1,6 +1,10 @@
 package be.kdg.groepa.model;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +24,8 @@ public class WeekdayRoute {
     private int day;     // day 0 to 6: monday to sunday
 
     // foreign keys
-    @OneToMany
-    @JoinColumn(name="placeTimesId")
+    @OneToMany(mappedBy="weekdayRoute")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @ManyToOne
@@ -43,6 +47,7 @@ public class WeekdayRoute {
     public void addPlaceTime(PlaceTime pt)
     {
         this.placeTimes.add(pt);
+        pt.setWeekdayRoute(this);
     }
 
     public void setRoute(Route r)

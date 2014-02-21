@@ -3,15 +3,15 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <link
-            rel="stylesheet" href="css/addRoute.css"
+            rel="stylesheet" href="../css/addRoute.css"
             type="text/css"
             />
     <script type="text/javascript"
             src="http://maps.googleapis.com/maps/api/js?key=AIzaSyChKxGqQ2UnMZvyHn73SRVL7fqCwGx3-f0
                     &sensor=false&libraries=places">
     </script>
-    <script src="js/addRoute.js"></script>
-    <script src="lib/jquery/jquery-1.10.2.js"></script>
+    <script src="../js/addRoute.js"></script>
+    <script src="../lib/jquery/jquery-1.10.2.js"></script>
 
     <title>Route toevoegen</title>
 </head>
@@ -36,123 +36,126 @@
 </section>
 
 <div id="overlay">
-    <div id="formPopup">
-        <section id="carPicker">
-            Kies uw wagen
-            <div id="carList">
-                <img alt="auto" src="test/delorean.jpg" data-index="0">
-                <img alt="auto" src="test/shelby.jpg" data-index="1" id="selectedCar">
-                <img alt="auto" src="test/shelby.jpg" data-index="2">
-            </div>
-        </section>
-        <section id="numberOfPlaces">
-            Aantal vrije plaatsen in de wagen
-            <div id="placePicker">
-                <span id="placeMinus">-</span>
-                <input type="text" id="placeNumber" value="1" size="1" />
-                <span id="placePlus">+</span>
-            </div>
-        </section>
-        <section id="sDatePicker">
-            <input id="startDatePicker" class="datePicker" type="date">
-        </section>
-        <section id="repeating">
-            Herhalend?
-            <input type="checkbox" id="repeatBox">
-        </section>
-        <section id="repeatingTimes">
-            <!-- <div id="daysRedundant">
-                <span><input data-index="0" type="checkbox">Ma</span>
-                <span><input data-index="1" type="checkbox">Di</span>
-                <span><input data-index="2" type="checkbox">Wo</span>
-                <span><input data-index="3" type="checkbox">Do</span>
-                <span><input data-index="4" type="checkbox">Vr</span>
-                <span><input data-index="5" type="checkbox">Za</span>
-                <span><input data-index="6" type="checkbox">Zo</span>
-            </div> -->
-            <table id="days">
-                <tr>
-                    <th>&nbsp;</th>
-                    <th><label><input data-day="Ma" type="checkbox">Ma</label></th>
-                    <th><label><input data-day="Di" type="checkbox">Di</label></th>
-                    <th><label><input data-day="Wo" type="checkbox">Wo</label></th>
-                    <th><label><input data-day="Do" type="checkbox">Do</label></th>
-                    <th><label><input data-day="Vr" type="checkbox">Vr</label></th>
-                    <th><label><input data-day="Za" type="checkbox">Za</label></th>
-                    <th><label><input data-day="Zo" type="checkbox">Zo</label></th>
-                </tr>
-                <tr>
-                    <th>Dep.</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Arr.</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-            <div id="hours">
-                <input id="repDepTime" type="text" placeholder="9:00">
+    <div id="darkOverlay"></div>
+    <div id="cssCenterTrick">
+        <section id="formPopup">
+            <section id="carPicker">
+                Kies uw wagen
+                <div id="carList">
+                    <img alt="auto" src="../tmpfiles/delorean.jpg" data-index="0">
+                    <img alt="auto" src="../tmpfiles/shelby.jpg" data-index="1" id="selectedCar">
+                    <img alt="auto" src="../tmpfiles/shelby.jpg" data-index="2">
+                </div>
+            </section>
+            <section id="numberOfPlaces">
+                Aantal vrije plaatsen in de wagen
+                <div id="placePicker">
+                    <span id="placeMinus">-</span>
+                    <input type="text" id="placeNumber" value="1" size="1"/>
+                    <span id="placePlus">+</span>
+                </div>
+            </section>
+            <section id="sDatePicker">
+                <input id="startDatePicker" class="datePicker" type="date">
+            </section>
+            <section id="repeating">
+                Herhalend?
+                <input type="checkbox" id="repeatBox">
+            </section>
+            <section id="repeatingTimes">
+                <!-- <div id="daysRedundant">
+                    <span><input data-index="0" type="checkbox">Ma</span>
+                    <span><input data-index="1" type="checkbox">Di</span>
+                    <span><input data-index="2" type="checkbox">Wo</span>
+                    <span><input data-index="3" type="checkbox">Do</span>
+                    <span><input data-index="4" type="checkbox">Vr</span>
+                    <span><input data-index="5" type="checkbox">Za</span>
+                    <span><input data-index="6" type="checkbox">Zo</span>
+                </div> -->
+                <table id="days">
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th><label><input data-day="Ma" type="checkbox">Ma</label></th>
+                        <th><label><input data-day="Di" type="checkbox">Di</label></th>
+                        <th><label><input data-day="Wo" type="checkbox">Wo</label></th>
+                        <th><label><input data-day="Do" type="checkbox">Do</label></th>
+                        <th><label><input data-day="Vr" type="checkbox">Vr</label></th>
+                        <th><label><input data-day="Za" type="checkbox">Za</label></th>
+                        <th><label><input data-day="Zo" type="checkbox">Zo</label></th>
+                    </tr>
+                    <tr>
+                        <th>Dep.</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Arr.</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="hours">
+                    <input id="repDepTime" type="text" placeholder="9:00">
+                    tot
+                    <input id="repArrTime" type="text" placeholder="17:00">
+                </div>
+                <button id="addHours">Toevoegen</button>
+                <div style="clear:both;"></div>
+            </section>
+            <section id="eDatePicker">
+                <input id="endDatePicker" class="datePicker" type="date">
+            </section>
+            <section id="times">
+                <input type="text" id="depTime" placeholder="9:00">
                 tot
-                <input id="repArrTime" type="text" placeholder="17:00">
-            </div>
-            <button id="addHours">Toevoegen</button>
-            <div style="clear:both;"></div>
+                <input type="text" id="arrTime" placeholder="17:00">
+            </section>
+            <section id="finalAdd">
+                Toevoegen
+            </section>
+
+            <!--
+                    <div id="col1">
+                        <p>Met welke wagen wilt u deze route rijden?</p>
+
+                        <p>Hoeveel personen kunnen er meerijden?</p>
+
+                        <p>Wat zijn de tijdstippen van vertrek?</p>
+
+
+                    </div>
+                    <div id="col2">
+                        <p><select id="selectWagen">
+                            <option value="wagen1">Wagen 1</option>
+                            <option value="wagen2">Wagen 2</option>
+                        </select>
+                        </p>
+
+                        <p>
+                            <input type="number" min="1" value="1" step="1" id="aantal">
+                        </p>
+
+                        <p>
+                            <input type="number" min="0" max="23" value="0" step="1" id="uur">
+                            <input type="number" min="1" max="59" value="0" step="1" id="minuut">
+                        </p>
+                    </div>
+
+                    <input type="radio" name="type" value="eenmalig" checked>Eenmalig
+                    <input type="radio" name="type" value="herhalend">Herhalend
+                    -->
+
         </section>
-        <section id="eDatePicker">
-            <input id="endDatePicker" class="datePicker" type="date">
-        </section>
-        <section id="times">
-            <input type="text" id="depTime" placeholder="9:00">
-            tot
-            <input type="text" id="arrTime" placeholder="17:00">
-        </section>
-        <section id="finalAdd">
-            Toevoegen
-        </section>
-
-        <!--
-                <div id="col1">
-                    <p>Met welke wagen wilt u deze route rijden?</p>
-
-                    <p>Hoeveel personen kunnen er meerijden?</p>
-
-                    <p>Wat zijn de tijdstippen van vertrek?</p>
-
-
-                </div>
-                <div id="col2">
-                    <p><select id="selectWagen">
-                        <option value="wagen1">Wagen 1</option>
-                        <option value="wagen2">Wagen 2</option>
-                    </select>
-                    </p>
-
-                    <p>
-                        <input type="number" min="1" value="1" step="1" id="aantal">
-                    </p>
-
-                    <p>
-                        <input type="number" min="0" max="23" value="0" step="1" id="uur">
-                        <input type="number" min="1" max="59" value="0" step="1" id="minuut">
-                    </p>
-                </div>
-
-                <input type="radio" name="type" value="eenmalig" checked>Eenmalig
-                <input type="radio" name="type" value="herhalend">Herhalend
-                -->
-
     </div>
 </div>
 </body>

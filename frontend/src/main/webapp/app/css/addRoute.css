@@ -103,12 +103,19 @@ body {
 
 /* Popup */
 
+
 #overlay {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    display: none;
+}
+
+#darkOverlay {
     position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
     background-color: rgba(0, 0, 0, 0.65);
-    display: none;
 }
+
 
 #formPopup {
     position: relative;

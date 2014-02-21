@@ -135,4 +135,78 @@ public class RouteTests {
         routeService.addRoute(r);
         assertTrue("Add repeating route failed", true);
     }
+
+    @Test
+    public void testNormalRoute()
+    {
+        Car c = new Car("Peugeot", "Partner", 7.2, Car.FuelType.SUPER95);
+        User u = new User("Tim", User.Gender.FEMALE, true, "TimIsThierrysPapa123", LocalDate.of(1993, 04, 12), "thierryv@nnn.loo", c);
+        try {
+            userService.addUser(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        carService.addCar("thierryv@nnn.loo", c);
+        Place place = new Place("Kieldrecht", 231.988796454f, 132.56684684f);
+        Place place2 = new Place("Zwijndrecht Krijgsbaan", 431.98987133664f, 411.9889459684f);
+        Place place3 = new Place("Carpoolparking Vrasene", 564.98731478966f, 342.97136455781f);
+        Place place4 = new Place("Melsele Dijk", 154.987132654f, 189.9874561981f);
+
+        PlaceTime pt = new PlaceTime(LocalTime.of(8, 0));
+        PlaceTime pt2 = new PlaceTime(LocalTime.of(8, 10));
+        PlaceTime pt3 = new PlaceTime(LocalTime.of(8, 20));
+        PlaceTime pt4 = new PlaceTime(LocalTime.of(8, 25));
+
+        PlaceTime pt5 = new PlaceTime(LocalTime.of(7, 0));
+        PlaceTime pt6 = new PlaceTime(LocalTime.of(7, 10));
+        PlaceTime pt7 = new PlaceTime(LocalTime.of(7, 20));
+        PlaceTime pt8 = new PlaceTime(LocalTime.of(7, 25));
+
+        routeService.addPlace(place);
+        routeService.addPlace(place2);
+        routeService.addPlace(place3);
+        routeService.addPlace(place4);
+
+        routeService.addPlaceTimeToPlace(pt, place);
+        routeService.addPlaceTimeToPlace(pt2, place2);
+        routeService.addPlaceTimeToPlace(pt3, place3);
+        routeService.addPlaceTimeToPlace(pt4, place4);
+        routeService.addPlaceTimeToPlace(pt5, place);
+        routeService.addPlaceTimeToPlace(pt6, place2);
+        routeService.addPlaceTimeToPlace(pt7, place3);
+        routeService.addPlaceTimeToPlace(pt8, place4);
+
+        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, pt, pt2);
+
+        /*r.addPlaceTime(pt);
+        r.addPlaceTime(pt2);
+        r.addPlaceTime(pt3);
+        r.addPlaceTime(pt4);
+        r.addPlaceTime(pt5);
+        r.addPlaceTime(pt6);
+        r.addPlaceTime(pt7);
+        r.addPlaceTime(pt8);
+
+        pt.setRoute(r);
+        pt2.setRoute(r);
+        pt3.setRoute(r);
+        pt4.setRoute(r);
+        pt5.setRoute(r);
+        pt6.setRoute(r);
+        pt7.setRoute(r);
+        pt8.setRoute(r);*/
+
+        routeService.addPlaceTimeToRoute(r, pt);
+        routeService.addPlaceTimeToRoute(r, pt2);
+        routeService.addPlaceTimeToRoute(r, pt3);
+        routeService.addPlaceTimeToRoute(r, pt4);
+        routeService.addPlaceTimeToRoute(r, pt5);
+        routeService.addPlaceTimeToRoute(r, pt6);
+        routeService.addPlaceTimeToRoute(r, pt7);
+        routeService.addPlaceTimeToRoute(r, pt8);
+
+        routeService.addRoute(r);
+
+        assertTrue("Normal route creation fails", true);
+    }
 }

@@ -76,7 +76,7 @@ function onPlaceChanged() {
     if (place.geometry) {
         map.panTo(place.geometry.location);
         map.setZoom(15);
-        var icon = 'img/map/marker' + (step + 1) + '.png';
+        var icon = '../img/map/marker' + (step + 1) + '.png';
         var marker = new google.maps.Marker({
             map: map,
             title: place.formatted_address,

@@ -32,12 +32,12 @@ public class PlaceTime {
     private Traject traject;
 
     @ManyToOne
-    @JoinColumn(name="routeId")
+    @JoinColumn(name="routeId", nullable = true)
     private Route route;
 
     public PlaceTime() {}
 
-    public PlaceTime(LocalTime time, Place place) {  // Private because when adding a new PlaceTime, the Place object might already exist. Use addPlaceTime instead of the constructor.
+    public PlaceTime(LocalTime time, Place place) {
         this.time = time;
         this.place = place;
     }
@@ -71,4 +71,5 @@ public class PlaceTime {
     public void setRoute(Route route) {
         this.route = route;
     }
+
 }

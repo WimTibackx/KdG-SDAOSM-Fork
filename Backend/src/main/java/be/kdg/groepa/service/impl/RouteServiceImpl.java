@@ -37,6 +37,11 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    public void addPlaceTimeToRoute(Route r, PlaceTime pt) {
+        routeDao.addPlaceTimeToRoute(r, pt);
+    }
+
+    @Override
     public void addWeekdayRoute(WeekdayRoute wr) {
         routeDao.addWeekdayRoute(wr);
     }

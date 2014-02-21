@@ -126,4 +126,8 @@ public class Car {
     public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
     }
+
+    public FuelType getFuelType() {
+        return fuelType;
+    }
 }
