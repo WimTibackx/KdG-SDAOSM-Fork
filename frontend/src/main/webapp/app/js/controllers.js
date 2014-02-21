@@ -1,5 +1,18 @@
-var carpoolingControllers = angular.module('carpoolingControllers', []);
-var token;
+var carpoolingControllers = angular.module('carpoolingControllers', []).
+    service('sharedProperties', function () {
+    var property = 'First';
+
+    return {
+        getProperty: function () {
+            return property;
+        },
+        setProperty: function(value) {
+            property = value;
+        }
+    };
+});
+
+
 
 // CONTROLLER: Register
 carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
@@ -70,6 +83,7 @@ carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', 
     }
 
     $(document).ready(function () {
+
         $("#addcarform").submit(function (e) {
             e.preventDefault();
             var data = {
@@ -127,12 +141,11 @@ carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', 
 }]);
 
 // CONTROLLER: Login
-carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location, sharedProperties) {
     var rootUrl = "http://localhost:8080/BackEnd/";
 
     console.log("hey test login ctrl");
     console.log(readCookie("Token"));
-
     if (readCookie("Token") == null) {
 
         var login = document.getElementById('login');
@@ -156,10 +169,8 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
             login.style.display = 'none';
         });
 
-
-        $("#cssmenu").hide();
-
         $(document).ready(function () {
+            console.log(sharedProperties.getProperty())
             var login = $("#loginform");
 
 
@@ -174,12 +185,14 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
 
         function actionLogin(username, password) {
             var data = {username: username, password: password};
+            var counter = 0;
             $http({
                 method: 'POST',
                 url: rootUrl + "login/",
                 data: JSON.stringify(data),
                 headers: {'Content-Type': "text/plain; charset=utf-8"}
             }).success(function (response) {
+
                     console.log(response)
                     //var obj = JSON.parse(response);
                     obj = response;
@@ -206,8 +219,10 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
                 });
 
         }
+        console.log("Test gij komt hier")
 
     } else {
+        console.log("It's because of this ??");
         window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
     }
 }
@@ -228,12 +243,12 @@ carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location'
 }]);
 
 // CONTROLLER: My profile
-carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function ($scope, $http) {
+carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http',  '$location', function ($scope, $http, $location, sharedProperties) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
     $scope.gendersrc = '../app/img/female.png';
 
     var rootUrl = "http://localhost:8080/BackEnd/";
-
+    var counter = 0;
     var username = null;
     $http({
         method: 'GET',
@@ -242,12 +257,13 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
     }).success(function (response) {
             obj = response;
             console.log(obj)
+            var temp;
             if (obj.hasOwnProperty("error")) {
                 if (obj["error"] == "AuthorizationNeeded") {
                     console.log("He is not authorized");
-                    window.location = "http://localhost:8080/frontend/app/index.html#/login";
-                    $("#error").text("Authorization needed, please log in");
-                    $("#error").show();
+                    $location.path("/login");
+                    sharedProperties.setProperty("Blalalalalalalaal")
+
                 }
             } else {
                 username = obj["name"];
@@ -268,6 +284,7 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
 
 
         });
+
 
 
     $scope.removeCar = function (carId) {

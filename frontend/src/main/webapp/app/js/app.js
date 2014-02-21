@@ -3,11 +3,13 @@ var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingContr
 
 carpoolingApp.config(['$routeProvider',
     function ($routeProvider) {
+        console.log("Check")
+        console.log($routeProvider.path)
         $routeProvider.
             when('/login', {
                 templateUrl: 'partials/login.html',
-                controller: 'loginCtrl',
-                controller: 'registerCtrl'
+                controller: 'loginCtrl'
+                //controller: 'registerCtrl'
             }).
             when('/myProfile', {
                 templateUrl: 'partials/myProfile.html',
