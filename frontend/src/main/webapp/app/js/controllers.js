@@ -1,16 +1,4 @@
-var carpoolingControllers = angular.module('carpoolingControllers', []).
-    service('sharedProperties', function () {
-    var property = 'First';
-
-    return {
-        getProperty: function () {
-            return property;
-        },
-        setProperty: function(value) {
-            property = value;
-        }
-    };
-});
+var carpoolingControllers = angular.module('carpoolingControllers', [])
 
 
 
@@ -141,11 +129,17 @@ carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', 
 }]);
 
 // CONTROLLER: Login
-carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location, sharedProperties) {
+carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     var rootUrl = "http://localhost:8080/BackEnd/";
 
     console.log("hey test login ctrl");
     console.log(readCookie("Token"));
+    if (SharedProperties.getProperty() != null){
+        $("#error").text("Combination username/password is wrong");
+        $("#error").show();
+        SharedProperties.setProperty(null);
+    }
+    console.log(SharedProperties.getProperty());
     if (readCookie("Token") == null) {
 
         var login = document.getElementById('login');
@@ -170,7 +164,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
         });
 
         $(document).ready(function () {
-            console.log(sharedProperties.getProperty())
+
             var login = $("#loginform");
 
 
@@ -243,7 +237,7 @@ carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location'
 }]);
 
 // CONTROLLER: My profile
-carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http',  '$location', function ($scope, $http, $location, sharedProperties) {
+carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http',  '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
     $scope.gendersrc = '../app/img/female.png';
 
@@ -262,7 +256,7 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http',  '$locatio
                 if (obj["error"] == "AuthorizationNeeded") {
                     console.log("He is not authorized");
                     $location.path("/login");
-                    sharedProperties.setProperty("Blalalalalalalaal")
+                    SharedProperties.setProperty("Authorization is required")
 
                 }
             } else {
