@@ -14,7 +14,7 @@ public class CarDTO {
 
     private double consumption;
 
-    private Car.FuelType fuelType;
+    private String fuelType;
 
     private String photoUrl;
 
@@ -25,7 +25,7 @@ public class CarDTO {
         this.brand = car.getBrand();
         this.type = car.getType();
         this.consumption = car.getConsumption();
-        this.fuelType = car.getFuelType();
+        this.fuelType = car.getFuelType().toString();
         this.photoUrl = car.getPictureURL();
     }
 
@@ -61,12 +61,12 @@ public class CarDTO {
         this.consumption = consumption;
     }
 
-    public Car.FuelType getFuelType() {
+    public String getFuelType() {
         return fuelType;
     }
 
     public void setFuelType(Car.FuelType fuelType) {
-        this.fuelType = fuelType;
+        this.fuelType = fuelType.toString();
     }
 
     public String getPhotoUrl() {
