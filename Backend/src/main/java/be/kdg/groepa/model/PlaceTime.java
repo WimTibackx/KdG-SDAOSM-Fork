@@ -71,4 +71,5 @@ public class PlaceTime {
     public void setRoute(Route route) {
         this.route = route;
     }
+
 }

@@ -46,6 +46,7 @@ public class TrajectTests {
     private static Route routeB;
     private static Route routeC;
     private static Route routeD;
+    private static Route routeE;
     private static User user;
     private static User user2;
     private static User user3;
@@ -81,7 +82,6 @@ public class TrajectTests {
             routeService.addRoute(routeB);
             routeService.addRoute(routeC);
             routeService.addRoute(routeD);
-
         }
         initiated = true;
     }
@@ -105,22 +105,22 @@ public class TrajectTests {
 
     @Test
     public void addPlaceTimeAfterExistingRoutePoint(){
-        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        trajectService.insertNewRoutePoint(routeC.getPlaceTimes().get(0), newPlaceTime);
-        assertEquals("Incorrect PlaceTime at given position of route", newPlaceTime, routeC.getAllPlaceTimes().get(1));
+        PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
+        trajectService.insertNewRoutePoint(routeC.getPlaceTimes().get(0), newPlaceTime2);
+        assertEquals("Incorrect PlaceTime at given position of route", newPlaceTime2, routeC.getAllPlaceTimes().get(1));
     }
 
     @Test
     public void addTrajectToRouteWithPoints(){
         PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(17,45), new Place("OtherUserWork", 9, 20));
-        trajectService.addNewTrajectToRoute(routeD.getPlaceTimes().get(0), newPlaceTime, routeD.getPlaceTimes().get(1), newPlaceTime2, user4);
+        PlaceTime newPlaceTime3 = new PlaceTime(LocalTime.of(17,45), new Place("OtherUserWork", 9, 20));
+        trajectService.addNewTrajectToRoute(routeD.getPlaceTimes().get(0), newPlaceTime, routeD.getPlaceTimes().get(1), newPlaceTime3, user4);
         assertEquals("New PlaceTime 1 is not at the right position", routeD.getPlaceTimes().get(1), newPlaceTime);
-        assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime2);
+        assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime3);
     }
 
-    @Test
+    //@Test
     public void removeTrajectWithDoublePlaceTimes(){
-        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
+
     }
 }
