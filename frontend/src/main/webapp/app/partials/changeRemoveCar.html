@@ -3,24 +3,36 @@
     <section id="carProfile">
         <div>
             <label>Naam:</label>
-            <input type="text" name="nameCar" value="{{carName}}"/>
+            <input type="text" name="nameCar" value="{{carBrand}}" id="carNameInput"/>
         </div>
         <div>
             <label>Type:</label>
-            <input type="text" name="typeCar" value="{{typeCar}}"/>
+            <input type="text" name="typeCar" value="{{carType}}" id="carType"/>
         </div>
-        <label>Brandstof:</label><input type="radio" name="fuel" value="SUPER95"/>SUPER95<input type="radio" name="fuel"
-                                                                                                value="SUPER98"/>SUPER98<input
-            type="radio" name="fuel"
-            value="DIESEL"/>DIESEL<br/>
+        <label>Brandstof:</label>
+        <input type="radio" name="fuel" value="SUPER95" id="super95"/>SUPER95
+        <input type="radio" name="fuel"
+               value="SUPER98" id="super98"/>SUPER98
+        <input
+                type="radio" name="fuel"
+                value="DIESEL" id="diesel"/>DIESEL<br/>
 
         <div>
             <label>Verbruik: </label>
-            <input type="number" step="any" min="1" max="30" name="ConsumptionCar" value="{{ConsumptionCar}}"/>
+            <input type="number" step="any" min="1" max="30" name="ConsumptionCar" value="{{carConsumption}}"
+                   id="carConsumption"/>
         </div>
 
-        <input type="submit" value="Wijzig">
-        <input type="submit" value="Verwijder">
+        <section id="addcarimage">
+            <label>Voeg foto toe:</label>
+            <input type="file" id="image"/>
+            <button id="upload">Upload</button>
+            <button id="cancel">Cancel</button>
+            <div id="imgpreview"/>
+        </section>
+
+        <button ng-click="changeCarSpecs()">Wijzig</button>
+        <button ng-click="deleteCar()">Verwijder</button>
 
         </div>
     </section>

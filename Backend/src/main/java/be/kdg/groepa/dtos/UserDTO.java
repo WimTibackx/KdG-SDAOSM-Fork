@@ -81,11 +81,7 @@ public class UserDTO {
     public void setCars(List<Car> cars) {
         this.cars = new ArrayList<>();
         for(Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setBrand(car.getBrand());
-            carDTO.setCarId(car.getCarId());
-            carDTO.setConsumption(car.getConsumption());
-            carDTO.setType(car.getType());
+            CarDTO carDTO = new CarDTO(car);
             this.cars.add(carDTO);
         }
     }

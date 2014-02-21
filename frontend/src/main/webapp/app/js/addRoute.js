@@ -76,7 +76,7 @@ function onPlaceChanged() {
     if (place.geometry) {
         map.panTo(place.geometry.location);
         map.setZoom(15);
-        var icon = '../img/map/marker' + (step + 1) + '.png';
+        var icon = 'img/map/marker' + (step + 1) + '.png';
         var marker = new google.maps.Marker({
             map: map,
             title: place.formatted_address,
@@ -184,6 +184,7 @@ function openWindow() {
     $('#overlay').show();
 }
 
+/*
 function addTime() {
     if (typeof(passages)) {
 
@@ -212,6 +213,7 @@ function fillTable() {
         }
     }
 }
+*/
 
 function submitAllData() {
     var car = $('#selectedCar').data('index');
@@ -238,8 +240,10 @@ function submitAllData() {
 }
 
 function addListeners() {
-    $('#addHours').click(addTime);
+//    $('#addHours').click(addTime);
     $('#finalAdd').click(submitAllData);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+window.onload = function () {
+    google.maps.event.addDomListener(window, 'load', initialize);
+}

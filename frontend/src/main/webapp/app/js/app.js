@@ -39,6 +39,10 @@ carpoolingApp.config(['$routeProvider',
             	templateUrl: 'partials/addCar.html',
             	controller: 'addCarCtrl'
             }).
+            when('/addRoute', {
+                templateUrl: 'partials/addRouteMap.html',
+                controller: 'addRouteCtrl'
+            }).
             otherwise({
                 redirectTo: '/login'
             });
