@@ -1,7 +1,5 @@
 body {
     background-image: url('../img/road.jpg');
-    -webkit-background-size: cover;
-    background-size: cover;
 }
 
 #inline {

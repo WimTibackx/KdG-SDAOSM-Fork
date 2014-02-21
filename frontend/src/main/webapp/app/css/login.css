@@ -48,6 +48,10 @@ a.back{
 	text-decoration:none;
 }
 /* Form Style */
+#login {
+    float: left;
+}
+
 .form_wrapper{
 	background:#fff;
 	margin-left:2em;
@@ -209,8 +213,8 @@ form.forgot_password{
 /* icons */
 #loginIcons {
     margin-left: 2.4em;
-    float: right;
-    margin-right: 60em;
+    float: left;
+    margin-top: 2.2em;
 }
 
 #loginIcon, #registerIcon, #passwordIcon {

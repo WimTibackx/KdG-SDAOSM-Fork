@@ -17,6 +17,10 @@ carpoolingApp.config(['$routeProvider',
                 templateUrl: 'partials/addRouteMap.html'
 
             }).
+            when('/addCar', {
+                templateUrl: 'partials/addCar.html'
+
+            }).
             when('/contact', {
                 templateUrl: 'partials/contact.html'
 

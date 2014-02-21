@@ -1,23 +1,5 @@
-<script type="text/javascript">
-    function getFileData() {
-        // var fr = new FileReader();
-        var file = document.getElementById('image').files[0];
-        /*var result = document.getElementById('imgResult');
-        fr.onload = function() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://example.com");
-            xhr.send(fr.result);
-        }
-        fr.readAsDataURL(file); */
-        var data = new FormData();
-        data.append("file", file);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8080/BackEnd/authorized/user/car/1/uploadphoto");
-        xhr.send(data);
-    }
-
-</script>
+<script type="text/javascript" src="js/addCar.js"></script>
+<link rel="stylesheet" type="text/css" href="css/addCar.css">
 
 <section id="inline">
 	<section id="addcardata">

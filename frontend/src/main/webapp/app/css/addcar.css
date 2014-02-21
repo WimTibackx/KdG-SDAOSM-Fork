@@ -1,8 +1,13 @@
-#addcarimage {
-	display:none;
+label {
+    display: block;
+    margin: 10px 0;
+    width: 400px;
+    border: 1px dotted black;
+    position: relative;
 }
-#imgpreview {
-	width:12em;
-	border:1px solid #000000;
-	height:12em;
+
+label input, label select {
+    position: absolute;
+    left: 200px;
+    width: 175px;
 }
