@@ -176,6 +176,7 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function (
             console.log(obj)
             if (obj.hasOwnProperty("error")) {
                 if (obj["error"] == "AuthorizationNeeded") {
+                    console.log("He is not authorized");
                     window.location = "http://localhost:8080/frontend/app/index.html#/login";
                     $("#error").text("Authorization needed, please log in");
                     $("#error").show();

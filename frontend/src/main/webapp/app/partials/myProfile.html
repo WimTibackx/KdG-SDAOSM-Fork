@@ -5,13 +5,13 @@
             <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
             <section id="infoUser">
                 <ul>
-                    <li class="info">{{username}}</li>
+                    <li name="username" class="info">{{username}}</li>
                     <li class="info">
                         {{dateBirth}}
                     </li>
                     <li class="info">{{smoker}}</li>
 
-                    <table class="ritTable">
+                    <table name="carList" class="ritTable">
                         <tr class="tableTitles">
                             <td>
                                 Type
@@ -27,7 +27,7 @@
                             <td>{{car.brand}} {{car.type}}</td>
                             <td>{{car.consumption}}</td>
 
-                            <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.jpg"></td>
+                            <td><img class="imgMarkup" alt="remove car" ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.jpg"></td>
                         </tr>
                     </table>
                 </ul>
