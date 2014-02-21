@@ -61,7 +61,7 @@ public class CarControllerIT {
 
     @Test
     public void addCar() throws Exception {
-        String data = "{ \"brand\": \"Ford\", \"model\": \"Fiesta\", \"fueltype\": \"DIESEL\", \"consumption\": \"8\" }";
+        String data = "{ \"brand\": \"Ford\", \"type\": \"Fiesta\", \"fueltype\": \"DIESEL\", \"consumption\": \"8\" }";
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
         this.mockMvc.perform(MockMvcRequestBuilders.post("/authorized/user/car/add")
                 .cookie(this.cookie)

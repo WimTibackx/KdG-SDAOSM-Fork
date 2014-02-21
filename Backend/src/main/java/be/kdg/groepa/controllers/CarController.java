@@ -28,12 +28,12 @@ public class CarController extends BaseController {
     public @ResponseBody String addCar(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject dataOb = new JSONObject(data);
         String brand = dataOb.getString("brand");
-        String model = dataOb.getString("model");
+        String type = dataOb.getString("type");
         String fuelType = dataOb.getString("fueltype");
         double consumption = dataOb.getDouble("consumption");
 
         User currentUser = super.getCurrentUser(request);
-        Car car = new Car(brand, model, consumption, Car.FuelType.valueOf(fuelType.toUpperCase()));
+        Car car = new Car(brand, type, consumption, Car.FuelType.valueOf(fuelType.toUpperCase()));
         carService.addCar(currentUser.getUsername(), car);
 
         return super.respondSimpleAuthorized("inserted", car.getCarId().toString(), request, response);
