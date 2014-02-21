@@ -1,24 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+
     <link
-            rel="stylesheet" href="../css/addRoute.css"
+            rel="stylesheet" href="css/addRoute.css"
             type="text/css"
             />
-    <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyChKxGqQ2UnMZvyHn73SRVL7fqCwGx3-f0
-                    &sensor=false&libraries=places">
-    </script>
-    <script src="../js/addRoute.js"></script>
-    <script src="../lib/jquery/jquery-1.10.2.js"></script>
+    <script src="js/addRoute.js"></script>
+    <script src="lib/jquery/jquery-1.10.2.js"></script>
 
-    <title>Route toevoegen</title>
-</head>
-<body>
-<section id="menu">
-    <div class="menuItem">Mijn profiel</div>
-</section>
 <section id="inline">
 
     <section id="title"><h1 onclick="document.getElementById('txtStart').focus()">Route toevoegen</h1></section>
@@ -42,9 +29,8 @@
             <section id="carPicker">
                 Kies uw wagen
                 <div id="carList">
-                    <img alt="auto" src="../tmpfiles/delorean.jpg" data-index="0">
-                    <img alt="auto" src="../tmpfiles/shelby.jpg" data-index="1" id="selectedCar">
-                    <img alt="auto" src="../tmpfiles/shelby.jpg" data-index="2">
+                    <img alt="auto" src="tmpfiles/delorean.jpg" data-index="0">
+                    <img alt="auto" src="tmpfiles/shelby.jpg" data-index="1" id="selectedCar">
                 </div>
             </section>
             <section id="numberOfPlaces">
@@ -60,9 +46,9 @@
             </section>
             <section id="repeating">
                 Herhalend?
-                <input type="checkbox" id="repeatBox">
+                <input type="checkbox" id="repeatBox" ng-model="repeatBox">
             </section>
-            <section id="repeatingTimes">
+            <section id="repeatingTimes" ng-show="repeatBox">
                 <!-- <div id="daysRedundant">
                     <span><input data-index="0" type="checkbox">Ma</span>
                     <span><input data-index="1" type="checkbox">Di</span>
@@ -85,23 +71,23 @@
                     </tr>
                     <tr>
                         <th>Dep.</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td id="MaDep">{{ passages.Ma[0] }}</td>
+                        <td id="DiDep">{{ passages.Di[0] }}</td>
+                        <td id="WoDep">{{ passages.Wo[0] }}</td>
+                        <td id="DoDep">{{ passages.Do[0] }}</td>
+                        <td id="VrDep">{{ passages.Vr[0] }}</td>
+                        <td id="ZaDep">{{ passages.Za[0] }}</td>
+                        <td id="ZoDep">{{ passages.Zo[0] }}</td>
                     </tr>
                     <tr>
                         <th>Arr.</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td id="MaArr">{{ passages.Ma[1] }}</td>
+                        <td id="DiArr">{{ passages.Di[1] }}</td>
+                        <td id="DiArr">{{ passages.Wo[1] }}</td>
+                        <td id="DoArr">{{ passages.Do[1] }}</td>
+                        <td id="MaArr">{{ passages.Vr[1] }}</td>
+                        <td id="MaArr">{{ passages.Za[1] }}</td>
+                        <td id="MaArr">{{ passages.Zo[1] }}</td>
                     </tr>
                 </table>
                 <div id="hours">
@@ -109,7 +95,7 @@
                     tot
                     <input id="repArrTime" type="text" placeholder="17:00">
                 </div>
-                <button id="addHours">Toevoegen</button>
+                <button id="addHours" ng-click="addTime()">Toevoegen</button>
                 <div style="clear:both;"></div>
             </section>
             <section id="eDatePicker">
@@ -158,5 +144,3 @@
         </section>
     </div>
 </div>
-</body>
-</html>
