@@ -87,5 +87,32 @@ public class LoginTest {
             e.printStackTrace();
         }
 
+        WebElement element = driver.findElementById("error");
+        assertEquals(element.getText(), "Authorization is required");
+        driver.close();
+
     }
+
+    @Test
+    public void wrongLoginCredidentails(){
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        ChromeDriver driver = new ChromeDriver();
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/BackEnd/authorized/logout");
+        driver.get("http://localhost:8080/frontend/app/index.html#/myProfile");
+
+        String url = driver.getCurrentUrl();
+        assertEquals("User should be redirected to login page when he/she isn't authorized", "http://localhost:8080/frontend/app/index.html#/login", url);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement element = driver.findElementById("error");
+        assertEquals(element.getText(), "Authorization is required");
+        driver.close();
+    }
+
 }

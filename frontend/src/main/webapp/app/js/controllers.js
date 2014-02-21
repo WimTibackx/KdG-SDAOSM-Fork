@@ -135,7 +135,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', '
     console.log("hey test login ctrl");
     console.log(readCookie("Token"));
     if (SharedProperties.getProperty() != null){
-        $("#error").text("Combination username/password is wrong");
+        $("#error").text(SharedProperties.getProperty());
         $("#error").show();
         SharedProperties.setProperty(null);
     }
