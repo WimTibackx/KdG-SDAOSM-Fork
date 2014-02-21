@@ -9,12 +9,18 @@ import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Random;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -25,12 +31,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    public UserServiceImpl(){
+    public UserServiceImpl() {
 
     }
 
-    public boolean changePassword(String username, String oldPassword, String newPassword)
-    {
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
         User user = userDao.getUser(username);
         if (user != null) {
             if (user.getPassword().equals(encryptString(oldPassword))) {
@@ -46,9 +51,9 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             if (user.getPassword().equals(encryptString(password))) {
                 SessionObject session = userDao.getSessionByUsername(username);
-                if (session != null){
+                if (session != null) {
                     userDao.extendSession(session);
-                }else{
+                } else {
                     session = new SessionObject(user);
                     userDao.createSession(session);
                 }
@@ -59,7 +64,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    public SessionObject getUserSession(String username){
+    public SessionObject getUserSession(String username) {
         SessionObject session = userDao.getSessionByUsername(username);
         return (this.isSessionValid(session) ? session : null);
     }
@@ -91,9 +96,7 @@ public class UserServiceImpl implements UserService {
         return getUserSessionByToken(token) != null;
     }
 
-    public void addCarToUser(String user, Car car) {
-        userDao.addCarToUser(user, car);
-    }
+
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -115,7 +118,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getUser(username);
     }
 
-    public User getUserById(Integer id){
+    public User getUserById(Integer id) {
         return userDao.getUser(id);
     }
 
@@ -146,7 +149,7 @@ public class UserServiceImpl implements UserService {
         return sb.toString();
     }
 
-    public void editUserPicture(String username, File newPicture){
+    public void editUserPicture(String username, File newPicture) {
         userDao.editUserPicture(username, newPicture);
     }
 
@@ -154,10 +157,8 @@ public class UserServiceImpl implements UserService {
     public void removeUserPicture(String username) {
         userDao.removeUserPicture(username);
     }
-
-    public void removeCarPicture(Car car){
+    public void removeCarPicture(Car car) {
         userDao.removeCarPicture(car);
     }
-
 
 }

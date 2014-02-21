@@ -1,5 +1,7 @@
 package be.kdg.groepa.dtos;
 
+import be.kdg.groepa.model.Car;
+
 /**
  * Created by Thierry on 14/02/14.
  */
@@ -11,6 +13,15 @@ public class CarDTO {
     private String type;
 
     private double consumption;
+
+    public CarDTO() {}
+
+    public CarDTO(Car car) {
+        this.carId = car.getCarId();
+        this.brand = car.getBrand();
+        this.type = car.getType();
+        this.consumption = car.getConsumption();
+    }
 
     public Integer getCarId() {
         return carId;

@@ -9,6 +9,8 @@ import be.kdg.groepa.persistence.util.HibernateUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by Pieter-Jan on 18-2-14.
  */
@@ -20,6 +22,10 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public void addRoute(Route r) {
         Session ses = HibernateUtil.openSession();
+        for(PlaceTime pt:r.getAllPlaceTimes()){
+            ses.saveOrUpdate(pt.getPlace());
+            ses.saveOrUpdate(pt);
+        }
         ses.saveOrUpdate(r);
         HibernateUtil.closeSession(ses);
         // HibernateUtil.addObject(r); ???
@@ -33,11 +39,22 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public void addPlaceTime(PlaceTime pt) {
+    public void addPlaceTimeToPlace(PlaceTime pt, Place p) {
         Session ses = HibernateUtil.openSession();
+        pt.setPlace(p);
         ses.saveOrUpdate(pt);
         HibernateUtil.closeSession(ses);
     }
+    /*
+    @Override
+    public void addWeekdayRouteWithPlaceTimes(WeekdayRoute wr, List<PlaceTime> ps)
+    {
+        Session ses = HibernateUtil.openSession();
+        for (PlaceTime pt : ps)
+        {
+            wr.addPlaceTime(ps);
+        }
+    }  */
 
     @Override
     public void addWeekdayRoute(WeekdayRoute wr) {

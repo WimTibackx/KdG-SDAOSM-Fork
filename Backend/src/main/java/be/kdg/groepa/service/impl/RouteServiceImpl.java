@@ -20,6 +20,10 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public void addRoute(Route r) {
+        for(PlaceTime pt:r.getAllPlaceTimes()){
+            pt.setRoute(r);
+            pt.setUser(r.getChauffeur());
+        }
         routeDao.addRoute(r);
     }
 
@@ -29,8 +33,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void addPlaceTime(PlaceTime pt) {
-        routeDao.addPlaceTime(pt);
+    public void addPlaceTimeToPlace(PlaceTime pt, Place p) {
+        routeDao.addPlaceTimeToPlace(pt, p);
     }
 
     @Override

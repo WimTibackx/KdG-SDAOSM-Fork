@@ -88,14 +88,42 @@ public class Car {
         this.user = user;
     }
 
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
     public void removeImage(){
         ImageHelper.removeImage(pictureURL);
         this.pictureURL = null;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public enum FuelType{
         SUPER95,
         SUPER98,
         DIESEL
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setConsumption(double consumption) {
+        this.consumption = consumption;
+    }
+
+    public void setFuelType(FuelType fuelType) {
+        this.fuelType = fuelType;
     }
 }

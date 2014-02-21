@@ -13,18 +13,57 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("JpaQlInspection")
 @Repository("trajectDao")
-public class TrajectDaoImpl implements TrajectDao{
+public class TrajectDaoImpl implements TrajectDao {
     @Override
-    public void addTrajectToRoute(Traject traject, Route route) {
+    public void addTraject(Traject traject) {
         Session ses = HibernateUtil.openSession();
-        traject.setRoute(route);
-        for(PlaceTime pt:traject.getPlaceTimes()){
-            ses.saveOrUpdate(pt.getPlace());
-            ses.saveOrUpdate(pt);
-        }
-        route.addTraject(traject);
+        ses.saveOrUpdate(traject.getPickup().getPlace());
+        ses.saveOrUpdate(traject.getPickup());
+        ses.saveOrUpdate(traject.getDropoff().getPlace());
+        ses.saveOrUpdate(traject.getDropoff());
+        ses.saveOrUpdate(traject.getRoute());
         ses.saveOrUpdate(traject);
-        ses.saveOrUpdate(route.getChauffeur());
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeTrajectFromRoute(Route route, Traject traj) {
+        Session ses = HibernateUtil.openSession();
+        boolean containsPickup = false, containsDropoff = false;
+        // If the pickup/dropoff points aren't used by any other trajects, remove them. Otherwise keep them.
+        for (Traject tr : route.getTrajects()) {
+            if (tr.getDropoff() == traj.getDropoff() || tr.getPickup() == traj.getDropoff()) {
+                containsDropoff = true;
+            }
+            if (tr.getDropoff() == traj.getPickup() || tr.getPickup() == traj.getPickup()) {
+                containsPickup = true;
+            }
+        }
+        if(!containsDropoff){
+            ses.delete(traj.getDropoff());
+        }
+        if(!containsPickup){
+            ses.delete(traj.getPickup());
+        }
+        ses.delete(traj);
+        ses.saveOrUpdate(route);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void saveRoute(Route route) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(route);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void saveRouteAndPoints(Route route, PlaceTime previousPlaceTime, PlaceTime newPlaceTime) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(previousPlaceTime.getPlace());
+        ses.saveOrUpdate(newPlaceTime.getPlace());
+        ses.saveOrUpdate(previousPlaceTime);
+        ses.saveOrUpdate(newPlaceTime);
         ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);
     }

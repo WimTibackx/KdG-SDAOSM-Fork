@@ -10,7 +10,10 @@ var directionsService;
 
 var points;
 
+var passages = {};
+
 function initialize() {
+    addListeners();
     // Creating new Geocoder (for turning coordinates into human-readable addresses)
     geoCoder = new google.maps.Geocoder();
 
@@ -30,14 +33,14 @@ function initialize() {
     // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
 
     //create map with defined options
-    map = new google.maps.Map(document.getElementById("map-canvas"),
+    map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
     directionsDisplay.setMap(map);
 
     //auto complete
     // Get the HTML control elements and store them in variables because we will need them later.
-    txtStart = document.getElementById("txtStart");
-    txtEnd = document.getElementById("txtEnd");
+    txtStart = document.getElementById('txtStart');
+    txtEnd = document.getElementById('txtEnd');
     btnSend = document.getElementById('btnSend');
 
     // Hide second box and button
@@ -62,6 +65,9 @@ function initialize() {
         // Do something only the first time the map is loaded
         txtStart.focus();
     });
+
+    // TODO: remove this
+    // openWindow();
 }
 
 function onPlaceChanged() {
@@ -132,6 +138,13 @@ function calcRoute() {
         directionsService.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
+                var routepoints = result.routes[0].overview_path;
+                for (i = 0; i < routepoints.length; i++) {
+                    new google.maps.Marker({
+                        map: map,
+                        position: routepoints[i]
+                    });
+                }
             } else {
                 console.log("Error calculating route: " + status);
                 setTimeout(function () {
@@ -143,17 +156,17 @@ function calcRoute() {
 }
 
 function saveRoute() {
-    points = {};
+    points = [];
 
-    points.start = {};
-    points.start.lat = markers[0].getPosition().lat();
-    points.start.long = markers[0].getPosition().lng();
-    points.start.address = markers[0].getTitle();
+    points[0] = {};
+    points[0].lat = markers[0].getPosition().lat();
+    points[0].long = markers[0].getPosition().lng();
+    points[0].address = markers[0].getTitle();
 
-    points.end = {};
-    points.end.lat = markers[1].getPosition().lat();
-    points.end.long = markers[1].getPosition().lng();
-    points.end.address = markers[1].getTitle();
+    points[1] = {};
+    points[1].lat = markers[1].getPosition().lat();
+    points[1].long = markers[1].getPosition().lng();
+    points[1].address = markers[1].getTitle();
 
     console.log(JSON.stringify(points));
 
@@ -161,8 +174,72 @@ function saveRoute() {
 }
 
 function openWindow() {
+    var dateElement = $('#startDatePicker');
+    if (dateElement.prop('type') != 'date') {
+        alert(dateElement.prop('type'));
+    } else {
+        console.log("No problem");
+    }
 
+    $('#overlay').show();
 }
 
-// Listener
+function addTime() {
+    if (typeof(passages)) {
+
+    }
+    console.log($('#days').find(':input:checked').length);
+
+    $('#days').find(':input:checked').each(function () {
+        var time = [];
+        time.push($('#repDepTime').val(), $('#repArrTime').val());
+
+        passages[$(this).data('day')] = time;
+
+        $(this).prop('checked', false);
+    });
+
+    fillTable();
+}
+
+function fillTable() {
+    var table = document.getElementById('days');
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < passages.length; j++) {
+            if (passages[j][i] != 0) {
+                table.rows[i + 1].cells[j + 1].innerText = passages[j][i];
+            }
+        }
+    }
+}
+
+function submitAllData() {
+    var car = $('#selectedCar').data('index');
+    var places = $('#placeNumber').val();
+    var startDate = $('#startDatePicker').val();
+    var repeating = $('#repeatBox').prop('checked');
+    var endDate = $('#endDatePicker').val();
+    if (!repeating) {
+        endDate = startDate;
+        passages = [$('#depTime').val(), $('#arrTime').val()];
+    }
+
+    var jsonObject = {};
+    jsonObject.car = car;
+    jsonObject.freeSpots = places;
+    jsonObject.repeating = repeating;
+    jsonObject.startDate = startDate;
+    jsonObject.endDate = endDate;
+    jsonObject.passages = passages;
+    jsonObject.route = points;
+
+    console.log(JSON.stringify(jsonObject));
+    //jQuery.post('http://localhost:8080/BackEnd/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
+}
+
+function addListeners() {
+    $('#addHours').click(addTime);
+    $('#finalAdd').click(submitAllData);
+}
+
 google.maps.event.addDomListener(window, 'load', initialize);
