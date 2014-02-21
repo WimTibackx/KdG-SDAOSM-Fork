@@ -41,12 +41,15 @@ public class TrajectTests {
     private String testUsername = "user@tt.test.com";
     private String testUsername2 = "user2@tt.test.com";
     private String testUsername3 = "user3@tt.test.com";
+    private String testUsername4 = "user4@tt.test.com";
     private static Route routeA;
     private static Route routeB;
     private static Route routeC;
+    private static Route routeD;
     private static User user;
     private static User user2;
     private static User user3;
+    private static User user4;
     private static Car car;
 
     private static boolean initiated = false;
@@ -57,22 +60,27 @@ public class TrajectTests {
             user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car);
             user2 = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2, car);
             user3 = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername3, car);
+            user4 = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername4, car);
             try{
                 userService.addUser(user);
                 userService.addUser(user2);
                 userService.addUser(user3);
+                userService.addUser(user4);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             routeA = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteAHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteAWork", 11, 20)));
             routeB = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user2, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteBHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteBWork", 11, 20)));
             routeC = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user3, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteCHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteCWork", 11, 20)));
+            routeD = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user4, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteCHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteCWork", 11, 20)));
             user.addRoute(routeA);
             user2.addRoute(routeB);
             user3.addRoute(routeC);
+            user4.addRoute(routeD);
             routeService.addRoute(routeA);
             routeService.addRoute(routeB);
             routeService.addRoute(routeC);
+            routeService.addRoute(routeD);
 
         }
         initiated = true;
@@ -92,7 +100,6 @@ public class TrajectTests {
         trajectService.addTraject(traj);
         assertEquals("Not enough PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size());
         trajectService.removeTrajectFromRoute(routeB, traj);
-        List<PlaceTime> placeTimes = routeB.getAllPlaceTimes();
         assertEquals("Wrong amount of PlaceTimes in route", 2, user2.getRoutes().get(0).getAllPlaceTimes().size());
     }
 
@@ -104,7 +111,16 @@ public class TrajectTests {
     }
 
     @Test
-    public void addTrajectAfterExistingRoutePoint(){
+    public void addTrajectToRouteWithPoints(){
+        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
+        PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(17,45), new Place("OtherUserWork", 9, 20));
+        trajectService.addNewTrajectToRoute(routeD.getPlaceTimes().get(0), newPlaceTime, routeD.getPlaceTimes().get(1), newPlaceTime2, user4);
+        assertEquals("New PlaceTime 1 is not at the right position", routeD.getPlaceTimes().get(1), newPlaceTime);
+        assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime2);
+    }
 
+    @Test
+    public void removeTrajectWithDoublePlaceTimes(){
+        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
     }
 }

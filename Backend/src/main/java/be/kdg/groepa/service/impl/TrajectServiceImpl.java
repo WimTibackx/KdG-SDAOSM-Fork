@@ -3,6 +3,7 @@ package be.kdg.groepa.service.impl;
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
+import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.service.api.TrajectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,12 @@ public class TrajectServiceImpl implements TrajectService {
         trajectDao.saveRouteAndPoints(previousPlaceTime.getRoute(), previousPlaceTime, newPlaceTime);
     }
 
+    @Override
+    public void addNewTrajectToRoute(PlaceTime previousPlaceTime1, PlaceTime newPlaceTime1, PlaceTime previousPlaceTime2, PlaceTime newPlaceTime2, User user) {
+        Traject resultTraject = new Traject(newPlaceTime1, newPlaceTime2, previousPlaceTime1.getRoute(), user);
+        trajectDao.addTraject(resultTraject);
+        insertNewRoutePoint(previousPlaceTime1, newPlaceTime1);
+        insertNewRoutePoint(previousPlaceTime2, newPlaceTime2);
 
+    }
 }

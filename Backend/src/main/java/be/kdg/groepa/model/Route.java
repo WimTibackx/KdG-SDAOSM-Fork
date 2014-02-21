@@ -99,4 +99,8 @@ public class Route {
     public List<PlaceTime> getPlaceTimes() {
         return placeTimes;
     }
+
+    public List<Traject> getTrajects() {
+        return trajects;
+    }
 }

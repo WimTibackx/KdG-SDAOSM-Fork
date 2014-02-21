@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("JpaQlInspection")
 @Repository("trajectDao")
-public class TrajectDaoImpl implements TrajectDao{
+public class TrajectDaoImpl implements TrajectDao {
     @Override
     public void addTraject(Traject traject) {
         Session ses = HibernateUtil.openSession();
@@ -29,6 +29,22 @@ public class TrajectDaoImpl implements TrajectDao{
     @Override
     public void removeTrajectFromRoute(Route route, Traject traj) {
         Session ses = HibernateUtil.openSession();
+        boolean containsPickup = false, containsDropoff = false;
+        // If the pickup/dropoff points aren't used by any other trajects, remove them. Otherwise keep them.
+        for (Traject tr : route.getTrajects()) {
+            if (tr.getDropoff() == traj.getDropoff() || tr.getPickup() == traj.getDropoff()) {
+                containsDropoff = true;
+            }
+            if (tr.getDropoff() == traj.getPickup() || tr.getPickup() == traj.getPickup()) {
+                containsPickup = true;
+            }
+        }
+        if(!containsDropoff){
+            ses.delete(traj.getDropoff());
+        }
+        if(!containsPickup){
+            ses.delete(traj.getPickup());
+        }
         ses.delete(traj);
         ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);

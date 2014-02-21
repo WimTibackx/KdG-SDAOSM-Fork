@@ -66,7 +66,7 @@ public class RouteTests {
             e.printStackTrace();
         }
         carService.addCar("timv@nroe.yen", c);
-        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c);
+        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, new PlaceTime(LocalTime.of(8, 20), new Place("Home", 10, 10)), new PlaceTime(LocalTime.of(18, 20), new Place("Work", 20, 10)) );
         Place place = new Place("Kieldrecht", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Zwijndrecht Krijgsbaan", 431.98987133664f, 411.9889459684f);
         Place place3 = new Place("Carpoolparking Vrasene", 564.98731478966f, 342.97136455781f);
