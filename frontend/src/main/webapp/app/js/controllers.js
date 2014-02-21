@@ -1,6 +1,7 @@
 var carpoolingControllers = angular.module('carpoolingControllers', []);
 var token;
 
+// CONTROLLER: Register
 carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("hey test register ctrl");
 
@@ -58,6 +59,7 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
     })
 }]);
 
+// CONTROLLER: Add car
 carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 	var rootUrl = "http://localhost:8080/BackEnd/";
 	var insertedCar = -1;
@@ -124,6 +126,7 @@ carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', 
 	});
 }]);
 
+// CONTROLLER: Login
 carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     var rootUrl = "http://localhost:8080/BackEnd/";
 
@@ -208,9 +211,9 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', f
         window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
     }
 }
-])
-;
+]);
 
+// CONTROLLER: Password
 carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("hey password controller test");
 
@@ -224,7 +227,7 @@ carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location'
     });
 }]);
 
-
+// CONTROLLER: My profile
 carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
     $scope.gendersrc = '../app/img/female.png';
