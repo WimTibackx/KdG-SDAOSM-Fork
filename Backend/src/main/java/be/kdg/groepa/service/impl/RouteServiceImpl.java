@@ -22,7 +22,6 @@ public class RouteServiceImpl implements RouteService {
     public void addRoute(Route r) {
         for(PlaceTime pt:r.getAllPlaceTimes()){
             pt.setRoute(r);
-            pt.setUser(r.getChauffeur());
         }
         routeDao.addRoute(r);
     }
