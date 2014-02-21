@@ -7,6 +7,8 @@ import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.model.User;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -27,8 +29,6 @@ public interface UserService {
     public boolean isUserSession(String username);
     public boolean isUserSessionByToken(String token);
 
-    public void addCarToUser(String user, Car car);
     public void editUserPicture(String username, File newPicture);
     public void removeUserPicture(String username);
-    public void removeCarPicture(Car car);
 }

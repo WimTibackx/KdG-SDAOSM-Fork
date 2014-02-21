@@ -7,6 +7,7 @@ import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.persistence.impl.UserDaoImpl;
+import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -36,6 +37,8 @@ import static org.junit.Assert.*;
 public class UserTests {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CarService carService;
 
     private static boolean setupRun = false;
 
@@ -151,10 +154,10 @@ public class UserTests {
     @Test
     public void addCarToUser(){
 
-        userService.addCarToUser(testUsername2, new Car("BMW", "X9", 11, Car.FuelType.SUPER95));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
-        userService.addCarToUser(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
+        carService.addCar(testUsername2, new Car("BMW", "X9", 11, Car.FuelType.SUPER95));
+        carService.addCar(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
+        carService.addCar(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
+        carService.addCar(testUsername2,new Car("Renault", "Civic", 9.9, Car.FuelType.SUPER95));
         User u = userService.getUser(testUsername2);
         assertEquals("Wrong amount of cars", 4, u.getCars().size());
     }
@@ -217,13 +220,17 @@ public class UserTests {
         File[] carImages = new File("src"+File.separator+"main"+File.separator+"webapp"+File.separator+"carImages").listFiles();
         if (carImages != null) {
             for (File file : Arrays.asList(carImages)) {
-                file.delete();
+                if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".jpeg")) {
+                    file.delete();
+                }
             }
         }
         File[] userImages = new File("src"+File.separator+"main"+File.separator+"webapp"+File.separator+"userImages").listFiles();
         if (userImages != null) {
             for (File file : Arrays.asList(userImages)) {
-                file.delete();
+                if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".jpeg")) {
+                    file.delete();
+                }
             }
         }
     }

@@ -9,12 +9,18 @@ import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Random;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -26,7 +32,6 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     public UserServiceImpl(){
-
     }
 
     public boolean changePassword(String username, String oldPassword, String newPassword)
@@ -91,9 +96,7 @@ public class UserServiceImpl implements UserService {
         return getUserSessionByToken(token) != null;
     }
 
-    public void addCarToUser(String user, Car car) {
-        userDao.addCarToUser(user, car);
-    }
+
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -155,9 +158,7 @@ public class UserServiceImpl implements UserService {
         userDao.removeUserPicture(username);
     }
 
-    public void removeCarPicture(Car car){
-        userDao.removeCarPicture(car);
-    }
+
 
 
 }
