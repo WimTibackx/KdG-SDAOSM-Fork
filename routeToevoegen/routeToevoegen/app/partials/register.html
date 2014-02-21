@@ -1,7 +1,16 @@
 <!-- string name, select gender, select smoker, password field text, date of birth (3 ints?), username in email format -->
 <!-- add car, driver or passenger ==> driver ==> new field
-    name, type, consumption, picture
+    name, type, consumption, picture, fueltype (super95, super98, diesel)
 -->
 
-        <section class="inline"></section>
+<section id="inline">
+    <form id="register">
+        <label for="username">Usernaam:</label><input type="text" id="username"/><br/>
+        <label for="password">Paswoord:</label><input type="password" id="password"/><br/>
+        <label for="name">Naam:</label><input type="text" id="name"/><br/>
+        <label>Geslacht:</label><input type="radio" name="gender" value="Man"/>Man<input type="radio" name="gender" value="Vrouw"/>Vrouw<br/>
+        <label>Roker:</label><input type="radio" name="smoker" value="Ja"/>Ja<input type="radio" name="smoker" value="Nee"/>Nee<br/>
+        <label>Geboortedatum:</label><input type="number" id="day"/><input type="number" id="month"/><input type="number" id="year"/>
+    </form>
+</section>
 

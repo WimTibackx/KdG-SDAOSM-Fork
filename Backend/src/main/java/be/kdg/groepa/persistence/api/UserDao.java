@@ -29,10 +29,15 @@ public interface UserDao {
     public SessionObject getSessionByUsername(String username);
 
     public void addCarToUser(String username, Car c);
+    public void updateCar(Car c);
 
     public void editUserPicture(String username, File newPicture);
 
     public void removeUserPicture(String username);
 
     public void removeCarPicture(Car car);
+
+    public Car getCar(int id);
+
+    public void deleteCar(Car car);
 }

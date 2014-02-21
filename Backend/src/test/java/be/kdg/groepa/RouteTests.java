@@ -1,6 +1,7 @@
 package be.kdg.groepa;
 
 import be.kdg.groepa.model.*;
+import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.UserService;
 import org.junit.Test;
@@ -30,6 +31,9 @@ public class RouteTests {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CarService carService;
+
     @Test
     public void testRouteModel()
     {
@@ -42,7 +46,7 @@ public class RouteTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        userService.addCarToUser("gio@degruyter.com", c);
+        carService.addCar("gio@degruyter.com", c);
 
         c.addRoute(r);
         u.addRoute(r);
@@ -61,7 +65,7 @@ public class RouteTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        userService.addCarToUser("timv@nroe.yen", c);
+        carService.addCar("timv@nroe.yen", c);
         Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c);
         Place place = new Place("Kieldrecht", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Zwijndrecht Krijgsbaan", 431.98987133664f, 411.9889459684f);

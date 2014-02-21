@@ -110,6 +110,15 @@ public class UserDaoImpl implements UserDao {
         c.setUser(u);
         ses.saveOrUpdate(u);
         ses.saveOrUpdate(c);
+        ses.flush();
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void updateCar(Car c) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(c);
+        ses.flush();
         HibernateUtil.closeSession(ses);
     }
 
@@ -136,6 +145,23 @@ public class UserDaoImpl implements UserDao {
         Session ses = HibernateUtil.openSession();
         car.removeImage();
         ses.saveOrUpdate(car);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public Car getCar(int id) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from Car c where c.id = :id");
+        query.setInteger("id",id);
+        Car c = (Car)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return c;
+    }
+
+    @Override
+    public void deleteCar(Car car) {
+        Session ses = HibernateUtil.openSession();
+        ses.delete(car);
         HibernateUtil.closeSession(ses);
     }
 }

@@ -28,6 +28,10 @@ public class PlaceTime {
     private WeekdayRoute weekdayRoute;
 
     @ManyToOne
+    @JoinColumn(name="trajectId", nullable = true)
+    private Traject traject;
+
+    @ManyToOne
     @JoinColumn(name="routeId")
     private Route route;
 
@@ -50,5 +54,13 @@ public class PlaceTime {
 
     public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
         this.weekdayRoute = weekdayRoute;
+    }
+
+    public void setTraject(Traject traject) {
+        this.traject = traject;
+    }
+
+    public Place getPlace() {
+        return place;
     }
 }

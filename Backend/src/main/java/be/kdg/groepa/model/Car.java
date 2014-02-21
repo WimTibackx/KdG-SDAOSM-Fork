@@ -88,9 +88,21 @@ public class Car {
         this.user = user;
     }
 
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
     public void removeImage(){
         ImageHelper.removeImage(pictureURL);
         this.pictureURL = null;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public enum FuelType{

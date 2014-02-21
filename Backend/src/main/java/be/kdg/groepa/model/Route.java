@@ -46,6 +46,10 @@ public class Route {
     @Cascade(CascadeType.ALL)
     private List<WeekdayRoute> weekdayRoutes = new ArrayList<>();
 
+    @OneToMany(mappedBy="route")
+    @Cascade(CascadeType.ALL)
+    private List<Traject> trajects = new ArrayList<>();
+
     public Route() {}
 
     public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car) {
@@ -64,5 +68,22 @@ public class Route {
     public void addWeekdayRoute(WeekdayRoute wr)
     {
         this.weekdayRoutes.add(wr);
+    }
+
+    public void addTraject(Traject traject){
+        this.trajects.add(traject);
+    }
+
+    public List<PlaceTime> getAllPlaceTimes(){
+        List<PlaceTime> allPlaceTimes = new ArrayList<PlaceTime>();
+        allPlaceTimes.addAll(this.placeTimes);
+        for(Traject traject:trajects){
+            allPlaceTimes.addAll(traject.getPlaceTimes());
+        }
+        return allPlaceTimes;
+    }
+
+    public User getChauffeur() {
+        return chauffeur;
     }
 }

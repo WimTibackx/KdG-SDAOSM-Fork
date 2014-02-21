@@ -10,9 +10,9 @@ carpoolingApp.config(['$routeProvider',
             }).
             when('/addRouteMap', {
                 templateUrl: 'partials/addRouteMap.html'
-                    .
-                                when('/addRouteMap', {
-                                    templateUrl: 'partials/addRouteMap.html'
+
+            }).when('/register', {
+                templateUrl: 'partials/register.html'
 
             }).
             when('/contact', {
