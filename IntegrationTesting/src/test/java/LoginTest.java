@@ -1,7 +1,6 @@
 import com.ibatis.common.jdbc.ScriptRunner;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -20,13 +19,15 @@ import static org.junit.Assert.assertTrue;
  * Created by Thierry on 20/02/14.
  */
 public class LoginTest {
-    private boolean setup = false;
+    private static boolean setup = false;
 
     @Before
     public void init(){
        if(!setup){
+           System.out.println("Check");
             String script = "src/test/resources/Query.sql";
             try {
+
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 new ScriptRunner(DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/groepA", "groepA", "groepA"), false, false)
@@ -41,13 +42,11 @@ public class LoginTest {
 
     @Test
     public void succesLogin(){
-        FirefoxProfile pf = new FirefoxProfile();
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("http://localhost:8080/BackEnd/authorized/logout");
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
-
         WebElement element = driver.findElementByName("username");
         element.sendKeys("profile@test.com");
 
@@ -56,7 +55,6 @@ public class LoginTest {
 
         element = driver.findElementByName("login");
         element.click();
-
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
         try {
             Thread.sleep(1000);
@@ -126,9 +124,8 @@ public class LoginTest {
 
     @Test
     public void loggingInTwice(){
-        ProfilesIni profileObj = new ProfilesIni();
-        FirefoxProfile yourFFProfile = profileObj.getProfile("your profile");
-        FirefoxDriver driver = new FirefoxDriver(yourFFProfile);
+        FirefoxProfile firefoxProfile = new ProfilesIni().getProfile("default");
+        FirefoxDriver driver = new FirefoxDriver(firefoxProfile);
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("http://localhost:8080/BackEnd/authorized/logout");
@@ -148,21 +145,14 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Cookie cookie = driver.manage().getCookieNamed("Token");
-        System.out.println(cookie);
-        driver.close();
-
-        driver = new FirefoxDriver(yourFFProfile);
-        cookie = driver.manage().getCookieNamed("Token");
-        System.out.println(cookie);
-        driver.manage().window().setSize(new Dimension(1024, 768));
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
         String url = driver.getCurrentUrl();
         assertEquals("User should be redirected to profile page because he was logged in earlier", "http://localhost:8080/frontend/app/index.html#/myProfile", url);
 
-
+        driver.close();
 
     }
+
 
 
 
