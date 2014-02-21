@@ -1,4 +1,4 @@
-var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingControllers'
+var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingControllers', 'carpoolServices'
 ]);
 
 carpoolingApp.config(['$routeProvider',
