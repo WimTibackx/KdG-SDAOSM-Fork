@@ -1,9 +1,12 @@
 import com.ibatis.common.jdbc.ScriptRunner;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,7 +24,7 @@ public class LoginTest {
 
     @Before
     public void init(){
-        if(!setup){
+       if(!setup){
             String script = "src/test/resources/Query.sql";
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -38,12 +41,98 @@ public class LoginTest {
 
     @Test
     public void succesLogin(){
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        ChromeDriver driver = new ChromeDriver();
+        FirefoxProfile pf = new FirefoxProfile();
+        FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("http://localhost:8080/BackEnd/authorized/logout");
-        driver.get("http://localhost:8080/frontend/app/index.html");
+        driver.get("http://localhost:8080/frontend/app/index.html#/login");
+
+        WebElement element = driver.findElementByName("username");
+        element.sendKeys("profile@test.com");
+
+        element = driver.findElementByName("password");
+        element.sendKeys("Succes1");
+
+        element = driver.findElementByName("login");
+        element.click();
+
+        //ImplicitlyWait doesn't work for angular JS so we need to sleep
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        element = driver.findElementById("profileName");
+        assertTrue(element.getText().equals("Welkom, TestUser"));
+
+        element = driver.findElementByName("username");
+        assertTrue(element.getText().equals("profile@test.com"));
+        driver.close();
+
+    }
+
+
+    @Test
+    public void navigateProfileWhileNotAuthorized(){
+        FirefoxDriver driver = new FirefoxDriver();
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/BackEnd/authorized/logout");
+        driver.get("http://localhost:8080/frontend/app/index.html#/myProfile");
+
+        //ImplicitlyWait doesn't work for angular JS so we need to sleep
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String url = driver.getCurrentUrl();
+        assertEquals("User should be redirected to login page when he/she isn't authorized", "http://localhost:8080/frontend/app/index.html#/login", url);
+
+        WebElement element = driver.findElementById("error");
+        assertEquals(element.getText(), "Authorization is required");
+        driver.close();
+
+    }
+
+    @Test
+    public void wrongLoginCredidentails(){
+        FirefoxDriver driver = new FirefoxDriver();
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/BackEnd/authorized/logout");
+        driver.get("http://localhost:8080/frontend/app/index.html#/login");
+
+        WebElement element = driver.findElementByName("username");
+        element.sendKeys("profile@test.com");
+
+        element = driver.findElementByName("password");
+        element.sendKeys("Fail1");
+
+        element = driver.findElementByName("login");
+        element.click();
+        //ImplicitlyWait doesn't work for angular JS so we need to sleep
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        element = driver.findElementById("error");
+        assertEquals(element.getText(), "Combination username/password is wrong");
+        driver.close();
+    }
+
+
+    @Test
+    public void loggingInTwice(){
+        ProfilesIni profileObj = new ProfilesIni();
+        FirefoxProfile yourFFProfile = profileObj.getProfile("your profile");
+        FirefoxDriver driver = new FirefoxDriver(yourFFProfile);
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://localhost:8080/BackEnd/authorized/logout");
+        driver.get("http://localhost:8080/frontend/app/index.html#/login");
 
         WebElement element = driver.findElementByName("username");
         element.sendKeys("profile@test.com");
@@ -59,60 +148,23 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        element = driver.findElementById("profileName");
-        assertTrue(element.getText().equals("Welkom, TestUser"));
-
-        element = driver.findElementByName("username");
-        assertTrue(element.getText().equals("profile@test.com"));
+        Cookie cookie = driver.manage().getCookieNamed("Token");
+        System.out.println(cookie);
         driver.close();
 
-    }
-
-
-    @Test
-    public void navigateProfileWhileNotAuthorized(){
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        ChromeDriver driver = new ChromeDriver();
+        driver = new FirefoxDriver(yourFFProfile);
+        cookie = driver.manage().getCookieNamed("Token");
+        System.out.println(cookie);
         driver.manage().window().setSize(new Dimension(1024, 768));
-        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
-        driver.get("http://localhost:8080/frontend/app/index.html#/myProfile");
-
+        driver.get("http://localhost:8080/frontend/app/index.html#/login");
         String url = driver.getCurrentUrl();
-        assertEquals("User should be redirected to login page when he/she isn't authorized", "http://localhost:8080/frontend/app/index.html#/login", url);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        assertEquals("User should be redirected to profile page because he was logged in earlier", "http://localhost:8080/frontend/app/index.html#/myProfile", url);
 
-        WebElement element = driver.findElementById("error");
-        assertEquals(element.getText(), "Authorization is required");
-        driver.close();
+
 
     }
 
-    @Test
-    public void wrongLoginCredidentails(){
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        ChromeDriver driver = new ChromeDriver();
-        driver.manage().window().setSize(new Dimension(1024, 768));
-        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
-        driver.get("http://localhost:8080/frontend/app/index.html#/myProfile");
 
-        String url = driver.getCurrentUrl();
-        assertEquals("User should be redirected to login page when he/she isn't authorized", "http://localhost:8080/frontend/app/index.html#/login", url);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        WebElement element = driver.findElementById("error");
-        assertEquals(element.getText(), "Authorization is required");
-        driver.close();
-    }
 
 }

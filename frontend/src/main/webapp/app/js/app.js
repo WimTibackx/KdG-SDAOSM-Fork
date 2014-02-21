@@ -8,14 +8,14 @@ carpoolingApp.config(['$routeProvider',
         $routeProvider.
             when('/login', {
                 templateUrl: 'partials/login.html',
-                controller: 'loginCtrl'
-                //controller: 'registerCtrl'
+                controller: 'loginCtrl',
+                controller: 'registerCtrl'
             }).
             when('/myProfile', {
                 templateUrl: 'partials/myProfile.html',
                 controller: 'myProfileCtrl'
             }).
-            when('/myProfile/changeRemoveCar/:carId', {
+            when('/myProfile/changeRemoveCar/:carId/', {
                 templateUrl: 'partials/changeRemoveCar.html',
                 controller: 'changeRemoveCarCtrl'
             }).
@@ -42,8 +42,8 @@ carpoolingApp.config(['$routeProvider',
             when('/addRoute', {
                 templateUrl: 'partials/addRouteMap.html',
                 controller: 'addRouteCtrl'
-            }).
-            otherwise({
-                redirectTo: '/login'
             });
+            //otherwise({
+              //  redirectTo: '/login'
+            //});
     }]);

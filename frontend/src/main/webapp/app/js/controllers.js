@@ -166,7 +166,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', '
         $(document).ready(function () {
 
             var login = $("#loginform");
-
+            console.log("Hij komt in doc.ready function")
 
             login.submit(function (e) {
                 e.preventDefault();
@@ -178,6 +178,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', '
         });
 
         function actionLogin(username, password) {
+            console.log("Hij komt in action login function")
             var data = {username: username, password: password};
             var counter = 0;
             $http({
@@ -193,7 +194,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', '
                     console.log(obj);
                     if (obj.hasOwnProperty("Token")) {
                         console.log("Test");
-                        window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
+                        $location.path("/myProfile");
                         $("#cssmenu").show();
                         $("#error").hide();
                     } else if (obj.hasOwnProperty("error")) {
@@ -217,7 +218,7 @@ carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', '
 
     } else {
         console.log("It's because of this ??");
-        window.location = "http://localhost:8080/frontend/app/index.html#/myProfile";
+        $location.path("/myProfile");
     }
 }
 ]);
