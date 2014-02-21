@@ -26,22 +26,28 @@ public class LoginTest {
        if(!setup){
            System.out.println("Check");
             String script = "src/test/resources/Query.sql";
+           FirefoxDriver driver = new FirefoxDriver();
+           driver.manage().window().setSize(new Dimension(1024, 860));
+           driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+           driver.get("http://localhost:8080/BackEnd/authorized/logout");
+           driver.get("http://localhost:8080/frontend/app/index.html#/login");
+           WebElement element = driver.findElementByName("username");
+           element.sendKeys("profile@test.com");
+
+           element = driver.findElementByName("password");
+           element.sendKeys("Succes1");
+
+           element = driver.findElementByName("login");
+           element.click();
+           try {
+               Thread.sleep(2000);
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
+
+           driver.close();
             try {
-                FirefoxDriver driver = new FirefoxDriver();
-                driver.manage().window().setSize(new Dimension(0, 0));
-                driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-                driver.get("http://localhost:8080/BackEnd/authorized/logout");
-                driver.get("http://localhost:8080/frontend/app/index.html#/login");
-                WebElement element = driver.findElementByName("username");
-                element.sendKeys("profile@test.com");
 
-                element = driver.findElementByName("password");
-                element.sendKeys("Succes1");
-
-                element = driver.findElementByName("login");
-                element.click();
-
-                driver.close();
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 new ScriptRunner(DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/groepA", "groepA", "groepA"), false, false)
@@ -70,6 +76,7 @@ public class LoginTest {
         element = driver.findElementByName("login");
         element.click();
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
