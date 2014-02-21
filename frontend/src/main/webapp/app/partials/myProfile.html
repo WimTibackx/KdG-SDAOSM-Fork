@@ -48,7 +48,7 @@
         </div-->
         <section id="carField">
             <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
-                <img id="carImage" alt="{{car.brand}}" ng-src="../app/img/baan.jpg"/>
+                <img id="carImage" alt="{{car.brand}}" ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
                 <section id="carSpecs">
                     {{car.brand}}<br/>{{car.consumption}}
                 </section>
