@@ -47,6 +47,7 @@ public class User {
 
     @OneToMany
     @JoinColumn(name="routeId")
+    @Cascade(CascadeType.ALL)
     protected List<Route> routes = new ArrayList<>();
 
 

@@ -18,12 +18,12 @@ import org.threeten.bp.LocalTime;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by Tim on 19/02/14.
  */
-/*
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
@@ -39,37 +39,72 @@ public class TrajectTests {
     private UserService userService;
 
     private String testUsername = "user@tt.test.com";
-    private Route route;
-    private User user;
-    private Car car;
-    /*
+    private String testUsername2 = "user2@tt.test.com";
+    private String testUsername3 = "user3@tt.test.com";
+    private static Route routeA;
+    private static Route routeB;
+    private static Route routeC;
+    private static User user;
+    private static User user2;
+    private static User user3;
+    private static Car car;
+
     private static boolean initiated = false;
     @Before
     public void init(){
         if(!initiated){
             car = new Car("Audi", "A5", 11, Car.FuelType.SUPER95);
             user = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername, car);
-            route = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user, car);
-            user.addRoute(route);
-            try {
+            user2 = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername2, car);
+            user3 = new User("TestUser", User.Gender.FEMALE, false, "Succes1", LocalDate.of(1993, 10, 20), testUsername3, car);
+            try{
                 userService.addUser(user);
-                routeService.addRoute(route);
+                userService.addUser(user2);
+                userService.addUser(user3);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            routeA = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteAHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteAWork", 11, 20)));
+            routeB = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user2, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteBHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteBWork", 11, 20)));
+            routeC = new Route(true, 4, LocalDateTime.of(2014, 10, 3, 8, 25), LocalDateTime.of(2014, 10, 3, 17, 0), user3, car, new PlaceTime(LocalTime.of(8, 30), new Place("RouteCHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteCWork", 11, 20)));
+            user.addRoute(routeA);
+            user2.addRoute(routeB);
+            user3.addRoute(routeC);
+            routeService.addRoute(routeA);
+            routeService.addRoute(routeB);
+            routeService.addRoute(routeC);
 
         }
         initiated = true;
     }
 
     @Test
-    public void addTraject(){
+    public void addTrajectToRoute(){
         PlaceTime pointA = new PlaceTime(LocalTime.of(8, 25), new Place("UserHome", 10, 20));
-        PlaceTime pointB = new PlaceTime(LocalTime.of(16,30), new Place("UserWork", 11, 20));
-        trajectService.addTrajectToRoute(new Traject(pointA, pointB), route);
-        User u = userService.getUser(testUsername);
-        List<Route> routes = user.getRoutes();
-        assertEquals("Incorrect amount of PlaceTimes in route", user.getRoutes().get(0).getAllPlaceTimes().size(), 4);
+        PlaceTime pointC = new PlaceTime(LocalTime.of(12,30), new Place("UserWork", 11, 20));
+        trajectService.addTraject(new Traject(pointA, pointC, routeA, user));
+        assertEquals("Incorrect amount of PlaceTimes in route", 4, user.getRoutes().get(0).getAllPlaceTimes().size());
     }
 
-}   */
+    @Test
+    public void removeTrajectFromRoute(){
+        Traject traj = new Traject(new PlaceTime(LocalTime.of(10, 25), new Place("UserHome", 10, 20)), new PlaceTime(LocalTime.of(15,30), new Place("UserWork", 11, 20)), routeB, user2);
+        trajectService.addTraject(traj);
+        assertEquals("Not enough PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size());
+        trajectService.removeTrajectFromRoute(routeB, traj);
+        List<PlaceTime> placeTimes = routeB.getAllPlaceTimes();
+        assertEquals("Wrong amount of PlaceTimes in route", 2, user2.getRoutes().get(0).getAllPlaceTimes().size());
+    }
+
+    @Test
+    public void addPlaceTimeAfterExistingRoutePoint(){
+        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
+        trajectService.insertNewRoutePoint(routeC.getPlaceTimes().get(0), newPlaceTime);
+        assertEquals("Incorrect PlaceTime at given position of route", newPlaceTime, routeC.getAllPlaceTimes().get(1));
+    }
+
+    @Test
+    public void addTrajectAfterExistingRoutePoint(){
+
+    }
+}
