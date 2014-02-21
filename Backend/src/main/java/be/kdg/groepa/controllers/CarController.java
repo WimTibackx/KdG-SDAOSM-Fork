@@ -1,5 +1,6 @@
 package be.kdg.groepa.controllers;
 
+import be.kdg.groepa.dtos.CarDTO;
 import be.kdg.groepa.exceptions.CarNotFoundException;
 import be.kdg.groepa.exceptions.CarNotOfUserException;
 import be.kdg.groepa.model.Car;
@@ -112,5 +113,21 @@ public class CarController extends BaseController {
 
         carService.update(car);
         return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/authorized/user/car/{id}", method=RequestMethod.GET)
+    public @ResponseBody String update(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
+        Car car;
+        try {
+            car = carService.getOfUser(this.getCurrentUser(request), id);
+        } catch (CarNotFoundException e) {
+            return super.respondSimpleAuthorized("error", "CarNotFound", request, response);
+        } catch (CarNotOfUserException e) {
+            return super.respondSimpleAuthorized("error", "CarNotYours", request, response);
+        }
+        CarDTO carDTO = new CarDTO(car);
+        JSONObject obj = new JSONObject(carDTO);
+        super.updateCookie(request, response);
+        return obj.toString();
     }
 }
