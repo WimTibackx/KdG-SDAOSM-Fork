@@ -22,6 +22,10 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public void addRoute(Route r) {
         Session ses = HibernateUtil.openSession();
+        for(PlaceTime pt:r.getAllPlaceTimes()){
+            ses.saveOrUpdate(pt.getPlace());
+            ses.saveOrUpdate(pt);
+        }
         ses.saveOrUpdate(r);
         HibernateUtil.closeSession(ses);
         // HibernateUtil.addObject(r); ???

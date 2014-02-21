@@ -52,13 +52,15 @@ public class Route {
 
     public Route() {}
 
-    public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car) {
+    public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end) {
         this.repeating = repeating;
         this.capacity = capacity;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.chauffeur = chauffeur;
         this.car = car;
+        this.placeTimes.add(start);
+        this.placeTimes.add(end);
     }
     public boolean isRepeating()
     {
@@ -78,12 +80,27 @@ public class Route {
         List<PlaceTime> allPlaceTimes = new ArrayList<PlaceTime>();
         allPlaceTimes.addAll(this.placeTimes);
         for(Traject traject:trajects){
-            allPlaceTimes.addAll(traject.getPlaceTimes());
+            allPlaceTimes.add(traject.getPickup());
+            allPlaceTimes.add(traject.getDropoff());
         }
         return allPlaceTimes;
     }
 
     public User getChauffeur() {
         return chauffeur;
+    }
+
+    public void removeTraject(Traject traj){
+        if(trajects.contains(traj)){
+            trajects.remove(traj);
+        }
+    }
+
+    public List<PlaceTime> getPlaceTimes() {
+        return placeTimes;
+    }
+
+    public List<Traject> getTrajects() {
+        return trajects;
     }
 }

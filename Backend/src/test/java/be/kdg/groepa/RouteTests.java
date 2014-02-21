@@ -39,7 +39,7 @@ public class RouteTests {
     {
         Car c = new Car("Lamborghini", "Aventador", 18.3, Car.FuelType.DIESEL);
         User u = new User("PJ", User.Gender.MALE, false, "Giovanni69", LocalDate.of(1993, 10, 20), "gio@degruyter.com", c);
-        Route r = new Route(false, 69, LocalDateTime.now(), LocalDateTime.now(), u, c);
+        Route r = new Route(false, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, new PlaceTime(LocalTime.of(8, 30), new Place("RouteHome", 10, 20)), new PlaceTime(LocalTime.of(16,30), new Place("RouteWork", 11, 20)));
 
         try {
             userService.addUser(u);
@@ -66,7 +66,7 @@ public class RouteTests {
             e.printStackTrace();
         }
         carService.addCar("timv@nroe.yen", c);
-        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c);
+        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, new PlaceTime(LocalTime.of(8, 20), new Place("Home", 10, 10)), new PlaceTime(LocalTime.of(18, 20), new Place("Work", 20, 10)) );
         Place place = new Place("Kieldrecht", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Zwijndrecht Krijgsbaan", 431.98987133664f, 411.9889459684f);
         Place place3 = new Place("Carpoolparking Vrasene", 564.98731478966f, 342.97136455781f);
