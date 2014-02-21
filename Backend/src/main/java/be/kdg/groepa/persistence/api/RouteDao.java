@@ -12,6 +12,6 @@ public interface RouteDao {
 
     public void addRoute(Route r);
     public void addPlace(Place p);
-    public void addPlaceTime(PlaceTime pt);
+    public void addPlaceTimeToPlace(PlaceTime pt, Place p);
     public void addWeekdayRoute(WeekdayRoute wr);
 }

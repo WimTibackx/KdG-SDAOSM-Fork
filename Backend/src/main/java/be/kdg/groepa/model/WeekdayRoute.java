@@ -21,14 +21,19 @@ public class WeekdayRoute {
 
     // foreign keys
     @OneToMany
-    @JoinColumn(name="placetimeId")
+    @JoinColumn(name="placeTimesId")
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="routeId", nullable=false)
+    @JoinColumn(name="routeId", nullable = true)
     private Route route;
 
     public WeekdayRoute() {}
+
+    public WeekdayRoute(int day)
+    {
+        this.day = day;
+    }
 
     public WeekdayRoute(Route route, int day) {
         this.route = route;
@@ -38,5 +43,10 @@ public class WeekdayRoute {
     public void addPlaceTime(PlaceTime pt)
     {
         this.placeTimes.add(pt);
+    }
+
+    public void setRoute(Route r)
+    {
+        this.route = r;
     }
 }

@@ -1,6 +1,5 @@
 package be.kdg.groepa.model;
 
-
 import org.threeten.bp.LocalTime;
 
 import javax.persistence.*;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="t_placetime")
 public class PlaceTime {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int placetimeId;
@@ -20,11 +20,11 @@ public class PlaceTime {
     private LocalTime time;
 
     @ManyToOne
-    @JoinColumn(name="placeId", nullable=false)
+    @JoinColumn(name="placeId", nullable = true)
     private Place place;
 
     @ManyToOne
-    @JoinColumn(name="weekdayrouteId")
+    @JoinColumn(name="weekdayRouteId")
     private WeekdayRoute weekdayRoute;
 
     @ManyToOne
@@ -36,5 +36,19 @@ public class PlaceTime {
     public PlaceTime(LocalTime time, Place place) {  // Private because when adding a new PlaceTime, the Place object might already exist. Use addPlaceTime instead of the constructor.
         this.time = time;
         this.place = place;
+    }
+
+    public PlaceTime(LocalTime time)
+    {
+        this.time = time;
+        this.place = null;
+    }
+
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+    public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
+        this.weekdayRoute = weekdayRoute;
     }
 }

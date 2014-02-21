@@ -50,11 +50,11 @@ public class RouteTests {
         System.out.println("test");
         assertTrue("Add route failed", true);
     }
-    /*
+
     @Test
     public void testRepeatingRoute()
     {
-        Car c = new Car("Peugeot", "Partner", 7.2);
+        Car c = new Car("Peugeot", "Partner", 7.2, Car.FuelType.SUPER95);
         User u = new User("Tim", User.Gender.FEMALE, true, "TimIsThierrysPapa123", LocalDate.of(1993, 04, 12), "timv@nroe.yen", c);
         try {
             userService.addUser(u);
@@ -68,37 +68,37 @@ public class RouteTests {
         Place place3 = new Place("Carpoolparking Vrasene", 564.98731478966f, 342.97136455781f);
         Place place4 = new Place("Melsele Dijk", 154.987132654f, 189.9874561981f);
 
+        PlaceTime pt = new PlaceTime(LocalTime.of(8, 0));
+        PlaceTime pt2 = new PlaceTime(LocalTime.of(8, 10));
+        PlaceTime pt3 = new PlaceTime(LocalTime.of(8, 20));
+        PlaceTime pt4 = new PlaceTime(LocalTime.of(8, 25));
+
+        PlaceTime pt5 = new PlaceTime(LocalTime.of(7, 0));
+        PlaceTime pt6 = new PlaceTime(LocalTime.of(7, 10));
+        PlaceTime pt7 = new PlaceTime(LocalTime.of(7, 20));
+        PlaceTime pt8 = new PlaceTime(LocalTime.of(7, 25));
+
         routeService.addPlace(place);
         routeService.addPlace(place2);
         routeService.addPlace(place3);
         routeService.addPlace(place4);
 
-        PlaceTime pt = new PlaceTime(LocalTime.of(8, 0), place);
-        PlaceTime pt2 = new PlaceTime(LocalTime.of(8, 10), place2);
-        PlaceTime pt3 = new PlaceTime(LocalTime.of(8, 20), place3);
-        PlaceTime pt4 = new PlaceTime(LocalTime.of(8, 25), place4);
+        routeService.addPlaceTimeToPlace(pt, place);
+        routeService.addPlaceTimeToPlace(pt2, place2);
+        routeService.addPlaceTimeToPlace(pt3, place3);
+        routeService.addPlaceTimeToPlace(pt4, place4);
+        routeService.addPlaceTimeToPlace(pt5, place);
+        routeService.addPlaceTimeToPlace(pt6, place2);
+        routeService.addPlaceTimeToPlace(pt7, place3);
+        routeService.addPlaceTimeToPlace(pt8, place4);
 
-        PlaceTime pt5 = new PlaceTime(LocalTime.of(7, 0), place);
-        PlaceTime pt6 = new PlaceTime(LocalTime.of(7, 10), place2);
-        PlaceTime pt7 = new PlaceTime(LocalTime.of(7, 20), place3);
-        PlaceTime pt8 = new PlaceTime(LocalTime.of(7, 25), place4);
-
-        routeService.addPlaceTime(pt);
-        routeService.addPlaceTime(pt2);
-        routeService.addPlaceTime(pt3);
-        routeService.addPlaceTime(pt4);
-        routeService.addPlaceTime(pt5);
-        routeService.addPlaceTime(pt6);
-        routeService.addPlaceTime(pt7);
-        routeService.addPlaceTime(pt8);
-
-        WeekdayRoute wr = new WeekdayRoute(r, 0);
-        WeekdayRoute wr1 = new WeekdayRoute(r, 1);
-        WeekdayRoute wr2 = new WeekdayRoute(r, 2);
+        WeekdayRoute wr = new WeekdayRoute(0);
+        WeekdayRoute wr1 = new WeekdayRoute(1);
+ /*       WeekdayRoute wr2 = new WeekdayRoute(r, 2);
         WeekdayRoute wr3 = new WeekdayRoute(r, 3);
         WeekdayRoute wr4 = new WeekdayRoute(r, 4);
         WeekdayRoute wr5 = new WeekdayRoute(r, 5);
-        WeekdayRoute wr6 = new WeekdayRoute(r, 6);
+        WeekdayRoute wr6 = new WeekdayRoute(r, 6);*/
 
         wr.addPlaceTime(pt);
         wr.addPlaceTime(pt2);
@@ -110,48 +110,25 @@ public class RouteTests {
         wr1.addPlaceTime(pt7);
         wr1.addPlaceTime(pt8);
 
-        wr2.addPlaceTime(pt5);
-        wr2.addPlaceTime(pt6);
-        wr2.addPlaceTime(pt7);
-        wr2.addPlaceTime(pt8);
+        pt.setWeekdayRoute(wr);
+        pt2.setWeekdayRoute(wr);
+        pt3.setWeekdayRoute(wr);
+        pt4.setWeekdayRoute(wr);
 
-        wr3.addPlaceTime(pt5);
-        wr3.addPlaceTime(pt6);
-        wr3.addPlaceTime(pt7);
-        wr3.addPlaceTime(pt8);
-
-        wr4.addPlaceTime(pt5);
-        wr4.addPlaceTime(pt6);
-        wr4.addPlaceTime(pt7);
-        wr4.addPlaceTime(pt8);
-
-        wr5.addPlaceTime(pt5);
-        wr5.addPlaceTime(pt6);
-        wr5.addPlaceTime(pt7);
-        wr5.addPlaceTime(pt8);
-
-        wr6.addPlaceTime(pt5);
-        wr6.addPlaceTime(pt6);
-        wr6.addPlaceTime(pt7);
-        wr6.addPlaceTime(pt8);
+        pt5.setWeekdayRoute(wr1);
+        pt6.setWeekdayRoute(wr1);
+        pt7.setWeekdayRoute(wr1);
+        pt8.setWeekdayRoute(wr1);
 
         routeService.addWeekdayRoute(wr);
         routeService.addWeekdayRoute(wr1);
-        routeService.addWeekdayRoute(wr2);
-        routeService.addWeekdayRoute(wr3);
-        routeService.addWeekdayRoute(wr4);
-        routeService.addWeekdayRoute(wr5);
-        routeService.addWeekdayRoute(wr6);
 
         r.addWeekdayRoute(wr);
         r.addWeekdayRoute(wr1);
-        r.addWeekdayRoute(wr2);
-        r.addWeekdayRoute(wr3);
-        r.addWeekdayRoute(wr4);
-        r.addWeekdayRoute(wr5);
-        r.addWeekdayRoute(wr6);
+        wr.setRoute(r);
+        wr1.setRoute(r);
 
         routeService.addRoute(r);
-    }   */
-
+        assertTrue("Add repeating route failed", true);
+    }
 }

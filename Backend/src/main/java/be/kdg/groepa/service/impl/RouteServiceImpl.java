@@ -29,8 +29,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void addPlaceTime(PlaceTime pt) {
-        routeDao.addPlaceTime(pt);
+    public void addPlaceTimeToPlace(PlaceTime pt, Place p) {
+        routeDao.addPlaceTimeToPlace(pt, p);
     }
 
     @Override

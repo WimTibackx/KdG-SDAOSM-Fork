@@ -30,10 +30,12 @@ public class Route {
 
     @ManyToOne
     @JoinColumn(name="userId", nullable=false)
+    @Cascade(CascadeType.ALL)
     private User chauffeur;
 
     @ManyToOne
     @JoinColumn(name="carId", nullable=false)
+    @Cascade(CascadeType.ALL)
     private Car car;
 
     @OneToMany(mappedBy="route")
