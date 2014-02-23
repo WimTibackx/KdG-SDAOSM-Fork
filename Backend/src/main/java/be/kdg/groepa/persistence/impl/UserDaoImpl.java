@@ -84,7 +84,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addUser(User u) throws Exception
+    public void addUser(User u)
     {
         HibernateUtil.addObject(u);
         /*if (users.contains(u.getUsername())) throw new UserExistException("User already exists");
@@ -162,6 +162,13 @@ public class UserDaoImpl implements UserDao {
     public void deleteCar(Car car) {
         Session ses = HibernateUtil.openSession();
         ses.delete(car);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(user);
         HibernateUtil.closeSession(ses);
     }
 }

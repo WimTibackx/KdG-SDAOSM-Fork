@@ -172,4 +172,8 @@ public class User {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
+    }
 }

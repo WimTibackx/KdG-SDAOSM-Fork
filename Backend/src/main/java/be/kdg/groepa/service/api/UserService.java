@@ -1,6 +1,9 @@
 package be.kdg.groepa.service.api;
 
 
+import be.kdg.groepa.exceptions.PasswordFormatException;
+import be.kdg.groepa.exceptions.UsernameExistsException;
+import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
@@ -19,7 +22,7 @@ public interface UserService {
     public boolean checkLogin(String username, String password);
 
     public void setUserDao(UserDao userDao);
-    public void addUser(User user) throws Exception;
+    public void addUser(User user) throws UsernameFormatException, PasswordFormatException, UsernameExistsException;
     public User getUser(String username);
     public User getUserById(Integer id);
 
@@ -30,5 +33,6 @@ public interface UserService {
     public boolean isUserSessionByToken(String token);
 
     public void editUserPicture(String username, File newPicture);
-    public void removeUserPicture(String username);
+    public void removeUserPicture(User user);
+    public void setUserPicture(User user, InputStream picture, String originalName) throws IOException;
 }

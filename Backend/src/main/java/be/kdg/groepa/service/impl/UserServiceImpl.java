@@ -1,6 +1,7 @@
 package be.kdg.groepa.service.impl;
 
 
+import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 
@@ -31,8 +32,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    public UserServiceImpl() {
+    private Random random;
+    private String userImagesPath;
+    private String userImagesUrl;
 
+    private ServletContext context;
+
+    @Autowired
+    public UserServiceImpl(ServletContext context) {
+        this.context = context;
+        this.random = new Random();
+        this.userImagesPath = this.context.getRealPath(File.separator)+"userImages"+File.separator;
+        this.userImagesUrl = "http://localhost:8080/BackEnd/userImages/";
+        Logger log = Logger.getLogger(UserServiceImpl.class);
+        log.debug("INITTING CARSERVICEIMPLE");
     }
 
     public boolean changePassword(String username, String oldPassword, String newPassword) {
@@ -102,16 +115,15 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public void addUser(User user) throws Exception {
+    public void addUser(User user) throws UsernameFormatException, PasswordFormatException, UsernameExistsException {
         if (!isValidUsername(user.getUsername())) throw new UsernameFormatException("Invalid username format (e-mail)");
         if (!isValidPassword(user.getPassword()))
             throw new PasswordFormatException("Invalid password format [1 uppercase, 1 lowercase, 1 digit, no whitespaces, 7-30 length]");
-        user.setPassword(encryptString(user.getPassword()));   // Encrypt user password before adding
-        try {
-            userDao.addUser(user);
-        } catch (Exception e) {
-            throw e;
+        if (userDao.getUser(user.getUsername())!=null) {
+            throw new UsernameExistsException();
         }
+        user.setPassword(encryptString(user.getPassword()));   // Encrypt user password before adding
+        userDao.addUser(user);
     }
 
     public User getUser(String username) {
@@ -154,9 +166,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUserPicture(String username) {
-        userDao.removeUserPicture(username);
+    public void removeUserPicture(User user) {
+        String fullPath = this.userImagesPath + user.getAvatarURL();
+        File f = new File(fullPath);
+        f.delete();
+        user.setAvatarURL(null);
+        userDao.updateUser(user);
+        //userDao.removeUserPicture(username);
     }
+
+    @Override
+    public void setUserPicture(User user, InputStream picture, String originalName) throws IOException {
+        String imagename = String.format("%s%d",user.getName(),this.random.nextInt());
+        String ext = originalName.substring(originalName.lastIndexOf("."), originalName.length());
+        String filePath = this.userImagesPath + imagename + ext;
+        ImageIO.write(ImageIO.read(picture), ext.replace(".", ""), new File(filePath));
+        user.setAvatarURL(imagename + ext);
+        userDao.updateUser(user);
+        return;
+    }
+
     public void removeCarPicture(Car car) {
         userDao.removeCarPicture(car);
     }

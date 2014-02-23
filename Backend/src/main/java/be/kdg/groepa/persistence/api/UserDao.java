@@ -24,7 +24,7 @@ public interface UserDao {
 
     public void extendSession(SessionObject session);
 
-    public void addUser(User u) throws Exception;
+    public void addUser(User u);
 
     public SessionObject getSessionByUsername(String username);
 
@@ -40,4 +40,6 @@ public interface UserDao {
     public Car getCar(int id);
 
     public void deleteCar(Car car);
+
+    public void updateUser(User user);
 }

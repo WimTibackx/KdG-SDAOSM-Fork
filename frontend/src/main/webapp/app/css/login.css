@@ -48,7 +48,7 @@ a.back{
 	text-decoration:none;
 }
 /* Form Style */
-#login {
+.content {
     float: left;
 }
 
@@ -59,14 +59,28 @@ a.back{
 	width:350px;
 	font-size:16px;
 }
-.form_wrapper h3{
+.form_wrapper h3,
+.form_wrapper h4 {
 	padding:20px 30px 20px 30px;
 	background-color:rgb(53,53,53);
 	color:#fff;
 	font-size:25px;
 	border-bottom:1px solid #ddd;
 }
-.form_wrapper form{
+.form_wrapper h4{
+	font-size:18px;
+	font-style:italic;
+}
+.form_wrapper h3+h4 {
+    margin-top:0;
+    padding-top:0;
+}
+/* Fucking css has a selector for element X after element Y, but not for element Y before element X */
+.form_wrapper h3.beforeh4 {
+    margin-bottom:0;
+    border-width:0;
+}
+:not(.content#register) .form_wrapper form{
 	display:none;
 	background:#fff;
 }
@@ -80,7 +94,7 @@ form.active{
 form.login{
 	width:350px;
 }
-form.register{
+.content#register form, .content#register .form_wrapper {
 	width:550px;
 }
 form.forgot_password{
@@ -99,7 +113,12 @@ form.forgot_password{
 	padding:0px 30px 0px 30px;
 	margin:10px 0px 0px 0px;
 }
-.form_wrapper input[type="radio"], .form_wrapper input[type="date"] {
+.form_wrapper input[type="radio"],
+.form_wrapper input[type="date"],
+.form_wrapper input[type="text"],
+.form_wrapper input[type="password"],
+.form_wrapper input[type="file"],
+.form_wrapper select {
     border: solid 1px #E5E5E5;
     background: #FFFFFF;
     margin: 5px 30px 0px 30px;
@@ -114,22 +133,18 @@ form.forgot_password{
 
 .form_wrapper input[type="text"],
 .form_wrapper input[type="password"] {
-    border: solid 1px #E5E5E5;
-    background: #FFFFFF;
-    margin: 5px 30px 0px 30px;
-    padding: 5px;
     display: block;
-    font-size: 16px;
     width: 76%;
-    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
-    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
-    -moz-box-shadow: 0px 0px 8px #f0f0f0;
-    -webkit-box-shadow: 0px 0px 8px #f0f0f0;
-    box-shadow: 0px 0px 8px #f0f0f0;
 }
 .form_wrapper input[type="text"]:focus,
 .form_wrapper input[type="password"]:focus{
 	background:#feffef;
+}
+.content#register .imageUploadPreview {
+    border:1px solid #000000;
+    margin: 5px 30px 0px 30px;
+    width: 12em;
+    height: 10em;
 }
 .form_wrapper .bottom{
 	background-color:rgb(53,53,53);
@@ -172,7 +187,8 @@ form.forgot_password{
 	display:block;
 	margin:4px 30px;
 }
-.form_wrapper input[type="submit"] {
+.form_wrapper input[type="submit"],
+.form_wrapper input[type="reset"] {
 	background: #ffffff;
 	border: 1px solid #ccc;
 	color: rgb(53,53,53);
@@ -187,7 +203,13 @@ form.forgot_password{
 	margin:15px 20px 10px 10px;
 	border-radius: 4px;
 }
-.form_wrapper input[type="submit"]:hover{
+.form_wrapper input[type="reset"] {
+    background:#aaaaaa;
+    float:left;
+    margin-right:0;
+}
+.form_wrapper input[type="submit"]:hover,
+.form_wrapper input[type="reset"]:hover{
     background: #d1d1d1;
 }
 
@@ -222,4 +244,20 @@ form.forgot_password{
     width: 100px;
     cursor: pointer;
 
+}
+
+form.register-wizard {
+	/*display:none;*/
+    /*-webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;*/
+}
+form.register-wizard.ng-hide-add {
+    /*-moz-transform: translateX(-350px);
+    -webkit-transform: translateX(-350px);
+    -o-transform: translateX(-350px);
+    -ms-transform: translateX(-350px);
+    transform: translateX(-350px);
+    display:block !important;*/
 }

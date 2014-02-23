@@ -116,7 +116,7 @@ public class CarController extends BaseController {
     }
 
     @RequestMapping(value="/authorized/user/car/{id}", method=RequestMethod.GET)
-    public @ResponseBody String update(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody String get(@PathVariable("id") Integer id, HttpServletRequest request, HttpServletResponse response) {
         Car car;
         try {
             car = carService.getOfUser(this.getCurrentUser(request), id);

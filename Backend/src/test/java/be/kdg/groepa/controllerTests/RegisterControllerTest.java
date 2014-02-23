@@ -45,9 +45,7 @@ public class RegisterControllerTest {
         json.put("gender", "Male");
         json.put("smoker", true);
         json.put("password", "Password1");
-        json.put("year", 1993);
-        json.put("month", 10);
-        json.put("day", 3);
+        json.put("dateofbirth", "1993-10-03");
         json.put("username", testUsername);
         json.put("brand", "Skoda");
         json.put("type", "Sködalike");
@@ -69,9 +67,7 @@ public class RegisterControllerTest {
         json.put("gender", "Male");
         json.put("smoker", true);
         json.put("password", "Password1");
-        json.put("year", 1993);
-        json.put("month", 10);
-        json.put("day", 3);
+        json.put("dateofbirth", "1993-10-03");
         json.put("username", testUsername2);
 
         String myString = json.toString();

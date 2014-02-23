@@ -210,9 +210,10 @@ public class UserTests {
 
     @Test
     public void removeUserImage(){
-        userService.removeUserPicture(testUsername2);
         User user = userService.getUser(testUsername2);
+        userService.removeUserPicture(user);
         assertNull("User image has not been removed", user.getAvatarURL());
+        //TODO -- Need a way to check if the file was actually removed, but it would work better as an integration- or E2E-test.
     }
 
     @After

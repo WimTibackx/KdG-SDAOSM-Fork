@@ -1,5 +1,5 @@
 
-<div class="content" id="login" >
+<div class="content" id="login" ng-controller="loginCtrl">
     <div id="form_wrapper" class="form_wrapper">
         <form class="login active" id="loginform">
             <h3>Login</h3>
@@ -22,22 +22,117 @@
     <div class="clear"></div>
 </div>
 
-<!--<div class="content" id="register" ng-controller="registerCtrl">
+<div class="content" id="register" ng-controller="registerCtrl">
     <div class="form_wrapper">
-        <form class="login active" id="registerform">
-            <h3>Registreer</h3>
-            <label for="usernameRegister">Usernaam:</label><input type="text" id="usernameRegister" name="usernameRegister"/><br/>
-            <label for="passwordRegister">Paswoord:</label><input type="password" id="passwordRegister" name="passwordRegister"/><br/>
-            <label for="name">Naam:</label><input type="text" id="name" name="nameRegister"/><br/>
-            <label>Geslacht:</label><input type="radio" name="gender" value="Man"/>Man<input type="radio" name="gender"
-                                                                                             value="Vrouw"/>Vrouw<br/>
-            <label>Roker:</label><input type="radio" name="smoker" value="Ja"/>Ja<input type="radio" name="smoker"
-                                                                                        value="Nee"/>Nee<br/>
-            <label>Geboortedatum:</label><input type="date" id="day" name="dateofbirthRegister"/>
+        <form id="registerform" ng-submit="udSubmit()" ng-show="getNgShow(0)">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Uw gegevens</h4>
+
+            <div>
+                <label>Usernaam:</label>
+                <input type="text" ng-model="udUsername" id="usernameRegister" name="usernameRegister"/>
+            </div>
+            <div>
+                <label>Paswoord:</label>
+                <input type="password" ng-model="udPassword" id="passwordRegister" name="passwordRegister"/>
+            </div>
+            <div>
+                <label>Naam:</label>
+                <input type="text" ng-model="udName" id="name" name="nameRegister"/>
+            </div>
+            <div>
+                <label>Geslacht:</label>
+                <input type="radio" ng-model="udGender" name="gender" value="MALE"/>Man
+                <input type="radio" ng-model="udGender" name="gender" value="FEMALE"/>Vrouw
+            </div>
+            <div>
+                <label>Roker:</label>
+                <input type="radio" ng-model="udSmoker" name="smoker" value="true"/>Ja
+                <input type="radio" ng-model="udSmoker" name="smoker" value="false"/>Nee
+            </div>
+            <div>
+                <label>Geboortedatum:</label>
+                <input type="date" ng-model="udDoB" id="day" name="dateofbirthRegister"/>
+            </div>
+            <div>
+                <label>Ik ben: </label>
+                <input type="radio" ng-model="udAccounttype" name="accounttype" value="driver"/>Chauffeur
+                <input type="radio" ng-model="udAccounttype" name="accounttype" value="passenger"/>Passagier
+            </div>
 
             <div class="bottom">
-                <input type="submit" name="registreer" value="Registreer">
+                <span id="error"></span>
+                <input type="submit" name="registreer" value="Registreer" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        <form id="userimageform" ng-show="getNgShow(1)">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Uw foto</h4>
 
+            <div>
+                <input type="file" id="userimage" ng-file-model="uiFile" />
+            </div>
+            <div id="uiPreview" class="imageUploadPreview" ng-show="uiReady">
+                <img ng-src="{{getUiUrl()}}" alt="You" width="10em" />
+            </div>
+
+            <div class="bottom">
+                <span id="error"></span>
+                <input type="submit" value="Upload" name="submit" ng-show="!uiReady" ng-click="uiUpload()" />
+                <input type="submit" value="Ga door" name="continue" ng-show="uiReady" ng-click="uiContinue()" />
+                <input type="reset" value="Cancel" name="cancel" ng-show="uiReady" ng-click="uiCancel()" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Autogegevens</h4>
+
+            <div>
+                <label>Merk</label>
+                <input ng-model="cdBrand" type="text" id="brand">
+            </div>
+            <div>
+                <label>Model</label>
+                <input ng-model="cdType" type="text" id="type">
+            </div>
+            <div>
+                <label>Brandstoftype</label>
+                <select ng-model="cdFueltype" id="fueltype">
+                    <option value="DIESEL">Diesel</option>
+                    <option value="SUPER95">Super 95</option>
+                    <option value="SUPER98">Super 98</option>
+                </select>
+            </div>
+            <div>
+                <label>Verbruik</label>
+                <input ng-model="cdConsumption" type="text" id="consumption">
+                <span class="afterInputText">l/100km</span>
+            </div>
+
+            <div class="bottom">
+                <span id="error"></span>
+                <input type="submit" value="Toevoegen" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        <form id="carimageform" ng-show="getNgShow(3)">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Autofoto</h4>
+
+            <div>
+                <input type="file" id="image" ng-file-model="ciFile" />
+            </div>
+            <div id="ciPreview" class="imageUploadPreview" ng-show="ciReady">
+                <img ng-src="{{getCiUrl()}}" alt="Your car" width="10em" />
+            </div>
+
+            <div class="bottom">
+                <span id="error"></span>
+                <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" />
+                <input type="submit" value="Ga door" name="continue" ng-show="ciReady" ng-click="ciContinue()" />
+                <input type="reset" value="Cancel" name="cancel" ng-show="ciReady" ng-click="ciCancel()" />
                 <div class="clear"></div>
             </div>
         </form>
@@ -63,8 +158,7 @@
         </form>
     </div>
     <div class="clear"></div>
-</div>                              -->
-
+</div>
 <section id="loginIcons">
     <img src="img/login/loginIcon.jpg" id="loginIcon"/><br/>
     <img src="img/login/registerIcon.png" id="registerIcon"/><br/>
