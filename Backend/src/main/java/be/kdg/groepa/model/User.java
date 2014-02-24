@@ -3,6 +3,7 @@ package be.kdg.groepa.model;
 import be.kdg.groepa.helpers.ImageHelper;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalDate;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class User {
     private String password;
 
     @Column(name="dateOfBirth")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDate")
     private LocalDate dateOfBirth;
 
 

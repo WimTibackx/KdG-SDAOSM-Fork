@@ -159,6 +159,12 @@
             <version>1.0</version>
         </dependency>
 
+        <!-- Persist org.threeten.bp -->
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.extended</artifactId>
+            <version>3.1.0.CR10</version>
+        </dependency>
     </dependencies>
 
     <build>

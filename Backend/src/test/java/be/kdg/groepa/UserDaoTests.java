@@ -76,9 +76,9 @@ public class UserDaoTests {
         userDao.createSession(session);
         assertNotNull("Should be added", userDao.getSessionByUsername(testUsername3));
         LocalDateTime firstVisit = session.getExperiationDate();
-        //We have to sleep 1 milisecond else maven doesn't notice the difference
+        //We have to sleep 1 second else there is no the difference (milliseconds get cut off)
         try {
-            Thread.sleep(1);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
 

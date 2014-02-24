@@ -1,5 +1,6 @@
 package be.kdg.groepa.model;
 
+import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalDateTime;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class SessionObject {
     private User user;
 
     @Column(name="expirationDate")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
     private LocalDateTime experiationDate;
 
     public SessionObject(){ }
