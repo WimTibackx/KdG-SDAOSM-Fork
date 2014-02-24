@@ -27,7 +27,7 @@ public class PlaceTime {
     @JoinColumn(name="weekdayRouteId")
     private WeekdayRoute weekdayRoute;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="trajectId", nullable = true)
     private Traject traject;
 

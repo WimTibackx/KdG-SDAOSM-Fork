@@ -1,13 +1,9 @@
 package be.kdg.groepa.model;
 
 import be.kdg.groepa.helpers.ImageHelper;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +32,7 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name="userId", nullable = true)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     private User user;
 
     @OneToMany

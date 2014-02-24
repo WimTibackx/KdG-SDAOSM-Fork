@@ -29,7 +29,6 @@ public class LoginTest {
            FirefoxDriver driver = new FirefoxDriver();
            driver.manage().window().setSize(new Dimension(1024, 860));
            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-           driver.get("http://localhost:8080/BackEnd/authorized/logout");
            driver.get("http://localhost:8080/frontend/app/index.html#/login");
            WebElement element = driver.findElementByName("username");
            element.sendKeys("profile@test.com");
@@ -65,7 +64,6 @@ public class LoginTest {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
         WebElement element = driver.findElementByName("username");
         element.sendKeys("profile@test.com");
@@ -83,10 +81,10 @@ public class LoginTest {
             e.printStackTrace();
         }
         element = driver.findElementById("profileName");
-        //assertTrue(element.getText().equals("Welkom, TestUser"));
+        assertTrue(element.getText().equals("Welkom, TestUser"));
 
         element = driver.findElementByName("username");
-        //assertTrue(element.getText().equals("profile@test.com"));
+        assertTrue(element.getText().equals("profile@test.com"));
         driver.close();
 
     }
@@ -97,7 +95,6 @@ public class LoginTest {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
         driver.get("http://localhost:8080/frontend/app/index.html#/myProfile");
 
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
@@ -120,7 +117,6 @@ public class LoginTest {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
 
         WebElement element = driver.findElementByName("username");
@@ -149,7 +145,6 @@ public class LoginTest {
         FirefoxDriver driver = new FirefoxDriver(firefoxProfile);
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/BackEnd/authorized/logout");
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
 
         WebElement element = driver.findElementByName("username");
