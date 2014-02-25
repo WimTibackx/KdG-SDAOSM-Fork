@@ -1,10 +1,8 @@
 package be.kdg.groepa.controllerTests;
 
 import be.kdg.groepa.TestUtil;
-import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.hamcrest.CoreMatchers.is;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -45,7 +43,7 @@ public class RegisterControllerTest {
         json.put("gender", "Male");
         json.put("smoker", true);
         json.put("password", "Password1");
-        json.put("dateofbirth", "1993-10-03");
+        json.put("dateofbirth", "10/03/1993");
         json.put("username", testUsername);
         json.put("brand", "Skoda");
         json.put("type", "Sködalike");
@@ -67,7 +65,7 @@ public class RegisterControllerTest {
         json.put("gender", "Male");
         json.put("smoker", true);
         json.put("password", "Password1");
-        json.put("dateofbirth", "1993-10-03");
+        json.put("dateofbirth", "10/03/1993");
         json.put("username", testUsername2);
 
         String myString = json.toString();

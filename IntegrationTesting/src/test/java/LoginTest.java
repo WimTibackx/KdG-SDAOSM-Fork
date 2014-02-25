@@ -24,8 +24,7 @@ public class LoginTest {
     @Before
     public void init(){
        if(!setup){
-           System.out.println("Check");
-            String script = "src/test/resources/Query.sql";
+           String script = "src/test/resources/Query.sql";
            FirefoxDriver driver = new FirefoxDriver();
            driver.manage().window().setSize(new Dimension(1024, 860));
            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);

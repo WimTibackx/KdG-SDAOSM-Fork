@@ -3,6 +3,7 @@
 // Uses: directive fileModel (directives.js)
 carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
     console.log("hey test register ctrl");
+    $("#datepicker").datepicker();
 
     var rootUrl = "http://localhost:8080/BackEnd/";
     var states=["#registerform","#userimageform","#driver-cardata","#carimageform"];
@@ -16,7 +17,7 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
         accounttype = $scope.udAccounttype;
         var data = {
             username: $scope.udUsername, password: $scope.udPassword, name: $scope.udName,
-            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: $scope.udDoB
+            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: $('#datepicker').val()
         };
         $http.post(rootUrl+"register/", JSON.stringify(data)).success(function (response) {
             if (response.hasOwnProperty("result")) {

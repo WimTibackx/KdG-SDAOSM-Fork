@@ -13,4 +13,16 @@ function clickLogout(){
             $("#error").show();
         }
     });
+
+}
+
+$( document ).ready(function(){
+    console.log("Helloooooooooooooooooooooo")
+    $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+})
+
+
+function datePicker() {
+    console.log("Hij komt in datepicker function");
+    $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
 }
