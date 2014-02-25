@@ -6,11 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.remote.LocalFileDetector;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Thierry on 24/02/14.
@@ -85,7 +89,7 @@ public class RegisterTest {
 
 
         element = driver.findElementByName("dateofbirthRegister");
-        element.sendKeys("07/19/1996");
+        element.sendKeys("1993-10-03");
 
         element = driver.findElementByCssSelector("input[value='passenger']");
         element.click();
@@ -94,13 +98,23 @@ public class RegisterTest {
         element.click();
 
         element = driver.findElementById("userimage");
-        element.sendKeys("src/test/resources/avatar.JPG");
+        LocalFileDetector detector = new LocalFileDetector();
+        String path = "src/test/resources/avatar.JPG";
+        File f = detector.getLocalFile(path);
+        element.sendKeys(f.getAbsolutePath());
 
-        element = driver.findElementById("submit");
+        element = driver.findElementByName("submit");
         element.click();
 
-        element = driver.findElementById("continue");
+        element = driver.findElementByName("continue");
         element.click();
+
+        element = driver.findElementById("profileName");
+        assertTrue(element.getText().equals("Welkom, Test User Name"));
+
+        element = driver.findElementByName("username");
+        assertTrue(element.getText().equals("NewTestUser@testRegister.com"));
+        driver.close();
 
 
 
