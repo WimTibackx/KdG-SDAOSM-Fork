@@ -115,7 +115,7 @@ public class RegisterTest {
         element = driver.findElementByCssSelector("#userimageform [name='continue']");
         element.click();
 
-
+        driver.close();
 
     }
 
