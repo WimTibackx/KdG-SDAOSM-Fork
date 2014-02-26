@@ -98,11 +98,6 @@ public class RouteTests {
 
         WeekdayRoute wr = new WeekdayRoute(0);
         WeekdayRoute wr1 = new WeekdayRoute(1);
- /*       WeekdayRoute wr2 = new WeekdayRoute(r, 2);
-        WeekdayRoute wr3 = new WeekdayRoute(r, 3);
-        WeekdayRoute wr4 = new WeekdayRoute(r, 4);
-        WeekdayRoute wr5 = new WeekdayRoute(r, 5);
-        WeekdayRoute wr6 = new WeekdayRoute(r, 6);*/
 
         wr.addPlaceTime(pt);
         wr.addPlaceTime(pt2);
@@ -177,24 +172,6 @@ public class RouteTests {
         routeService.addPlaceTimeToPlace(pt8, place4);
 
         Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, pt, pt2);
-
-        /*r.addPlaceTime(pt);
-        r.addPlaceTime(pt2);
-        r.addPlaceTime(pt3);
-        r.addPlaceTime(pt4);
-        r.addPlaceTime(pt5);
-        r.addPlaceTime(pt6);
-        r.addPlaceTime(pt7);
-        r.addPlaceTime(pt8);
-
-        pt.setRoute(r);
-        pt2.setRoute(r);
-        pt3.setRoute(r);
-        pt4.setRoute(r);
-        pt5.setRoute(r);
-        pt6.setRoute(r);
-        pt7.setRoute(r);
-        pt8.setRoute(r);*/
 
         routeService.addPlaceTimeToRoute(r, pt);
         routeService.addPlaceTimeToRoute(r, pt2);

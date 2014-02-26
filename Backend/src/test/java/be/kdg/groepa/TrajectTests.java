@@ -91,16 +91,16 @@ public class TrajectTests {
         PlaceTime pointA = new PlaceTime(LocalTime.of(8, 25), new Place("UserHome", 10, 20));
         PlaceTime pointC = new PlaceTime(LocalTime.of(12,30), new Place("UserWork", 11, 20));
         trajectService.addTraject(new Traject(pointA, pointC, routeA, user));
-        assertEquals("Incorrect amount of PlaceTimes in route", 4, user.getRoutes().get(0).getAllPlaceTimes().size());
+        assertEquals("Incorrect amount of PlaceTimes in route", 6, user.getRoutes().get(0).getAllPlaceTimes().size());  // actually expected 4, but route now gets an extra Traject by default (so 2 extra PlaceTimes)
     }
 
     @Test
     public void removeTrajectFromRoute(){
         Traject traj = new Traject(new PlaceTime(LocalTime.of(10, 25), new Place("UserHome", 10, 20)), new PlaceTime(LocalTime.of(15,30), new Place("UserWork", 11, 20)), routeB, user2);
         trajectService.addTraject(traj);
-        assertEquals("Not enough PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size());
+        assertEquals("Not enough PlaceTimes in route", 6, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story as "addTrajectToRoute"
         trajectService.removeTrajectFromRoute(routeB, traj);
-        assertEquals("Wrong amount of PlaceTimes in route", 2, user2.getRoutes().get(0).getAllPlaceTimes().size());
+        assertEquals("Wrong amount of PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story ^.
     }
 
     @Test

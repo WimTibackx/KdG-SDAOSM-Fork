@@ -39,5 +39,6 @@
         <mapping class="be.kdg.groepa.model.Traject"/>
         <mapping class="be.kdg.groepa.model.WeekdayRoute"/>
         <mapping class="be.kdg.groepa.model.Route"/>
+        <mapping class="be.kdg.groepa.model.Ride" />
         </session-factory>
 </hibernate-configuration>

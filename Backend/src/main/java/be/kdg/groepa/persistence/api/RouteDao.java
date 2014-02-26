@@ -1,9 +1,8 @@
 package be.kdg.groepa.persistence.api;
 
-import be.kdg.groepa.model.Place;
-import be.kdg.groepa.model.PlaceTime;
-import be.kdg.groepa.model.Route;
-import be.kdg.groepa.model.WeekdayRoute;
+import be.kdg.groepa.model.*;
+
+import java.util.List;
 
 /**
  * Created by Pieter-Jan on 18-2-14.
@@ -15,4 +14,6 @@ public interface RouteDao {
     public void addPlaceTimeToPlace(PlaceTime pt, Place p);
     public void addPlaceTimeToRoute(Route r, PlaceTime pt);
     public void addWeekdayRoute(WeekdayRoute wr);
+    public void addRide(Ride r);
+    public void confirmRide(List<Traject> trajacten);
 }
