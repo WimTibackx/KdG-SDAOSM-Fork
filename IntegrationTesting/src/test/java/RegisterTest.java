@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +36,7 @@ public class RegisterTest {
             element = driver.findElementByName("login");
             element.click();
             try {
-                Thread.sleep(2000);
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -67,13 +68,13 @@ public class RegisterTest {
         WebElement element = driver.findElementById("registerIcon");
         element.click();
 
-        element = driver.findElementByName("usernameRegister");
+        element = driver.findElementByCssSelector("#registerform [name='username']");
         element.sendKeys("NewTestUser@testRegister.com");
 
-        element = driver.findElementByName("passwordRegister");
+        element = driver.findElementByCssSelector("#registerform [name='password']");
         element.sendKeys("Password1");
 
-        element = driver.findElementByName("nameRegister");
+        element = driver.findElementByCssSelector("#registerform [name='name']");
         element.sendKeys("Test User Name");
 
         element = driver.findElementByCssSelector("input[value='FEMALE']");
@@ -84,8 +85,8 @@ public class RegisterTest {
 
 
 
-        element = driver.findElementByName("dateofbirthRegister");
-        element.sendKeys("07/19/1996");
+        element = driver.findElementByCssSelector("#registerform [name='dob']");
+        element.sendKeys("1996-07-19");
 
         element = driver.findElementByCssSelector("input[value='passenger']");
         element.click();
@@ -93,13 +94,25 @@ public class RegisterTest {
         element = driver.findElementByName("registreer");
         element.click();
 
-        element = driver.findElementById("userimage");
-        element.sendKeys("src/test/resources/avatar.JPG");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        element = driver.findElementById("submit");
+        element = driver.findElementById("userimage");
+        element.sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+
+        element = driver.findElementByCssSelector("#userimageform [name='submit']");
         element.click();
 
-        element = driver.findElementById("continue");
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        element = driver.findElementByCssSelector("#userimageform [name='continue']");
         element.click();
 
 

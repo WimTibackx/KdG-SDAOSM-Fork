@@ -3,6 +3,7 @@ package be.kdg.groepa.controllers;
 import be.kdg.groepa.dtos.CarDTO;
 import be.kdg.groepa.exceptions.CarNotFoundException;
 import be.kdg.groepa.exceptions.CarNotOfUserException;
+import be.kdg.groepa.exceptions.MissingDataException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.CarService;
@@ -28,10 +29,21 @@ public class CarController extends BaseController {
     @RequestMapping(value="/authorized/user/car/add",method= RequestMethod.POST)
     public @ResponseBody String addCar(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject dataOb = new JSONObject(data);
-        String brand = dataOb.getString("brand");
-        String type = dataOb.getString("type");
-        String fuelType = dataOb.getString("fueltype");
-        double consumption = dataOb.getDouble("consumption");
+        String brand, type, fuelType;
+        double consumption;
+
+        try {
+            if (!dataOb.has("brand")) throw new MissingDataException("brand");
+            brand = dataOb.getString("brand");
+            if (!dataOb.has("type")) throw new MissingDataException("type");
+            type = dataOb.getString("type");
+            if (!dataOb.has("fueltype")) throw new MissingDataException("fueltype");
+            fuelType = dataOb.getString("fueltype");
+            if (!dataOb.has("consumption")) throw new MissingDataException("consumption");
+            consumption = dataOb.getDouble("consumption");
+        } catch (MissingDataException e) {
+            return super.respondSimpleAuthorized("error","MissingDataException", request, response);
+        }
 
         User currentUser = super.getCurrentUser(request);
         Car car = new Car(brand, type, consumption, Car.FuelType.valueOf(fuelType.toUpperCase()));

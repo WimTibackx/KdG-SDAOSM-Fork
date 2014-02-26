@@ -24,83 +24,92 @@
 
 <div class="content" id="register" ng-controller="registerCtrl">
     <div class="form_wrapper">
-        <form id="registerform" ng-submit="udSubmit()" ng-show="getNgShow(0)">
+        <form name="udForm" id="registerform" ng-submit="udSubmit()" novalidate ng-show="getNgShow(0)">
             <h3 class="beforeh4">Registreer</h3>
             <h4>Uw gegevens</h4>
 
             <div>
                 <label>Usernaam:</label>
-                <input type="text" ng-model="udUsername" id="usernameRegister" name="usernameRegister"/>
+                <input type="text" ng-model="udUsername" ng-required="true" name="username" ng-pattern="/^[_a-z0-9-A-Z-]+(\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\.[a-z0-9-A-Z-]+)*(\.[a-zA-Z]{2,4})$/"/>
             </div>
             <div>
                 <label>Paswoord:</label>
-                <input type="password" ng-model="udPassword" id="passwordRegister" name="passwordRegister"/>
+                <input type="password" ng-model="udPassword" ng-required="true" name="password" ng-pattern="/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{7,30}$/"/>
             </div>
             <div>
                 <label>Naam:</label>
-                <input type="text" ng-model="udName" id="name" name="nameRegister"/>
+                <input type="text" ng-model="udName" ng-required="true" name="name"/>
             </div>
             <div>
                 <label>Geslacht:</label>
-                <input type="radio" ng-model="udGender" name="gender" value="MALE"/>Man
-                <input type="radio" ng-model="udGender" name="gender" value="FEMALE"/>Vrouw
+                <input type="radio" ng-model="udGender" ng-required="true" value="MALE" name="gender" />Man
+                <input type="radio" ng-model="udGender" ng-required="true" value="FEMALE" name="gender" />Vrouw
             </div>
             <div>
                 <label>Roker:</label>
-                <input type="radio" ng-model="udSmoker" name="smoker" value="true"/>Ja
-                <input type="radio" ng-model="udSmoker" name="smoker" value="false"/>Nee
+                <input type="radio" ng-model="udSmoker" ng-required="true" value="true" name="smoker" />Ja
+                <input type="radio" ng-model="udSmoker" ng-required="true" value="false" name="smoker" />Nee
             </div>
             <div>
                 <label>Geboortedatum:</label>
-
-                <input type="text" ng-model="udDoB" id="datepicker" name="dateofbirthRegister"/>
+                <input type="text" ng-model="udDoB" ng-required="true" name="dob" datepicker-popup="{{'yyyy-MM-dd'}}"/>
             </div>
             <div>
                 <label>Ik ben: </label>
-                <input type="radio" ng-model="udAccounttype" name="accounttype" value="driver"/>Chauffeur
-                <input type="radio" ng-model="udAccounttype" name="accounttype" value="passenger"/>Passagier
+                <input type="radio" ng-model="udAccounttype" ng-required="true" value="driver" name="accounttype"/>Chauffeur
+                <input type="radio" ng-model="udAccounttype" ng-required="true" value="passenger" name="accounttype"/>Passagier
             </div>
 
             <div class="bottom">
-                <span id="error"></span>
+                <span class="error" ng-show="udForm.$error.parse">There is a problem with our server, please try again later.</span>
+                <span class="error" ng-show="udForm.$error.unknown">An unknown error occured.</span>
+                <span class="error" ng-show="udForm.password.$error.pattern">The password doesn't adhere to the format [1 uppercase, 1 lowercase, 1 digit, no whitespaces, 7-30 length].</span>
+                <span class="error" ng-show="udForm.username.$error.pattern">Please enter a valid e-mailaddress in the username field.</span>
+                <span class="error" ng-show="udForm.$error.required">Please fill in all the fields</span>
+                <span class="error" ng-show="udForm.username.$error.exists">This e-mailaddress is already in use.</span>
                 <input type="submit" name="registreer" value="Registreer" />
                 <div class="clear"></div>
             </div>
         </form>
-        <form id="userimageform" ng-show="getNgShow(1)">
+        <form name="uiForm" id="userimageform" ng-show="getNgShow(1)" novalidate>
             <h3 class="beforeh4">Registreer</h3>
             <h4>Uw foto</h4>
 
             <div>
-                <input type="file" id="userimage" ng-file-model="uiFile" />
+                <input type="file" id="userimage" ng-file-model="uiFile" name="file" ng-required="true" />
             </div>
             <div id="uiPreview" class="imageUploadPreview" ng-show="uiReady">
                 <img ng-src="{{getUiUrl()}}" alt="You" width="10em" />
             </div>
 
             <div class="bottom">
-                <span id="error"></span>
+                <span class="error" ng-show="uiForm.$error.image">An error occured while uploading the images.</span>
+                <span class="error" ng-show="uiForm.$error.unknown">An unknown error occured.</span>
+                <span class="error" ng-show="uiForm.file.$error.required">Please select an image or skip.</span>
+                <span class="error" ng-show="uiForm.$error.removeimage">Something went wrong while removing your image.</span>
+
                 <input type="submit" value="Upload" name="submit" ng-show="!uiReady" ng-click="uiUpload()" />
+                <input type="reset" value="Overslaan" name="skip" ng-show="!uiReady" ng-click="uiContinue()" />
                 <input type="submit" value="Ga door" name="continue" ng-show="uiReady" ng-click="uiContinue()" />
                 <input type="reset" value="Cancel" name="cancel" ng-show="uiReady" ng-click="uiCancel()" />
                 <div class="clear"></div>
             </div>
         </form>
-        <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)">
+        <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)" name="cdForm" novalidate>
             <h3 class="beforeh4">Registreer</h3>
             <h4>Autogegevens</h4>
 
             <div>
                 <label>Merk</label>
-                <input ng-model="cdBrand" type="text" id="brand">
+                <input ng-model="cdBrand" type="text" id="brand" name="brand" ng-required="true"/>
             </div>
             <div>
                 <label>Model</label>
-                <input ng-model="cdType" type="text" id="type">
+                <input ng-model="cdType" type="text" id="type" name="type" ng-required="true"/>
             </div>
             <div>
                 <label>Brandstoftype</label>
-                <select ng-model="cdFueltype" id="fueltype">
+                <select ng-model="cdFueltype" id="fueltype" name="fueltype" ng-required="true">
                     <option value="DIESEL">Diesel</option>
                     <option value="SUPER95">Super 95</option>
                     <option value="SUPER98">Super 98</option>
@@ -108,12 +117,14 @@
             </div>
             <div>
                 <label>Verbruik</label>
-                <input ng-model="cdConsumption" type="text" id="consumption">
+                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true"/>
                 <span class="afterInputText">l/100km</span>
             </div>
 
             <div class="bottom">
-                <span id="error"></span>
+                <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
+                <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
+
                 <input type="submit" value="Toevoegen" />
                 <div class="clear"></div>
             </div>
@@ -132,6 +143,7 @@
             <div class="bottom">
                 <span id="error"></span>
                 <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" />
+                <input type="reset" value="Overslaan" name="skip" ng-show="!ciReady" ng-click="ciContinue()" />
                 <input type="submit" value="Ga door" name="continue" ng-show="ciReady" ng-click="ciContinue()" />
                 <input type="reset" value="Cancel" name="cancel" ng-show="ciReady" ng-click="ciCancel()" />
                 <div class="clear"></div>

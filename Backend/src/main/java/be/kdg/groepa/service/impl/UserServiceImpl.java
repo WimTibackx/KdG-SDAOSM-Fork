@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isValidUsername(String username) {
-        String regex = "^[_a-z0-9-A-Z-]+(\\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\\.[a-z0-9-A-Z-]+)*(\\.[a-zA-Z]{2,4})$";
+        String regex = "^[_a-z0-9-A-Z-]+(.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(.[a-z0-9-A-Z-]+)*(.[a-zA-Z]{2,4})$";
         return username.matches(regex);
     }
 

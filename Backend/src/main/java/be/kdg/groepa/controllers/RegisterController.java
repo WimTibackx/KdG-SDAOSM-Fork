@@ -1,5 +1,6 @@
 package be.kdg.groepa.controllers;
 
+import be.kdg.groepa.exceptions.MissingDataException;
 import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.exceptions.UsernameFormatException;
@@ -43,18 +44,31 @@ public class RegisterController extends BaseController{
         LocalDate dOB;
 
         JSONObject myJson = new JSONObject(data);
-        name = (String) myJson.get("name");
-        gender = (String) myJson.get("gender");
-        smoker = myJson.getBoolean("smoker");
-        password = (String) myJson.get("password");
-        dOB = LocalDate.parse(myJson.getString("dateofbirth"));
-
-        username = (String) myJson.get("username");
-        if(myJson.has("brand") && myJson.has("type") && myJson.has("consumption") && myJson.has("fuelType")){
-            carbrand = (String) myJson.get("brand");
-            cartype = (String) myJson.get("type");
-            carconsumption = myJson.getDouble("consumption");
-            carfueltype = (String) myJson.get("fuelType");
+        try {
+            if (!myJson.has("name")) throw new MissingDataException("name");
+            name = myJson.getString("name");
+            if (!myJson.has("gender")) throw new MissingDataException("gender");
+            gender = myJson.getString("gender");
+            if (!myJson.has("smoker")) throw new MissingDataException("smoker");
+            smoker = myJson.getBoolean("smoker");
+            if (!myJson.has("password")) throw new MissingDataException("password");
+            password = myJson.getString("password");
+            if (!myJson.has("dateofbirth")) throw new MissingDataException("dateofbirth");
+            dOB = LocalDate.parse(myJson.getString("dateofbirth"));
+            if (!myJson.has("username")) throw new MissingDataException("username");
+            username = myJson.getString("username");
+            //TODO: We don't need those anymore...
+            if(myJson.has("brand") && myJson.has("type") && myJson.has("consumption") && myJson.has("fuelType")){
+                carbrand = myJson.getString("brand");
+                cartype = myJson.getString("type");
+                carconsumption = myJson.getDouble("consumption");
+                carfueltype = myJson.getString("fuelType");
+            }
+        } catch (MissingDataException e) {
+            //We're not giving more detailed info, because front-end takes care of that, and the only way
+            //  people could get this is if they sent a request directly, which they shouldn't
+            //  or if they disabled javascript, in which case they shouldn't be using our website -_-
+            return super.makeSimpleJsonResponse("error","MissingDataException");
         }
 
         Car myCar = null;

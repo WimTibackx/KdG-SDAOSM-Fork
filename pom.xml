@@ -22,9 +22,9 @@
 
     <modules>
         <module>Backend</module>
-        <!--module>android</module-->
+        <module>android</module>
         <module>frontend</module>
-				<!--module>IntegrationTesting</module-->
+				<module>IntegrationTesting</module>
     </modules>
 
     <dependencies>
