@@ -1,4 +1,4 @@
-var carpoolServices = angular.module('carpoolServices', [])
+var carpoolServices = angular.module('carpoolServices', []);
 
 carpoolServices.factory('SharedProperties', function () {
     var property = null;
@@ -27,34 +27,43 @@ carpoolServices.service('$fileUpload', ['$http', function ($http) {
 carpoolServices.factory('$api', ['$http', function ($http) {
     var rootUrl = "http://localhost:8080/BackEnd";
 
+    function errorHandling(data, status, headers, config) {
+        switch (status) {
+            case 404:
+                console.log('Error: 404 Not Found');
+                break;
+            default:
+                console.log('Error: status code ' + status);
+                console.log('Technical mumbo-jumbo');
+                console.log('Data:');
+                console.log(data);
+                console.log('Status');
+                console.log(status);
+                console.log('Headers');
+                console.log(headers);
+                console.log('Config');
+                console.log(config);
+                console.log('=====');
+        }
+    }
+
     return {
         get: function (endpoint, callback) {
             console.log("Get from " + endpoint);
             $http.get(rootUrl + endpoint)
                 .success(function (data, status, headers, config) {
-                    callback(status, result);
+                    callback(status, data);
                 })
-                .error(function (data, status, headers, config) {
-                    if (status == 404) {
-                        console.log('Error: 404 Not Found');
-                    } else {
-                        console.log('Error: status code ' + status)
-                        console.log('Technical mumbo-jumbo');
-                        console.log('Data:');
-                        console.log(data);
-                        console.log('Status');
-                        console.log(status);
-                        console.log('Headers');
-                        console.log(headers);
-                        console.log('Config');
-                        console.log(config);
-                        console.log('=====');
-                    }
-                });
+                .error(errorHandling);
         },
 
         post: function (endpoint, data, callback) {
             console.log("Post to " + endpoint);
+            $http.post(rootUrl + endpoint, data)
+                .success(function(data, status, headers, config) {
+                    callback(status, data);
+                })
+                .error(errorHandling);
         }
     }
 
