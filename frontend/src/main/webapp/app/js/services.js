@@ -23,3 +23,19 @@ carpoolServices.service('$fileUpload', ['$http', function ($http) {
         });
     }
 }]);
+
+carpoolServices.factory('$api', function() {
+    var rootUrl = "http://localhost:8080/BackEnd";
+
+    return {
+        get: function(endpoint, callback) {
+            console.log("Get from " + endpoint);
+            return $http.get()
+        },
+
+        post: function(endpoint, data, callback) {
+            console.log("Post to " + endpoint);
+        }
+    }
+
+});

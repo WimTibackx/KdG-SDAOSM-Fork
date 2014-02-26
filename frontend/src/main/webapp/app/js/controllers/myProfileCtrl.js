@@ -25,7 +25,7 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location
                 }
             } else {
                 username = obj["name"];
-                $scope.personname = username
+                $scope.personname = username;
                 var date = obj["dateOfBirth"];
                 $scope.dateBirth = date["day"] + "/" + date["month"] + "/" + date["year"];
                 $scope.cars = obj["cars"];
