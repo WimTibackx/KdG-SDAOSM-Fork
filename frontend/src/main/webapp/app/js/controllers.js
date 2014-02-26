@@ -1,5 +1,7 @@
 var carpoolingControllers = angular.module('carpoolingControllers', []);
 
+var rootUrl = "http://localhost:8080/BackEnd";
+
 // Little experiment to load controllers
 console.log('=== Begin Experiment ===');
 
