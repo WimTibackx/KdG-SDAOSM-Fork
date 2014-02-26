@@ -1,16 +1,16 @@
 var carpoolingControllers = angular.module('carpoolingControllers', []);
 
-var rootUrl = "http://localhost:8080/BackEnd";
-
 // Little experiment to load controllers
 console.log('=== Begin Experiment ===');
 
 var head = document.getElementsByTagName('head')[0];
-var JsFileNames = ['addCar', 'addRoute', 'changePassword', 'changeRemoveCar', 'login', 'myProfile', 'password', 'register'];
+var jsControllers = ['addCar', 'addRoute', 'changePassword', 'changeRemoveCar', 'login', 'myProfile', 'password', 'register'];
+// Add name of controller file here when adding new controller (without Ctrl)
+// So if you add "addCarCtrl.js" you add "addCar" to the array
 
-for (var i = 0; i < JsFileNames.length; i++) {
+for (var i = 0; i < jsControllers.length; i++) {
     var script = document.createElement('script');
-    script.src = 'js/controllers/' + JsFileNames[i] + 'Ctrl.js';
+    script.src = 'js/controllers/' + jsControllers[i] + 'Ctrl.js';
     head.appendChild(script);
 }
 

@@ -60,6 +60,8 @@
                     {{car.brand}}<br/>{{car.consumption}}
                 </section>
             </section>
+            <a href="http://localhost:8080/frontend/app/index.html#/myProfile/addCar"><section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+            </section></a>
         </section>
 
 
@@ -94,10 +96,8 @@
                     </td>
                 </tr>
             </table>
-            <a href="index.html#/addRouteMap">
-                <button class="routeButton">Voeg route toe</button>
-            </a>
-            <button class="routeButton">Wijzig route</button>
+            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+            </section>
         </div>
 
 
@@ -110,7 +110,6 @@
                     <td>
                         Bestemming
                     </td>
-
                 </tr>
                 <tr>
                     <td>
@@ -122,12 +121,11 @@
                     <td>
                         <img class="imgMarkup" alt="remove car" ng-src="../app/img/profilePage/editPencil.png"></td>
                     </td>
-
                 </tr>
             </table>
-
-            <button class="routeButton">Voeg route toe</button>
-            <button class="routeButton">Wijzig route</button>
+            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
+                toe
+            </section>
         </div>
 
         <div class="myRoutes" ng-hide="hideTrajects">
@@ -162,8 +160,8 @@
                     </td>
                 </tr>
             </table>
-            <button class="routeButton">Voeg route toe</button>
-            <button class="routeButton">Wijzig route</button>
+            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+            </section>
         </div>
     </section>
 </section>
