@@ -39,6 +39,8 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location
             }
         });
 
+    $scope.hideRoutes = true;
+    $scope.hideTrajects = true;
 
     $scope.removeCar = function (carId) {
         console.log(carId);
@@ -47,5 +49,21 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location
     $scope.clickCar = function (car) {
         console.log(car.carId);
         window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile/changeRemoveCar/" + car.carId + "";
+    }
+
+    $scope.tabRoutesClick = function () {
+        $scope.hideCars = true;
+        $scope.hideRoutes = false;
+        $scope.hideTrajects = true;
+    }
+    $scope.tabCarsClick = function () {
+        $scope.hideCars = false;
+        $scope.hideRoutes = true;
+        $scope.hideTrajects = true;
+    }
+    $scope.tabTrajectsClick = function () {
+        $scope.hideCars = true;
+        $scope.hideRoutes = true;
+        $scope.hideTrajects = false;
     }
 }]);
