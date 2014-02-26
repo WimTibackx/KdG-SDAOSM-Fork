@@ -43,6 +43,10 @@ carpoolingApp.config(['$routeProvider',
                 templateUrl: 'partials/addRouteMap.html',
                 controller: 'addRouteCtrl'
             }).
+            when('/changePassword', {
+                templateUrl: 'partials/changePassword.html',
+                controller: 'changePasswordCtrl'
+            }).
             otherwise({
                 redirectTo: '/login'
             });
