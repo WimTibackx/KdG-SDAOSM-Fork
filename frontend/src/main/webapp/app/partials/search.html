@@ -1,0 +1,15 @@
+<section id="inline">
+    <section id="filters">
+        <img class="filterIcon" src="../app/img/search/googleMapsIcon.png" ng-click="routeSearchClick()"/><br/>
+        <img class="filterIcon" src="../app/img/search/clock.png" ng-click="timeSearchClick()"/><br/>
+        <img class="filterIcon" src="../app/img/search/userIcon.png" ng-click="userSearchClick()"/><br/>
+        <img class="filterIcon" src="../app/img/search/searchIcon.png" ng-click="resultsSearchClick()"/>
+    </section>
+
+    <section id="searchOptions">
+        <section id="routeSearchOptions" ng-hide="hideRouteSearch">route search</section>
+        <section id="timeSearchOptions"ng-hide="hideTimeSearch">time search</section>
+        <section id="userSearchOptions"ng-hide="hideUserSearch">user search</section>
+        <section id="searchResults"ng-hide="hideResultsSearch">search results</section>
+    </section>
+</section>
