@@ -3,9 +3,11 @@ package be.kdg.groepa.persistence.impl;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ import java.util.List;
 @Repository("routeDao")
 public class RouteDaoImpl implements RouteDao {
 
+    @Transactional
     @Override
     public void addRoute(Route r) {
         Session ses = HibernateUtil.openSession();
@@ -53,6 +56,7 @@ public class RouteDaoImpl implements RouteDao {
         }
     }  */
 
+    @Transactional
     @Override
     public void addPlaceTimeToRoute(Route r, PlaceTime pt)
     {
@@ -89,5 +93,24 @@ public class RouteDaoImpl implements RouteDao {
         Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(ride);
         HibernateUtil.closeSession(ses);
+    }
+
+    public PlaceTime getPlaceTimeById(int id) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from PlaceTime pt where pt.placetimeId = :id");
+        query.setInteger("id", id);
+        PlaceTime pt = (PlaceTime)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return pt;
+    }
+
+    @Override
+    public Route getRouteById(int routeId) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from Route ro where ro.id = :id");
+        query.setInteger("id", routeId);
+        Route route = (Route)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return route;
     }
 }

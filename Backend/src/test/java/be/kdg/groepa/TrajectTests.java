@@ -118,9 +118,4 @@ public class TrajectTests {
         assertEquals("New PlaceTime 1 is not at the right position", routeD.getPlaceTimes().get(1), newPlaceTime);
         assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime3);
     }
-
-    //@Test
-    public void removeTrajectWithDoublePlaceTimes(){
-
-    }
 }

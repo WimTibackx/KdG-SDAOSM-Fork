@@ -112,11 +112,11 @@ public class RegisterTest {
         Helper.wait(2000);
 
         RegisterPage.CiForm ciForm = rp.getCiForm();
-        ciForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        ciForm.getFileField().sendKeys(new File("src/test/resources/car.jpg").getAbsolutePath());
         ciForm.getSubmitButton().click();
         Helper.wait(8000);
         ciForm.getContinueButton().click();
-        Helper.wait(2000);
+        Helper.wait(3000);
 
         ProfilePage pp = new ProfilePage(driver);
         Assert.assertTrue(pp.assertCurrentlyOnProfile("Test User Name"));
@@ -132,7 +132,7 @@ public class RegisterTest {
         uiForm.getSubmitButton().click();
         Helper.wait(8000);
         uiForm.getContinueButton().click();
-        Helper.wait(2000);
+        Helper.wait(3000);
     }
 
 }

@@ -3,6 +3,7 @@ package be.kdg.groepa.model;
 import be.kdg.groepa.helpers.ImageHelper;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalDate;
 
@@ -47,8 +48,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = javax.persistence.CascadeType.ALL)
     private SessionObject sessionObject;
 
-    @OneToMany
-    @JoinColumn(name="routeId")
+    @OneToMany(mappedBy = "chauffeur")
     @Cascade(CascadeType.ALL)
     protected List<Route> routes = new ArrayList<>();
 

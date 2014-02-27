@@ -53,6 +53,8 @@ public class RegisterPage extends Page {
 
         public WebElement getSubmitButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='submit']"); }
         public WebElement getContinueButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='continue']"); }
+        public WebElement getSkipButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='skip']"); }
+        public WebElement getCancelButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='cancel']"); }
     }
 
     public static class CdForm extends Page {

@@ -5,8 +5,11 @@ import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 /**
  * Created by Tim on 19/02/14.
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("JpaQlInspection")
 @Repository("trajectDao")
 public class TrajectDaoImpl implements TrajectDao {
+
+    @Transactional
     @Override
     public void addTraject(Traject traject) {
         Session ses = HibernateUtil.openSession();
@@ -26,26 +31,13 @@ public class TrajectDaoImpl implements TrajectDao {
         HibernateUtil.closeSession(ses);
     }
 
+    @Transactional
     @Override
     public void removeTrajectFromRoute(Route route, Traject traj) {
         Session ses = HibernateUtil.openSession();
-        boolean containsPickup = false, containsDropoff = false;
-        // If the pickup/dropoff points aren't used by any other trajects, remove them. Otherwise keep them.
-        for (Traject tr : route.getTrajects()) {
-            if (tr.getDropoff() == traj.getDropoff() || tr.getPickup() == traj.getDropoff()) {
-                containsDropoff = true;
-            }
-            if (tr.getDropoff() == traj.getPickup() || tr.getPickup() == traj.getPickup()) {
-                containsPickup = true;
-            }
-        }
-        if(!containsDropoff){
-            ses.delete(traj.getDropoff());
-        }
-        if(!containsPickup){
-            ses.delete(traj.getPickup());
-        }
+        route.removeTraject(traj);
         ses.delete(traj);
+        ses.saveOrUpdate(route.getChauffeur());
         ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);
     }
@@ -57,6 +49,7 @@ public class TrajectDaoImpl implements TrajectDao {
         HibernateUtil.closeSession(ses);
     }
 
+    @Transactional
     @Override
     public void saveRouteAndPoints(Route route, PlaceTime previousPlaceTime, PlaceTime newPlaceTime) {
         Session ses = HibernateUtil.openSession();
@@ -66,5 +59,15 @@ public class TrajectDaoImpl implements TrajectDao {
         ses.saveOrUpdate(newPlaceTime);
         ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public Traject getTrajectById(int trajectId) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from Traject traj where traj.id = :id");
+        query.setInteger("id", trajectId);
+        Traject traject = (Traject)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return traject;
     }
 }

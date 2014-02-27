@@ -9,6 +9,7 @@ import be.kdg.groepa.service.api.TrajectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -27,9 +28,9 @@ public class TrajectServiceImpl implements TrajectService {
         trajectDao.addTraject(traj);
     }
 
+    @Transactional
     @Override
     public void removeTrajectFromRoute(Route route, Traject traj) {
-        route.removeTraject(traj);
         trajectDao.removeTrajectFromRoute(route, traj);
     }
 
@@ -42,6 +43,7 @@ public class TrajectServiceImpl implements TrajectService {
         }
     }
 
+    @Transactional
     @Override
     public void addNewTrajectToRoute(PlaceTime previousPlaceTime1, PlaceTime newPlaceTime1, PlaceTime previousPlaceTime2, PlaceTime newPlaceTime2, User user) {
         Traject resultTraject = new Traject(newPlaceTime1, newPlaceTime2, previousPlaceTime1.getRoute(), user);
@@ -51,6 +53,10 @@ public class TrajectServiceImpl implements TrajectService {
         trajectDao.addTraject(resultTraject);
         insertNewRoutePoint(previousPlaceTime1, newPlaceTime1);
         insertNewRoutePoint(previousPlaceTime2, newPlaceTime2);
+    }
 
+    @Override
+    public Traject getTrajectById(int trajectId) {
+        return trajectDao.getTrajectById(trajectId);
     }
 }
