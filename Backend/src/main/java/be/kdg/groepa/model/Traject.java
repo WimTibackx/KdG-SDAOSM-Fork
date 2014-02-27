@@ -38,6 +38,10 @@ public class Traject {
     @JoinColumn(name="userId")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name="rideId")
+    private Ride ride;
+
     @Column(name="isAccepted")
     private boolean isAccepted;
 
@@ -52,9 +56,11 @@ public class Traject {
         this.user = user;
     }
 
-    public PlaceTime getPickup() {
-        return pickup;
+    public void setRide(Ride r){
+        this.ride = r;
     }
+
+    public PlaceTime getPickup() { return pickup; }
 
     public PlaceTime getDropoff() {
         return dropoff;

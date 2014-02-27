@@ -6,6 +6,8 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
     console.log("hey changePassword controller test");
 
     $scope.changePwd = function () {
+        $api.get('/authorized/changepassword', null);
+
         if ($scope.newpwd1 == $scope.newpwd2) {
             jsonObj = {};
             jsonObj.oldpassword = $scope.oldpwd;
@@ -16,7 +18,7 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                 url: rootUrl + "/authorized/changepassword",
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
-                    console.log(response);
+
                 });
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."

@@ -180,7 +180,7 @@ form.forgot_password{
 	margin:2px 5px 0px 0px;
 }
 .form_wrapper span.error{
-	visibility:hidden;
+	/*visibility:hidden;*/
 	color:red;
 	font-size:11px;
 	font-style:italic;
@@ -203,6 +203,16 @@ form.forgot_password{
 	margin:15px 20px 10px 10px;
 	border-radius: 4px;
 }
+.form_wrapper input[type="submit"]:disabled,
+.form_wrapper input[type="reset"]:disabled,
+.form_wrapper input[type="submit"]:hover:disabled,
+.form_wrapper input[type="reset"]:hover:disabled {
+    background-image:url(../img/loading.gif);
+    height:39px;
+    font-size:0;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .form_wrapper input[type="reset"] {
     background:#aaaaaa;
     float:left;
@@ -213,11 +223,11 @@ form.forgot_password{
     background: #d1d1d1;
 }
 
-#error{
+#error, .error{
     color: red;
     display: none;
     text-align: center;
-    font-size: 10;
+    font-size: 10px;
 }
 /*.form_wrapper input[type="submit"]:hover {
 	background: #d9d9d9;

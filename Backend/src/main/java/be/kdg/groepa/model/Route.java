@@ -30,27 +30,27 @@ public class Route {
 
     @ManyToOne
     @JoinColumn(name="userId", nullable=false)
-    @Cascade(CascadeType.ALL)
     private User chauffeur;
 
     @ManyToOne
     @JoinColumn(name="carId", nullable=false)
-    @Cascade(CascadeType.ALL)
     private Car car;
 
     @OneToMany(mappedBy="route")
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
-    @Cascade(CascadeType.ALL)
     private List<WeekdayRoute> weekdayRoutes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     private List<Traject> trajects = new ArrayList<>();
 
+
     public Route() {}
+
+
 
     public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end) {
         this.repeating = repeating;
@@ -62,6 +62,10 @@ public class Route {
         this.placeTimes.add(start);
         this.placeTimes.add(end);
     }
+
+
+
+
     public boolean isRepeating()
     {
         return repeating;

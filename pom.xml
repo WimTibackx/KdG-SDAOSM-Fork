@@ -24,7 +24,11 @@
         <module>Backend</module>
         <module>android</module>
         <module>frontend</module>
+<<<<<<< HEAD
 		<module>IntegrationTesting</module>
+=======
+				<module>IntegrationTesting</module>
+>>>>>>> 3c6cccd758e2db7d75ba3994bcbb49a4b22b62fd
     </modules>
 
     <dependencies>
