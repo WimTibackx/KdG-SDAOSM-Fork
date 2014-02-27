@@ -5,6 +5,7 @@ import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.Car;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.model.User;
@@ -12,6 +13,7 @@ import be.kdg.groepa.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -35,4 +37,6 @@ public interface UserService {
     public void editUserPicture(String username, File newPicture);
     public void removeUserPicture(User user);
     public void setUserPicture(User user, InputStream picture, String originalName) throws IOException;
+
+    List<Route> getRoutesFromUser(String testUsername);
 }

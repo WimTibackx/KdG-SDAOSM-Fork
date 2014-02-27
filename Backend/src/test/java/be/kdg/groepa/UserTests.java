@@ -10,7 +10,6 @@ import be.kdg.groepa.persistence.impl.UserDaoImpl;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +21,6 @@ import org.threeten.bp.LocalDate;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -216,7 +213,7 @@ public class UserTests {
         //TODO -- Need a way to check if the file was actually removed, but it would work better as an integration- or E2E-test.
     }
 
-    @After
+    //@After
     public void clearImages(){
         File[] carImages = new File("src"+File.separator+"main"+File.separator+"webapp"+File.separator+"carImages").listFiles();
         if (carImages != null) {

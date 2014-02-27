@@ -1,10 +1,14 @@
-var carpoolingControllers = angular.module('carpoolingControllers', []);
+//Redefining this in the global scope because someone removed it before removing all references
+//  and thus quite a lot of shit broke -_-
+var rootUrl = "http://localhost:8080/BackEnd";
+
+var carpoolingControllers = angular.module('carpoolingControllers', ['ui.bootstrap']);
 
 // Little experiment to load controllers
 console.log('=== Begin Experiment ===');
 
 var head = document.getElementsByTagName('head')[0];
-var jsControllers = ['addCar', 'addRoute', 'changePassword', 'changeRemoveCar', 'login', 'myProfile', 'password', 'register'];
+var jsControllers = ['login', 'addCar', 'addRoute', 'changePassword', 'changeRemoveCar', 'myProfile', 'password', 'register'];
 // Add name of controller file here when adding new controller (without Ctrl)
 // So if you add "addCarCtrl.js" you add "addCar" to the array
 

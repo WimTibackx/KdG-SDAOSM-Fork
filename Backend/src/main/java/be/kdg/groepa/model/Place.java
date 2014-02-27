@@ -18,17 +18,17 @@ public class Place {
     private String name;
 
     @Column(name="lat")
-    private float lat;
+    private double lat;
 
     @Column(name="lon")
-    private float lon;
+    private double lon;
 
     @JoinColumn(name="placetimeId")
     private ArrayList<PlaceTime> placeTime;
 
     public Place() {}
 
-    public Place(String name, float lat, float lon) {
+    public Place(String name, double lat, double lon) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;

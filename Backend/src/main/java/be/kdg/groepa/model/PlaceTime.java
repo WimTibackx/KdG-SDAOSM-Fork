@@ -72,4 +72,7 @@ public class PlaceTime {
         this.route = route;
     }
 
+    public Object getId() {
+        return placetimeId;
+    }
 }

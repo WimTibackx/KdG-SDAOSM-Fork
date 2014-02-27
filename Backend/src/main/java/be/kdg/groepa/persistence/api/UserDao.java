@@ -1,10 +1,12 @@
 package be.kdg.groepa.persistence.api;
 
 import be.kdg.groepa.model.Car;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by Thierry on 4/02/14.
@@ -42,4 +44,6 @@ public interface UserDao {
     public void deleteCar(Car car);
 
     public void updateUser(User user);
+
+    List<Route> getRoutesFromUser(String testUsername);
 }

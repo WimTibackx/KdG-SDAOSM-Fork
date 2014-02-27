@@ -38,7 +38,7 @@ public class LoginTest {
            element = driver.findElementByName("login");
            element.click();
            try {
-               Thread.sleep(2000);
+               Thread.sleep(4000);
            } catch (InterruptedException e) {
                e.printStackTrace();
            }
@@ -75,11 +75,11 @@ public class LoginTest {
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(8000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        element = driver.findElementById("profileName");
+        element = driver.findElementById("profileheader"); //TODO Hier iets fout met het element ofzo
         assertTrue(element.getText().equals("Welkom, TestUser"));
 
         element = driver.findElementByName("username");
@@ -98,7 +98,7 @@ public class LoginTest {
 
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -128,7 +128,7 @@ public class LoginTest {
         element.click();
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -156,7 +156,7 @@ public class LoginTest {
         element.click();
         //ImplicitlyWait doesn't work for angular JS so we need to sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

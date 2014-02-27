@@ -3,6 +3,7 @@ package be.kdg.groepa.service.impl;
 
 import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.model.Car;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
 
 import be.kdg.groepa.exceptions.PasswordFormatException;
@@ -11,6 +12,7 @@ import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -143,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isValidUsername(String username) {
-        String regex = "^[_a-z0-9-A-Z-]+(\\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\\.[a-z0-9-A-Z-]+)*(\\.[a-zA-Z]{2,4})$";
+        String regex = "^[_a-z0-9-A-Z-]+(.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(.[a-z0-9-A-Z-]+)*(.[a-zA-Z]{2,4})$";
         return username.matches(regex);
     }
 
@@ -156,7 +159,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        StringBuffer sb = new StringBuffer();
+       StringBuffer sb = new StringBuffer();
         byte[] digest = md.digest(bytesOfMessage);
         for (byte b : digest) {
             sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
@@ -187,6 +190,11 @@ public class UserServiceImpl implements UserService {
         user.setAvatarURL(imagename + ext);
         userDao.updateUser(user);
         return;
+    }
+
+    @Override
+    public List<Route> getRoutesFromUser(String testUsername) {
+        return userDao.getRoutesFromUser(testUsername);
     }
 
     public void removeCarPicture(Car car) {

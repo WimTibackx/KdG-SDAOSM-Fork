@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.CoreMatchers.is;
@@ -76,5 +77,22 @@ public class RegisterControllerTest {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
                 .andExpect(jsonPath("result", is("Logged in")));
+    }
+
+    @Test
+    public void errorMissingData() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("gender", "Male");
+        json.put("smoker", true);
+        json.put("password", "Password1");
+        json.put("dateofbirth", "1993-10-03");
+        json.put("username", testUsername2);
+        String body = json.toString();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(post("/register")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andExpect(jsonPath("error").value("MissingDataException"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

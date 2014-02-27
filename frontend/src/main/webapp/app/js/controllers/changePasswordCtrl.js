@@ -1,3 +1,4 @@
+
 /**
  * Created by peter on 25/02/14.
  */
@@ -6,7 +7,6 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
     console.log("hey changePassword controller test");
 
     $scope.changePwd = function () {
-        $api.get('/authorized/changepassword', null);
 
         if ($scope.newpwd1 == $scope.newpwd2) {
             jsonObj = {};
@@ -19,7 +19,12 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
                     console.log(response);
-                });
+
+                })
+                .error(function(response){
+                    console.log("Hij komt in error")
+                    $scope.error = "Onze service is niet beschikbaar, vul alle velden zeker in";
+                })
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."
         }

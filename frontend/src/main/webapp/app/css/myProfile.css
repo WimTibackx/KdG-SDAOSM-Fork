@@ -35,11 +35,13 @@
     width: 19em;
     position: relative;
 }
-.blockRight{
-    float:right;
+
+.blockRight {
+    float: right;
     height: 485px;
 }
-.myRoutes, #trajects{
+
+.myRoutes, #trajects {
     width: 50em;
     height: 485px;
     float: left;
@@ -58,6 +60,11 @@
     width: 48em;
     margin-top: 1em;
     border: 1px solid #ffffff;
+}
+
+.routeTable tr:hover, .ritTable tr:hover, .trajectTable tr:hover {
+    background: rgba(238, 238, 238, 0.09);
+    cursor: pointer;
 }
 
 .routeTable table, .ritTable table, .trajectTable table, #carTable table {
@@ -97,25 +104,26 @@
 
 }
 
-.routeTable tr:nth-child(odd), .ritTable tr:nth-child(odd), .trajectTable tr:nth-child(odd), #carsTable tr:nth-child(odd) {
+/*.routeTable tr:nth-child(odd), .ritTable tr:nth-child(odd), .trajectTable tr:nth-child(odd), #carsTable tr:nth-child(odd) {
     background-color: #c4c4c4;
 }
 
 .routeTable tr:nth-child(even), .ritTable tr:nth-child(even), .trajectTable tr:nth-child(even), #carsTable tr:nth-child(even) {
     background-color: #ffffff;
+}  */
+
+#routeTableTitles, .tableTitles{
+    cursor: default;
 }
 
 .routeTable td, .ritTable td, .trajectTable td, #carsTable td {
     vertical-align: middle;
-
-    border: 1px solid #ffffff;
-    border-width: 0px 1px 1px 0px;
     text-align: left;
     padding: 5px;
     font-size: 12px;
     font-family: Arial;
     font-weight: normal;
-    color: #000000;
+    color: white;
 }
 
 .routeTable tr:last-child td, .ritTable tr:last-child td, .trajectTable tr:last-child td, #carsTable tr:last-child td {
@@ -145,7 +153,7 @@
     color: #ffffff;
 }
 
-.routeTable tr:first-child:hover td, .ritTable tr:first-child:hover td, .trajectTable tr:first-child:hover td, #carsTable tr:first-child:hover td {
+/*.routeTable tr:first-child:hover td, .ritTable tr:first-child:hover td, .trajectTable tr:first-child:hover td, #carsTable tr:first-child:hover td {
     background: -o-linear-gradient(bottom, #353535 5%, #353535 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #353535), color-stop(1, #353535));
     background: -moz-linear-gradient(center top, #353535 5%, #353535 100%);
@@ -153,14 +161,16 @@
     background: -o-linear-gradient(top, #353535, 353535);
 
     background-color: #353535;
-}
+}            */
 
 .routeTable tr:first-child td:first-child, .ritTable tr:first-child td:first-child, .trajectTable tr:first-child td:first-child, #carsTable tr:first-child td:first-child {
     border-width: 0px 0px 1px 0px;
+    color: white;
 }
 
 .routeTable tr:first-child td:last-child, .ritTable tr:first-child td:last-child, .trajectTable tr:first-child td:last-child, #carsTable tr:first-child td:last-child {
     border-width: 0px 0px 1px 1px;
+    color: white;
 }
 
 .tableTitles {
@@ -197,11 +207,11 @@
     padding: 0.5em;
 }
 
-#avatar{
+#avatar {
     /*content: url("../img/avatar.JPG");*/
 }
 
-.imgMarkup{
+.imgMarkup {
     height: 30px;
     width: 30px;
     cursor: pointer;
@@ -216,27 +226,31 @@
 }    */
 
 /* overview cars my profile */
-#carImage{
+#carImage {
     width: 160px;
     height: 105px;
     position: absolute;
     border-right: solid 1px gray;
     padding-right: 5em;
 }
-#carsOverview{
+
+#carsOverview {
     margin: 1em 1em 2.5em 1em;
     padding-bottom: 5em;
     position: relative;
     cursor: pointer;
 }
-#carsOverview:hover{
-    background:rgba(238, 238, 238, 0.09);
+
+#carsOverview:hover {
+    background-color: rgba(238, 238, 238, 0.09);
 }
-#carSpecs{
+
+#carSpecs {
     position: relative;
     margin-left: 18em;
 }
-#carField{
+
+#carField {
     float: left;
     margin: 1em;
     border: solid 1px gray;
@@ -245,12 +259,12 @@
     position: relative;
 }
 
-
-#tabsMyProfile{
+#tabsMyProfile {
     float: right;
     border-left: solid 1px gray;
 }
-.tab{
+
+.tab {
     font-size: 0.5em;
     float: right;
     margin-left: 3em;
@@ -258,13 +272,14 @@
 }
 
 /* add icon my profile page */
-.addIcon{
+.addIcon {
     height: 15px;
     width: 15px;
     margin-right: 1em;
     margin-left: 1em;
 }
-.addTextProfile{
+
+.addTextProfile {
     color: white;
     cursor: pointer;
     border-top: solid 1px gray;
@@ -272,4 +287,25 @@
     position: absolute;
     bottom: 0px;
     width: 100%;
+}
+
+.addTextInfoProfile{
+    color: white;
+    cursor: pointer;
+    border-top: solid 1px gray;
+    padding: 1em 0;
+    bottom: 0px;
+    width: 100%;
+    margin-top: 83%;
+}
+
+.noUnderline{
+    text-decoration: none;
+}
+
+.changePasswordIcon{
+    height: 15px;
+    width: 15px;
+    margin-right: 1em;
+    margin-left: 0;
 }

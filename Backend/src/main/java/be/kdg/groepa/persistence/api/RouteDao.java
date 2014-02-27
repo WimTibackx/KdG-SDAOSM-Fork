@@ -18,4 +18,6 @@ public interface RouteDao {
     public void confirmRide(Route r);
     public void editRoute(Route r, List<PlaceTime> placetimes);
     public void editWeekdayRoute(WeekdayRoute wr, List<PlaceTime> placetimes);
+    public PlaceTime getPlaceTimeById(int id);
+    public Route getRouteById(int routeId);
 }

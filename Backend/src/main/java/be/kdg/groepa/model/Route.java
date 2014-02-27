@@ -1,10 +1,12 @@
 package be.kdg.groepa.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.*;
 import org.threeten.bp.LocalDateTime;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,15 +38,16 @@ public class Route {
     @JoinColumn(name="carId", nullable=false)
     private Car car;
 
+
     @OneToMany(mappedBy="route")
-    @Cascade(CascadeType.REFRESH)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
     private List<WeekdayRoute> weekdayRoutes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
-    @Cascade(CascadeType.REFRESH)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Traject> trajects = new ArrayList<>();
 
     public Route() {}
@@ -110,5 +113,9 @@ public class Route {
 
     public List<Traject> getTrajects() {
         return trajects;
+    }
+
+    public int getId() {
+        return id;
     }
 }
