@@ -3,7 +3,7 @@
  * Created by peter on 25/02/14.
  */
 // Change Password Controller
-carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$location', '$api', function ($scope, $http, $location, $api) {
+carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$http', '$location', '$api', function ($scope, $http, $location, $api) {
     console.log("hey changePassword controller test");
 
     $scope.changePwd = function () {
@@ -13,6 +13,8 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
             jsonObj.oldpassword = $scope.oldpwd;
             jsonObj.newpassword = $scope.newpwd1;
 
+
+            // $api.post('/authorized/changepassword');
             $http({
                 method: 'POST',
                 url: rootUrl + "/authorized/changepassword",

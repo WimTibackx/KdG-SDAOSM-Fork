@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: Login
-carpoolingControllers.controller('loginCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
+carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
 
     console.log("hey test login ctrl");
     console.log(readCookie("Token"));

@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: Password
-carpoolingControllers.controller('passwordCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingApp.controllerProvider.register('passwordCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("hey password controller test");
 
     var password = $('#passwordform');
