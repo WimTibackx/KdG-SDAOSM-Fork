@@ -48,9 +48,6 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                     $(".message").hide();
                 })
 
-                    console.log("Password change success");
-                    window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile";
-
 
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."
