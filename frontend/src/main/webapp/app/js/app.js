@@ -21,9 +21,6 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 templateUrl: 'partials/changeRemoveCar.html'//,
                 //controller: 'changeRemoveCarCtrl'
             }).
-            when('/addRouteMap', {
-                templateUrl: 'partials/addRouteMap.html'
-            }).
             when('/contact', {
                 templateUrl: 'partials/contact.html'
 
@@ -37,7 +34,7 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 //controller: 'addCarCtrl'
             }).
             when('/addRoute', {
-                templateUrl: 'partials/addRouteMap.html'//,
+                templateUrl: 'partials/addRoute.html'//,
                 //controller: 'addRouteCtrl'
             }).
             when('/changePassword', {
