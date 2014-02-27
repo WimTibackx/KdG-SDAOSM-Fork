@@ -1,5 +1,6 @@
 package be.kdg.groepa.model;
 
+import be.kdg.groepa.helpers.CostManager;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -24,15 +25,25 @@ public class Ride {
     @Column(name="totalCost")
     private double totalCost;
 
+    @Column(name="distance")
+    private double distance;
+
     @OneToMany(mappedBy="ride")
     @Cascade(CascadeType.ALL)
     private List<Traject> trajecten = new ArrayList<>();
 
     public Ride () {}
 
-    public Ride(double cost)
+    public Ride(double cost, double distance)
     {
         this.totalCost = cost;
+        this.distance = distance;
+    }
+
+    public Ride(Route r)
+    {
+        this.totalCost = CostManager.calculateCost(r);
+        this.distance = CostManager.getTotalDistance(r);
     }
 
     public void addTraject(Traject t)

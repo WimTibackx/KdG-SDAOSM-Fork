@@ -18,7 +18,7 @@ import java.io.InputStream;
  */
 public interface UserService {
 
-    public boolean changePassword(String username, String oldPassword, String newPassword);
+    public int changePassword(String username, String oldPassword, String newPassword);
     public boolean checkLogin(String username, String password);
 
     public void setUserDao(UserDao userDao);

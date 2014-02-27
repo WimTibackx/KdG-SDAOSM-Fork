@@ -47,16 +47,24 @@ public class ChangePasswordController extends BaseController{
         }
 
         if(user != null){
-            if(userService.changePassword(user.getUsername(), oldpassword, newpassword)){
+            int resultValue = userService.changePassword(user.getUsername(), oldpassword, newpassword);
+            if(resultValue == 1){
                 myJson.put("result", "PasswordChanged");
-            } else {
-                myJson.put("result", "PasswordNotChanged");
+            } else if (resultValue == 2) {
+                myJson.put("result", "OldPasswordWrong");
+            } else if (resultValue == 3) {
+                myJson.put("result", "NewPasswordFormatWrong");
             }
         } else {
             myJson.put("result", "UserNotFound");
         }
         super.updateCookie(request, response);
         return myJson.toString();
+
+
+
+
+
     }
 
 }
