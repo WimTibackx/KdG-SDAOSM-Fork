@@ -16,7 +16,7 @@ public interface RouteDao {
     public void addWeekdayRoute(WeekdayRoute wr);
     public void addRide(Ride r);
     public void confirmRide(Route r);
-    public void editRoute(Route r, List<PlaceTime> placetimes);
+    public void editRoute(Route r, List<PlaceTime> placetimes);                        // Use case: edit Route. Use "editRoute" for non-repeating routes, "editWeekdayRoute" for repeating routes.
     public void editWeekdayRoute(WeekdayRoute wr, List<PlaceTime> placetimes);
     public PlaceTime getPlaceTimeById(int id);
     public Route getRouteById(int routeId);
