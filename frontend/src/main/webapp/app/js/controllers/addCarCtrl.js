@@ -10,6 +10,8 @@ carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', 
         return;
     }
 
+
+
     $(document).ready(function () {
 
         $("#addcarform").submit(function (e) {
