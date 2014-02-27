@@ -1,18 +1,16 @@
 package be.kdg.groepa.service.impl;
 
 
+import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameExistsException;
+import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
-
-import be.kdg.groepa.exceptions.PasswordFormatException;
-import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.LocalDateTime;

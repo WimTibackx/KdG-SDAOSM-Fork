@@ -224,8 +224,8 @@ form.forgot_password{
 #error, .error{
     color: red;
     display: none;
-    text-align: center;
-    font-size: 10px;
+    text-align: left;
+    font-size: 14px;
 }
 /*.form_wrapper input[type="submit"]:hover {
 	background: #d9d9d9;

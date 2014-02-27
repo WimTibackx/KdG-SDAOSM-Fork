@@ -19,14 +19,34 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
                     console.log(response);
+                    if (obj.hasOwnProperty("result")){
+                        if(obj["error"] == "PasswordChanged") {
+                            $scope.hideError = true;
+                            $scope.hideMessage = false;
+                            $scope.message = "Wachtwoord is succesvol aangepast"
+                        }else if(obj["error"] == "OldPasswordWrong"){
+                            $scope.hideError = true;
+                            $scope.hideMessage = false;
+                            $scope.message = "Wachtwoord is succesvol aangepast"
+
+                        }else if(obj["error"] == "NewPasswordFormatWrong"){
+                            $scope.hideError = true;
+                            $scope.hideMessage = false;
+                            $scope.message = "Wachtwoord formaat is verkeerd, 1 Hoofdletter, 1 kleine letter en tussen de 7 en 30 lang"
+
+                        }
+
+                    }
 
                 })
                 .error(function(response){
-                    console.log("Hij komt in error")
+
                     $scope.error = "Onze service is niet beschikbaar, vul alle velden zeker in";
+                    $(".error").show();
                 })
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."
+            $(".error").show();
         }
     }
 }]);

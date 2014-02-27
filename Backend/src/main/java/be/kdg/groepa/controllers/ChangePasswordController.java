@@ -1,12 +1,9 @@
 package be.kdg.groepa.controllers;
 
-import be.kdg.groepa.dtos.UserDTO;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
-
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,10 +44,13 @@ public class ChangePasswordController extends BaseController{
         }
 
         if(user != null){
-            if(userService.changePassword(user.getUsername(), oldpassword, newpassword)){
+            int resultValue = userService.changePassword(user.getUsername(), oldpassword, newpassword);
+            if(resultValue == 1){
                 myJson.put("result", "PasswordChanged");
-            } else {
-                myJson.put("result", "PasswordNotChanged");
+            } else if (resultValue == 2) {
+                myJson.put("result", "OldPasswordWrong");
+            } else if (resultValue == 3) {
+                myJson.put("result", "NewPasswordFormatWrong");
             }
         } else {
             myJson.put("result", "UserNotFound");
