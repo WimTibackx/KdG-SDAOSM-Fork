@@ -3,7 +3,7 @@
  * Created by peter on 25/02/14.
  */
 // Change Password Controller
-carpoolingApp.controller('changePasswordCtrl', ['$scope', '$http', '$location', '$api', function ($scope, $http, $location, $api) {
+carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$http', '$location', '$api', function ($scope, $http, $location, $api) {
     console.log("hey changePassword controller test");
 
     $scope.changePwd = function () {

@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: Add car
-carpoolingControllers.controller('addCarCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     var insertedCar = -1;
 
     if (readCookie("Token") == null) {

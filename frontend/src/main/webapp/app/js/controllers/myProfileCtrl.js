@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: My profile
-carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
+carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
 
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';

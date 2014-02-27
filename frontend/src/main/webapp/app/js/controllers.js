@@ -4,7 +4,7 @@ var rootUrl = "http://localhost:8080/BackEnd";
 
 var carpoolingControllers = angular.module('carpoolingControllers', ['ui.bootstrap']);
 
-// Little experiment to load controllers
+/* Little experiment to load controllers
 console.log('=== Begin Experiment ===');
 
 var head = document.getElementsByTagName('head')[0];

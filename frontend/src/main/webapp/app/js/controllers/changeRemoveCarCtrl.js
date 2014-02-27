@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // ChangeRemoveCar Controller
-carpoolingControllers.controller('changeRemoveCarCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
+carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
 
     var id = $routeParams.carId;
 

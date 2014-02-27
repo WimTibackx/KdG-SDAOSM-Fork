@@ -2,7 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: Add route
-carpoolingControllers.controller('addRouteCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("hey addRoute controller test");
 
     $scope.passages = {};

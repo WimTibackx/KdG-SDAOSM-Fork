@@ -1,7 +1,7 @@
 // CONTROLLER: Register
 // Uses: service $fileUpload (services.js)
 // Uses: directive fileModel (directives.js)
-carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
+carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
     console.log("hey test register ctrl");
 
     var rootUrl = "http://localhost:8080/BackEnd/";

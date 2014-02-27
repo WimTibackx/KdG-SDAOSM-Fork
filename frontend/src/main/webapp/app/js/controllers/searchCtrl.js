@@ -1,4 +1,4 @@
-carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("searchCtrl test");
 
     /*var active = document.getElementById("searchTab");
