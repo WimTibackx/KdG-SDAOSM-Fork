@@ -19,20 +19,21 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
                     console.log(response);
-                    if (obj.hasOwnProperty("result")){
-                        if(obj["error"] == "PasswordChanged") {
-                            $scope.hideError = true;
-                            $scope.hideMessage = false;
+                    if (response.hasOwnProperty("result")){
+                        if(response["result"] == "PasswordChanged") {
+                            $(".error").hide();
+                            $(".message").show();
                             $scope.message = "Wachtwoord is succesvol aangepast"
-                        }else if(obj["error"] == "OldPasswordWrong"){
-                            $scope.hideError = true;
-                            $scope.hideMessage = false;
-                            $scope.message = "Wachtwoord is succesvol aangepast"
+                        }else if(response["result"] == "OldPasswordWrong"){
+                            $(".error").show();
+                            $(".message").hide();
+                            $scope.error = "Het oude wachtwoord is onjuist"
 
-                        }else if(obj["error"] == "NewPasswordFormatWrong"){
-                            $scope.hideError = true;
-                            $scope.hideMessage = false;
-                            $scope.message = "Wachtwoord formaat is verkeerd, 1 Hoofdletter, 1 kleine letter en tussen de 7 en 30 lang"
+                        }else if(response["result"] == "NewPasswordFormatWrong"){
+                            $(".error").show();
+                            $(".message").hide();
+
+                            $scope.error = "Wachtwoord formaat is verkeerd, 1 Hoofdletter, 1 kleine letter en tussen de 7 en 30 lang"
 
                         }
 
@@ -43,6 +44,7 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
 
                     $scope.error = "Onze service is niet beschikbaar, vul alle velden zeker in";
                     $(".error").show();
+                    $(".message").hide();
                 })
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."

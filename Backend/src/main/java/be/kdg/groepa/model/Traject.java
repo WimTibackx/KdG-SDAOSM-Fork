@@ -1,15 +1,10 @@
 package be.kdg.groepa.model;
 
-import com.sun.istack.internal.Nullable;
-import org.hibernate.annotations.*;
+
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Tim on 19/02/14.

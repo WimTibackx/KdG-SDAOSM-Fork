@@ -81,9 +81,6 @@ public class LoginTest {
         }
         element = driver.findElementById("profileheader"); //TODO Hier iets fout met het element ofzo
         assertTrue(element.getText().equals("Welkom, TestUser"));
-
-        element = driver.findElementByName("username");
-        assertTrue(element.getText().equals("profile@test.com"));
         driver.close();
 
     }
