@@ -16,4 +16,7 @@ public interface RouteService {
     public void addWeekdayRoute(WeekdayRoute wr);
     public void addRide(Ride r);
     public void confirmRide(List<Traject> trajecten);
+
+    public PlaceTime getPlaceTimeById(int id);
+    public Route getRouteById(int routeId);
 }

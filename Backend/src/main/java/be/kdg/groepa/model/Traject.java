@@ -1,11 +1,13 @@
 package be.kdg.groepa.model;
 
+import com.sun.istack.internal.Nullable;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Traject {
     private int id;
 
     @OneToOne
-    @JoinColumn(name="pickupId")
+    @JoinColumn(name="pickupId", nullable = false)
     @Cascade(CascadeType.ALL)
     private PlaceTime pickup;
 
@@ -45,6 +47,9 @@ public class Traject {
     @Column(name="isAccepted")
     private boolean isAccepted;
 
+    public Traject(){
+
+    }
 
     public Traject(PlaceTime pointA, PlaceTime pointB, Route route, User user) {
         pointA.setTraject(this);
@@ -72,5 +77,9 @@ public class Traject {
 
     public Route getRoute() {
         return route;
+    }
+
+    public int getId() {
+        return id;
     }
 }

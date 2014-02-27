@@ -2,6 +2,7 @@ package be.kdg.groepa.persistence.impl;
 
 
 import be.kdg.groepa.model.Car;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.UserDao;
@@ -11,7 +12,9 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.threeten.bp.LocalDateTime;
 
+import javax.transaction.Transactional;
 import java.io.File;
+import java.util.List;
 
 
 @SuppressWarnings("JpaQlInspection")
@@ -25,7 +28,6 @@ public class UserDaoImpl implements UserDao {
     public User getUser(String username){
         Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("from User u where u.username = :username");
-        //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
         query.setString("username", username);
         User user = (User)query.uniqueResult();
         HibernateUtil.closeSession(ses);
@@ -44,6 +46,7 @@ public class UserDaoImpl implements UserDao {
 
     }
 
+    @Transactional
     @Override
     public void changePassword(String username, String newPassword)
     {
@@ -102,6 +105,7 @@ public class UserDaoImpl implements UserDao {
     }
 
 
+    @Transactional
     @Override
     public void addCarToUser(String username, Car c) {
         Session ses = HibernateUtil.openSession();
@@ -170,5 +174,13 @@ public class UserDaoImpl implements UserDao {
         Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(user);
         HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public List<Route> getRoutesFromUser(String username) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from Route r where r.chauffeur.username = :username");
+        query.setString("username",username);
+        return query.list();
     }
 }

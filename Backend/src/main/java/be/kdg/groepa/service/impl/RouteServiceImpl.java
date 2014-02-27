@@ -3,6 +3,7 @@ package be.kdg.groepa.service.impl;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
+import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class RouteServiceImpl implements RouteService {
     @Autowired
     private TrajectDao trajectDao;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public void addRoute(Route r) {
         Traject t = new Traject(r.getAllPlaceTimes().get(0), r.getAllPlaceTimes().get(r.getAllPlaceTimes().size() - 1), r, r.getChauffeur());
@@ -31,6 +35,9 @@ public class RouteServiceImpl implements RouteService {
         }
         trajectDao.addTraject(t);
         routeDao.addRoute(r);
+        r.getChauffeur().addRoute(r);
+        userDao.updateUser(r.getChauffeur());
+
     }
 
     @Override
@@ -61,6 +68,15 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public void confirmRide(List<Traject> trajecten) {
         routeDao.confirmRide(trajecten);
+    }
+    @Override
+    public PlaceTime getPlaceTimeById(int id){
+        return routeDao.getPlaceTimeById(id);
+    }
+
+    @Override
+    public Route getRouteById(int routeId) {
+        return routeDao.getRouteById(routeId);
     }
 }
 
