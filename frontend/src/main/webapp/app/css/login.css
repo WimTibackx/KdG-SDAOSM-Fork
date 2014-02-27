@@ -1,8 +1,7 @@
 body{
 	font-family:"Trebuchet MS", "Myriad Pro", Arial, sans-serif;
 	font-size:14px;
-	color:rgb(53,53,53);
-	text-shadow:1px 1px 1px #fff;
+	color:white;
 	overflow-y:scroll;
 }
 h1{
