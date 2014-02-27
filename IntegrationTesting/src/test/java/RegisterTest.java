@@ -1,4 +1,9 @@
+import be.kdg.groepa.selenium.pages.FrontendWebsite;
+import be.kdg.groepa.selenium.pages.LoginPage;
+import be.kdg.groepa.selenium.pages.ProfilePage;
+import be.kdg.groepa.selenium.pages.RegisterPage;
 import com.ibatis.common.jdbc.ScriptRunner;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
@@ -6,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,64 +65,80 @@ public class RegisterTest {
 
     @Test
     public void succesPassengerRegister(){
-        FirefoxProfile firefoxProfile = new ProfilesIni().getProfile("default");
-        FirefoxDriver driver = new FirefoxDriver(firefoxProfile);
-        driver.manage().window().setSize(new Dimension(1024, 768));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/frontend/app/index.html#/login");
+        RemoteWebDriver driver = Helper.startFirefox();
 
-        WebElement element = driver.findElementById("registerIcon");
-        element.click();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
 
-        element = driver.findElementByCssSelector("#registerform [name='username']");
-        element.sendKeys("NewTestUser@testRegister.com");
+        RegisterPage.UdForm udForm = rp.getUdForm();
+        udForm.getUsernameField().sendKeys("NewTestUser@testRegister.com");
+        udForm.getPasswordField().sendKeys("Password1");
+        udForm.getNameField().sendKeys("Test User Name");
+        udForm.getGenderFemaleField().click();
+        udForm.getSmokerTrueField().click();
+        udForm.getDobField().sendKeys("1996-07-19");
+        udForm.getAccounttypePassengerField().click();
+        udForm.getSubmitButton().click();
+        Helper.wait(2000);
 
-        element = driver.findElementByCssSelector("#registerform [name='password']");
-        element.sendKeys("Password1");
+        this.uploadAvatar(rp);
 
-        element = driver.findElementByCssSelector("#registerform [name='name']");
-        element.sendKeys("Test User Name");
+        ProfilePage pp = new ProfilePage(driver);
+        Assert.assertTrue(pp.assertCurrentlyOnProfile("Test User Name"));
 
-        element = driver.findElementByCssSelector("input[value='FEMALE']");
-        element.click();
-
-        element = driver.findElementByCssSelector("input[value='true']");
-        element.click();
-
-
-
-        element = driver.findElementByCssSelector("#registerform [name='dob']");
-        element.sendKeys("1996-07-19");
-
-        element = driver.findElementByCssSelector("input[value='passenger']");
-        element.click();
-
-        element = driver.findElementByName("registreer");
-        element.click();
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        element = driver.findElementById("userimage");
-        element.sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
-
-        element = driver.findElementByCssSelector("#userimageform [name='submit']");
-        element.click();
-
-        try {
-            Thread.sleep(8000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        element = driver.findElementByCssSelector("#userimageform [name='continue']");
-        element.click();
+        //TODO: Assert that the image has been uploaded
 
         driver.close();
+    }
 
+    @Test
+    public void succesDriverRegister() {
+        RemoteWebDriver driver = Helper.startFirefox();
+
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        RegisterPage.UdForm udForm = rp.getUdForm();
+        udForm.getUsernameField().sendKeys("NewTestUser@driver.register.example.com");
+        udForm.getPasswordField().sendKeys("Password1");
+        udForm.getNameField().sendKeys("Test User Name");
+        udForm.getGenderFemaleField().click();
+        udForm.getSmokerTrueField().click();
+        udForm.getDobField().sendKeys("1996-07-19");
+        udForm.getAccounttypeDriverField().click();
+        udForm.getSubmitButton().click();
+        Helper.wait(2000);
+
+        this.uploadAvatar(rp);
+
+        RegisterPage.CdForm cdForm = rp.getCdForm();
+        cdForm.getBrandField().sendKeys("Ford");
+        cdForm.getTypeField().sendKeys("Fiesta");
+        cdForm.getFueltypeField().selectByIndex(2);
+        cdForm.getConsumptionField().sendKeys("8.1");
+        cdForm.getSubmitButton().click();
+        Helper.wait(2000);
+
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        ciForm.getSubmitButton().click();
+        Helper.wait(8000);
+        ciForm.getContinueButton().click();
+        Helper.wait(2000);
+
+        ProfilePage pp = new ProfilePage(driver);
+        Assert.assertTrue(pp.assertCurrentlyOnProfile("Test User Name"));
+        //TODO: Assert that the image has been uploaded
+        //TODO: Use an image other than the avatar
+
+        driver.close();
+    }
+
+    private void uploadAvatar(RegisterPage rp) {
+        RegisterPage.UiForm uiForm = rp.getUiForm();
+        uiForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        uiForm.getSubmitButton().click();
+        Helper.wait(8000);
+        uiForm.getContinueButton().click();
+        Helper.wait(2000);
     }
 
 }

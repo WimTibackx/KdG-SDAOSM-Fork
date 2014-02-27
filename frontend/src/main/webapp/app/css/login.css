@@ -203,6 +203,16 @@ form.forgot_password{
 	margin:15px 20px 10px 10px;
 	border-radius: 4px;
 }
+.form_wrapper input[type="submit"]:disabled,
+.form_wrapper input[type="reset"]:disabled,
+.form_wrapper input[type="submit"]:hover:disabled,
+.form_wrapper input[type="reset"]:hover:disabled {
+    background-image:url(../img/loading.gif);
+    height:39px;
+    font-size:0;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .form_wrapper input[type="reset"] {
     background:#aaaaaa;
     float:left;

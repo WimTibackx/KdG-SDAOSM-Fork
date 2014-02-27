@@ -4,31 +4,24 @@
 carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
     console.log("hey test register ctrl");
     var rootUrl = "http://localhost:8080/BackEnd";
-    var states=["#registerform","#userimageform","#driver-cardata","#carimageform"];
     var stateId=0;
-    var state=states[stateId];
 
     var insertedCar = 0;
     var accounttype = undefined;
 
-    $scope.udSubmitted=false;
-    $scope.uiSubmitted=false;
-    $scope.cdSubmitted=false;
-    $scope.ciSubmitted=false;
-
-    $scope.udHasAnyErrors=false;
-    $scope.uiHasAnyErrors=false;
-
     $scope.udSubmit = function() {
-        $scope.udSubmitted=true;
-        $scope.udCanError();
-        if ($scope.udHasAnyErrors) { return; }
+        $scope.udForm.$error.required = !!$scope.udForm.username.$error.required || !!$scope.udForm.password.$error.required
+            || !!$scope.udForm.name.$error.required || !!$scope.udForm.gender.$error.required
+            || !!$scope.udForm.smoker.$error.required || !!$scope.udForm.dob.$error.required
+            || !!$scope.udForm.accounttype.$error.required;
         accounttype = $scope.udAccounttype;
         var data = {
             username: $scope.udUsername, password: $scope.udPassword, name: $scope.udName,
             smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: $scope.udDoB.toISOString().split("T")[0]
         };
+        $scope.udInProgress=true;
         $http.post(rootUrl+"/register/", JSON.stringify(data)).success(function (response) {
+            $scope.udInProgress=false;
             if (response.hasOwnProperty("result")) {
                 openNextPart();
             } else if (response.hasOwnProperty("error")) {
@@ -43,8 +36,9 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
     };
 
     $scope.uiUpload = function() {
-        $scope.uiSubmitted=true;
+        $scope.uiInProgress=true;
         $fileUpload.upload($scope.uiFile,rootUrl+"/authorized/user/uploadphoto").success(function(response) {
+            $scope.uiInProgress=false;
             if (response.hasOwnProperty("error")) {
                 if (response.error == "ImageError") { $scope.uiForm.$error.image = true; }
                 else { $scope.uiForm.$error.unknown = true; }
@@ -58,8 +52,9 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
     $scope.uiContinue = function() { $scope.isDriver() ? openNextPart() : goMyProfile(); };
 
     $scope.uiCancel = function() {
-        $scope.uiSubmitted=false;
+        $scope.uiInProgress=true;
         $http.post(rootUrl+"/authorized/user/deletephoto/", "").success(function (response) {
+           $scope.uiInProgress=false;
            if (response.hasOwnProperty("status")) {
                $scope.uiURL="";
                $scope.uiReady=false;
@@ -71,11 +66,12 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
         $scope.cdForm.$error.required = !!$scope.cdForm.brand.$error.required || !!$scope.cdForm.type.$error.required
             || !!$scope.cdForm.fueltype.$error.required || !!$scope.cdForm.consumption.$error.required;
         console.log("is invalid: "+$scope.cdForm.$invalid);
-        $scope.cdSubmitted=true;
         var data = {
             brand: $scope.cdBrand, type: $scope.cdType, fueltype: $scope.cdFueltype, consumption: $scope.cdConsumption
         };
+        $scope.cdInProgress=true;
         $http.post(rootUrl + "/authorized/user/car/add/", JSON.stringify(data)).success(function (response) {
+            $scope.cdInProgress=false;
             if (response.hasOwnProperty("inserted")) {
                 insertedCar = response.inserted;
                 openNextPart();
@@ -87,18 +83,14 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
     };
 
     $scope.ciUpload = function() {
-        $scope.ciSubmitted=true;
-        $fileUpload.upload($scope.ciFile,rootUrl+"authorized/user/car/" + insertedCar + "/uploadphoto").success(function(response) {
+        $scope.ciInProgress=true;
+        $fileUpload.upload($scope.ciFile,rootUrl+"/authorized/user/car/" + insertedCar + "/uploadphoto").success(function(response) {
+            $scope.ciInProgress=false;
             if (response.hasOwnProperty("error")) {
-                if (response.error == "CarNotFound") {
-                    showError("There was a problem with the car");
-                } else if (response.error == "CarNotYours") {
-                    showError("This car isn't yours!");
-                } else if (response.error == "ImageError") {
-                    showError("An error occured while uploading the images");
-                } else {
-                    showError("An unknown error occured.");
-                }
+                if (response.error == "CarNotFound") { $scope.ciForm.$error.carnotfound = true; }
+                else if (response.error == "CarNotYours") { $scope.ciForm.$error.carnotyours = true; }
+                else if (response.error == "ImageError") { $scope.ciForm.file.$error.uploading = true;}
+                else { $scope.ciForm.$error.unknown = true;}
             } else if (response.hasOwnProperty("url")) {
                 $scope.ciURL = response.url;
                 $scope.ciReady = true;
@@ -109,14 +101,13 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
     $scope.ciContinue = function() { goMyProfile(); };
 
     $scope.ciCancel = function() {
-        $scope.ciSubmitted=false;
+        $scope.ciInProgress=true;
         $http.post(rootUrl+"/authorized/user/car/" + insertedCar + "deletephoto/", "").success(function (response) {
+            $scope.ciInProgress=false;
             if (response.hasOwnProperty("status")) {
                 $scope.ciURL="";
                 $scope.ciReady=false;
-            } else {
-                showError("Something went wrong while removing your image");
-            }
+            } else { $scope.ciForm.$error.removingUnknown = true; }
         });
     };
 
@@ -134,24 +125,8 @@ carpoolingControllers.controller('registerCtrl', ['$scope', '$http', '$location'
         return "http://localhost:8080/BackEnd/carImages/"+($scope.ciURL);
     };
 
-    $scope.udCanError = function() {
-        /*$scope.udHasAnyErrors = $scope.udSubmitted && ($scope.udForm.username.$invalid || $scope.udForm.password.$invalid
-            || $scope.udForm.name.$invalid || $scope.udForm.gender.$invalid || $scope.udForm.smoker.$invalid || $scope.udForm.dob.$invalid
-            || $scope.udForm.accounttype.$invalid);*/
-        $scope.udForm.$error.required = !!$scope.udForm.username.$error.required || !!$scope.udForm.password.$error.required
-            || !!$scope.udForm.name.$error.required || !!$scope.udForm.gender.$error.required
-            || !!$scope.udForm.smoker.$error.required || !!$scope.udForm.dob.$error.required
-            || !!$scope.udForm.accounttype.$error.required;
-    };
-
-    function showError(errorMsg) {
-        $(state + " #error").text(errorMsg).show();
-        $("#cssmenu").hide();
-    }
-
     function openNextPart() {
         stateId++;
-        state = states[stateId];
     }
 
     function goMyProfile() {
