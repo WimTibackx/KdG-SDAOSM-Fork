@@ -21,7 +21,7 @@ for (var i = 0; i < jsControllers.length; i++) {
 }
 
 console.log('=== End Experiment ===');
-// End little experiment
+// End little experiment */
 
 function readCookie(name) {
     var nameEQ = name + "=";
