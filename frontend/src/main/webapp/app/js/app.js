@@ -31,8 +31,8 @@ carpoolingApp.config(['$routeProvider',
 
             }).
             when('/addCar', {
-            	templateUrl: 'partials/addCar.html',
-            	controller: 'addCarCtrl'
+                templateUrl: 'partials/addCar.html',
+                controller: 'addCarCtrl'
             }).
             when('/addRoute', {
                 templateUrl: 'partials/addRouteMap.html',
@@ -41,6 +41,10 @@ carpoolingApp.config(['$routeProvider',
             when('/changePassword', {
                 templateUrl: 'partials/changePassword.html',
                 controller: 'changePasswordCtrl'
+            }).
+            when('/search', {
+                templateUrl: 'partials/search.html',
+               controller: 'searchCtrl'
             }).
             otherwise({
                 redirectTo: '/login'
