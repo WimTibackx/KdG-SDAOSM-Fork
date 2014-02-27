@@ -1,6 +1,6 @@
 <section id="inline">
     <section id="infoprofile">
-        <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}>
+        <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}> ({{username}})
             <section id="tabsMyProfile">
                 <div class="tab" ng-click="tabRoutesClick()">Routes</div>
                 <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
@@ -11,7 +11,6 @@
             <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
             <section id="infoUser">
                 <ul>
-                    <li name="username" class="info">{{username}}</li>
                     <li class="info">
                         {{dateBirth}}
                     </li>

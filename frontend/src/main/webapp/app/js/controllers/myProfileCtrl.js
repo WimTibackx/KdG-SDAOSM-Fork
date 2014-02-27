@@ -4,10 +4,12 @@
 // CONTROLLER: My profile
 carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
-    $scope.gendersrc = '../app/img/female.png';
+
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';
     var counter = 0;
     var username = null;
+    var gender = null;
+
     $http({
         method: 'GET',
         url: rootUrl + "/authorized/myprofile/",
@@ -25,15 +27,21 @@ carpoolingControllers.controller('myProfileCtrl', ['$scope', '$http', '$location
                 }
             } else {
                 username = obj["name"];
+                gender = obj["gender"];
+                if(gender == ("FEMALE")){
+                    $scope.gendersrc = '../app/img/female.png';
+                } else{
+                    $scope.gendersrc = '../app/img/male.png';
+                }
                 $scope.personname = username;
                 var date = obj["dateOfBirth"];
                 $scope.dateBirth = date["day"] + "/" + date["month"] + "/" + date["year"];
                 $scope.cars = obj["cars"];
                 $scope.username = obj["username"]
                 if (obj["smoker"]) {
-                    $scope.smoker = "Smoker"
+                    $scope.smoker = "Roker"
                 } else {
-                    $scope.smoker = "Non smoker"
+                    $scope.smoker = "Geen roker"
                 }
                 console.log(JSON.stringify(obj["dateOfBirth"]))
             }

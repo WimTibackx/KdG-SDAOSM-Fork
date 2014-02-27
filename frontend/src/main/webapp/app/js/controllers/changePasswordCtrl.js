@@ -18,6 +18,7 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                 url: rootUrl + "/authorized/changepassword",
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
+
                     console.log(response);
 
                 })
@@ -25,6 +26,11 @@ carpoolingControllers.controller('changePasswordCtrl', ['$scope', '$http', '$loc
                     console.log("Hij komt in error")
                     $scope.error = "Onze service is niet beschikbaar, vul alle velden zeker in";
                 })
+
+                    console.log("Password change success");
+                    window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile";
+
+
         } else {
             $scope.error = "Wachtwoorden komen niet overeen."
         }
