@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        StringBuffer sb = new StringBuffer();
+       StringBuffer sb = new StringBuffer();
         byte[] digest = md.digest(bytesOfMessage);
         for (byte b : digest) {
             sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));

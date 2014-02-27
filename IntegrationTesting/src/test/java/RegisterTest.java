@@ -110,7 +110,8 @@ public class RegisterTest {
         element.click();
 
         element = driver.findElementById("profileName");
-        assertTrue(element.getText().equals("Welkom, Test User Name"));
+        String lines[] = element.getText().split("\\r?\\n");
+        assertTrue(lines[0].equals("Welkom, Test User Name"));
 
         element = driver.findElementByName("username");
         assertTrue(element.getText().equals("NewTestUser@testRegister.com"));

@@ -80,7 +80,8 @@ public class LoginTest {
             e.printStackTrace();
         }
         element = driver.findElementById("profileName");
-        assertTrue(element.getText().equals("Welkom, TestUser"));
+        String lines[] = element.getText().split("\\r?\\n");
+        assertTrue(lines[0].equals("Welkom, TestUser"));
 
         element = driver.findElementByName("username");
         assertTrue(element.getText().equals("profile@test.com"));
