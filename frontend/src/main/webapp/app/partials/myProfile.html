@@ -23,148 +23,217 @@
             </section></a>
         </div>
 
-        <!--div id="carsBlock">
-            <table id="carsTable">
-                <tr class="tableTitles">
-                    <td>
+<!--div id="carsBlock">
+    <table id="carsTable">
+        <tr class="tableTitles">
+            <td>
 
-                    </td>
-                    <td>
-                        Type
-                    </td>
-                    <td>
-                        Consumption
-                    </td>
-                    <td>
+            </td>
+            <td>
+                Type
+            </td>
+            <td>
+                Consumption
+            </td>
+            <td>
 
 <<<<<<< Updated upstream
-                            <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.png"></td>
-                        </tr>
-                    </table>
-                </ul>
+                    <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.png"></td>
+                </tr>
+            </table>
+        </ul>
 =======
-                    </td>
-                </tr>
-                <tr ng-repeat="car in cars">
-                    <td><img id="carImage" alt="{{car.brand}}" ng-src="../app/img/avatar.JPG"/></td>
-                    <td>{{car.brand}} {{car.type}}</td>
-                    <td>{{car.consumption}}</td>
+            </td>
+        </tr>
+        <tr ng-repeat="car in cars">
+            <td><img id="carImage" alt="{{car.brand}}" ng-src="../app/img/avatar.JPG"/></td>
+            <td>{{car.brand}} {{car.type}}</td>
+            <td>{{car.consumption}}</td>
 
-                    <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)"
-                             src="../app/img/profilePage/removeCross.jpg"></td>
-                </tr>
-            </table>
-        </div-->
-        <section id="carField" ng-hide="hideCars">
-            <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
-                <img id="carImage" alt="{{car.brand}}"
-                     ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
-                <section id="carSpecs">
-                    {{car.brand}}<br/>{{car.consumption}}
-                </section>
-            </section>
-            <a href="http://localhost:8080/frontend/app/index.html#/myProfile/addCar"><section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-            </section></a>
+            <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)"
+                     src="../app/img/profilePage/removeCross.jpg"></td>
+        </tr>
+    </table>
+</div-->
+<section id="carField" ng-hide="hideCars">
+    <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
+        <img id="carImage" alt="{{car.brand}}"
+             ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
+        <section id="carSpecs">
+            {{car.brand}}<br/>{{car.consumption}}
         </section>
-
-
-        <div class="myRoutes" ng-hide="hideRoutes">
-            <table class="routeTable">
-                <tr id="routeTableTitles">
-                    <td>
-                        Vertrek
-                    </td>
-                    <td>
-                        Bestemming
-                    </td>
-                    <td>
-                        Aantal personen
-                    </td>
-                    <td>
-                        herhalend
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Fort verboomstraat 32, 9130 Kieldrecht
-                    </td>
-                    <td>
-                        Nationalestraat 22, 2000 Antwerpen
-                    </td>
-                    <td>
-                        2
-                    </td>
-                    <td>
-                        Nee
-                    </td>
-                </tr>
-            </table>
-            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-            </section>
-        </div>
-
-
-        <div class="blockRight">
-            <table class="ritTable">
-                <tr class="tableTitles">
-                    <td>
-                        Vertrek
-                    </td>
-                    <td>
-                        Bestemming
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Fort verboomstraat 32, 9130 Kieldrecht
-                    </td>
-                    <td>
-                        Nationalestraat 22, 2000 Antwerpen
-                    </td>
-                    <td>
-                        <img class="imgMarkup" alt="remove car" ng-src="../app/img/profilePage/editPencil.png"></td>
-                    </td>
-                </tr>
-            </table>
-            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
-                toe
-            </section>
-        </div>
-
-        <div class="myRoutes" ng-hide="hideTrajects">
-            <table class="trajectTable">
-                <tr class="tableTitles">
-                    <td>
-                        Vertrek
-                    </td>
-                    <td>
-                        Bestemming
-                    </td>
-                    <td>
-                        Pick-up(s)
-                    </td>
-                    <td>
-                        Drop-off(s)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Fort verboomstraat 32, 9130 Kieldrecht
-                    </td>
-                    <td>
-                        Nationalestraat 22, 2000 Antwerpen
-                    </td>
-                    <td>
-                        <li>Molenstraat 10, 9130 Kieldrecht</li>
-                        <li>Kieldrechtsebaan 55, 9130 Verrebroek</li>
-                    </td>
-                    <td>
-                        <li>Nationalestraat 22, 2000 Antwerpen</li>
-                    </td>
-                </tr>
-            </table>
-            <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-            </section>
-        </div>
     </section>
+    <a href="http://localhost:8080/frontend/app/index.html#/addCar">
+        <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+        </section>
+    </a>
+</section>
+
+
+<div class="myRoutes" ng-hide="hideRoutes">
+    <table class="routeTable">
+        <tr id="routeTableTitles">
+            <td>
+                Vertrek
+            </td>
+            <td>
+                Bestemming
+            </td>
+            <td>
+                Aantal personen
+            </td>
+            <td>
+                herhalend
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+            <td>
+                2
+            </td>
+            <td>
+                Nee
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+            <td>
+                2
+            </td>
+            <td>
+                Nee
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+            <td>
+                2
+            </td>
+            <td>
+                Nee
+            </td>
+        </tr>
+    </table>
+    <a href="http://localhost:8080/frontend/app/index.html#/addRouteMap">
+        <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+        </section>
+    </a>
+</div>
+
+
+<div class="blockRight">
+    <table class="ritTable">
+        <tr class="tableTitles">
+            <td>
+                Vertrek
+            </td>
+            <td>
+                Bestemming
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+    </table>
+    <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
+        toe
+    </section>
+</div>
+
+<div class="myRoutes" ng-hide="hideTrajects">
+    <table class="trajectTable">
+        <tr class="tableTitles">
+            <td>
+                Vertrek
+            </td>
+            <td>
+                Bestemming
+            </td>
+            <td>
+                Pick-up(s)
+            </td>
+            <td>
+                Drop-off(s)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+            <td>
+                <li>Molenstraat 10, 9130 Kieldrecht</li>
+                <li>Kieldrechtsebaan 55, 9130 Verrebroek</li>
+            </td>
+            <td>
+                <li>Nationalestraat 22, 2000 Antwerpen</li>
+            </td>
+        </tr>
+    </table>
+    <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
+    </section>
+</div>
+</section>
 </section>

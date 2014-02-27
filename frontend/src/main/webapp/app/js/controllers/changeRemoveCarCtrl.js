@@ -104,7 +104,7 @@ carpoolingControllers.controller('changeRemoveCarCtrl', ['$scope', '$routeParams
         //send to backend
         $http({
             method: 'POST',
-            url: rootUrl + "authorized/user/car/" + id + "/update",
+            url: rootUrl + "/authorized/user/car/" + id + "/update",
             data: JSON.stringify(jsonObject),
             headers: {'Content-Type': "text/plain; charset=utf-8"}
         }).success(function (response) {
@@ -117,7 +117,7 @@ carpoolingControllers.controller('changeRemoveCarCtrl', ['$scope', '$routeParams
 
         $http({
             method: 'POST',
-            url: rootUrl + "authorized/user/car/" + id + "/delete",
+            url: rootUrl + "/authorized/user/car/" + id + "/delete",
             headers: {'Content-Type': "text/plain; charset=utf-8"}
         }).success(function (response) {
                 console.log("Car deleted");
