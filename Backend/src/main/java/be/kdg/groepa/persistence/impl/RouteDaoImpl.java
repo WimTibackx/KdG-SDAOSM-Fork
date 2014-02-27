@@ -83,9 +83,27 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public void confirmRide(List<Traject> trajecten) {
-        Ride ride = new Ride(0.00);
-        for (Traject t : trajecten)
+    public void editRoute(Route r, List<PlaceTime> placetimes) {
+        Session ses = HibernateUtil.openSession();
+        for (PlaceTime t : placetimes)
+        {
+            t.setRoute(r);
+            ses.saveOrUpdate(t);
+        }
+        r.setPlaceTimes(placetimes);
+        ses.saveOrUpdate(r);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void editWeekdayRoute(WeekdayRoute wr, List<PlaceTime> placetimes) {
+
+    }
+
+    @Override
+    public void confirmRide(Route r) {
+        Ride ride = new Ride(r);
+        for (Traject t : r.getTrajects())
         {
             ride.addTraject(t);
             t.setRide(ride);

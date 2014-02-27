@@ -32,6 +32,10 @@ public class WeekdayRoute {
     @JoinColumn(name="routeId", nullable = true)
     private Route route;
 
+    public void setPlaceTimes(List<PlaceTime> placeTimes) {
+        this.placeTimes = placeTimes;
+    }
+
     public WeekdayRoute() {}
 
     public WeekdayRoute(int day)

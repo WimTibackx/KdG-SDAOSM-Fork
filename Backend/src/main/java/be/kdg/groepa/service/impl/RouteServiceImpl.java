@@ -1,5 +1,6 @@
 package be.kdg.groepa.service.impl;
 
+import be.kdg.groepa.helpers.CostManager;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -66,8 +67,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void confirmRide(List<Traject> trajecten) {
-        routeDao.confirmRide(trajecten);
+    public void confirmRide(Route r) {
+       // Ride ride = new Ride(CostManager.calculateCost(r), CostManager.getTotalDistance(r));
+        routeDao.confirmRide(r);
     }
     @Override
     public PlaceTime getPlaceTimeById(int id){

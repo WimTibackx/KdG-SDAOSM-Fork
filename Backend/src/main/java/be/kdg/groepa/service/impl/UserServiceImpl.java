@@ -49,15 +49,18 @@ public class UserServiceImpl implements UserService {
         log.debug("INITTING CARSERVICEIMPLE");
     }
 
-    public boolean changePassword(String username, String oldPassword, String newPassword) {
+    public int changePassword(String username, String oldPassword, String newPassword) {   // return reasons: 1 = succes, 2 = old password does not match, 3 = new password doesn't respect conditions, 4 = user does not exist
         User user = userDao.getUser(username);
         if (user != null) {
-            if (user.getPassword().equals(encryptString(oldPassword))) {
+            if (!isValidPassword(newPassword)) return 3;
+            if (!user.getPassword().equals(encryptString(oldPassword))) return 2;
+            else
+            {
                 userDao.changePassword(username, encryptString(newPassword));
-                return true;
+                return 1;
             }
         }
-        return false;
+        return 4;
     }
 
     public boolean checkLogin(String username, String password) {

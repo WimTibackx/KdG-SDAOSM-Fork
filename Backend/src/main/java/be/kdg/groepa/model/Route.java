@@ -50,14 +50,16 @@ public class Route {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Traject> trajects = new ArrayList<>();
 
-
     public Route() {}
 
-
+    public void setPlaceTimes(List<PlaceTime> placeTimes) {
+        this.placeTimes = placeTimes;
+    }
 
     public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end) {
         this.repeating = repeating;
         this.capacity = capacity;
+
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.chauffeur = chauffeur;
@@ -65,9 +67,6 @@ public class Route {
         this.placeTimes.add(start);
         this.placeTimes.add(end);
     }
-
-
-
 
     public boolean isRepeating()
     {

@@ -73,7 +73,7 @@ public class ChangePasswordControllerTest {
                 .cookie(this.cookie)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("result", is("PasswordChanged")));
+                .andExpect(jsonPath("result", is("NewPasswordFormatWrong")));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ChangePasswordControllerTest {
                 .cookie(this.cookie)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("result", is("PasswordNotChanged")));
+                .andExpect(jsonPath("result", is("OldPasswordWrong")));
     }
 
     @Test
