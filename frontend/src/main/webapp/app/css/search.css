@@ -1,18 +1,94 @@
 /* filtering left on the page */
-#filters{
+#filters {
     margin-left: 1em;
     float: left;
 }
+
 .filterIcon {
-    width: 9em;
-    height: 9em;
+    width: 8em;
+    height: 7.8em;
     border-radius: 10px;
     margin-top: 1em;
     cursor: pointer;
 }
 
-#searchOptions{
-    color:white;
-    float:left;
+#searchOptions {
+    color: white;
+    float: left;
     margin-left: 2em;
+    border: solid 1px gray;
+    width: 86%;
+    height: 480px;
+    margin-top: 1em;
+}
+
+/* date picker styling */
+.well-sm {
+    padding: 10px;
+    border-radius: 3px;
+    color: rgb(56, 56, 56);
+}
+
+/* different blocks styling */
+#dateBlock {
+    float: left;
+    margin-left: 1em;
+    margin-top: 1em;
+    margin-right: 10em;
+    height: 450px;
+}
+
+#timeBlock {
+    float: left;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+#radiusBlock {
+    float: left;
+    margin-left: 1em;
+    margin-top: 2em;
+}
+
+#datePickerModel {
+    display: inline-block;
+    min-height: 290px;
+    float: left;
+    margin-top: 1em;
+}
+
+#myTimeModel, #myRadiusModel {
+    float: left;
+}
+
+
+/* user specs */
+#userSearchOptions{
+    margin: 1em;
+}
+#ageBlock{
+    margin-top: 1em;
+}
+.smokingSearchClass{
+
+}
+#smokerSearch, #noSmokerSearch{
+    width: 10em;
+    height: 10em;
+}
+
+
+input{
+    color:black !important;
+}
+
+
+
+
+#map-canvasSearch {
+    height: 480px;
+    /*width: 96%;*/
+    /*margin-left: 1em;*/
+    margin-top: 0em;
+
 }
