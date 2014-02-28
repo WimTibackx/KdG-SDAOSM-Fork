@@ -1,0 +1,11 @@
+label {
+    display: block;
+    margin: 10px 0;
+    width: 400px;
+}
+
+label input, label select {
+    position: absolute;
+    left: 200px;
+    width: 175px;
+}
