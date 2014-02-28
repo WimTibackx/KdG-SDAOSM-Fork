@@ -24,13 +24,18 @@ carpoolServices.service('$fileUpload', ['$http', function ($http) {
     }
 }]);
 
-carpoolServices.factory('$api', ['$http', function ($http) {
+carpoolServices.factory('$api', ['$http', '$location', function ($http, $location) {
     var rootUrl = "http://localhost:8080/BackEnd";
 
     function errorHandling(data, status, headers, config) {
+        status = 401;
         switch (status) {
             case 404:
                 console.log('Error: 404 Not Found');
+                break;
+            case 401:
+                console.log('Error: 401 Not Authorized!')
+                $location.path("/login");
                 break;
             default:
                 console.log('Error: status code ' + status);
@@ -60,10 +65,10 @@ carpoolServices.factory('$api', ['$http', function ($http) {
         post: function (endpoint, data, callback) {
             console.log("Post to " + endpoint);
             $http.post(rootUrl + endpoint, data)
-                .success(function(data, status, headers, config) {
+                .error(function(data, status, headers, config) {
                     callback(status, data);
                 })
-                .error(errorHandling);
+                .success(errorHandling);
         }
     }
 

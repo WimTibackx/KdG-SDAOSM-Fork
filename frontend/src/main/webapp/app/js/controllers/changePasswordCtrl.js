@@ -14,7 +14,11 @@ carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$htt
             jsonObj.newpassword = $scope.newpwd1;
 
 
-            // $api.post('/authorized/changepassword');
+            $api.post('/authorized/changepassword', JSON.stringify(jsonObj), function(status, result) {
+                console.log("Callback! Status: " + status);
+                console.log(result);
+            });
+            /*
             $http({
                 method: 'POST',
                 url: rootUrl + "/authorized/changepassword",
@@ -48,7 +52,7 @@ carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$htt
                     $scope.error = "Onze service is niet beschikbaar, vul alle velden zeker in";
                     $(".error").show();
                     $(".message").hide();
-                })
+                }) */
 
 
         } else {

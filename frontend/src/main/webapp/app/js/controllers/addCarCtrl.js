@@ -1,4 +1,4 @@
-carpoolingApp.controllerProvider.register('addCar2Ctrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
+carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
     console.log("hey test car2ctrl");
     var rootUrl = "http://localhost:8080/BackEnd/";
     var insertedCar = 0;

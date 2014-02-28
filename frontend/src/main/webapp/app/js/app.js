@@ -5,8 +5,8 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
     function ($routeProvider, $controllerProvider) {
         carpoolingApp.controllerProvider = $controllerProvider;
 
-        console.log("Check")
-        console.log($routeProvider.path)
+        console.log("Check");
+        console.log($routeProvider.path);
         $routeProvider.
             when('/login', {
                 templateUrl: 'partials/login.html'//,
