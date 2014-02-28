@@ -78,7 +78,8 @@ public class CarTests {
         element = driver.findElementByName("addCarLink");
         element.click();
 
-
+        driver.close();
+        //TODO: WIM WILL WRITE MORE TESTS FOR THIS NEXT WEEK
 
     }
 

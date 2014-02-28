@@ -18,13 +18,11 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 //controller: 'myProfileCtrl'
             }).
             when('/myProfile/changeRemoveCar/:carId/', {
-<<<<<<< Updated upstream
                 templateUrl: 'partials/changeRemoveCar.html'//,
                 //controller: 'changeRemoveCarCtrl'
-=======
+                /* TODO ONOPGELOST MERGECONFLICT
                 templateUrl: 'partials/changeRemoveCar.html',
-                controller: 'changeRemoveCarCtrl'
->>>>>>> Stashed changes
+                controller: 'changeRemoveCarCtrl'*/
             }).
             when('/contact', {
                 templateUrl: 'partials/contact.html'
