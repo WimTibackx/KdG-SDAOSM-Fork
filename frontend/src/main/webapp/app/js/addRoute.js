@@ -1,7 +1,10 @@
 var map;
+var counter = 0;
 var txtStart, txtEnd, btnSend;
 var autocomplete = [];
-var autoStart, autoEnd;
+//0 start, 1 stop, other indexes are for
+var autoPositions = [];
+//var autoStart, autoEnd;
 var markers = [];
 var geoCoder;
 
@@ -50,15 +53,15 @@ function initialize() {
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('controls'));
     //create autocomplete object
 
-    autoStart = new google.maps.places.Autocomplete(txtStart);
-    autoEnd = new google.maps.places.Autocomplete(txtEnd);
-
-    autocomplete[0] = autoStart;
-    autocomplete[1] = autoEnd;
+    autocomplete[0] = new google.maps.places.Autocomplete(txtStart);
+    autocomplete[1] = new google.maps.places.Autocomplete(txtEnd);
+    console.log(autocomplete[0])
+    console.log(autocomplete[1])
 
     //add listener to box
-    google.maps.event.addListener(autoStart, 'place_changed', onPlaceChanged);
-    google.maps.event.addListener(autoEnd, 'place_changed', onPlaceChanged);
+    google.maps.event.addListener( autocomplete[0], 'place_changed', onPlaceChanged);
+    google.maps.event.addListener( autocomplete[1], 'place_changed', onPlaceChanged);
+
     google.maps.event.addDomListener(btnSend, 'click', saveRoute);
 
     google.maps.event.addListenerOnce(map, 'idle', function () {
@@ -71,33 +74,43 @@ function initialize() {
 }
 
 function onPlaceChanged() {
+
     var step = autocomplete.indexOf(this);
     var place = this.getPlace();
     if (place.geometry) {
         map.panTo(place.geometry.location);
         map.setZoom(15);
-        var icon = 'img/map/marker' + (step + 1) + '.png';
         var marker = new google.maps.Marker({
             map: map,
             title: place.formatted_address,
             position: place.geometry.location,
-            draggable: true,
-            icon: icon
+            draggable: true
         });
+
+        console.log(step)
+        if (step <2){
+            console.log(step);
+            var icon = 'img/map/marker' + (step + 1) + '.png';
+            marker.setIcon(icon);
+
+        }
+
         google.maps.event.addListener(marker, 'dragend', function () {
             updateAddress(step, this.getPosition());
         });
-
         if (markers[step] != null) {
             markers[step].setMap(null);
         }
         markers[step] = marker;
+
+
 
         if (markers[0]) {
             txtEnd.style.display = 'block';
             txtEnd.focus();
         }
         if (markers[1]) {
+
             btnSend.style.display = 'block';
         }
         calcRoute();
@@ -129,22 +142,35 @@ function updateAddress(step, latlng) {
 }
 
 function calcRoute() {
-    if (markers[1]) {
+    if (markers[0] != null) {
+        var passages = [];
+        for(i = 2; i < markers.length; i++){
+            passages.push({
+                location: markers[i].getPosition(),
+                stopover:true
+            });
+        }
+        console.log("Markers and passages")
+        console.log(passages);
         var request = {
             origin: markers[0].getPosition(),
             destination: markers[1].getPosition(),
+            waypoints: passages,
+            optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.DRIVING
         };
         directionsService.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
                 var routepoints = result.routes[0].overview_path;
-                for (i = 0; i < routepoints.length; i++) {
-                    new google.maps.Marker({
+                console.log(routepoints);
+                /*for (i = 0; i < routepoints.length; i++) {
+                    console.log(new google.maps.Marker({
                         map: map,
                         position: routepoints[i]
-                    });
-                }
+                    }));
+
+                } */
             } else {
                 console.log("Error calculating route: " + status);
                 setTimeout(function () {
@@ -158,15 +184,14 @@ function calcRoute() {
 function saveRoute() {
     points = [];
 
-    points[0] = {};
-    points[0].lat = markers[0].getPosition().lat();
-    points[0].long = markers[0].getPosition().lng();
-    points[0].address = markers[0].getTitle();
+    for (i = 0; i < markers.length; i++) {
+        console.log(markers[i]);
+        points[i] = {};
+        points[i].lat = markers[i].getPosition().lat();
+        points[i].long = markers[i].getPosition().lng();
+        points[i].address = markers[i].getTitle();
 
-    points[1] = {};
-    points[1].lat = markers[1].getPosition().lat();
-    points[1].long = markers[1].getPosition().lng();
-    points[1].address = markers[1].getTitle();
+    }
 
     console.log(JSON.stringify(points));
 
@@ -241,7 +266,30 @@ function submitAllData() {
 
 function addListeners() {
 //    $('#addHours').click(addTime);
+    $('#addPassagePoint').click(addPassagePoint)
     $('#finalAdd').click(submitAllData);
+}
+
+function addPassagePoint(){
+    counter++;
+    var parentElement = document.getElementById('controls');
+    //<input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+
+    var newInput = document.createElement('input');
+
+    newInput.setAttribute('id', 'txtPassage'+counter);
+    newInput.setAttribute('class', 'controls');
+    newInput.setAttribute('type', 'text');
+    newInput.setAttribute('placeholder', 'Geef passagepunt in');
+
+    parentElement.appendChild(newInput);
+
+    console.log(document.getElementById('txtPassage1'))
+    autocomplete[counter+1] = new google.maps.places.Autocomplete(document.getElementById('txtPassage'+counter));
+
+    google.maps.event.addListener( autocomplete[counter+1], 'place_changed', onPlaceChanged);
+
+
 }
 
 window.onload = function () {
