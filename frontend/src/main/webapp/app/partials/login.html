@@ -120,13 +120,14 @@
             </div>
             <div>
                 <label>Verbruik</label>
-                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true"/>
+                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true" placeholder="0.0" ng-pattern="/([0-9]+)\.([0-9]+)/"/>
                 <span class="afterInputText">l/100km</span>
             </div>
 
             <div class="bottom">
                 <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
                 <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
+                <span class="error" ng-show="cdForm.consumption.$error.pattern">Please stick to the X.Y format.</span>
 
                 <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
                 <div class="clear"></div>

@@ -13,6 +13,7 @@ public class RegisterPage extends Page {
     private static final String SEL_UIFORM="form[name='uiForm']";
     private static final String SEL_CDFORM="form[name='cdForm']";
     private static final String SEL_CIFORM="form[name='ciForm']";
+    private static final String SEL_ERRPLH=" span.error[ng-show='%s']";
 
     public RegisterPage(RemoteWebDriver rwd) {
         super(rwd);
@@ -41,6 +42,14 @@ public class RegisterPage extends Page {
         public WebElement getAccounttypeDriverField() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+" input[name='accounttype'][value='driver']"); }
 
         public WebElement getSubmitButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+" input[name='registreer']"); }
+
+        public WebElement errorFormParse() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.$error.parse")); }
+        public WebElement errorFormUnknown() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.$error.unknown")); }
+        public WebElement errorFormPasswPattern() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.password.$error.pattern")); }
+        public WebElement errorFormUsernPattern() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.username.$error.pattern")); }
+        public WebElement errorFormRequired() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.$error.required")); }
+        public WebElement errorFormUsernExists() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UDFORM+String.format(RegisterPage.SEL_ERRPLH,"udForm.username.$error.exists")); }
+
     }
 
     public static class UiForm extends Page {
@@ -55,6 +64,8 @@ public class RegisterPage extends Page {
         public WebElement getContinueButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='continue']"); }
         public WebElement getSkipButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='skip']"); }
         public WebElement getCancelButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+" input[name='cancel']"); }
+
+        public WebElement errorUnknown() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_UIFORM+String.format(RegisterPage.SEL_ERRPLH,"uiForm.$error.unknown")); }
     }
 
     public static class CdForm extends Page {
@@ -69,6 +80,10 @@ public class RegisterPage extends Page {
         public WebElement getConsumptionField() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_CDFORM+" input[name='consumption']"); }
 
         public WebElement getSubmitButton() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_CDFORM+" input[name='submit']"); }
+
+        public WebElement errorConsumptionPattern() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_CDFORM+String.format(RegisterPage.SEL_ERRPLH,"cdForm.consumption.$error.pattern")); }
+        public WebElement errorRequired() { return super.rwd.findElementByCssSelector(RegisterPage.SEL_CDFORM+String.format(RegisterPage.SEL_ERRPLH,"cdForm.$error.required")); }
+        //cdForm.$error.required
     }
 
     public static class CiForm extends Page {

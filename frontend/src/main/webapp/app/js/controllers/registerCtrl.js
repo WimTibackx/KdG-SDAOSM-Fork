@@ -19,7 +19,7 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
         accounttype = $scope.udAccounttype;
         var data = {
             username: $scope.udUsername, password: $scope.udPassword, name: $scope.udName,
-            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: $scope.udDoB.toISOString().split("T")[0]
+            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: ($scope.udDoB == undefined ? "" : $scope.udDoB.toISOString().split("T")[0])
         };
         $scope.udInProgress=true;
         $http.post(rootUrl+"/register/", JSON.stringify(data)).success(function (response) {
@@ -34,6 +34,9 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
                 else if (response.error == "MissingDataException") { $scope.udForm.$error.required = true; }
                 else { $scope.udForm.$error.unknown = true; }
             }
+        }).error(function() {
+            $scope.udInProgress=false;
+            $scope.udForm.$error.unknown = true;
         });
     };
 
@@ -48,7 +51,10 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
                 $scope.uiURL = response.url;
                 $scope.uiReady = true;
             }
-        }).error(function(response) { $scope.uiForm.$error.unknown = true; });
+        }).error(function(response) {
+            $scope.uiInProgress = false;
+            $scope.uiForm.$error.unknown = true;
+        });
     };
 
     $scope.uiContinue = function() { $scope.isDriver() ? openNextPart() : goMyProfile(); };
@@ -97,6 +103,9 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
                 $scope.ciURL = response.url;
                 $scope.ciReady = true;
             }
+        }).error(function() {
+            $scope.ciInProgress=false;
+            $scope.ciForm.$error.unknown = true;
         });
     };
 
