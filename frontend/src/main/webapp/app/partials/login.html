@@ -32,7 +32,7 @@
             <h4>Uw gegevens</h4>
 
             <div>
-                <label>Usernaam:</label>
+                <label>Gebruikersnaam:</label>
                 <input type="text" ng-model="udUsername" ng-required="true" name="username" ng-pattern="/^[_a-z0-9-A-Z-]+(\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\.[a-z0-9-A-Z-]+)*(\.[a-zA-Z]{2,4})$/"/>
             </div>
             <div>
@@ -55,7 +55,6 @@
             </div>
             <div>
                 <label>Geboortedatum:</label>
-
                 <input type="text" ng-model="udDoB" ng-required="true" name="dob" datepicker-popup="{{'yyyy-MM-dd'}}"/>
             </div>
             <div>
@@ -65,12 +64,12 @@
             </div>
 
             <div class="bottom">
-                <span class="error" ng-show="udForm.$error.parse">There is a problem with our server, please try again later.</span>
-                <span class="error" ng-show="udForm.$error.unknown">An unknown error occured.</span>
-                <span class="error" ng-show="udForm.password.$error.pattern">The password doesn't adhere to the format [1 uppercase, 1 lowercase, 1 digit, no whitespaces, 7-30 length].</span>
-                <span class="error" ng-show="udForm.username.$error.pattern">Please enter a valid e-mailaddress in the username field.</span>
-                <span class="error" ng-show="udForm.$error.required">Please fill in all the fields</span>
-                <span class="error" ng-show="udForm.username.$error.exists">This e-mailaddress is already in use.</span>
+                <span class="error" ng-show="udForm.$error.parse">Er is een probleem met onze server, gelieve later opnieuw te proberen.</span>
+                <span class="error" ng-show="udForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="udForm.password.$error.pattern">Het wachtwoord voldoet niet aan het verplichte formaat (1 hoofdletter, 1 kleine letter, 1 getal, geen spaties, tussen de 7 en de 30 karakters in lengte).</span>
+                <span class="error" ng-show="udForm.username.$error.pattern">Gelieve een geldig e-mailadres in te vullen in het veld "Gebruikersnaam".</span>
+                <span class="error" ng-show="udForm.$error.required">Gelieve alle velden in te vullen.</span>
+                <span class="error" ng-show="udForm.username.$error.exists">Dit e-mailadres is al in gebruik.</span>
                 <input type="submit" name="registreer" value="Registreer" ng-disabled="udInProgress" />
                 <div class="clear"></div>
             </div>
@@ -87,10 +86,10 @@
             </div>
 
             <div class="bottom">
-                <span class="error" ng-show="uiForm.$error.image">An error occured while uploading the images.</span>
-                <span class="error" ng-show="uiForm.$error.unknown">An unknown error occured.</span>
-                <span class="error" ng-show="uiForm.file.$error.required">Please select an image or skip.</span>
-                <span class="error" ng-show="uiForm.$error.removeimage">Something went wrong while removing your image.</span>
+                <span class="error" ng-show="uiForm.$error.image">Er is een fout opgetreden tijdens het uploaden van de afbeelding.</span>
+                <span class="error" ng-show="uiForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="uiForm.file.$error.required">Gelieve een afbeelding te selecteren of te kiezen voor "Overslaan".</span>
+                <span class="error" ng-show="uiForm.$error.removeimage">Er is een fout opgetreden tijdens het verwijderen van de afbeelding.</span>
 
                 <input type="submit" value="Upload" name="submit" ng-show="!uiReady" ng-click="uiUpload()" ng-disabled="uiInProgress" />
                 <input type="reset" value="Overslaan" name="skip" ng-show="!uiReady" ng-click="uiContinue()" ng-disabled="uiInProgress" />
@@ -127,9 +126,9 @@
             </div>
 
             <div class="bottom">
-                <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
-                <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
-                <span class="error" ng-show="cdForm.consumption.$error.pattern">Please stick to the X.Y format.</span>
+                <span class="error" ng-show="cdForm.$error.required">Gelieve alle velden in te vullen.</span>
+                <span class="error" ng-show="cdForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="cdForm.consumption.$error.pattern">Gelieve het formaat "X.Y" na te leven.</span>
 
                 <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
                 <div class="clear"></div>
@@ -148,11 +147,11 @@
             </div>
 
             <div class="bottom">
-                <span class="error" ng-show="ciForm.$error.carnotfound">There was a problem with the car.</span>
-                <span class="error" ng-show="ciForm.$error.carnotyours">This car isn't yours!</span>
-                <span class="error" ng-show="ciForm.file.$error.uploading">An error occured while uploading the images.</span>
-                <span class="error" ng-show="ciForm.$error.unknown">An unknown error occured.</span>
-                <span class="error" ng-show="ciForm.$error.removingUnknown">Something went wrong while removing your image.</span>
+                <span class="error" ng-show="ciForm.$error.carnotfound">De auto kon niet gevonden worden.</span>
+                <span class="error" ng-show="ciForm.$error.carnotyours">Deze auto is niet van u.</span>
+                <span class="error" ng-show="ciForm.file.$error.uploading">Er is een fout opgetreden tijdens het uploaden van de afbeelding.</span>
+                <span class="error" ng-show="ciForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="ciForm.$error.removingUnknown">Er is een fout opgetreden tijdens het verwijderen van de afbeelding.</span>
 
                 <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" ng-disabled="ciInProgress" />
                 <input type="reset" value="Overslaan" name="skip" ng-show="!ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />

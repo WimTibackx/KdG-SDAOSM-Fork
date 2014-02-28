@@ -28,9 +28,9 @@
         </div>
 
         <div class="bottom">
-            <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
-            <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
-            <span class="error" ng-show="cdForm.consumption.$error.pattern">Please stick to the X.Y format.</span>
+            <span class="error" ng-show="cdForm.$error.required">Gelieve alle velden in te vullen.</span>
+            <span class="error" ng-show="cdForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+            <span class="error" ng-show="cdForm.consumption.$error.pattern">Gelieve het formaat "X.Y" na te leven.</span>
 
             <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
             <div class="clear"></div>
@@ -48,11 +48,11 @@
         </div>
 
         <div class="bottom">
-            <span class="error" ng-show="ciForm.$error.carnotfound">There was a problem with the car.</span>
-            <span class="error" ng-show="ciForm.$error.carnotyours">This car isn't yours!</span>
-            <span class="error" ng-show="ciForm.file.$error.uploading">An error occured while uploading the images.</span>
-            <span class="error" ng-show="ciForm.$error.unknown">An unknown error occured.</span>
-            <span class="error" ng-show="ciForm.$error.removingUnknown">Something went wrong while removing your image.</span>
+            <span class="error" ng-show="ciForm.$error.carnotfound">De auto kon niet gevonden worden.</span>
+            <span class="error" ng-show="ciForm.$error.carnotyours">Deze auto is niet van u.</span>
+            <span class="error" ng-show="ciForm.file.$error.uploading">Er is een fout opgetreden tijdens het uploaden van de afbeelding.</span>
+            <span class="error" ng-show="ciForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+            <span class="error" ng-show="ciForm.$error.removingUnknown">Er is een fout opgetreden tijdens het verwijderen van de afbeelding.</span>
 
             <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" ng-disabled="ciInProgress" />
             <input type="reset" value="Overslaan" name="skip" ng-show="!ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />

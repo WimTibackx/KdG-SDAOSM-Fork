@@ -58,7 +58,7 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
     };
 
     $scope.uiContinue = function() {
-        $scope.canStartCar=true;
+        $scope.canStartCar=$scope.isDriver();
         $scope.isDriver() ? openNextPart() : goMyProfile();
     };
 
