@@ -5,11 +5,11 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
     console.log("hey test register ctrl");
 
     var rootUrl = "http://localhost:8080/BackEnd/";
-    var states=["#registerform","#userimageform","#driver-cardata","#carimageform"];
     var stateId=0;
 
-    var insertedCar = 0;
+    //var insertedCar = 0;
     var accounttype = undefined;
+    $scope.canStartCar=false;
 
     $scope.udSubmit = function() {
         $scope.udForm.$error.required = !!$scope.udForm.username.$error.required || !!$scope.udForm.password.$error.required
@@ -19,7 +19,7 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
         accounttype = $scope.udAccounttype;
         var data = {
             username: $scope.udUsername, password: $scope.udPassword, name: $scope.udName,
-            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: $scope.udDoB.toISOString().split("T")[0]
+            smoker: $scope.udSmoker, gender: $scope.udGender, dateofbirth: ($scope.udDoB == undefined ? "" : $scope.udDoB.toISOString().split("T")[0])
         };
         $scope.udInProgress=true;
         $http.post(rootUrl+"/register/", JSON.stringify(data)).success(function (response) {
@@ -34,6 +34,9 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
                 else if (response.error == "MissingDataException") { $scope.udForm.$error.required = true; }
                 else { $scope.udForm.$error.unknown = true; }
             }
+        }).error(function() {
+            $scope.udInProgress=false;
+            $scope.udForm.$error.unknown = true;
         });
     };
 
@@ -48,10 +51,16 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
                 $scope.uiURL = response.url;
                 $scope.uiReady = true;
             }
-        }).error(function(response) { $scope.uiForm.$error.unknown = true; });
+        }).error(function(response) {
+            $scope.uiInProgress = false;
+            $scope.uiForm.$error.unknown = true;
+        });
     };
 
-    $scope.uiContinue = function() { $scope.isDriver() ? openNextPart() : goMyProfile(); };
+    $scope.uiContinue = function() {
+        $scope.canStartCar=true;
+        $scope.isDriver() ? openNextPart() : goMyProfile();
+    };
 
     $scope.uiCancel = function() {
         $scope.uiInProgress=true;
@@ -64,55 +73,6 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
         });
     };
 
-    $scope.cdSubmit = function() {
-        $scope.cdForm.$error.required = !!$scope.cdForm.brand.$error.required || !!$scope.cdForm.type.$error.required
-            || !!$scope.cdForm.fueltype.$error.required || !!$scope.cdForm.consumption.$error.required;
-        console.log("is invalid: "+$scope.cdForm.$invalid);
-        var data = {
-            brand: $scope.cdBrand, type: $scope.cdType, fueltype: $scope.cdFueltype, consumption: $scope.cdConsumption
-        };
-        $scope.cdInProgress=true;
-        $http.post(rootUrl + "/authorized/user/car/add/", JSON.stringify(data)).success(function (response) {
-            $scope.cdInProgress=false;
-            if (response.hasOwnProperty("inserted")) {
-                insertedCar = response.inserted;
-                openNextPart();
-            } else if (response.hasOwnProperty("error")) {
-                if (response.error == "MissingDataException") { $scope.cdForm.$error.required = true; }
-                else { $scope.cdForm.$error.unknown = true; }
-            }
-        });
-    };
-
-    $scope.ciUpload = function() {
-        $scope.ciInProgress=true;
-        $fileUpload.upload($scope.ciFile,rootUrl+"/authorized/user/car/" + insertedCar + "/uploadphoto").success(function(response) {
-            $scope.ciInProgress=false;
-            if (response.hasOwnProperty("error")) {
-                if (response.error == "CarNotFound") { $scope.ciForm.$error.carnotfound = true; }
-                else if (response.error == "CarNotYours") { $scope.ciForm.$error.carnotyours = true; }
-                else if (response.error == "ImageError") { $scope.ciForm.file.$error.uploading = true;}
-                else { $scope.ciForm.$error.unknown = true;}
-            } else if (response.hasOwnProperty("url")) {
-                $scope.ciURL = response.url;
-                $scope.ciReady = true;
-            }
-        });
-    };
-
-    $scope.ciContinue = function() { goMyProfile(); };
-
-    $scope.ciCancel = function() {
-        $scope.ciInProgress=true;
-        $http.post(rootUrl+"/authorized/user/car/" + insertedCar + "deletephoto/", "").success(function (response) {
-            $scope.ciInProgress=false;
-            if (response.hasOwnProperty("status")) {
-                $scope.ciURL="";
-                $scope.ciReady=false;
-            } else { $scope.ciForm.$error.removingUnknown = true; }
-        });
-    };
-
     $scope.getNgShow = function(id) { return id == stateId; };
 
     $scope.isDriver = function() { return accounttype=="driver"; };
@@ -120,11 +80,6 @@ carpoolingApp.controllerProvider.register('registerCtrl', ['$scope', '$http', '$
     $scope.getUiUrl = function() {
         if (!$scope.uiReady) {return ""; }
         return "http://localhost:8080/BackEnd/userImages/"+($scope.uiURL);
-    };
-
-    $scope.getCiUrl = function() {
-        if (!$scope.ciReady) {return ""; }
-        return "http://localhost:8080/BackEnd/carImages/"+($scope.ciURL);
     };
 
     function openNextPart() {

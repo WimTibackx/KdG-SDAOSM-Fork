@@ -1,6 +1,7 @@
 <script src="js/controllers/loginCtrl.js"></script>
 <script src="js/controllers/registerCtrl.js"></script>
 <script src="js/controllers/passwordCtrl.js"></script>
+<script src="js/controllers/addCar2Ctrl.js"></script>
 <div class="content" id="login" ng-controller="loginCtrl">
     <div id="form_wrapper" class="form_wrapper">
         <form class="login active" id="loginform">
@@ -98,6 +99,7 @@
                 <div class="clear"></div>
             </div>
         </form>
+        <div ng-controller="addCar2Ctrl">
         <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)" name="cdForm" novalidate>
             <h3 class="beforeh4">Registreer</h3>
             <h4>Autogegevens</h4>
@@ -120,18 +122,20 @@
             </div>
             <div>
                 <label>Verbruik</label>
-                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true"/>
+                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true" placeholder="0.0" ng-pattern="/([0-9]+)\.([0-9]+)/"/>
                 <span class="afterInputText">l/100km</span>
             </div>
 
             <div class="bottom">
                 <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
                 <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
+                <span class="error" ng-show="cdForm.consumption.$error.pattern">Please stick to the X.Y format.</span>
 
                 <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
                 <div class="clear"></div>
             </div>
         </form>
+
         <form id="carimageform" ng-show="getNgShow(3)" name="ciForm">
             <h3 class="beforeh4">Registreer</h3>
             <h4>Autofoto</h4>
@@ -157,11 +161,12 @@
                 <div class="clear"></div>
             </div>
         </form>
+        </div>
     </div>
     <div class="clear"></div>
 </div>
 
-<div class="content" id="password" ng-controller="passwordCtrl">
+<div class="content" id="password">
     <div class="form_wrapper">
         <form class="login active">
             <h3>Paswoord vergeten?</h3>
