@@ -1,9 +1,67 @@
+<!--script src="js/controllers/addCarCtrl.js"></script-->
 <script src="js/controllers/addCarCtrl.js"></script>
-<script type="text/javascript" src="js/addCar.js"></script>
-<link rel="stylesheet" type="text/css" href="css/addCar.css">
-
 <section id="inline" ng-controller="addCarCtrl">
-	<section id="addcardata">
+    <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)" name="cdForm" novalidate>
+        <h3 class="beforeh4">Voeg een auto toe</h3>
+        <h4>Autogegevens</h4>
+
+        <div>
+            <label>Merk</label>
+            <input ng-model="cdBrand" type="text" id="brand" name="brand" ng-required="true"/>
+        </div>
+        <div>
+            <label>Model</label>
+            <input ng-model="cdType" type="text" id="type" name="type" ng-required="true"/>
+        </div>
+        <div>
+            <label>Brandstoftype</label>
+            <select ng-model="cdFueltype" id="fueltype" name="fueltype" ng-required="true">
+                <option value="DIESEL">Diesel</option>
+                <option value="SUPER95">Super 95</option>
+                <option value="SUPER98">Super 98</option>
+            </select>
+        </div>
+        <div>
+            <label>Verbruik</label>
+            <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true" placeholder="0.0" ng-pattern="/([0-9]+)\.([0-9]+)/"/>
+            <span class="afterInputText">l/100km</span>
+        </div>
+
+        <div class="bottom">
+            <span class="error" ng-show="cdForm.$error.required">Please fill in all the fields.</span>
+            <span class="error" ng-show="cdForm.$error.unknown">An unknown error occured.</span>
+            <span class="error" ng-show="cdForm.consumption.$error.pattern">Please stick to the X.Y format.</span>
+
+            <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
+            <div class="clear"></div>
+        </div>
+    </form>
+    <form id="carimageform" ng-show="getNgShow(3)" name="ciForm">
+        <h3 class="beforeh4">Voeg een auto toe</h3>
+        <h4>Autofoto</h4>
+
+        <div>
+            <input type="file" ng-file-model="ciFile" name="file" />
+        </div>
+        <div id="ciPreview" class="imageUploadPreview" ng-show="ciReady">
+            <img ng-src="{{getCiUrl()}}" alt="Your car" width="10em" />
+        </div>
+
+        <div class="bottom">
+            <span class="error" ng-show="ciForm.$error.carnotfound">There was a problem with the car.</span>
+            <span class="error" ng-show="ciForm.$error.carnotyours">This car isn't yours!</span>
+            <span class="error" ng-show="ciForm.file.$error.uploading">An error occured while uploading the images.</span>
+            <span class="error" ng-show="ciForm.$error.unknown">An unknown error occured.</span>
+            <span class="error" ng-show="ciForm.$error.removingUnknown">Something went wrong while removing your image.</span>
+
+            <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" ng-disabled="ciInProgress" />
+            <input type="reset" value="Overslaan" name="skip" ng-show="!ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />
+            <input type="submit" value="Ga door" name="continue" ng-show="ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />
+            <input type="reset" value="Cancel" name="cancel" ng-show="ciReady" ng-click="ciCancel()" ng-disabled="ciInProgress" />
+            <div class="clear"></div>
+        </div>
+    </form>
+	<!--<section id="addcardata">
     <form method="get" id="addcarform">
         <label>Merk<input type="text" id="brand"></label><br>
         <label>Model<input type="text" id="type"></label><br>
@@ -25,7 +83,7 @@
 		<button id="cancel">Cancel</button>
 		<div id="imgpreview" />
 		<span id="error"></span>
-	</section>
+	</section>-->
 </section>
 
         <!-- var file = $("#control").attr("files")[0];

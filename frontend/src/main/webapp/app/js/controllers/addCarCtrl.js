@@ -1,69 +1,80 @@
-/**
- * Created by peter on 25/02/14.
- */
-// CONTROLLER: Add car
-carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-    var insertedCar = -1;
+carpoolingApp.controllerProvider.register('addCar2Ctrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
+    console.log("hey test car2ctrl");
 
-    if (readCookie("Token") == null) {
-        window.location = "http://localhost:8080/frontend/app/index.html#/login";
-        return;
-    }
+    var rootUrl = "http://localhost:8080/BackEnd/";
+    var insertedCar = 0;
 
-    $(document).ready(function () {
+    var stateId=2;
 
-        $("#addcarform").submit(function (e) {
-            e.preventDefault();
-            var data = {
-                brand: $("#addcarform input#brand").val(),
-                type: $("#addcarform input#type").val(),
-                fueltype: $("#addcarform select#fueltype").val(),
-                consumption: $("#addcarform input#consumption").val()
-            };
-
-            $http({
-                method: 'POST',
-                url: rootUrl + "/authorized/user/car/add/",
-                data: JSON.stringify(data),
-                headers: {'Content-Type': "text/plain; charset=utf-8"}
-            }).success(function (response) {
-                    if (response.hasOwnProperty("inserted")) {
-                        insertedCar = response.inserted;
-                        console.log("We can proceed to uploading ze photo");
-                        $("#addcardata").css("display", "none");
-                        $("#addcarimage").css("display", "block");
-                    } else if (response.hasOwnProperty("error")) {
-                        console.log("We had an error!");
-                        $("#addcarform #error").html("We had an error!");
-                    }
-                });
-        });
-
-        $("#addcarimage #upload").click(function () {
-            var file = document.getElementById('image').files[0];
-            var data = new FormData();
-            data.append("file", file);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/BackEnd/authorized/user/car/" + insertedCar + "/uploadphoto");
-            xhr.send(data);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var jsonResponse = JSON.parse(xhr.responseText);
-                    if (jsonResponse.hasOwnProperty("error")) {
-                        console.log(jsonResponse.error);
-                        if (jsonResponse.error == "CarNotFound") {
-                            $("#error").html("There was a problem with the car");
-                        } else if (jsonResponse.error == "CarNotYours") {
-                            //TODO
-                        } else if (jsonResponse.error == "ImageError") {
-                            //TODO
-                        }
-                    } else if (jsonResponse.hasOwnProperty("url")) {
-                        $("#imgpreview").html('<img src="http://localhost:8080/BackEnd/carImages/' + jsonResponse.url + '" alt="The car" width="12em" />');
-                    }
-                }
+    $scope.cdSubmit = function() {
+        $scope.canStartCar=true;
+        $scope.cdForm.$error.required = !!$scope.cdForm.brand.$error.required || !!$scope.cdForm.type.$error.required
+            || !!$scope.cdForm.fueltype.$error.required || !!$scope.cdForm.consumption.$error.required;
+        console.log("is invalid: "+$scope.cdForm.$invalid);
+        var data = {
+            brand: $scope.cdBrand, type: $scope.cdType, fueltype: $scope.cdFueltype, consumption: $scope.cdConsumption
+        };
+        $scope.cdInProgress=true;
+        $http.post(rootUrl + "/authorized/user/car/add/", JSON.stringify(data)).success(function (response) {
+            $scope.cdInProgress=false;
+            if (response.hasOwnProperty("inserted")) {
+                insertedCar = response.inserted;
+                openNextPart();
+            } else if (response.hasOwnProperty("error")) {
+                if (response.error == "MissingDataException") { $scope.cdForm.$error.required = true; }
+                else { $scope.cdForm.$error.unknown = true; }
             }
         });
-    });
+    };
+
+    $scope.ciUpload = function() {
+        $scope.ciInProgress=true;
+        $fileUpload.upload($scope.ciFile,rootUrl+"/authorized/user/car/" + insertedCar + "/uploadphoto").success(function(response) {
+            $scope.ciInProgress=false;
+            if (response.hasOwnProperty("error")) {
+                if (response.error == "CarNotFound") { $scope.ciForm.$error.carnotfound = true; }
+                else if (response.error == "CarNotYours") { $scope.ciForm.$error.carnotyours = true; }
+                else if (response.error == "ImageError") { $scope.ciForm.file.$error.uploading = true;}
+                else { $scope.ciForm.$error.unknown = true;}
+            } else if (response.hasOwnProperty("url")) {
+                $scope.ciURL = response.url;
+                $scope.ciReady = true;
+            }
+        }).error(function() {
+                $scope.ciInProgress=false;
+                $scope.ciForm.$error.unknown = true;
+            });
+    };
+
+    $scope.ciContinue = function() { goMyProfile(); };
+
+    $scope.ciCancel = function() {
+        $scope.ciInProgress=true;
+        $http.post(rootUrl+"/authorized/user/car/" + insertedCar + "deletephoto/", "").success(function (response) {
+            $scope.ciInProgress=false;
+            if (response.hasOwnProperty("status")) {
+                $scope.ciURL="";
+                $scope.ciReady=false;
+            } else { $scope.ciForm.$error.removingUnknown = true; }
+        });
+    };
+
+    $scope.getCiUrl = function() {
+        if (!$scope.ciReady) {return ""; }
+        return "http://localhost:8080/BackEnd/carImages/"+($scope.ciURL);
+    };
+
+    $scope.getNgShow = function(id) {
+        if ($scope.canStartCar==false) { return false; }
+        return id == stateId;
+    };
+
+    function openNextPart() {
+        stateId++;
+    }
+
+    function goMyProfile() {
+        $location.path("/myProfile");
+        $("#cssmenu").show();
+    }
 }]);

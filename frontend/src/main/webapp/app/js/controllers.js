@@ -33,30 +33,3 @@ function readCookie(name) {
     }
     return null;
 }
-
-function addCarImage(insertedCar) {
-    var file = document.getElementById('image').files[0];
-    var data = new FormData();
-    data.append("file", file);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/BackEnd/authorized/user/car/" + insertedCar + "/uploadphoto");
-    xhr.send(data);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var jsonResponse = JSON.parse(xhr.responseText);
-            if (jsonResponse.hasOwnProperty("error")) {
-                console.log(jsonResponse.error);
-                if (jsonResponse.error == "CarNotFound") {
-                    $("#error").html("There was a problem with the car");
-                } else if (jsonResponse.error == "CarNotYours") {
-                    //TODO
-                } else if (jsonResponse.error == "ImageError") {
-                    //TODO
-                }
-            } else if (jsonResponse.hasOwnProperty("url")) {
-                $("#imgpreview").html('<img src="http://localhost:8080/BackEnd/carImages/' + jsonResponse.url + '" alt="The car" width="12em" />');
-            }
-        }
-    }
-}
