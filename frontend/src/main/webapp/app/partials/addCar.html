@@ -1,20 +1,22 @@
 
 <script src="js/controllers/addCarCtrl.js"></script>
-<section id="inline" ng-controller="addCarCtrl">
+<section id="addCar" class="mainSite" ng-controller="addCarCtrl">
+    <header>
+        <h3>Voeg een auto toe</h3>
+    </header>
     <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)" name="cdForm" novalidate>
-        <h3 class="beforeh4">Voeg een auto toe</h3>
         <h4>Autogegevens</h4>
 
         <div>
-            <label>Merk</label>
+            <label for="brand">Merk</label>
             <input ng-model="cdBrand" type="text" id="brand" name="brand" ng-required="true"/>
         </div>
         <div>
-            <label>Model</label>
+            <label for="type">Model</label>
             <input ng-model="cdType" type="text" id="type" name="type" ng-required="true"/>
         </div>
         <div>
-            <label>Brandstoftype</label>
+            <label for="fueltype">Brandstoftype</label>
             <select ng-model="cdFueltype" id="fueltype" name="fueltype" ng-required="true">
                 <option value="DIESEL">Diesel</option>
                 <option value="SUPER95">Super 95</option>
@@ -22,7 +24,7 @@
             </select>
         </div>
         <div>
-            <label>Verbruik</label>
+            <label for="consumption">Verbruik</label>
             <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true" placeholder="0.0" ng-pattern="/([0-9]+)\.([0-9]+)/"/>
             <span class="afterInputText">l/100km</span>
         </div>
@@ -37,14 +39,13 @@
         </div>
     </form>
     <form id="carimageform" ng-show="getNgShow(3)" name="ciForm">
-        <h3 class="beforeh4">Voeg een auto toe</h3>
         <h4>Autofoto</h4>
 
         <div>
             <input type="file" ng-file-model="ciFile" name="file" />
         </div>
         <div id="ciPreview" class="imageUploadPreview" ng-show="ciReady">
-            <img ng-src="{{getCiUrl()}}" alt="Your car" width="10em" />
+            <img ng-src="{{getCiUrl()}}" alt="Your car" width="100%" />
         </div>
 
         <div class="bottom">
@@ -61,33 +62,4 @@
             <div class="clear"></div>
         </div>
     </form>
-	<!--<section id="addcardata">
-    <form method="get" id="addcarform">
-        <label>Merk<input type="text" id="brand"></label><br>
-        <label>Model<input type="text" id="type"></label><br>
-        <label>Brandstoftype
-        <select id="fueltype">
-            <option value="DIESEL">Diesel</option>
-            <option value="SUPER95">Super 95</option>
-            <option value="SUPER98">Super 98</option>
-        </select>
-        </label><br>
-        <label>Verbruik<input type="text" id="consumption">l/100km</label><br>
-        <input type="submit" id="submit" value="Add" /><br />
-        <span id="error"></span>
-    </form>
-	</section>
-	<section id="addcarimage">
-		<input type="file" id="image" />
-		<button id="upload">Upload</button>
-		<button id="cancel">Cancel</button>
-		<div id="imgpreview" />
-		<span id="error"></span>
-	</section>-->
 </section>
-
-        <!-- var file = $("#control").attr("files")[0];
-    var fileName = file.fileName;
-    var fileSize = file.fileSize;
-
-    alert("Uploading: "+fileName+" @ "+fileSize+"bytes"); -->

@@ -1,4 +1,4 @@
-label {
+/*label {
     display: block;
     margin: 10px 0;
     width: 400px;
@@ -8,4 +8,77 @@ label input, label select {
     position: absolute;
     left: 200px;
     width: 175px;
+}*/
+section.mainSite#addCar {
+    padding:10px;
+    color:#FFFFFF;
+}
+section.mainSite#addCar header {
+    margin-right:0;
+    padding:0;
+}
+section.mainSite#addCar header h3 {
+    font-size:2.4rem;
+    margin:10px 0;
+}
+section.mainSite#addCar form {
+    width:40rem;
+}
+section.mainSite#addCar span.error {
+    display:block;
+}
+section.mainSite#addCar label {
+    width:10rem;
+    font-size:1.4rem;
+}
+section.mainSite#addCar select {
+    color:#000000;
+}
+section.mainSite#addCar input,
+section.mainSite#addCar select {
+    width:15rem;
+}
+section.mainSite#addCar input[type="file"] {
+    background:#FFFFFF;
+    width:100%;
+    padding:5px;
+}
+section.mainSite#addCar .bottom {
+    margin-top:20px;
+}
+section.mainSite#addCar input[type="submit"],
+section.mainSite#addCar input[type="reset"] {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: rgb(53,53,53);
+    font-weight: bold;
+    padding: 8px 0 9px;
+    width: 150px;
+    cursor:pointer;
+    float:right;
+    border-radius: 4px;
+}
+section.mainSite#addCar input[type="submit"]:disabled,
+section.mainSite#addCar input[type="reset"]:disabled,
+section.mainSite#addCar input[type="submit"]:hover:disabled,
+section.mainSite#addCar input[type="reset"]:hover:disabled {
+    background-image:url(../img/loading.gif);
+    height:39px;
+    font-size:0;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+section.mainSite#addCar input[type="reset"] {
+    background:#aaaaaa;
+    float:left;
+}
+section.mainSite#addCar input[type="submit"]:hover,
+section.mainSite#addCar input[type="reset"]:hover{
+    background: #d1d1d1;
+}
+
+section.mainSite#addCar #ciPreview {
+    margin-top: 10px;
+    border: 1px solid white;
+    box-sizing: border-box;
 }

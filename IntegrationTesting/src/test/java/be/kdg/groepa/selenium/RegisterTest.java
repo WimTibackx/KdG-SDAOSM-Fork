@@ -1,65 +1,26 @@
+package be.kdg.groepa.selenium;
+
 import be.kdg.groepa.selenium.pages.FrontendWebsite;
 import be.kdg.groepa.selenium.pages.ProfilePage;
 import be.kdg.groepa.selenium.pages.RegisterPage;
-import com.ibatis.common.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.sql.DriverManager;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Thierry on 24/02/14.
  */
 public class RegisterTest {
-    public static final int WAIT_SHORT = 5000;
-    public static final int WAIT_LONG = 10000;
     private static boolean setup = false;
 
     @Before
     public void init(){
-        if(!setup){
-            String script = "src/test/resources/Query.sql";
-            FirefoxDriver driver = new FirefoxDriver();
-            driver.manage().window().setSize(new Dimension(1024, 860));
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-            driver.get("http://localhost:8080/frontend/app/index.html#/login");
-            WebElement element = driver.findElementByName("username");
-            element.sendKeys("profile@test.com");
-
-            element = driver.findElementByName("password");
-            element.sendKeys("Succes1");
-
-            element = driver.findElementByName("login");
-            element.click();
-            try {
-                Thread.sleep(WAIT_SHORT);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            driver.close();
-            try {
-
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                new ScriptRunner(DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/groepA", "groepA", "groepA"), false, false)
-                        .runScript(new BufferedReader(new FileReader(script)));
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-            setup = true;
-        }
-
+        if (setup) return;
+        Helper.setup();
+        setup = true;
     }
 
 
@@ -83,27 +44,29 @@ public class RegisterTest {
         RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
 
         this.udFormDriver(rp, "NewTestUser@driver.register.example.com");
-
         this.uploadAvatar(rp, driver);
-
-        RegisterPage.CdForm cdForm = rp.getCdForm();
-        cdForm.getBrandField().sendKeys("Ford");
-        cdForm.getTypeField().sendKeys("Fiesta");
-        cdForm.getFueltypeField().selectByIndex(2);
-        cdForm.getConsumptionField().sendKeys("8.1");
-        cdForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        this.doCdForm(rp, "Ford");
 
         RegisterPage.CiForm ciForm = rp.getCiForm();
-        ciForm.getFileField().sendKeys(new File("src/test/resources/car.jpg").getAbsolutePath());
+        ciForm.getFileField().sendKeys(Helper.getCarPath());
         ciForm.getSubmitButton().click();
-        Helper.wait(WAIT_LONG);
+        Helper.wait(Helper.WAIT_LONG);
         ciForm.getContinueButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
 
         this.assertOnProfile(driver);
 
         driver.close();
+    }
+
+    private void doCdForm(RegisterPage rp, String brand) {
+        RegisterPage.CdForm cdForm = rp.getCdForm();
+        cdForm.getBrandField().sendKeys(brand);
+        cdForm.getTypeField().sendKeys("Fiesta");
+        cdForm.getFueltypeField().selectByIndex(2);
+        cdForm.getConsumptionField().sendKeys("8.1");
+        cdForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_SHORT);
     }
 
     @Test
@@ -125,13 +88,13 @@ public class RegisterTest {
         this.udFormPassenger(rp, "NewTestUser@trycancelskipavatar.register.example.com");
 
         RegisterPage.UiForm uiForm = rp.getUiForm();
-        uiForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        uiForm.getFileField().sendKeys(Helper.getAvatarPath());
         uiForm.getSubmitButton().click();
-        Helper.wait(WAIT_LONG);
+        Helper.wait(Helper.WAIT_LONG);
         uiForm.getCancelButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         uiForm.getSkipButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
 
         this.assertOnProfile(driver);
         driver.close();
@@ -142,13 +105,13 @@ public class RegisterTest {
         RemoteWebDriver driver = Helper.startFirefox();
         RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
         this.udFormPassenger(rp, "NewTestUser@trycancelreuploadavatar.register.example.com");
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         RegisterPage.UiForm uiForm = rp.getUiForm();
-        uiForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        uiForm.getFileField().sendKeys(Helper.getAvatarPath());
         uiForm.getSubmitButton().click();
-        Helper.wait(WAIT_LONG);
+        Helper.wait(Helper.WAIT_LONG);
         uiForm.getCancelButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         this.uploadAvatar(rp, driver);
 
         this.assertOnProfile(driver);
@@ -170,7 +133,7 @@ public class RegisterTest {
     public void tryNonexistingDate() {
         RemoteWebDriver driver = Helper.startFirefox();
         RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         RegisterPage.UdForm udForm = rp.getUdForm();
         udForm.getUsernameField().sendKeys("NewTestUser@trynonexistingdate.register.example.com");
         udForm.getPasswordField().sendKeys("Password1");
@@ -180,7 +143,7 @@ public class RegisterTest {
         udForm.getAccounttypePassengerField().click();
         udForm.getDobField().sendKeys("1993-02-40");
         udForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         Assert.assertTrue(udForm.errorFormUnknown().isDisplayed());
         driver.close();
     }
@@ -220,7 +183,7 @@ public class RegisterTest {
         udForm.getDobField().sendKeys("1996-07-19");
         udForm.getAccounttypePassengerField().click();
         udForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         Assert.assertTrue(udForm.errorFormUsernExists().isDisplayed());
         driver.close();
     }
@@ -249,7 +212,7 @@ public class RegisterTest {
     private void skipAvatar(RegisterPage rp) {
         RegisterPage.UiForm uiForm = rp.getUiForm();
         uiForm.getSkipButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
     }
 
     @Test
@@ -261,7 +224,7 @@ public class RegisterTest {
         RegisterPage.UiForm uiForm = rp.getUiForm();
         uiForm.getFileField().sendKeys(new File("src/test/java/resources/foo.txt").getAbsolutePath());
         uiForm.getSubmitButton().click();
-        Helper.wait(WAIT_LONG);
+        Helper.wait(Helper.WAIT_LONG);
         Assert.assertTrue(uiForm.errorUnknown().isDisplayed());
 
         driver.close();
@@ -277,19 +240,120 @@ public class RegisterTest {
         RegisterPage.CdForm cdForm = rp.getCdForm();
         cdForm.getBrandField().sendKeys("foo");
         cdForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
         Assert.assertTrue(cdForm.errorRequired().isDisplayed());
 
         driver.close();
     }
 
+    @Test
+    public void noImage() {
+        RemoteWebDriver driver = Helper.startFirefox();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        this.udFormDriver(rp, "registerA@selenium.example.com");
+        this.skipAvatar(rp);
+        this.doCdForm(rp, "Ford");
+
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        Assert.assertTrue(ciForm.errorUnknown().isDisplayed());
+        driver.close();
+    }
+
+    @Test
+    public void trySkipImage() {
+        final String brand = "SeleniumH";
+        RemoteWebDriver driver = Helper.startFirefox();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        this.udFormDriver(rp, "registerB@selenium.example.com");
+        this.skipAvatar(rp);
+        this.doCdForm(rp, brand);
+
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getSkipButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ProfilePage pp = new ProfilePage(driver);
+        Assert.assertTrue("The car should've been found", pp.hasCar(brand));
+        driver.close();
+    }
+
+    @Test
+    public void tryCancelSkipImage() {
+        final String brand = "SeleniumI";
+        RemoteWebDriver driver = Helper.startFirefox();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        this.udFormDriver(rp, "registerC@selenium.example.com");
+        this.skipAvatar(rp);
+        this.doCdForm(rp, brand);
+
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getFileField().sendKeys(Helper.getCarPath());
+        ciForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ciForm.getCancelButton().click();
+        Helper.wait(Helper.WAIT_SHORT);
+        ciForm.getSkipButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ProfilePage pp = new ProfilePage(driver);
+        Assert.assertTrue("The car should've been found", pp.hasCar(brand));
+        driver.close();
+    }
+
+    @Test
+    public void tryCancelReuploadImage() {
+        final String brand = "SeleniumJ";
+        RemoteWebDriver driver = Helper.startFirefox();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        this.udFormDriver(rp, "registerD@selenium.example.com");
+        this.skipAvatar(rp);
+        this.doCdForm(rp, brand);
+
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getFileField().sendKeys(Helper.getCarPath());
+        ciForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ciForm.getCancelButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ciForm.getFileField().sendKeys(Helper.getCarPath());
+        ciForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ciForm.getContinueButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        ProfilePage pp = new ProfilePage(driver);
+        Assert.assertTrue("The car should've been found", pp.hasCar(brand));
+        driver.close();
+    }
+
+    @Test
+    public void tryTxtForImage() {
+        final String brand = "SeleniumK";
+        RemoteWebDriver driver = Helper.startFirefox();
+        RegisterPage rp = FrontendWebsite.enterAtLogin(driver).navigateRegisterPage();
+
+        this.udFormDriver(rp, "registerE@selenium.example.com");
+        this.skipAvatar(rp);
+        this.doCdForm(rp, brand);
+        Helper.wait(2000); //The thing hadn't been loaded in time...
+        RegisterPage.CiForm ciForm = rp.getCiForm();
+        ciForm.getFileField().sendKeys(Helper.getTxtPath());
+        ciForm.getSubmitButton().click();
+        Helper.wait(Helper.WAIT_LONG);
+        Assert.assertTrue(ciForm.errorUnknown().isDisplayed());
+        driver.close();
+    }
+
     private void uploadAvatar(RegisterPage rp, RemoteWebDriver driver) {
         RegisterPage.UiForm uiForm = rp.getUiForm();
-        uiForm.getFileField().sendKeys(new File("src/test/resources/avatar.JPG").getAbsolutePath());
+        uiForm.getFileField().sendKeys(Helper.getAvatarPath());
         uiForm.getSubmitButton().click();
-        Helper.wait(WAIT_LONG);
+        Helper.wait(Helper.WAIT_LONG);
         uiForm.getContinueButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
     }
 
     private RegisterPage.UdForm udFormBaseuser(RegisterPage rp, String email) {
@@ -307,14 +371,14 @@ public class RegisterTest {
         RegisterPage.UdForm udForm = this.udFormBaseuser(rp, email);
         udForm.getAccounttypePassengerField().click();
         udForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
     }
 
     private void udFormDriver(RegisterPage rp, String email) {
         RegisterPage.UdForm udForm = this.udFormBaseuser(rp, email);
         udForm.getAccounttypeDriverField().click();
         udForm.getSubmitButton().click();
-        Helper.wait(WAIT_SHORT);
+        Helper.wait(Helper.WAIT_SHORT);
     }
 
     private void assertOnProfile(RemoteWebDriver driver) {

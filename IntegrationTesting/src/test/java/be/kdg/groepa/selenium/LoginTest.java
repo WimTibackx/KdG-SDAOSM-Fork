@@ -1,4 +1,5 @@
-import com.ibatis.common.jdbc.ScriptRunner;
+package be.kdg.groepa.selenium;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
@@ -6,10 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -23,39 +22,9 @@ public class LoginTest {
 
     @Before
     public void init(){
-       if(!setup){
-           String script = "src/test/resources/Query.sql";
-           FirefoxDriver driver = new FirefoxDriver();
-           driver.manage().window().setSize(new Dimension(1024, 860));
-           driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-           driver.get("http://localhost:8080/frontend/app/index.html#/login");
-           WebElement element = driver.findElementByName("username");
-           element.sendKeys("profile@test.com");
-
-           element = driver.findElementByName("password");
-           element.sendKeys("Succes1");
-
-           element = driver.findElementByName("login");
-           element.click();
-           try {
-               Thread.sleep(4000);
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-
-           driver.close();
-            try {
-
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                new ScriptRunner(DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/groepA", "groepA", "groepA"), false, false)
-                        .runScript(new BufferedReader(new FileReader(script)));
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-            setup = true;
-        }
-
+        if (setup) return;
+        Helper.setup();
+        setup = true;
     }
 
     @Test
@@ -63,23 +32,8 @@ public class LoginTest {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/frontend/app/index.html#/login");
-        WebElement element = driver.findElementByName("username");
-        element.sendKeys("profile@test.com");
-
-        element = driver.findElementByName("password");
-        element.sendKeys("Succes1");
-
-        element = driver.findElementByName("login");
-        element.click();
-        //ImplicitlyWait doesn't work for angular JS so we need to sleep
-
-        try {
-            Thread.sleep(8000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        element = driver.findElementById("profileheader"); //TODO Hier iets fout met het element ofzo
+        Helper.doLogin(driver);
+        WebElement element = driver.findElementById("profileheader"); //TODO Hier iets fout met het element ofzo
         assertTrue(element.getText().equals("Welkom, TestUser"));
         driver.close();
 
@@ -137,10 +91,11 @@ public class LoginTest {
 
     @Test
     public void loggingInTwice(){
-        FirefoxProfile firefoxProfile = new ProfilesIni().getProfile("default");
+        RemoteWebDriver driver = Helper.startFirefox();
+        /*FirefoxProfile firefoxProfile = new ProfilesIni().getProfile("default");
         FirefoxDriver driver = new FirefoxDriver(firefoxProfile);
         driver.manage().window().setSize(new Dimension(1024, 768));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);*/
         driver.get("http://localhost:8080/frontend/app/index.html#/login");
 
         WebElement element = driver.findElementByName("username");

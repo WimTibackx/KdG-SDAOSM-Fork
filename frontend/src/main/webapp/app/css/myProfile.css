@@ -15,7 +15,7 @@
     margin-top: 1em;
 }
 
-#profileName {
+#profileName, section.mainSite header {
     font-size: 2em;
     color: white;
     border-bottom: solid 1px gray;

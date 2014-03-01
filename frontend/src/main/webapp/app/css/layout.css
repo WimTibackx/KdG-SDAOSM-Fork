@@ -108,3 +108,19 @@ body {
     margin-top: 2em;
     margin-right: 2.1em;
 }
+
+body {
+    background-image: url('../img/road.jpg');
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#inline, section.mainSite {
+    width: 90%;
+    height: 580px;
+    margin-top: 2em;
+    background-color: rgba(53, 53, 53, 0.8);
+    border: solid 1px gray;
+    margin-left: auto;
+    margin-right: auto;
+}

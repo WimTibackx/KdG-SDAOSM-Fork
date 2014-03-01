@@ -49,7 +49,7 @@ carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$lo
 
     $scope.ciCancel = function() {
         $scope.ciInProgress=true;
-        $http.post(rootUrl+"/authorized/user/car/" + insertedCar + "deletephoto/", "").success(function (response) {
+        $http.post(rootUrl+"/authorized/user/car/" + insertedCar + "/deletephoto/", "").success(function (response) {
             $scope.ciInProgress=false;
             if (response.hasOwnProperty("status")) {
                 $scope.ciURL="";
