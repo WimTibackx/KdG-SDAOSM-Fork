@@ -1,5 +1,6 @@
 package be.kdg.groepa.model;
 
+import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalTime;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class PlaceTime {
     private int placetimeId;
 
     @Column(name="time")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalTime")
     private LocalTime time;
 
     @ManyToOne
@@ -38,14 +40,18 @@ public class PlaceTime {
     public PlaceTime() {}
 
     public PlaceTime(LocalTime time, Place place) {
-        this.time = time;
+        this(time);
         this.place = place;
     }
 
-    public PlaceTime(LocalTime time)
-    {
+    public PlaceTime(LocalTime time) {
+        this();
         this.time = time;
-        this.place = null;
+    }
+
+    public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute) {
+        this(time, place);
+        this.weekdayRoute = weekdayRoute;
     }
 
     public void setPlace(Place place) {
@@ -74,5 +80,13 @@ public class PlaceTime {
 
     public Object getId() {
         return placetimeId;
+    }
+
+    public WeekdayRoute getWeekdayRoute() {
+        return weekdayRoute;
+    }
+
+    public LocalTime getTime() {
+        return time;
     }
 }

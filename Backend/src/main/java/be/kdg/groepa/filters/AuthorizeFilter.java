@@ -1,6 +1,7 @@
 package be.kdg.groepa.filters;
 
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * Created by Thierry on 14/02/14.
@@ -37,12 +37,13 @@ public class AuthorizeFilter implements Filter {
     //TODO: Is there any way we can test this? MockMVC circumvents filters
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        Logger logger = Logger.getLogger(AuthorizeFilter.class);
+        logger.info("Log iets godverdomme...");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         Cookie[] cookies = request.getCookies();
         if (cookies!= null){
             for (Cookie cookie : cookies ){
                 if (cookie.getName().equals("Token")) {
-                    Logger.getGlobal().info("Token cookie value is: "+cookie.getValue());
                     if (userService.isUserSessionByToken(cookie.getValue())) {
                         filterChain.doFilter(servletRequest, servletResponse);
                         //TODO: This is an ideal place for extending the cookie, but how do we get it to here?

@@ -1,9 +1,11 @@
 package be.kdg.groepa.controllers;
 
+import be.kdg.groepa.dtos.UpcomingTrajectDTO;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.threeten.bp.LocalTime;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by Tim on 25/02/14.
@@ -103,5 +106,11 @@ public class TrajectController extends BaseController{
         }
         myJson.put("result", "Traject removed");
         return myJson.toString();
+    }
+
+    @RequestMapping(value="/myupcoming", method=RequestMethod.GET)
+    public @ResponseBody String getMyUpcomingTrajects(HttpServletRequest request, HttpServletResponse response) {
+        List<UpcomingTrajectDTO> upcoming = trajectService.getUpcomingTrajects(super.getCurrentUser(request));
+        return new JSONArray(upcoming).toString();
     }
 }

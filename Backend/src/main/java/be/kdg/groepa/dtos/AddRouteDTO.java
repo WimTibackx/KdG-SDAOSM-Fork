@@ -152,11 +152,9 @@ public class AddRouteDTO {
         if (carId != that.carId) return false;
         if (freeSpots != that.freeSpots) return false;
         if (repeating != that.repeating) return false;
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
-
         if (places != null ? !places.equals(that.places) : that.places != null) return false;
-
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (times != null ? !times.equals(that.times) : that.times != null) return false;
 
         return true;

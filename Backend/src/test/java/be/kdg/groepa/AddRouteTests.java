@@ -47,8 +47,8 @@ public class AddRouteTests {
     @Test
     public void dtoCorrectNonrepeating() throws MissingDataException {
         final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": false,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-19\",\"passages\": [\"08:00\",\"08:45\"],\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
-        PlaceDTO start = new PlaceDTO(51.21523f, 4.398739999999975f, "Nationalestraat, 2000 Antwerpen, België");
-        PlaceDTO end = new PlaceDTO(51.2171198f, 4.4008122000000185f, "Kammenstraat, 2000 Antwerpen, België");
+        PlaceDTO start = new PlaceDTO(51.21523, 4.398739999999975, "Nationalestraat, 2000 Antwerpen, België");
+        PlaceDTO end = new PlaceDTO(51.2171198, 4.4008122000000185, "Kammenstraat, 2000 Antwerpen, België");
         List<PlaceDTO> places= Arrays.asList(start, end);
 
         Map<DayOfWeek,List<LocalTime>> times = new HashMap<>();
@@ -63,8 +63,8 @@ public class AddRouteTests {
     @Test
     public void dtoCorrectRepeating() throws MissingDataException {
         final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\", \"10:00\"],\"Do\": [\"09:30\", \"10:00\"],\"Vr\": [\"09:30\", \"10:00\"],\"Wo\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
-        PlaceDTO start = new PlaceDTO(51.21523f, 4.398739999999975f, "Nationalestraat, 2000 Antwerpen, België");
-        PlaceDTO end = new PlaceDTO(51.2171198f, 4.4008122000000185f, "Kammenstraat, 2000 Antwerpen, België");
+        PlaceDTO start = new PlaceDTO(51.21523, 4.398739999999975, "Nationalestraat, 2000 Antwerpen, België");
+        PlaceDTO end = new PlaceDTO(51.2171198, 4.4008122000000185, "Kammenstraat, 2000 Antwerpen, België");
         List<PlaceDTO> places= Arrays.asList(start, end);
 
         Map<DayOfWeek,List<LocalTime>> times = new HashMap<>();

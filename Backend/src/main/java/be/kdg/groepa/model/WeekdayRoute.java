@@ -58,4 +58,8 @@ public class WeekdayRoute {
     {
         this.route = r;
     }
+
+    public int getDay() {
+        return day;
+    }
 }

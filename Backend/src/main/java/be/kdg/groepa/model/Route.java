@@ -26,8 +26,10 @@ public class Route {
     private int capacity;
 
     @Column(name="begin_date")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
     private LocalDateTime beginDate;
     @Column(name="end_date")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
     private LocalDateTime endDate;
 
     @ManyToOne
@@ -117,5 +119,17 @@ public class Route {
 
     public int getId() {
         return id;
+    }
+
+    public LocalDateTime getBeginDate() {
+        return beginDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public Car getCar() {
+        return car;
     }
 }

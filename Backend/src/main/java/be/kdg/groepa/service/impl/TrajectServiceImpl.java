@@ -1,5 +1,6 @@
 package be.kdg.groepa.service.impl;
 
+import be.kdg.groepa.dtos.UpcomingTrajectDTO;
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
@@ -8,9 +9,12 @@ import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.service.api.TrajectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.temporal.TemporalAdjusters;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tim on 19/02/14.
@@ -58,5 +62,32 @@ public class TrajectServiceImpl implements TrajectService {
     @Override
     public Traject getTrajectById(int trajectId) {
         return trajectDao.getTrajectById(trajectId);
+    }
+
+    @Override
+    public LocalDate getNextDayOfTraject(Traject traject) {
+        if (traject.getRoute().getEndDate().isBefore(LocalDate.now().atStartOfDay())) return null;
+        DayOfWeek dow = DayOfWeek.of(traject.getPickup().getWeekdayRoute().getDay()+1);
+        LocalDate nextDay = LocalDate.now().with(TemporalAdjusters.nextOrSame(dow));
+        if (nextDay.isAfter(traject.getRoute().getEndDate().toLocalDate())) return null;
+        return nextDay;
+    }
+
+    @Override
+    public List<UpcomingTrajectDTO> getUpcomingTrajects(User user) {
+        List<Traject> trajects = trajectDao.getAcceptedTrajects(user);
+        Iterator<Traject> it = trajects.iterator();
+        Map<Traject, LocalDate> nextTrajectOccurrence = new HashMap<>();
+        List<UpcomingTrajectDTO> dtos = new ArrayList<>();
+        while (it.hasNext()) {
+            Traject t = it.next();
+            LocalDate next = this.getNextDayOfTraject(t);
+            if (next == null) continue;
+            nextTrajectOccurrence.put(t, next);
+        }
+        for (Map.Entry<Traject, LocalDate> e : nextTrajectOccurrence.entrySet()) {
+            dtos.add(new UpcomingTrajectDTO(e.getKey(), e.getValue()));
+        }
+        return dtos;
     }
 }

@@ -33,4 +33,16 @@ public class Place {
         this.lat = lat;
         this.lon = lon;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
 }

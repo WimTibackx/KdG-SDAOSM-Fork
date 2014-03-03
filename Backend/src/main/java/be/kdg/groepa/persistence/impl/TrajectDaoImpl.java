@@ -3,6 +3,7 @@ package be.kdg.groepa.persistence.impl;
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
+import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
 import org.hibernate.Query;
@@ -10,6 +11,8 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tim on 19/02/14.
@@ -69,5 +72,15 @@ public class TrajectDaoImpl implements TrajectDao {
         Traject traject = (Traject)query.uniqueResult();
         HibernateUtil.closeSession(ses);
         return traject;
+    }
+
+    @Override
+    public List<Traject> getAcceptedTrajects(User user) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("select t from Traject t join t.pickup join t.dropoff join t.route join t.pickup.place join t.dropoff.place join t.pickup.weekdayRoute join t.dropoff.weekdayRoute join t.route.chauffeur join t.route.car where t.user.id = :userid and t.isAccepted = true");
+        query.setParameter("userid", user.getId());
+        List<Traject> trajects = query.list();
+        HibernateUtil.closeSession(ses);
+        return trajects;
     }
 }
