@@ -1,10 +1,7 @@
 package be.kdg.groepa.persistence.impl;
 
 
-import be.kdg.groepa.model.Car;
-import be.kdg.groepa.model.Route;
-import be.kdg.groepa.model.SessionObject;
-import be.kdg.groepa.model.User;
+import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
 import org.hibernate.Query;

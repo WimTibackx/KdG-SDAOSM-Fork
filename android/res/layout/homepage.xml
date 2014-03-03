@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+    <Button
+            android:layout_width="53dp"
+            android:layout_height="52dp"
+            android:id="@+id/buttonInbox" android:layout_gravity="right"
+            android:background="@drawable/mail" android:textColor="#00d407" android:gravity="left|top"
+            android:textStyle="bold"
+            android:onClick="goToInbox"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/SendNewMessage"
+            android:id="@+id/buttonGoToSendMessage"
+            android:onClick="goToSendMessage"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Logout"
+            android:id="@+id/buttonGoToLogOut"
+            android:onClick="logOut"/>
+</LinearLayout>

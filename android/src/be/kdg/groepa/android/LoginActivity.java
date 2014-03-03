@@ -11,27 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Thierry on 11/02/14.
@@ -72,19 +53,23 @@ public class LoginActivity extends Activity implements AsyncResponse {
             Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_LONG).show();
         }
         JSONObject jsonObject = null;
+
         try {
             jsonObject = new JSONObject(output);
             if (jsonObject.has("Token")) {
                 String token = jsonObject.getString("Token");
+                int id = jsonObject.getInt("UserId");
                 SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
                 SharedPreferences.Editor privPrefEditor = privPref.edit();
                 privPrefEditor.putString("Token",token);
+                privPrefEditor.putInt("UserId", id);
+                privPrefEditor.putString("Username", txtUsername.getText().toString());
                 privPrefEditor.commit();
                 privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
                 Log.d("Logintoken test",privPref.getString("Token",""));
-                Toast.makeText(getApplicationContext(),"We logged in: token is "+token,Toast.LENGTH_LONG).show();
-                Intent goToMyActivity = new Intent(getApplicationContext(), MyActivity.class);
-                Log.d("Login", "Going to myActivity...");
+                Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_LONG).show();
+                Intent goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
+                Log.d("Login", "Going to homePageActivity...");
                 startActivity(goToMyActivity);
             } else {
                 String error = jsonObject.getString("error");

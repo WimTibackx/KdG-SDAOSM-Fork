@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.apache.log4j.Logger;
 
 /**
  * Created by Thierry on 14/02/14.
@@ -37,13 +38,15 @@ public class AuthorizeFilter implements Filter {
     //TODO: Is there any way we can test this? MockMVC circumvents filters
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        Logger logger = Logger.getLogger(AuthorizeFilter.class);
-        logger.info("Log iets godverdomme...");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         Cookie[] cookies = request.getCookies();
+        Logger logger =  Logger.getLogger(AuthorizeFilter.class.getName());
+        logger.info("DOING FILTER ");
+
         if (cookies!= null){
             for (Cookie cookie : cookies ){
                 if (cookie.getName().equals("Token")) {
+                    logger.info("TOKEN IS "+ cookie.getValue());
                     if (userService.isUserSessionByToken(cookie.getValue())) {
                         filterChain.doFilter(servletRequest, servletResponse);
                         //TODO: This is an ideal place for extending the cookie, but how do we get it to here?

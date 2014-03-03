@@ -4,11 +4,8 @@ package be.kdg.groepa.service.api;
 import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.exceptions.UsernameFormatException;
-import be.kdg.groepa.model.Car;
-import be.kdg.groepa.model.Route;
-import be.kdg.groepa.model.SessionObject;
+import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.UserDao;
-import be.kdg.groepa.model.User;
 
 import java.io.File;
 import java.io.IOException;

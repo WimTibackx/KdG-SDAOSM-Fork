@@ -1,9 +1,6 @@
 package be.kdg.groepa.persistence.api;
 
-import be.kdg.groepa.model.Car;
-import be.kdg.groepa.model.Route;
-import be.kdg.groepa.model.SessionObject;
-import be.kdg.groepa.model.User;
+import be.kdg.groepa.model.*;
 
 import java.io.File;
 import java.util.List;

@@ -1,6 +1,7 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.model.SessionObject;
+import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -58,9 +59,11 @@ public class LoginController extends BaseController {
         }
 
         SessionObject session = userService.getUserSession(username);
+        User u = userService.getUser(username);
         myJson = new JSONObject();
         String token = session.getSessionToken();
         myJson.put("Token", token);
+        myJson.put("UserId", u.getId());
         Cookie cookie = new Cookie("Token", token);
         cookie.setPath("/");
         //Set max age of cookie to 1 day

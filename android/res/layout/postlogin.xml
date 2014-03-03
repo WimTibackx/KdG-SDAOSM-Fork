@@ -6,5 +6,5 @@
               android:layout_height="match_parent">
     <TextView android:id="@+id/userToken"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent" android:enabled="true"/>
 </LinearLayout>

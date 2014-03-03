@@ -6,4 +6,11 @@
 
     <string name="LoginComboWrong_ErrorTitle">Login combination wrong.</string>
     <string name="LoginComboWrong_ErrorMsg">The combination of username/password is wrong.</string>
+    <string name="SendNewMessage">Send a new message.</string>
+    <string name="Send">Send message.</string>
+    <string name="EnterPersonName">Enter person\'s name here.</string>
+    <string name="EnterTextHere">Enter your message here.</string>
+    <string name="Logout">Log out.</string>
+    <string name="EnterMessageSubject">Enter message subject here.</string>
+    <string name="EnterTargetEmail">Enter receiver\'s e-mail address here.</string>
 </resources>
