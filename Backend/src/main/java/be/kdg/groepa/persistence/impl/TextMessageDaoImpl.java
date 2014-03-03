@@ -57,5 +57,14 @@ public class TextMessageDaoImpl implements TextMessageDao{
         HibernateUtil.closeSession(ses);
         return toReturn;
     }
+
+    @Override
+    public void readMessage(int messageId) {
+        Session ses = HibernateUtil.openSession();
+        TextMessage msg = (TextMessage)ses.get(TextMessage.class, messageId);
+        msg.setRead(true);
+        ses.saveOrUpdate(msg);
+        HibernateUtil.closeSession(ses);
+    }
 }
 

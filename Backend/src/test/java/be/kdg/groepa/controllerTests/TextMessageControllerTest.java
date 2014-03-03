@@ -88,6 +88,4 @@ public class TextMessageControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(get("/authorized/textmessage/get/{id}", userService.getUser(username1).getId())).andExpect(status().isOk());
     }
-
-
 }

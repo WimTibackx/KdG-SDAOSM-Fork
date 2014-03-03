@@ -13,4 +13,8 @@
     <string name="Logout">Log out.</string>
     <string name="EnterMessageSubject">Enter message subject here.</string>
     <string name="EnterTargetEmail">Enter receiver\'s e-mail address here.</string>
+    <string name="Reply">Reply to message.</string>
+    <string name="ReadMessages">Read messages.</string>
+    <string name="UnreadMessages">Unread messages.</string>
+    <string name="SentMessages">Sent messages.</string>
 </resources>

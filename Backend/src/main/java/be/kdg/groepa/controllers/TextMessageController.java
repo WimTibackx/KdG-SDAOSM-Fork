@@ -90,4 +90,14 @@ public class TextMessageController {
         return myJson.toString();
 
     }
+
+    @RequestMapping(value="/read", method= RequestMethod.POST)
+    public @ResponseBody void setMessageRead(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject dataOb = new JSONObject(data);
+        int messageId;
+        messageId = dataOb.getInt("messageId");
+        textMessageService.readMessage(messageId);
+    }
+
+
 }

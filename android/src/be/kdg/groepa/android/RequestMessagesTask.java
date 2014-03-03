@@ -36,7 +36,6 @@ public class RequestMessagesTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        System.out.println("CONSOLE: EXECUTING REQUESTMESSAGETASK");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences",Context.MODE_PRIVATE);
 
@@ -44,7 +43,6 @@ public class RequestMessagesTask extends AsyncTask<Void, Void, String> {
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
         int userId = privPref.getInt("UserId", -1);
         String url = "http://"+serverAddr+"/BackEnd/authorized/textmessage/get/"+userId;
-        System.out.println("CONSOLE: URL = " + url);
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
         HttpGet httpGet = new HttpGet(url);
@@ -58,19 +56,16 @@ public class RequestMessagesTask extends AsyncTask<Void, Void, String> {
             response = httpclient.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                System.out.println("CONSOLE: STATUSLINE OK ----");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
                 responseString = out.toString();
             } else{
                 //Closes the connection.
-                System.out.println("CONSOLE: STATUSLINE NOK: " + statusLine.getReasonPhrase());
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            System.out.println("CONSOLE: IOEX: " + e.getMessage());
             Log.e("IOExc at SendMessage",e.getMessage());
         }
         return responseString;

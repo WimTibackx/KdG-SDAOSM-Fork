@@ -28,10 +28,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        /*SharedPreferences privPref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor privPrefEditor = privPref.edit();
-        privPrefEditor.putString("carpoolServer")*/
-
         txtUsername = (EditText) this.findViewById(R.id.txtUname);
         txtPassword = (EditText) this.findViewById(R.id.txtPwd);
         btnLogin = (Button) this.findViewById(R.id.login);
@@ -66,10 +62,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 privPrefEditor.putString("Username", txtUsername.getText().toString());
                 privPrefEditor.commit();
                 privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
-                Log.d("Logintoken test",privPref.getString("Token",""));
                 Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_LONG).show();
                 Intent goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
-                Log.d("Login", "Going to homePageActivity...");
                 startActivity(goToMyActivity);
             } else {
                 String error = jsonObject.getString("error");

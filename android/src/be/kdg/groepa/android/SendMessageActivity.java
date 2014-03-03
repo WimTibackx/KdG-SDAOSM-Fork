@@ -31,29 +31,34 @@ import java.util.List;
 /**
  * Created by Tim on 27/02/14.
  */
-public class SendMessageActivity extends Activity implements AsyncResponse{
+public class SendMessageActivity extends Activity implements AsyncResponse {
 
     private EditText editBodyText;
     private EditText editReceiverText;
     private EditText editSubjectText;
-    private Button btnSendMessage;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Bundle b = getIntent().getExtras();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sendmessage);
-        editBodyText = (EditText)findViewById(R.id.editBodyText);
-        editReceiverText = (EditText)findViewById(R.id.editReceiverText);
-        editSubjectText = (EditText)findViewById(R.id.editSubjectText);
-        btnSendMessage = (Button) this.findViewById(R.id.buttonSendMessage);
-        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
+        editBodyText = (EditText) findViewById(R.id.editBodyText);
+        editReceiverText = (EditText) findViewById(R.id.editReceiverText);
+        editSubjectText = (EditText) findViewById(R.id.editSubjectText);
+        Button btnSendMessage = (Button) this.findViewById(R.id.buttonSendMessage);
+        if (b != null) {
+            if (b.containsKey("receiverUsername")) {
+                editReceiverText.setText(b.getString("receiverUsername"));
+            }
+        }
+        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
         final String senderUsername = privPref.getString("Username", "");
         final AsyncResponse msgAc = this;
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Clicked button",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Clicked button", Toast.LENGTH_LONG).show();
                 SendMessageTask task = new SendMessageTask(senderUsername, editReceiverText.getText().toString(), editSubjectText.getText().toString(), editBodyText.getText().toString(), getApplicationContext(), msgAc);
                 task.execute();
             }
@@ -62,7 +67,6 @@ public class SendMessageActivity extends Activity implements AsyncResponse{
 
     @Override
     public void processFinish(String output) {
-        System.out.println("CONSOLE: OUTPUT = "+ output);
         JSONObject outputJson = null;
         Intent goToMyActivity = null;
         try {
@@ -70,16 +74,16 @@ public class SendMessageActivity extends Activity implements AsyncResponse{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(outputJson.has("result")){
+        if (outputJson.has("result")) {
             try {
-                Toast.makeText(getApplicationContext(),outputJson.getString("result") ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), outputJson.getString("result"), Toast.LENGTH_LONG).show();
                 goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else if(outputJson.has("error")){
+        } else if (outputJson.has("error")) {
             try {
-                Toast.makeText(getApplicationContext(),outputJson.getString("error") ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), outputJson.getString("error"), Toast.LENGTH_LONG).show();
                 goToMyActivity = new Intent(getApplicationContext(), SendMessageActivity.class);
             } catch (JSONException e) {
                 e.printStackTrace();

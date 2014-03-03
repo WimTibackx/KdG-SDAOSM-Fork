@@ -22,42 +22,35 @@ import java.io.IOException;
 /**
  * Created by Tim on 28/02/14.
  */
-public class SendMessageTask extends AsyncTask<Void, Void, String> {
+public class SetMessageReadTask extends AsyncTask<Void, Void, String> {
 
     private Context context;
     private AsyncResponse delegate=null;
 
-    private String sender, receiver, subject, body;
+    private int id;
 
-    public SendMessageTask(String sender, String receiver, String subject, String body, Context context, AsyncResponse response){
-        this.sender = sender;
-        this.receiver = receiver;
-        this.subject = subject;
-        this.body = body;
+    public SetMessageReadTask(int id, Context context, AsyncResponse response){
+        this.id = id;
         this.context = context;
         this.delegate = response;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences",Context.MODE_PRIVATE);
 
         PreferenceManager.setDefaultValues(this.context, R.xml.preferences, false);
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
 
-        String url = "http://"+serverAddr+"/BackEnd/authorized/textmessage/send";
+        String url = "http://"+serverAddr+"/BackEnd/authorized/textmessage/read";
         // cookieManager.setCookie(url, "Token="+preferences.getString("Token", "127.0.0.1:8080"));
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("senderUsername", sender);
-            jsonObject.put("receiverUsername", receiver);
-            jsonObject.put("messageSubject", subject);
-            jsonObject.put("messageBody", body);
+            jsonObject.put("messageId", this.id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -77,7 +70,7 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
-                responseString = out.toString();
+                responseString = "Success";
             } else{
                 //Closes the connection.
                 response.getEntity().getContent().close();

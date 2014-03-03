@@ -68,4 +68,9 @@ public class TextMessage {
         this.id = id;
     }
 
+    @Override
+    public String toString(){
+        return this.getMessageSubject() + " by " + this.getSenderUsername();
+    }
+
 }

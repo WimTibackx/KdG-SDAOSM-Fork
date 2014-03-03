@@ -33,4 +33,9 @@ public class TextMessageServiceImpl implements TextMessageService {
     public List<TextMessageDTO> getSentMessagesByUser(int userId) {
         return textMessageDao.getSentMessagesByUser(userId);
     }
+
+    @Override
+    public void readMessage(int messageId) {
+        textMessageDao.readMessage(messageId);
+    }
 }

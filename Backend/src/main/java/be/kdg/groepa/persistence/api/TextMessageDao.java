@@ -12,4 +12,6 @@ public interface TextMessageDao {
     public void addNewMessage(TextMessage message);
     public List<TextMessageDTO> getReceivedMessagesByUser(int userId);
     public List<TextMessageDTO> getSentMessagesByUser(int userId);
+
+    public void readMessage(int messageId);
 }
