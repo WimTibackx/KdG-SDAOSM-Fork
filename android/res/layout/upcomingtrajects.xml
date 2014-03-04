@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="fill_parent" android:orientation="vertical" android:layout_marginTop="3dp">
+    <ListView
+            android:layout_height="match_parent" android:layout_width="fill_parent"
+            android:id="@android:id/list" android:padding="5dp"
+            android:dividerHeight="3dp" android:divider="#00000000"/>
+
+    <!--<include layout="@layout/upcoming_traject_card" android:id="@+id/upt1"/>
+
+    <LinearLayout
+            style="@style/carpoolCard">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            style="@style/carpoolCard">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Hello World"/>
+
+    </LinearLayout>-->
+
+</LinearLayout>

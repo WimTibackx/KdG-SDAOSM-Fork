@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/carpoolCard"
+            android:columnCount="12" android:columnOrderPreserved="false"
+            android:layout_width="fill_parent" android:layout_height="wrap_content" android:rowCount="5"
+            android:padding="5dp">
+
+    <TextView android:text="Maandag 03 Maart" android:layout_row="0" android:layout_column="0"
+              android:layout_columnSpan="11"
+              android:layout_gravity="fill_horizontal" android:layout_width="fill_parent"
+              android:layout_height="wrap_content" android:fontFamily="30px" android:textStyle="bold"
+              android:typeface="sans" android:id="@+id/uptDate"/>
+    <View style="@style/Divider" android:layout_row="1" android:layout_column="0" android:layout_columnSpan="11"
+          android:layout_height="1dip" android:layout_gravity="fill_horizontal" android:layout_marginTop="2dip"
+          android:layout_marginBottom="2dip"/>
+
+    <ImageView android:contentDescription="@drawable/mail" android:layout_row="2" android:layout_column="0"
+               android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:background="@drawable/marker1"
+               android:layout_gravity="center"/>
+    <TextView android:layout_row="2" android:layout_column="1" android:singleLine="false" android:layout_columnSpan="8"
+              android:text="Luitenant Lippenslaan 55, 2140 Antwerpen, Belgium"
+              android:layout_gravity="fill_horizontal|center_vertical" android:layout_height="wrap_content"
+              android:layout_width="200dip" android:id="@+id/uptPickupPlace"/>
+    <View style="@style/VerticalDivider" android:layout_row="2" android:layout_column="9"
+          android:layout_height="35dip" android:layout_margin="2dip"/>
+    <TextView android:layout_row="2" android:layout_column="10"
+              android:text="07:10" android:layout_columnSpan="2" android:layout_gravity="center_vertical"
+              android:layout_marginLeft="4dip" android:layout_marginRight="4dip" android:id="@+id/uptPickupTime"/>
+
+    <ImageView android:contentDescription="@drawable/mail" android:layout_row="3" android:layout_column="0"
+               android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:background="@drawable/marker2"
+               android:layout_gravity="center"/>
+    <TextView android:layout_row="3" android:layout_column="1" android:singleLine="false" android:layout_columnSpan="8"
+              android:text="Willebroekkaai 35, 1000 Brussel, Belgium"
+              android:layout_gravity="fill_horizontal|center_vertical" android:layout_height="wrap_content"
+              android:layout_width="200dip" android:id="@+id/uptDropoffPlace"/>
+    <View style="@style/VerticalDivider" android:layout_row="3" android:layout_column="9"
+          android:layout_height="35dip" android:layout_margin="2dip"/>
+    <TextView android:layout_row="3" android:layout_column="10"
+              android:text="07:55" android:layout_columnSpan="2" android:layout_gravity="center_vertical"
+              android:layout_marginLeft="4dip" android:layout_marginRight="4dip" android:id="@+id/uptDropoffTime"/>
+
+    <ImageView android:contentDescription="@drawable/mail" android:layout_row="4" android:layout_column="0"
+               android:layout_width="35dip" android:layout_height="35dip" android:background="@drawable/mail"
+               android:layout_gravity="center"/>
+    <TextView android:layout_row="4" android:layout_column="1" android:singleLine="false" android:layout_columnSpan="8"
+              android:text="Ludo van Rosmalen"
+              android:layout_gravity="fill_horizontal|center_vertical" android:layout_height="wrap_content"
+              android:layout_width="200dip" android:id="@+id/uptDriver"/>
+    <View style="@style/VerticalDivider" android:layout_row="4" android:layout_column="9"
+          android:layout_height="35dip" android:layout_margin="2dip"/>
+    <TextView android:layout_row="4" android:layout_column="10"
+              android:text="07:55" android:layout_columnSpan="2" android:layout_gravity="center_vertical"
+              android:layout_marginLeft="4dip" android:layout_marginRight="4dip"/>
+
+</GridLayout>

@@ -21,6 +21,12 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/ViewUpcomingTrajects"
+            android:id="@+id/buttonGoToUpcomingTrajects"
+            android:onClick="goToUpcomingTrajects"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/Logout"
             android:id="@+id/buttonGoToLogOut"
             android:onClick="logOut"/>

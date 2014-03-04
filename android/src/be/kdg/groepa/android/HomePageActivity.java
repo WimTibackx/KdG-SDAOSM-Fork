@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import be.kdg.groepa.android.activity.UpcomingTrajectsActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,5 +75,10 @@ public class HomePageActivity extends Activity implements AsyncResponse{
         goToMyActivity.putExtras(b);
         startActivity(goToMyActivity);
 
+    }
+
+    public void goToUpcomingTrajects(View view) {
+        Intent gotoUpcomingTrajects = new Intent(this, UpcomingTrajectsActivity.class);
+        super.startActivity(gotoUpcomingTrajects);
     }
 }

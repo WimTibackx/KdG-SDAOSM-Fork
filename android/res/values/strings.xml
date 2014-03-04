@@ -17,4 +17,5 @@
     <string name="ReadMessages">Read messages.</string>
     <string name="UnreadMessages">Unread messages.</string>
     <string name="SentMessages">Sent messages.</string>
+    <string name="ViewUpcomingTrajects">View upcoming rides.</string>
 </resources>
