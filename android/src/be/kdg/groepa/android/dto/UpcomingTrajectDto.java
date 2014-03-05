@@ -4,12 +4,18 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * Created by delltvgateway on 3/3/14.
  */
 public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
     private int id;
-    private String nextOccurrence;
+    private Calendar nextOccurrence;
     private PlaceDto pickupPlace;
     //TODO: Transform it into something other than string
     private String pickupTime;
@@ -22,7 +28,10 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
     public UpcomingTrajectDto(JSONObject data) {
         try {
             this.id = data.getInt("id");
-            this.nextOccurrence = data.getString("nextOccurence");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date d = sdf.parse(data.getString("nextOccurence"));
+            this.nextOccurrence = Calendar.getInstance();
+            this.nextOccurrence.setTime(d);
             this.pickupPlace = new PlaceDto(data.getJSONObject("pickupPlace"));
             this.pickupTime = data.getString("pickupTime");
             this.dropoffPlace = new PlaceDto(data.getJSONObject("dropoffPlace"));
@@ -33,6 +42,8 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("UpcomingTraject", e.getMessage());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -40,7 +51,7 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
         return id;
     }
 
-    public String getNextOccurrence() {
+    public Calendar getNextOccurrence() {
         return nextOccurrence;
     }
 

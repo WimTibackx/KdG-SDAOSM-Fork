@@ -1,6 +1,8 @@
 package be.kdg.groepa.android.helper;
 
+import android.content.Context;
 import android.text.Layout;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,9 @@ public class UpcomingTrajectsViewAdapter extends BaseAdapter {
 
     private List<UpcomingTrajectDto> items;
     private LayoutInflater inflater;
+    private Context context;
 
-    public UpcomingTrajectsViewAdapter(LayoutInflater inflater) {
+    public UpcomingTrajectsViewAdapter(LayoutInflater inflater, Context context) {
         this.inflater = inflater;
         this.items = new ArrayList<>();
     }
@@ -55,7 +58,7 @@ public class UpcomingTrajectsViewAdapter extends BaseAdapter {
         } else {
             holder = (UpcomingTrajectCardView)convertView.getTag();
         }
-        holder.fill(this.items.get(position));
+        holder.fill(this.items.get(position), this.context);
         return convertView;
     }
 
@@ -77,9 +80,9 @@ public class UpcomingTrajectsViewAdapter extends BaseAdapter {
             this.driver = (TextView)v.findViewById(R.id.uptDriver);
         }
 
-        public void fill(UpcomingTrajectDto traject) {
+        public void fill(UpcomingTrajectDto traject, Context context) {
             this.traject = traject;
-            this.nextDate.setText(this.traject.getNextOccurrence());
+            this.nextDate.setText(DateUtils.formatDateTime(context, this.traject.getNextOccurrence().getTimeInMillis(),DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_NO_YEAR));
             this.pickupPlace.setText(this.traject.getPickupPlace().getName());
             this.pickupTime.setText(this.traject.getPickupTime());
             this.dropoffPlace.setText(this.traject.getDropoffPlace().getName());

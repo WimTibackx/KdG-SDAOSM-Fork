@@ -26,7 +26,7 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcomingtrajects);
-        this.adapter = new UpcomingTrajectsViewAdapter((LayoutInflater)super.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        this.adapter = new UpcomingTrajectsViewAdapter((LayoutInflater)super.getSystemService(Context.LAYOUT_INFLATER_SERVICE), super.getApplicationContext());
         super.setListAdapter(this.adapter);
         new UpcomingTrajectsCall(getApplicationContext(), this);
     }
