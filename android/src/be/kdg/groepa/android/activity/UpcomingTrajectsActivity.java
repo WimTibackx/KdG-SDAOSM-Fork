@@ -6,6 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 import be.kdg.groepa.android.R;
 import be.kdg.groepa.android.dto.UpcomingTrajectDto;
 import be.kdg.groepa.android.helper.UpcomingTrajectsViewAdapter;
@@ -36,6 +39,15 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer {
         if (observable instanceof UpcomingTrajectsCall) {
             this.trajects = ((UpcomingTrajectsCall)observable).getResultDtos();
             this.adapter.addItems(this.trajects);
+            this.findViewById(R.id.uptLoading).setVisibility(View.GONE);
+            if (this.trajects.isEmpty()) {
+                this.findViewById(R.id.uptNoneFound).setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    public void clickUptCard(View view) {
+        UpcomingTrajectsViewAdapter.UpcomingTrajectCardView card = (UpcomingTrajectsViewAdapter.UpcomingTrajectCardView)view.getTag();
+        Toast.makeText(super.getApplicationContext(), "Clicked route "+card.getTraject().getId(), Toast.LENGTH_LONG).show();
     }
 }

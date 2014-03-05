@@ -18,4 +18,6 @@
     <string name="UnreadMessages">Unread messages.</string>
     <string name="SentMessages">Sent messages.</string>
     <string name="ViewUpcomingTrajects">View upcoming rides.</string>
+    <string name="uptLoading">Your upcoming trajects are loading, please wait.</string>
+    <string name="uptNoneFound">No upcoming routes were found.</string>
 </resources>

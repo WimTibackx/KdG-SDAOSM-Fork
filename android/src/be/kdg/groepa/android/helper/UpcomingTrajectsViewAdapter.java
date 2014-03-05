@@ -89,5 +89,9 @@ public class UpcomingTrajectsViewAdapter extends BaseAdapter {
             this.dropoffTime.setText(this.traject.getDropoffTime());
             this.driver.setText(this.traject.getChauffeurName());
         }
+
+        public UpcomingTrajectDto getTraject() {
+            return traject;
+        }
     }
 }
