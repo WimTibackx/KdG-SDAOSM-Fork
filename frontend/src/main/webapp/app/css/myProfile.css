@@ -265,7 +265,7 @@
     border-left: solid 1px gray;
 }
 
-.tab {
+#tabsMyProfile .tab {
     font-size: 0.5em;
     float: right;
     margin-left: 3em;

@@ -48,6 +48,9 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 templateUrl: 'partials/search.html'//,
                //controller: 'searchCtrl'
             }).
+            when("/route/:routeId",{
+                templateUrl: 'partials/viewRoute.html'
+            }).
             otherwise({
                 redirectTo: '/login'
             });

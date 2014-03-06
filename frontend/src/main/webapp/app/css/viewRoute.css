@@ -1,0 +1,125 @@
+section.mainSite#viewRoute {
+    padding:5px;
+    height:auto;
+}
+section.mainSite#viewRoute header {
+    margin-right:0;
+}
+section.mainSite#viewRoute header h3 {
+    float:left;
+    margin-top:0;
+}
+section.mainSite#viewRoute header ul#tablist {
+    font-size: 1.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+section.mainSite#viewRoute header ul#tablist li {
+    float: left;
+    margin: 5px 10px;
+    padding: 0px 2px 2px 2px;
+}
+section.mainSite#viewRoute header ul#tablist li.active {
+    border-bottom: 3px solid rgb(59, 150, 206);
+}
+
+section.mainSite#viewRoute #tabgroup {
+    color:#FFFFFF;
+    margin-top:5px;
+}
+
+section.mainSite#viewRoute #tabgroup .tab .leftpane {
+    width:35%;
+    float:left;
+    padding-right:10px;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane p.decoratedinfo {
+
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane p.decoratedinfo span {
+    border-bottom: 2px dotted;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane p.decoratedinfo img {
+    margin-right: 5px;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    float: left;
+    border: 1px solid rgb(59, 150, 206);
+    background:#FFFFFF;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane table {
+    vertical-align: middle;
+    width:100%;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane table td {
+    border:1px solid #FFFFFF;
+    border-collapse: collapse;
+    padding:5px 10px;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane table thead,
+section.mainSite#viewRoute #tabgroup .tab .leftpane table tfoot {
+    background: rgb(59, 150, 206);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+section.mainSite#viewRoute #tabgroup .tab .leftpane table thead td,
+section.mainSite#viewRoute #tabgroup .tab .leftpane table tfoot td {
+    border:1px solid rgb(59, 150, 206);
+}
+section.mainSite#viewRoute #tabgroup .tab .rightpane {
+    width:65%;
+    float:left;
+    height:500px;
+}
+section.mainSite#viewRoute #tabgroup .tab .rightpane .map-canvas {
+    height:100%;
+    margin:0;
+}
+
+
+section.mainSite#viewRoute span.error{
+    /*visibility:hidden;*/
+    color:white;
+    font-size:1.3rem;
+    display:block;
+    border: 1px dashed red;
+    margin: 4px 0;
+    padding: 2px;
+}
+section.mainSite#viewRoute input[type="submit"],
+section.mainSite#viewRoute input[type="reset"] {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: rgb(53,53,53);
+    padding: 12px 0 8px;
+    text-align: center;
+    width: 150px;
+    cursor:pointer;
+    float:right;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+section.mainSite#viewRoute input[type="submit"]:disabled,
+section.mainSite#viewRoute input[type="reset"]:disabled,
+section.mainSite#viewRoute input[type="submit"]:hover:disabled,
+section.mainSite#viewRoute input[type="reset"]:hover:disabled {
+    background-image:url(../img/loading.gif);
+    height:39px;
+    font-size:0;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+section.mainSite#viewRoute input[type="reset"] {
+    background:#aaaaaa;
+    float:left;
+    margin-right:0;
+}
+section.mainSite#viewRoute input[type="submit"]:hover,
+section.mainSite#viewRoute input[type="reset"]:hover{
+    background: #d1d1d1;
+}

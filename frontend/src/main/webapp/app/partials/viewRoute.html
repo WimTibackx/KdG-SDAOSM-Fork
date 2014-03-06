@@ -1,0 +1,52 @@
+<script src="js/controllers/viewRouteCtrl.js"></script>
+<link rel="stylesheet" href="css/viewRoute.css" />
+<section id="viewRoute" class="mainSite" ng-controller="viewRouteCtrl">
+    <header>
+        <h3>Route van {{route.chauffeur.name}}</h3>
+        <ul id="tablist">
+            <li ng-repeat="weekday in weekdays" ng-click="activateTab(weekday.num)" ng-class="{active : shouldShowTab(weekday.num)}">{{weekday.name}}</li>
+        </ul>
+        <br class="clear" />
+    </header>
+    <div id="tabgroup">
+        <form name="trajectrequest">
+            <div class="tab" ng-repeat="weekday in weekdays" ng-show="shouldShowTab(weekday.num)">
+                <div class="leftpane">
+                    <p class="driverinfo decoratedinfo"><img ng-src="{{getAvatarUrl(route.chauffeur.avatar)}}" alt="{{route.chauffeur.name}}" /><span class="name">{{route.chauffeur.name}}</span> is een <span class="gender" data-value="{{route.chauffeur.gender}}">{{getGenderL10n(route.chauffeur.gender)}}</span> geboren in <span class="birthyear">{{route.chauffeur.dob.getFullYear()}}</span>. Hij is een <span class="smoker" data-value="{{route.chauffeur.smoker}}">{{getSmokerL10n(route.chauffeur.smoker)}}</span>.<br class="clear" /></p>
+                    <p class="carinfo decoratedinfo"><img ng-src="{{getCarImageUrl(route.car.image)}}" alt="{{route.car.brand}} {{route.car.model}}" /><span class="driver">{{route.chauffeur.name}}</span> rijdt met een <span class="carname">{{route.car.brand}} {{route.car.type}}</span>. Deze auto rijdt op <span class="fueltype">{{getFueltypeL10n(route.car.fueltype)}}</span> en verbruikt <span class="consumption">{{route.car.consumption}}L/km</span>.<br /><br />Deze route zal gereden worden van <span class="startdate">{{getDateL10n(route.startDate)}}</span> tot <span class="enddate">{{getDateL10n(route.endDate)}}</span> op <span class="weekday">{{weekday.name}}</span>.<br class="clear" /></p>
+                    <p>Indien u mee wilt rijden, kan u dat hieronder in de tabel opgeven. In kolom A kan u opgeven waar u opgehaalt wenst te worden, in kolom B waar u afgezet wenst te worden. Klik vervolgens op &quot;traject aanvragen&quot;.</p>
+                    <table class="passages">
+                        <thead><tr>
+                            <td>#</td>
+                            <td>Adres</td>
+                            <td>Tijd</td>
+                            <td>A</td>
+                            <td>B</td>
+                        </tr></thead>
+                        <tr ng-repeat="passage in passages">
+                            <td>{{passage.seqnr}}</td>
+                            <td>{{passage.address}}</td>
+                            <td>{{passage.time}}</td>
+                            <td><input type="radio" ng-model="trajRequest.pickup" ng-value="passage.seqnr" /></td>
+                            <td><input type="radio" ng-model="trajRequest.dropoff" ng-value="passage.seqnr" /></td>
+                        </tr>
+                        <tfoot><tr>
+                            <td>#</td>
+                            <td>Adres</td>
+                            <td>Tijd</td>
+                            <td>A</td>
+                            <td>B</td>
+                        </tr></tfoot>
+                    </table>
+                    <span class="error" ng-show="error.bothrequired">U moet zowel een ophaalpunt als een afzetpunt selecteren.</span>
+                    <span class="error" ng-show="error.sequence">Het afzetpunt moet na het ophaalpunt liggen.</span>
+                    <p><input type="submit" ng-click="requestTraject()" name="submit" value="Traject aanvragen" /></p>
+                </div>
+                <div class="rightpane">
+                    <div id="map-canvas-{{weekday.num}}" class="map-canvas">De data zal worden geladen van zodra de call naar de api compleet is</div>
+                </div>
+                <br class="clear" />
+            </div>
+        </form>
+    </div>
+</section>
