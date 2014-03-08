@@ -20,6 +20,10 @@ public class WeekdayRoute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int weekdayrouteId;
 
+    public List<PlaceTime> getPlaceTimes() {
+        return placeTimes;
+    }
+
     @Column(name="day")
     private int day;     // day 0 to 6: monday to sunday
 

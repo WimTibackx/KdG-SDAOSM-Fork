@@ -23,12 +23,10 @@ public class Traject {
 
     @OneToOne
     @JoinColumn(name="pickupId", nullable = false)
-    @Cascade(CascadeType.ALL)
     private PlaceTime pickup;
 
     @OneToOne
     @JoinColumn(name="dropoffId")
-    @Cascade(CascadeType.ALL)
     private PlaceTime dropoff;
 
     @ManyToOne
@@ -51,8 +49,8 @@ public class Traject {
     }
 
     public Traject(PlaceTime pointA, PlaceTime pointB, Route route, User user) {
-        pointA.setTraject(this);
-        pointB.setTraject(this);
+        pointA.addTraject(this);
+        pointB.addTraject(this);
         this.pickup = pointA;
         this.dropoff = pointB;
         this.isAccepted = false;

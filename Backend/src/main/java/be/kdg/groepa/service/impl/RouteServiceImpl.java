@@ -31,14 +31,18 @@ public class RouteServiceImpl implements RouteService {
         Traject t = new Traject(r.getAllPlaceTimes().get(0), r.getAllPlaceTimes().get(r.getAllPlaceTimes().size() - 1), r, r.getChauffeur());
         t.setRoute(r);
         r.addTraject(t);
-        for(PlaceTime pt:r.getAllPlaceTimes()){
-            pt.setRoute(r);
-        }
         trajectDao.addTraject(t);
-        routeDao.addRoute(r);
+        r.getAllPlaceTimes().get(0).setRoute(r);
+        r.getAllPlaceTimes().get(r.getAllPlaceTimes().size() - 1).setRoute(r);
+
+        if (r.getWeekdayRoutes().size() > 0)
+        {
+            routeDao.addRepeatingRoute(r);
+        }
+        else routeDao.addNonRepeatingRoute(r);
+
         r.getChauffeur().addRoute(r);
         userDao.updateUser(r.getChauffeur());
-
     }
 
     @Override
@@ -68,7 +72,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public void confirmRide(Route r) {
-       // Ride ride = new Ride(CostManager.calculateCost(r), CostManager.getTotalDistance(r));
+        //Ride ride = new Ride(CostManager.calculateCost(r), CostManager.getTotalDistance(r));
         routeDao.confirmRide(r);
     }
     @Override
