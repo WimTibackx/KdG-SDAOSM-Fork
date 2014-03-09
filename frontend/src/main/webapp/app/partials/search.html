@@ -1,18 +1,14 @@
-<<<<<<< Updated upstream
 <script src="js/controllers/searchCtrl.js"></script>
 <section id="inline" ng-controller="searchCtrl">
-=======
-<section id="inline">
     <section id="infoprofile">
         <section id="profileName"><span id="profileheader">Zoek iemand om mee te carpoolen</span></section>
     </section>
 
->>>>>>> Stashed changes
     <section id="filters">
         <img class="filterIcon" src="../app/img/search/googleMapsIcon.png" ng-click="routeSearchClick()"/><br/>
         <img class="filterIcon" src="../app/img/search/clock.png" ng-click="timeSearchClick()"/><br/>
         <img class="filterIcon" src="../app/img/search/userIcon.png" ng-click="userSearchClick()"/><br/>
-        <img class="filterIcon" src="../app/img/search/searchIcon.png" ng-click="resultsSearchClick()"/>
+        <img class="filterIcon" src="../app/img/search/searchIcon.png" ng-click="resultsSearchClick()" ng-hide="hideSearchIcon"/>
     </section>
 
     <section id="searchOptions">
@@ -20,6 +16,7 @@
             <div id="controls">
                 <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in."><br>
                 <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+                <input id="radiusValue" class="controls" type="number" placeholder="Geef radius in" value="0" min="0" max="50" onchange="angular.element(this).scope().radiusChanged(this)">
             </div>
             <div id="map-canvasSearch"></div>
         </section>
@@ -53,10 +50,11 @@
 
         <section id="userSearchOptions" ng-hide="hideUserSearch">
             <input type="radio" name="smoker" value="smoker"/>Roker
-            <input type="radio" name="smoker" value="noSmoker"/>Geen roker
+            <input type="radio" name="smoker" value="noSmoker" checked="true"/>Geen roker
 
-            <section id="ageBlock">Leeftijd tussen: <input type="number" max="99" min="18" value="18"/> en <input
-                    type="number" max="99" min="18" value="19"/></section>
+            <section id="ageBlock">Leeftijd tussen: <input type="number" id="minAge" max="99" min="18" value="18"/> en
+                <input
+                        type="number" id="maxAge" max="99" min="18" value="19"/></section>
 
 
         </section>
