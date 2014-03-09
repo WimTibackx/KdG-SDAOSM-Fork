@@ -22,4 +22,6 @@ public interface TrajectDao {
     Traject getTrajectById(int trajectId);
 
     public List<Traject> getAcceptedTrajects(User user);
+    public List<Traject> getRequestedTrajects(User user);
+    public List<Traject> getRequestedOnMyRoutes(User user);
 }

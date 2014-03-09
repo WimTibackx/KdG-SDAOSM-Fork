@@ -4,6 +4,7 @@ import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -73,14 +76,22 @@ public class RouteTests {
         Place place4 = new Place("Melsele Dijk", 154.987132654f, 189.9874561981f);
 
         PlaceTime pt = new PlaceTime(LocalTime.of(8, 0));
+        pt.setRoute(r);
         PlaceTime pt2 = new PlaceTime(LocalTime.of(8, 10));
+        pt2.setRoute(r);
         PlaceTime pt3 = new PlaceTime(LocalTime.of(8, 20));
+        pt3.setRoute(r);
         PlaceTime pt4 = new PlaceTime(LocalTime.of(8, 25));
+        pt4.setRoute(r);
 
         PlaceTime pt5 = new PlaceTime(LocalTime.of(7, 0));
+        pt5.setRoute(r);
         PlaceTime pt6 = new PlaceTime(LocalTime.of(7, 10));
+        pt6.setRoute(r);
         PlaceTime pt7 = new PlaceTime(LocalTime.of(7, 20));
+        pt7.setRoute(r);
         PlaceTime pt8 = new PlaceTime(LocalTime.of(7, 25));
+        pt8.setRoute(r);
 
         routeService.addPlace(place);
         routeService.addPlace(place2);
@@ -119,13 +130,15 @@ public class RouteTests {
         pt7.setWeekdayRoute(wr1);
         pt8.setWeekdayRoute(wr1);
 
-        routeService.addWeekdayRoute(wr);
-        routeService.addWeekdayRoute(wr1);
-
         r.addWeekdayRoute(wr);
         r.addWeekdayRoute(wr1);
         wr.setRoute(r);
         wr1.setRoute(r);
+
+        routeService.addWeekdayRoute(wr);
+        routeService.addWeekdayRoute(wr1);
+
+
 
         routeService.addRoute(r);
         assertTrue("Add repeating route failed", true);
@@ -141,6 +154,7 @@ public class RouteTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         carService.addCar("thierryv@nnn.loo", c);
         Place place = new Place("Kieldrecht", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Zwijndrecht Krijgsbaan", 431.98987133664f, 411.9889459684f);
@@ -157,6 +171,18 @@ public class RouteTests {
         PlaceTime pt7 = new PlaceTime(LocalTime.of(7, 20));
         PlaceTime pt8 = new PlaceTime(LocalTime.of(7, 25));
 
+
+        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, pt, pt4);
+
+        pt.setRoute(r);
+        pt2.setRoute(r);
+        pt3.setRoute(r);
+        pt4.setRoute(r);
+        pt5.setRoute(r);
+        pt6.setRoute(r);
+        pt7.setRoute(r);
+        pt8.setRoute(r);
+
         routeService.addPlace(place);
         routeService.addPlace(place2);
         routeService.addPlace(place3);
@@ -171,7 +197,7 @@ public class RouteTests {
         routeService.addPlaceTimeToPlace(pt7, place3);
         routeService.addPlaceTimeToPlace(pt8, place4);
 
-        Route r = new Route(true, 69, LocalDateTime.now(), LocalDateTime.now(), u, c, pt, pt2);
+
 
         routeService.addPlaceTimeToRoute(r, pt);
         routeService.addPlaceTimeToRoute(r, pt2);

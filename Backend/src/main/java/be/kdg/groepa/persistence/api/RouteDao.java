@@ -20,4 +20,6 @@ public interface RouteDao {
     public void editWeekdayRoute(WeekdayRoute wr, List<PlaceTime> placetimes);
     public PlaceTime getPlaceTimeById(int id);
     public Route getRouteById(int routeId);
+    public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId);
+    public List<Route> getRoutes(User user);
 }

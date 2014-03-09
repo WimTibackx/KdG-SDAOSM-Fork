@@ -34,7 +34,7 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
                 console.log('Error: 404 Not Found');
                 break;
             case 401:
-                console.log('Error: 401 Not Authorized!')
+                console.log('Error: 401 Not Authorized!');
                 $location.path("/login");
                 break;
             default:
@@ -65,10 +65,10 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
         post: function (endpoint, data, callback) {
             console.log("Post to " + endpoint);
             $http.post(rootUrl + endpoint, data)
-                .error(function(data, status, headers, config) {
+                .success(function(data, status, headers, config) {
                     callback(status, data);
                 })
-                .success(errorHandling);
+                .error(errorHandling);
         }
     }
 

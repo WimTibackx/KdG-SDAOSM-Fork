@@ -13,7 +13,7 @@
             <section id="infoUser">
                 <ul>
                     <li class="info">
-                        {{dateBirth}}
+                        {{formatDate(dateBirth)}}
                     </li>
                     <li class="info">{{smoker}}</li>
                 </ul>
@@ -55,7 +55,7 @@
         </tr>
     </table>
 </div-->
-<section id="carField" ng-hide="hideCars">
+<section id="carField" class="profilemiddle" ng-hide="hideCars">
     <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
         <img id="carImage" alt="{{car.brand}}"
              ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
@@ -70,83 +70,40 @@
 </section>
 
 
-<div class="myRoutes" ng-hide="hideRoutes">
-    <table class="routeTable">
-        <tr id="routeTableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-            <td>
-                Aantal personen
-            </td>
-            <td>
-                herhalend
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
+<section class="myRoutes profilemiddle" ng-hide="hideRoutes">
+    <!-- TODO: Would be nice having vertrek, bestemming, dayofweek/nextday but then we need weekdayroutes, not routes -->
+    <table id="routes" class="general blackwhite">
+        <thead><tr>
+            <td>Vanaf</td>
+            <td>Tot</td>
+            <td>Herhalend</td>
+        </tr></thead>
+        <tbody><tr ng-repeat="route in routes" ng-click="goRoute(route.id)">
+            <td>{{formatDateString(route.startDate)}}</td>
+            <td>{{formatDateString(route.endDate)}}</td>
+            <td>{{booleanL10n(route.repeating)}}</td>
+        </tr></tbody>
+        <thead><tr>
+            <td>Vanaf</td>
+            <td>Tot</td>
+            <td>Herhalend</td>
+        </tr></thead>
     </table>
-    <a href="http://localhost:8080/frontend/app/index.html#/addRoute">
-        <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-        </section>
-    </a>
-</div>
+    <p class="addTextProfile" ng-click="goAddRoute()"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg route toe</p>
+</section>
 
 
 <div class="blockRight">
-    <table class="ritTable">
-        <tr class="tableTitles">
+    <table class="ritTable general blackwhite">
+        <thead><tr class="tableTitles">
             <td>
                 Vertrek
             </td>
             <td>
                 Bestemming
             </td>
-        </tr>
-        <tr>
+        </tr></thead>
+        <tbody><tr>
             <td>
                 Fort verboomstraat 32, 9130 Kieldrecht
             </td>
@@ -193,44 +150,46 @@
             <td>
                 Nationalestraat 22, 2000 Antwerpen
             </td>
-        </tr>
+        </tr></tbody>
+        <tfoot><tr class="tableTitles">
+            <td>
+                Vertrek
+            </td>
+            <td>
+                Bestemming
+            </td>
+        </tr></tfoot>
     </table>
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
         toe
     </section>
 </div>
 
-<div class="myRoutes" ng-hide="hideTrajects">
-    <table class="trajectTable">
-        <tr class="tableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-            <td>
-                Pick-up(s)
-            </td>
-            <td>
-                Drop-off(s)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                <li>Molenstraat 10, 9130 Kieldrecht</li>
-                <li>Kieldrechtsebaan 55, 9130 Verrebroek</li>
-            </td>
-            <td>
-                <li>Nationalestraat 22, 2000 Antwerpen</li>
-            </td>
-        </tr>
+<div class="myRoutes profilemiddle" ng-hide="hideTrajects">
+    <table class="general blackwhite">
+        <thead><tr>
+            <td>Vertrek</td>
+            <td>Bestemming</td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+        </tr></thead>
+        <tbody><tr>
+            <td>Fort verboomstraat 32, 9130 Kieldrecht</td>
+            <td>Nationalestraat 22, 2000 Antwerpen</td>
+            <td>Molenstraat 10, 9130 Kieldrecht</td>
+            <td>Nationalestraat 22, 2000 Antwerpen</td>
+        </tr><tr>
+            <td>Fort verboomstraat 32, 9130 Kieldrecht</td>
+            <td>Nationalestraat 22, 2000 Antwerpen</td>
+            <td>Molenstraat 10, 9130 Kieldrecht</td>
+            <td>Nationalestraat 22, 2000 Antwerpen</td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td>Vertrek</td>
+            <td>Bestemming</td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+        </tr></tfoot>
     </table>
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
     </section>

@@ -6,6 +6,7 @@ import org.threeten.bp.LocalDateTime;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class Route {
 
     @OneToMany(mappedBy="route")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @OrderBy("time")
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
@@ -131,5 +133,17 @@ public class Route {
 
     public Car getCar() {
         return car;
+    }
+
+    public List<WeekdayRoute> getWeekdayRoutes() {
+        return weekdayRoutes;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

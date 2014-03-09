@@ -46,6 +46,10 @@ public class Traject {
     @Column(name="isAccepted")
     private boolean isAccepted;
 
+    @ManyToOne
+    @JoinColumn(name="weekdayrouteId")
+    private WeekdayRoute weekdayRoute;
+
     public Traject(){
 
     }
@@ -58,6 +62,11 @@ public class Traject {
         this.isAccepted = false;
         this.route = route;
         this.user = user;
+    }
+
+    public Traject(PlaceTime pointA, PlaceTime pointB, Route route, User user, WeekdayRoute weekdayRoute) {
+        this(pointA, pointB, route, user);
+        this.weekdayRoute = weekdayRoute;
     }
 
     public void setRide(Ride r){
@@ -80,5 +89,13 @@ public class Traject {
 
     public int getId() {
         return id;
+    }
+
+    public WeekdayRoute getWeekdayRoute() {
+        return weekdayRoute;
+    }
+
+    public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
+        this.weekdayRoute = weekdayRoute;
     }
 }

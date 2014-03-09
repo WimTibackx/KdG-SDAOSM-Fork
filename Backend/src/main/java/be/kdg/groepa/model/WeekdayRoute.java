@@ -4,9 +4,12 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Pieter-Jan on 14-2-14.
@@ -24,13 +27,18 @@ public class WeekdayRoute {
     private int day;     // day 0 to 6: monday to sunday
 
     // foreign keys
-    @OneToMany(mappedBy="weekdayRoute")
+    @OneToMany(mappedBy="weekdayRoute", fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OrderBy("time")
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="routeId", nullable = true)
+    @JoinColumn(name="routeId", nullable = false)
     private Route route;
+
+    @OneToMany(mappedBy = "weekdayRoute", fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Traject> trajects = new HashSet<>();
 
     public void setPlaceTimes(List<PlaceTime> placeTimes) {
         this.placeTimes = placeTimes;
@@ -61,5 +69,30 @@ public class WeekdayRoute {
 
     public int getDay() {
         return day;
+    }
+
+    public List<PlaceTime> getPlaceTimes() {
+        return placeTimes;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public int getWeekdayrouteId() {
+        return weekdayrouteId;
+    }
+
+    public void addTraject(Traject t) {
+        this.trajects.add(t);
+        t.setWeekdayRoute(this);
+    }
+
+    public Set<Traject> getTrajects() {
+        return trajects;
+    }
+
+    public void setWeekdayrouteId(int weekdayrouteId) {
+        this.weekdayrouteId = weekdayrouteId;
     }
 }

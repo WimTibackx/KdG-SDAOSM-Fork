@@ -34,10 +34,22 @@ public class PlaceTime {
     private Traject traject;
 
     @ManyToOne
-    @JoinColumn(name="routeId", nullable = true)
+    @JoinColumn(name="routeId", nullable = false)
     private Route route;
 
-    public PlaceTime() {}
+    /*
+     * TODO WE REALLY NEED TO CLEAN UP THESE CONTROLLERS/USAGES...
+     */
+
+    public PlaceTime(LocalTime time, Place place, Route route) {
+        this(time, place);
+        this.route = route;
+    }
+
+    public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute, Route route) {
+        this(time, place, weekdayRoute);
+        this.route = route;
+    }
 
     public PlaceTime(LocalTime time, Place place) {
         this(time);
@@ -45,7 +57,6 @@ public class PlaceTime {
     }
 
     public PlaceTime(LocalTime time) {
-        this();
         this.time = time;
     }
 
@@ -78,15 +89,19 @@ public class PlaceTime {
         this.route = route;
     }
 
-    public Object getId() {
-        return placetimeId;
-    }
-
     public WeekdayRoute getWeekdayRoute() {
         return weekdayRoute;
     }
 
     public LocalTime getTime() {
         return time;
+    }
+
+    public void setPlacetimeId(int placetimeId) {
+        this.placetimeId = placetimeId;
+    }
+
+    public int getPlacetimeId() {
+        return placetimeId;
     }
 }

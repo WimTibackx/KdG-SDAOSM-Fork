@@ -4,6 +4,7 @@
 // CONTROLLER: My profile
 carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     $scope.avatarsrc = '../app/img/avatar.JPG';
+    $scope.routes=[];
 
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';
     var counter = 0;
@@ -26,6 +27,7 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
                 }
             } else {
+                loadRoutes();
                 username = obj["name"];
                 gender = obj["gender"];
                 if(gender == ("FEMALE")){
@@ -34,8 +36,7 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
                     $scope.gendersrc = '../app/img/male.png';
                 }
                 $scope.personname = username;
-                var date = obj["dateOfBirth"];
-                $scope.dateBirth = date["day"] + "/" + date["month"] + "/" + date["year"];
+                $scope.dateBirth = new Date(obj["dateOfBirth"]);
                 $scope.cars = obj["cars"];
                 $scope.username = obj["username"]
                 if (obj["smoker"]) {
@@ -53,29 +54,48 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
     $scope.removeCar = function (carId) {
         console.log(carId);
-    }
+    };
 
     $scope.clickCar = function (car) {
         console.log(car.carId);
         window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile/changeRemoveCar/" + car.carId + "";
-    }
+    };
 
     $scope.tabRoutesClick = function () {
         $scope.hideCars = true;
         $scope.hideRoutes = false;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg route toe";
-    }
+    };
     $scope.tabCarsClick = function () {
         $scope.hideCars = false;
         $scope.hideRoutes = true;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg auto toe";
-    }
+    };
     $scope.tabTrajectsClick = function () {
         $scope.hideCars = true;
         $scope.hideRoutes = true;
         $scope.hideTrajects = false;
         $scope.addText = "Voeg traject toe";
+    };
+
+    $scope.goRoute = function(id) { $location.path("/route/"+id); };
+    $scope.goAddRoute = function() { $location.path("/addRoute"); };
+
+    $scope.formatDate = function(date) {
+        if (date == undefined) return "";
+        return date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+    };
+    $scope.formatDateString = function(dateString) {
+        var date = new Date(dateString);
+        return $scope.formatDate(date);
+    };
+    $scope.booleanL10n = function(b) { return b ? "Ja" : "Nee"; };
+
+    function loadRoutes() {
+        $http.get(rootUrl+"/authorized/route/mine").success(function (data) {
+            $scope.routes=data;
+        });
     }
 }]);

@@ -16,15 +16,23 @@ import java.util.List;
  */
 @Service("RouteService")
 public class RouteServiceImpl implements RouteService {
-
-    @Autowired
     private RouteDao routeDao;
-
-    @Autowired
     private TrajectDao trajectDao;
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    @Override
+    public void setRouteDao(RouteDao dao) {
+        this.routeDao = dao;
+    }
+
+    @Autowired
+    @Override
+    public void setTrajectDao(TrajectDao dao) {
+        this.trajectDao = dao;
+    }
 
     @Override
     public void addRoute(Route r) {
@@ -79,6 +87,17 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public Route getRouteById(int routeId) {
         return routeDao.getRouteById(routeId);
+    }
+
+    // Move along, nothing to see here...
+    @Override
+    public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId) {
+        return routeDao.getWeekdayRoutesOfRoute(routeId);
+    }
+
+    @Override
+    public List<Route> getRoutes(User user) {
+        return routeDao.getRoutes(user);
     }
 }
 

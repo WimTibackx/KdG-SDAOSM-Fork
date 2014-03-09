@@ -117,10 +117,51 @@ body {
 
 #inline, section.mainSite {
     width: 90%;
-    height: 580px;
-    margin-top: 2em;
+    min-height: 580px;
     background-color: rgba(53, 53, 53, 0.8);
     border: solid 1px gray;
-    margin-left: auto;
-    margin-right: auto;
+    margin:2em auto 1em auto;
+}
+
+/************ GENERIC TABLE STYLES *******************/
+table.general {
+    color:#FFFFFF;
+    width:100%;
+    vertical-align: middle;
+}
+table.general.blackwhite {
+    border: 1px solid #FFFFFF;
+    border-collapse: collapse;
+    font-size:1.2rem;
+}
+table.general tbody tr:hover {
+    background: rgba(238, 238, 238, 0.09);
+    cursor: pointer;
+}
+table.general.color tbody td {
+    border:1px solid #FFFFFF;
+}
+table.general.color td {
+    border-collapse: collapse;
+    padding:5px 10px;
+}
+table.general.blackwhite td {
+    padding:5px;
+}
+table.general thead, table.general tfoot {
+    font-weight:bold;
+}
+table.general.color thead, table.general.color tfoot {
+    background: rgb(59, 150, 206);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+table.general.blackwhite thead, table.general.blackwhite tfoot {
+    background:#353535;
+}
+table.general.color thead tr, table.general.color tfoot tr {
+    border:1px solid #FFFFFF;
+}
+table.general.blackwhite thead td, table.general.blackwhite tfoot td {
+    border:1px solid #FFFFFF;
 }

@@ -14,15 +14,16 @@ public class UserDTO {
 
     private String name;
 
-    private User.Gender gender;
+    private String gender;
 
     private boolean smoker;
 
     private String password;
 
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     private String username;      // username = email
+    private String avatarURL;
 
     protected List<CarDTO> cars = new ArrayList<CarDTO>();
 
@@ -34,12 +35,13 @@ public class UserDTO {
         this.name = name;
     }
 
-    public User.Gender getGender() {
+    public String getGender() {
         return gender;
     }
+    public User.Gender getGenderAsEnum() { return User.Gender.valueOf(gender); }
 
     public void setGender(User.Gender gender) {
-        this.gender = gender;
+        this.gender = gender.name();
     }
 
     public boolean isSmoker() {
@@ -58,12 +60,12 @@ public class UserDTO {
         this.password = password;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth.toString();
     }
 
     public String getUsername() {
@@ -72,6 +74,14 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
     }
 
     public List<CarDTO> getCars() {
@@ -84,5 +94,19 @@ public class UserDTO {
             CarDTO carDTO = new CarDTO(car);
             this.cars.add(carDTO);
         }
+    }
+
+    /*
+     * This creates a basic userDTO based on a user
+     * It has the recorddata (minus password and id) with no relationships, like cars
+     */
+    public static UserDTO createBasic(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setName(user.getName());
+        dto.setGender(user.getGender());
+        dto.setSmoker(user.isSmoker());
+        dto.setDateOfBirth(user.getDateOfBirth());
+        dto.setAvatarURL(user.getAvatarURL());
+        return dto;
     }
 }

@@ -41,7 +41,7 @@ public class SessionTests {
 
     @After
     public void cleanUpDb() {
-        this.userService.setUserDao(this.userDao); //TODO: Find out if we actually need to do this or if Spring takes care of this for us
+        this.userService.setUserDao(this.userDao);
     }
 
     @Test
