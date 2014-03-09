@@ -63,9 +63,9 @@ public class TrajectServiceImpl implements TrajectService {
     @Override
     public void addNewTrajectToRoute(PlaceTime previousPlaceTime1, PlaceTime newPlaceTime1, PlaceTime previousPlaceTime2, PlaceTime newPlaceTime2, User user) {
         Traject resultTraject = new Traject(newPlaceTime1, newPlaceTime2, previousPlaceTime1.getRoute(), user);
-        newPlaceTime1.setTraject(resultTraject);
+        newPlaceTime1.addTraject(resultTraject);
         resultTraject.setRoute(previousPlaceTime1.getRoute());
-        newPlaceTime2.setTraject(resultTraject);
+            newPlaceTime2.addTraject(resultTraject);
         trajectDao.addTraject(resultTraject);
         insertNewRoutePoint(previousPlaceTime1, newPlaceTime1);
         insertNewRoutePoint(previousPlaceTime2, newPlaceTime2);

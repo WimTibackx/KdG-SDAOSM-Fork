@@ -58,7 +58,8 @@ public class TrajectControllerTest {
     private static Car car = new Car("Opel", "Vectra", 11, Car.FuelType.SUPER95);
     private static Route route =  new Route(false, 3, LocalDateTime.of(2014, 10, 3, 6, 44), LocalDateTime.of(2015, 10, 4, 7, 22), user, car, new PlaceTime(LocalTime.of(10, 10), new Place("TrajContTestHome", 9, 10)), new PlaceTime(LocalTime.of(11, 0), new Place("TrajContTestWork", 11.222, 0)));
 
-    @Before
+    //@Before
+    //TODO: The tests are disabled anyway...
     public void init(){
          if(!init){
              user.addCar(car);

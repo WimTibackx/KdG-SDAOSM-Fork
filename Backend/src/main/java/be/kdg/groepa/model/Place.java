@@ -2,6 +2,7 @@ package be.kdg.groepa.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pieter-Jan on 14-2-14.
@@ -23,8 +24,8 @@ public class Place {
     @Column(name="lon")
     private double lon;
 
-    @JoinColumn(name="placetimeId")
-    private ArrayList<PlaceTime> placeTime;
+    @OneToMany(mappedBy = "place")
+    private List<PlaceTime> placeTimes = new ArrayList<>();
 
     public Place() {}
 
@@ -44,5 +45,10 @@ public class Place {
 
     public double getLon() {
         return lon;
+    }
+
+    public void addPlaceTime(PlaceTime pt)
+    {
+        this.placeTimes.add(pt);
     }
 }

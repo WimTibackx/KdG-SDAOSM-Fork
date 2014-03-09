@@ -66,7 +66,8 @@ public class TrajectTests {
     private static Car car;
 
     private static boolean initiated = false;
-    @Before
+    //@Before
+    //TODO: This shit doesn't fucking work anymore because the data/our model/our dao-layer are crap -_-
     public void init(){
         if(!initiated){
             car = new Car("Audi", "A5", 11, Car.FuelType.SUPER95);

@@ -4,6 +4,8 @@ import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pieter-Jan on 14-2-14.
@@ -29,9 +31,9 @@ public class PlaceTime {
     @JoinColumn(name="weekdayRouteId")
     private WeekdayRoute weekdayRoute;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name="trajectId", nullable = true)
-    private Traject traject;
+    private List<Traject> trajecten = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="routeId", nullable = false)
@@ -73,10 +75,6 @@ public class PlaceTime {
         this.weekdayRoute = weekdayRoute;
     }
 
-    public void setTraject(Traject traject) {
-        this.traject = traject;
-    }
-
     public Place getPlace() {
         return place;
     }
@@ -103,5 +101,9 @@ public class PlaceTime {
 
     public int getPlacetimeId() {
         return placetimeId;
+    }
+
+    public void addTraject(Traject t) {
+        trajecten.add(t);
     }
 }

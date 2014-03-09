@@ -9,7 +9,8 @@ import java.util.List;
  */
 public interface RouteDao {
 
-    public void addRoute(Route r);
+    public void addRepeatingRoute(Route r);
+    public void addNonRepeatingRoute(Route r);
     public void addPlace(Place p);
     public void addPlaceTimeToPlace(PlaceTime pt, Place p);
     public void addPlaceTimeToRoute(Route r, PlaceTime pt);
@@ -22,4 +23,5 @@ public interface RouteDao {
     public Route getRouteById(int routeId);
     public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId);
     public List<Route> getRoutes(User user);
+    public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius);
 }

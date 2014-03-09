@@ -6,6 +6,7 @@ import be.kdg.groepa.model.Traject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
