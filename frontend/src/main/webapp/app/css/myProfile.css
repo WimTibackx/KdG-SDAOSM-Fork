@@ -293,20 +293,22 @@
 .addTextInfoProfile{
     color: white;
     cursor: pointer;
-    border-top: solid 1px gray;
-    padding: 1em 0;
+    padding: 0.2em 0;
     bottom: 0px;
     width: 100%;
-    margin-top: 83%;
 }
 
 .noUnderline{
     text-decoration: none;
 }
 
-.changePasswordIcon{
+.changePasswordIcon, .resetPasswordIcon{
     height: 15px;
     width: 15px;
     margin-right: 1em;
     margin-left: 0;
+}
+#passwordActions{
+    margin-top: 200px;
+    border-top: solid 1px gray;
 }
