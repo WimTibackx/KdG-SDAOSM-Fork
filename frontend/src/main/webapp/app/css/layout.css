@@ -1,7 +1,13 @@
 body {
     background: url('../img/road.jpg') center center no-repeat fixed;
     height: 100%;
+    color:white;
 }
+
+button, input[type=submit]{
+    color:black !important;
+}
+
 /*
 @media all and (max-width : 700px) and (max-height : 525px) {
     body {
