@@ -149,7 +149,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
                     storeRegistrationId(context, regId);
 
                 } catch (IOException e) {
-                    System.out.println("CONSOLE -- GCM -- ERROR OCCURED AT REGISTERING IN BACKGROUND");
                     System.out.println("CONSOLE -- ERROR -- IOEXCEPTION: " + e.getMessage());
                     msg = "An error occured: " +
                             e.getMessage();
