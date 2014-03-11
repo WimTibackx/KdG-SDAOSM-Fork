@@ -28,8 +28,12 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
     var rootUrl = "http://localhost:8080/BackEnd";
 
     function errorHandling(data, status, headers, config) {
-        status = 401;
-        switch (status) {
+        statusCode = status;
+        if(data.hasOwnProperty('error')) {
+            if (data.error == "AuthorizationNeeded") statusCode = 401;
+        }
+
+        switch (statusCode) {
             case 404:
                 console.log('Error: 404 Not Found');
                 break;
@@ -57,7 +61,11 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
             console.log("Get from " + endpoint);
             $http.get(rootUrl + endpoint)
                 .success(function (data, status, headers, config) {
-                    callback(status, data);
+                    if (data.hasOwnProperty('error')) {
+                        errorHandling(data, status, headers, config);
+                    } else {
+                        callback(status, data);
+                    }
                 })
                 .error(errorHandling);
         },
@@ -65,10 +73,14 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
         post: function (endpoint, data, callback) {
             console.log("Post to " + endpoint);
             $http.post(rootUrl + endpoint, data)
-                .error(function(data, status, headers, config) {
-                    callback(status, data);
+                .success(function (data, status, headers, config) {
+                    if (data.hasOwnProperty('error')) {
+                        errorHandling(data, status, headers, config);
+                    } else {
+                        callback(status, data);
+                    }
                 })
-                .success(errorHandling);
+                .error(errorHandling);
         }
     }
 

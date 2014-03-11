@@ -160,7 +160,7 @@
     padding: 0 10px;
 }
 
-th:first-child {
+#days th:first-child {
     text-align: left;
 }
 
