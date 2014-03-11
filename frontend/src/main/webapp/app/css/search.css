@@ -81,7 +81,12 @@
 input{
     color:black !important;
 }
-
+input[type=radio]{
+    margin-right: 4px;
+}
+#noSmokerRadio{
+    margin-left: 1em;
+}
 
 
 
@@ -92,3 +97,16 @@ input{
     margin-top: 0em;
 
 }
+
+#noSmoker, #smoker, #male, #female{
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    margin-right: 1em;
+    margin-top: 1em;
+}
+.selectedSmoking, .selectedGender{
+    background: rgba(250,250,250,0.3);
+}
+
+

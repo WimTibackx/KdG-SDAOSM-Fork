@@ -8,14 +8,14 @@
         <img class="filterIcon" src="../app/img/search/googleMapsIcon.png" ng-click="routeSearchClick()"/><br/>
         <img class="filterIcon" src="../app/img/search/clock.png" ng-click="timeSearchClick()"/><br/>
         <img class="filterIcon" src="../app/img/search/userIcon.png" ng-click="userSearchClick()"/><br/>
-        <img class="filterIcon" src="../app/img/search/searchIcon.png" ng-click="resultsSearchClick()" ng-hide="hideSearchIcon"/>
+        <img class="filterIcon" src="../app/img/search/searchIcon.png" ng-click="resultsSearchClick()" ng-show="showSearchImage()"/>
     </section>
 
     <section id="searchOptions">
         <section id="routeSearchOptions" ng-hide="hideRouteSearch">
             <div id="controls">
-                <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in."><br>
-                <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
+                <input id="txtStart" class="controls" type="text" placeholder="Geef beginpunt in." ng-model="modelStart"><br>
+                <input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in." ng-model="modelEnd">
                 <input id="radiusValue" class="controls" type="number" placeholder="Geef radius in" value="0" min="0" max="50" onchange="angular.element(this).scope().radiusChanged(this)">
             </div>
             <div id="map-canvasSearch"></div>
@@ -49,14 +49,13 @@
         </section>
 
         <section id="userSearchOptions" ng-hide="hideUserSearch">
-            <input type="radio" name="smoker" value="smoker"/>Roker
-            <input type="radio" name="smoker" value="noSmoker" checked="true"/>Geen roker
-
             <section id="ageBlock">Leeftijd tussen: <input type="number" id="minAge" max="99" min="18" value="18"/> en
                 <input
                         type="number" id="maxAge" max="99" min="18" value="19"/></section>
-
-
+            <img src="../app/img/profilePage/noSmoker.png" alt="noSmoker" id="noSmoker" ng-class="{'selectedSmoking': setNoSmokerClass()}" ng-click="selectSmoker(false)"/>
+            <img src="../app/img/profilePage/smoker.png" alt="smoker" id="smoker" ng-class="{'selectedSmoking': setSmokerClass()}" ng-click="selectSmoker(true)"/>
+            <br/><img src="../app/img/male.png" alt="male" id="male" ng-class="{'selectedGender': setMaleClass()}" ng-click="selectGender(true)"/>
+            <img src="../app/img/female.png" alt="male" id="female" ng-class="{'selectedGender': setFemaleClass()}" ng-click="selectGender(false)"/>
         </section>
         <section id="searchResults" ng-hide="hideResultsSearch">search results</section>
     </section>
