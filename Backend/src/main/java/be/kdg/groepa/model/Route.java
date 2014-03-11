@@ -58,9 +58,14 @@ public class Route {
         this.placeTimes = placeTimes;
     }
 
+    public List<WeekdayRoute> getWeekdayRoutes() {
+        return weekdayRoutes;
+    }
+
     public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end) {
         this.repeating = repeating;
         this.capacity = capacity;
+
 
         this.beginDate = beginDate;
         this.endDate = endDate;
