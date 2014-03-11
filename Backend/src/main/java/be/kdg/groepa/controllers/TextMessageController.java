@@ -1,13 +1,11 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.TextMessageDTO;
-import be.kdg.groepa.exceptions.UserExistException;
 import be.kdg.groepa.model.TextMessage;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.TextMessageService;
 import be.kdg.groepa.service.api.UserService;
 import com.google.gson.Gson;
-import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/authorized/textmessage")
-public class TextMessageController {
+public class TextMessageController extends BaseController{
 
     @Autowired
     private TextMessageService textMessageService;
@@ -87,6 +85,7 @@ public class TextMessageController {
         myJson.put("receivedMessages", receivedMessages);
         myJson.put("result", "Messages succesfully retrieved.");
 
+
         return myJson.toString();
 
     }
@@ -97,6 +96,30 @@ public class TextMessageController {
         int messageId;
         messageId = dataOb.getInt("messageId");
         textMessageService.readMessage(messageId);
+    }
+
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public @ResponseBody String getMessagesFromUser(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject myJson = new JSONObject();
+        Gson gson = new Gson();
+
+
+        User user = this.getCurrentUser(request);
+        if (user == null) {
+            myJson.put("error","UserDoesNotExist");
+            return myJson.toString();
+        }
+        List<TextMessageDTO> sentMessageList = textMessageService.getSentMessagesByUser(user.getId());
+        List<TextMessageDTO> receivedMessageList = textMessageService.getReceivedMessagesByUser(user.getId());
+        JSONArray sentMessages = new JSONArray(sentMessageList);
+        JSONArray receivedMessages = new JSONArray(receivedMessageList);
+        myJson.put("sentMessages", sentMessages);
+        myJson.put("receivedMessages", receivedMessages);
+        myJson.put("result", "Messages succesfully retrieved.");
+
+        return myJson.toString();
+
     }
 
 

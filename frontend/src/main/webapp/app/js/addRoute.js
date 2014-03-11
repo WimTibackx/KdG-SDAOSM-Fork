@@ -12,10 +12,14 @@ var directionsDisplay;
 var directionsService;
 
 var points;
+var controlScope;
 
 var passages = {};
 
-function initialize() {
+function initialize($scope) {
+
+    controlScope = $scope;
+
     addListeners();
     // Creating new Geocoder (for turning coordinates into human-readable addresses)
     geoCoder = new google.maps.Geocoder();
@@ -55,8 +59,6 @@ function initialize() {
 
     autocomplete[0] = new google.maps.places.Autocomplete(txtStart);
     autocomplete[1] = new google.maps.places.Autocomplete(txtEnd);
-    console.log(autocomplete[0])
-    console.log(autocomplete[1])
 
     //add listener to box
     google.maps.event.addListener( autocomplete[0], 'place_changed', onPlaceChanged);
@@ -87,9 +89,7 @@ function onPlaceChanged() {
             draggable: true
         });
 
-        console.log(step)
         if (step <2){
-            console.log(step);
             var icon = 'img/map/marker' + (step + 1) + '.png';
             marker.setIcon(icon);
 
@@ -150,8 +150,6 @@ function calcRoute() {
                 stopover:true
             });
         }
-        console.log("Markers and passages")
-        console.log(passages);
         var request = {
             origin: markers[0].getPosition(),
             destination: markers[1].getPosition(),
@@ -159,6 +157,12 @@ function calcRoute() {
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.DRIVING
         };
+        var titles = [];
+        for(i = 0; i < markers.length; i++){
+            titles.push(markers[i].title)
+        }
+        controlScope.locations = JSON.stringify(titles);
+        console.log(controlScope.locations)
         directionsService.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
@@ -185,7 +189,6 @@ function saveRoute() {
     points = [];
 
     for (i = 0; i < markers.length; i++) {
-        console.log(markers[i]);
         points[i] = {};
         points[i].lat = markers[i].getPosition().lat();
         points[i].long = markers[i].getPosition().lng();
@@ -193,12 +196,34 @@ function saveRoute() {
 
     }
 
+
     console.log(JSON.stringify(points));
 
     openWindow();
 }
 
 function openWindow() {
+    var parentElement = document.getElementById('locations');
+
+    var newTable = document.createElement('table');
+    newTable.setAttribute('id', 'days');
+    var newTbody = document.createElement('tbody');
+    var tableRowHeader = document.createElement('tr');
+    var tableHeader1 = document.createElement('th');
+    tableHeader1.appendChild(document.createTextNode('Passage point'));
+    var tableHeader2 = document.createElement('th');
+    tableHeader2.appendChild(document.createTextNode('Passage time'));
+    tableRowHeader.appendChild(tableHeader1);
+    tableRowHeader.appendChild(tableHeader2);
+    newTbody.appendChild(tableRowHeader);
+    newTable.appendChild(newTbody);
+    parentElement.appendChild(newTable);$
+    for (i = 0; i < markers.length; i++) {
+        if (i != 1){
+            addTableRow(i, newTbody);
+        }
+    }
+    addTableRow(1, newTbody);
     var dateElement = $('#startDatePicker');
     if (dateElement.prop('type') != 'date') {
         alert(dateElement.prop('type'));
@@ -247,27 +272,41 @@ function submitAllData() {
     var repeating = $('#repeatBox').prop('checked');
     var endDate = $('#endDatePicker').val();
     if (!repeating) {
-        endDate = startDate;
+        endDate = startDate
+        ;
         passages = [$('#depTime').val(), $('#arrTime').val()];
     }
 
-    var jsonObject = {};
-    jsonObject.car = car;
-    jsonObject.freeSpots = places;
-    jsonObject.repeating = repeating;
-    jsonObject.startDate = startDate;
-    jsonObject.endDate = endDate;
-    jsonObject.passages = passages;
-    jsonObject.route = points;
+    for(i = 0; i < points.length; i++){
+        passages[i] = document.getElementById('passageTime'+ i).value;
+    }
+
+    var jsonObject = {
+    car: car,
+    freeSpots : places,
+    repeating : repeating,
+    startDate : startDate,
+    endDate : endDate,
+    passages : passages,
+    route : points
+    }
 
     console.log(JSON.stringify(jsonObject));
-    //jQuery.post('http://localhost:8080/BackEnd/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
+    var rootUrl = "http://localhost:8080/BackEnd/";
+    $.ajax({
+        url: rootUrl + "authorized/route/add",
+        method: "POST",
+        data: JSON.stringify(jsonObject),
+        headers: {'Content-Type': "text/plain; charset=utf-8"},
+        success: function (){
+        }
+    });
+    //jQuery.post('http://localhost:8080/BackEnd//authorized/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
 }
 
 function addListeners() {
 //    $('#addHours').click(addTime);
     $('#addPassagePoint').click(addPassagePoint)
-    $('#finalAdd').click(submitAllData);
 }
 
 function addPassagePoint(){
@@ -284,7 +323,6 @@ function addPassagePoint(){
 
     parentElement.appendChild(newInput);
 
-    console.log(document.getElementById('txtPassage1'))
     autocomplete[counter+1] = new google.maps.places.Autocomplete(document.getElementById('txtPassage'+counter));
 
     google.maps.event.addListener( autocomplete[counter+1], 'place_changed', onPlaceChanged);
@@ -292,6 +330,32 @@ function addPassagePoint(){
 
 }
 
+function addTableRow(index, tbody){
+    var newTableRow = document.createElement('tr');
+    var newTableData1 = document.createElement('td');
+    newTableData1.appendChild(document.createTextNode(markers[index].title));
+    var newTableData2 = document.createElement('td');
+    var newTimeInput = document.createElement('input');
+    newTimeInput.setAttribute('type', 'text');
+    newTimeInput.setAttribute('id', 'passageTime' + index);
+    newTimeInput.setAttribute('placeholder', '9:00');
+    newTableData2.appendChild(newTimeInput);
+    newTableRow.appendChild(newTableData1);
+    newTableRow.appendChild(newTableData2);
+    tbody.appendChild(newTableRow);
+}
+
 window.onload = function () {
     google.maps.event.addDomListener(window, 'load', initialize);
+}
+
+function focus(){
+    console.log("Gets focus");
+}
+
+
+function cancelRoute(){
+    var myNode = document.getElementById('locations');
+    myNode.innerHTML = '';
+    $('#overlay').hide();
 }

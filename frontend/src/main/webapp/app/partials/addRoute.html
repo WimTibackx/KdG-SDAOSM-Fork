@@ -6,7 +6,7 @@
     <script src="js/addRoute.js"></script>
     <script src="lib/jquery/jquery-1.10.2.js"></script>
 
-<section id="inline" ng-controller="addRouteCtrl">
+<section id="inline" ng-controller="addRouteCtrl" onclick="focus()">
 
     <section id="title"><h1 onclick="document.getElementById('txtStart').focus()">Route toevoegen</h1></section>
 
@@ -23,10 +23,10 @@
     <div id="map-canvas"></div>
 </section>
 
-<div id="overlay">
+<div id="overlay" onclick="clickOverlay()">
     <div id="darkOverlay"></div>
     <div id="cssCenterTrick">
-        <section id="formPopup">
+        <section id="formPopup" onclick="clickFormpopup()">
             <section id="carPicker">
                 Kies uw wagen
                 <div id="carList">
@@ -49,6 +49,8 @@
                 Herhalend?
                 <input type="checkbox" id="repeatBox" ng-model="repeatBox">
             </section>
+            <section id="locations">
+            </section>
             <section id="repeatingTimes" ng-show="repeatBox">
                 <!-- <div id="daysRedundant">
                     <span><input data-index="0" type="checkbox">Ma</span>
@@ -59,6 +61,7 @@
                     <span><input data-index="5" type="checkbox">Za</span>
                     <span><input data-index="6" type="checkbox">Zo</span>
                 </div> -->
+
                 <table id="days">
                     <tr>
                         <th>&nbsp;</th>
@@ -108,7 +111,8 @@
                 <input type="text" id="arrTime" placeholder="17:00">
             </section>
             <section id="finalAdd">
-                Toevoegen
+                <type type="button" onclick="submitAllData()">Toevoegen</type>
+                <type type="button" onclick="cancelRoute()">Cancel</type>
             </section>
 
             <!--

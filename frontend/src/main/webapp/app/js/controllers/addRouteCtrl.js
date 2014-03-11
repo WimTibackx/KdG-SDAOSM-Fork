@@ -22,5 +22,6 @@ carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$
         });
     }
 
-    initialize();
+    initialize($scope);
+    console.log($scope)
 }]);

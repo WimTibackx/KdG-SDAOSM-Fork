@@ -6,8 +6,6 @@ import com.ibatis.common.jdbc.ScriptRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.BufferedReader;
@@ -73,12 +71,17 @@ public class Helper {
     }
 
     public static void doLogin(RemoteWebDriver driver) {
+        Helper.doLogin(driver, "profile@test.com", "Succes1");
+    }
+
+
+    public static void doLogin(RemoteWebDriver driver, String username, String password) {
         FrontendWebsite.enterAtLogin(driver);
         WebElement element = driver.findElementByName("username");
-        element.sendKeys("profile@test.com");
+        element.sendKeys(username);
 
         element = driver.findElementByName("password");
-        element.sendKeys("Succes1");
+        element.sendKeys(password);
 
         element = driver.findElementByName("login");
         element.click();

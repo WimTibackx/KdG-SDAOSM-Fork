@@ -1,17 +1,21 @@
-
 var map;
 var txtStart, txtEnd;
 var autocomplete = [];
 var autoStart, autoEnd;
 var markers = [];
+var circles = [];
+
 var geoCoder;
 
 var directionsDisplay;
 var directionsService;
 
-var points;
+var points = [];
 
-carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+var datetimeClicked = false;
+var userClicked = false;
+
+carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("searchCtrl test");
 
     /*var active = document.getElementById("searchTab");
@@ -78,22 +82,51 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
             // Do something only the first time the map is loaded
             txtStart.focus();
         });
+
+        $scope.radiusChanged = function () {
+            //console.log(autocomplete[0]);
+            //console.log(autocomplete[1]);
+
+            for (var i = 0; i < circles.length; i++) {
+                circles[i].setMap(null);
+            }
+            circles = [];
+
+            for (var i = 0; i < markers.length; i++) {
+                createCircle(markers[i], i);
+            }
+
+            //console.log("text start: " + txtStart.getText());
+            //console.log("text end: " + txtEnd.getText());
+        }
     }
 
     var onPlaceChanged = function () {
+        console.log(this);
         var step = autocomplete.indexOf(this);
+        var icon = 'img/map/marker' + (step + 1) + '.png';
         var place = this.getPlace();
         if (place.geometry) {
             map.panTo(place.geometry.location);
-            map.setZoom(15);
-            var icon = 'img/map/marker' + (step + 1) + '.png';
-            var marker = new google.maps.Marker({
-                map: map,
-                title: place.formatted_address,
-                position: place.geometry.location,
-                draggable: true,
-                icon: icon
-            });
+            map.setZoom(10);
+
+            /*var marker = new google.maps.Marker({
+             map: map,
+             title: place.formatted_address,
+             position: place.geometry.location,
+             draggable: true,
+             icon: icon
+             });
+             var radius = (parseInt(document.getElementById("radiusValue").value)) / 1.6093 * 1000 // /1.6093 to go to miles ==> *1000 for metres in miles;
+             var circle = new google.maps.Circle({
+             map: map,
+             radius: radius,
+             fillColor: '#AA0000'
+             });
+             circle.bindTo('center', marker, 'position'); */
+            var marker = createMarker(place, step);
+            createCircle(marker, step);
+
             google.maps.event.addListener(marker, 'dragend', function () {
                 updateAddress(step, this.getPosition());
             });
@@ -112,6 +145,36 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
             }
             calcRoute();
         }
+    }
+
+    var createMarker = function (place, step) {
+        var icon = 'img/map/marker' + (step + 1) + '.png';
+        var marker = new google.maps.Marker({
+            map: map,
+            title: place.formatted_address,
+            position: place.geometry.location,
+            draggable: true,
+            icon: icon
+        });
+        /*var radius = (parseInt(document.getElementById("radiusValue").value)) / 1.6093 * 1000 // /1.6093 to go to miles ==> *1000 for metres in miles;
+         var circle = new google.maps.Circle({
+         map: map,
+         radius: radius,
+         fillColor: '#AA0000'
+         });
+         circle.bindTo('center', marker, 'position');  */
+        return marker;
+    }
+
+    var createCircle = function (marker, step) {
+        var radius = (parseInt(document.getElementById("radiusValue").value)) / 1.6093 * 1000 // /1.6093 to go to miles ==> *1000 for metres in miles;
+        var circle = new google.maps.Circle({
+            map: map,
+            radius: radius,
+            fillColor: '#AA0000'
+        });
+        circle.bindTo('center', marker, 'position');
+        circles[step] = circle;
     }
 
     var updateAddress = function (step, latlng) {
@@ -139,6 +202,11 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
     }
 
     var calcRoute = function () {
+        /*for (i = 0; i < points.length; i++) {
+         points[i].setMap(null);
+         }
+         points = [];  */
+
         if (markers[1]) {
             var request = {
                 origin: markers[0].getPosition(),
@@ -149,12 +217,15 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(result);
                     var routepoints = result.routes[0].overview_path;
-                    for (i = 0; i < routepoints.length; i++) {
-                        new google.maps.Marker({
-                            map: map,
-                            position: routepoints[i]
-                        });
-                    }
+
+                    /*for (i = 0; i < routepoints.length; i++) {
+                     var marker = new google.maps.Marker({
+                     map: map,
+                     position: routepoints[i]
+                     });
+                     points[i] = marker;
+                     } */
+
                 } else {
                     console.log("Error calculating route: " + status);
                     setTimeout(function () {
@@ -167,6 +238,7 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
 
     defaultSearches();
     $scope.hideRouteSearch = false;
+    $scope.hideSearchIcon = true;
     initializeMap();
 
     $scope.routeSearchClick = function () {
@@ -179,6 +251,10 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
     }
     $scope.timeSearchClick = function () {
         defaultSearches();
+        datetimeClicked = true;
+        if (userClicked && markers.length == 2) {
+            $scope.hideSearchIcon = false;
+        }
         $scope.hideTimeSearch = false;
         console.log("click time search");
 
@@ -202,6 +278,7 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
 
         /* time picker */
         $scope.mytime = new Date();
+        $scope.mytimeRadius = new Date(0, 0, 0, 0, 0);
 
         $scope.hstep = 1;
         $scope.mstep = 1;
@@ -220,22 +297,26 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
             $scope.isRadius = !$scope.isRadius;
         };
 
-        $scope.update = function () {
-            var d = new Date();
-            d.setHours(14);
-            d.setMinutes(0);
-            $scope.mytime = d;
-        };
+        /*$scope.update = function () {
+         var d = new Date();
+         d.setHours(14);
+         d.setMinutes(0);
+         $scope.mytime = d;
+         };
 
-        $scope.changed = function () {
-            console.log('Time changed to: ' + $scope.mytime);
-        };
+         $scope.changed = function () {
+         console.log('Time changed to: ' + $scope.mytime);
+         }; */
 
-        $scope.hours = new Date().getHours();
-        $scope.minutes = new Date().getMinutes();
+        /*$scope.hours = new Date().getHours();
+         $scope.minutes = new Date().getMinutes();   */
     }
     $scope.userSearchClick = function () {
         defaultSearches();
+        userClicked = true;
+        if (datetimeClicked && markers.length == 2) {
+            $scope.hideSearchIcon = false;
+        }
         $scope.hideUserSearch = false;
         console.log("click user search");
     }
@@ -244,21 +325,51 @@ carpoolingControllers.controller('searchCtrl', ['$scope', '$http', '$location', 
         $scope.hideResultsSearch = false;
         console.log("click results search");
 
+        //make json file to send
+        var jsonObject = {};
+
         //get results
+        //get markers + radius
+        jsonObject.start = markers[0];
+        jsonObject.end = markers[1];
+        var radius = parseInt(document.getElementById("radiusValue").value);
+        jsonObject.radius = radius;
         //get date
         var date = $scope.dt.toISOString().split("T")[0];
-        //var day = date.getDay();
-        //var month = date.getMonth();
-        //var year = date.getYear();
-        console.log(date);
-        //get time
-        /*var hours = $scope.mytime.getHours();
-         var minutes = $scope.mytime.getMinutes();
-         console.log(hours + ":" + minutes);
-         //get radius
-         var rHours = $scope.mytimeRadius.getHours();
-         var rMinutes = $scope.mytimeRadius.getMinutes();
-         console.log(rHours + ":" + rMinutes);   */
+        jsonObject.date = date;
+        //get time departure
+        var hours = $scope.mytime.getHours();
+        var minutes = $scope.mytime.getMinutes();
+        jsonObject.hours = hours;
+        jsonObject.minutes = minutes;
+        //get time radius
+        var radiusH = $scope.mytimeRadius.getHours();
+        var radiusM = $scope.mytimeRadius.getMinutes();
+        jsonObject.radiusHours = radiusH;
+        jsonObject.radiusMinutes = radiusM;
+        //get smoker
+        var smokers = document.getElementsByName("smoker");
+        var smoker = "";
+        jsonObject.smoker = false;
+        for (var i = 0; i < smokers.length; i++) {
+            if (smokers[i].checked) {
+                smoker = smokers[i].value;
+                if (i == 0) {
+                    jsonObject.smoker = true;
+                }
+            }
+        }
+        //get age
+        var minAge = document.getElementById("minAge").value;
+        var maxAge = document.getElementById("maxAge").value;
+        jsonObject.minAge = minAge;
+        jsonObject.maxAge = maxAge;
+
+        console.log(jsonObject);
+
+        $http.post(rootUrl + "/authorized/search", JSON.stringify(jsonObject)).success(function (response) {
+            console.log("succes") //TODO: get all routes to create table
+        });
     }
 }]);
 
