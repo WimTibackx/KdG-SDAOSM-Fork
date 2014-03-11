@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +32,8 @@ public class TextMessageDaoImpl implements TextMessageDao{
         List<TextMessage> messages = (List<TextMessage>)query.list();
         // Get the routes of the sender and receiver to counter lazyInitializationExceptions
         for(TextMessage m:messages){
-            m.getSender().getRoutes().size();
-            m.getReceiver().getRoutes().size();
+            //m.getSender().getRoutes().size();
+            //m.getReceiver().getRoutes().size();
             toReturn.add(new TextMessageDTO(m.getId(), m.getSender().getUsername(), m.getReceiver().getUsername(), m.getMessageBody(), m.getSubject(), m.isRead()));
         }
         HibernateUtil.closeSession(ses);
@@ -50,8 +49,8 @@ public class TextMessageDaoImpl implements TextMessageDao{
         List<TextMessage> messages = (List<TextMessage>)query.list();
         // Get the routes of the sender and receiver to counter lazyInitializationExceptions
         for(TextMessage m:messages){
-            m.getSender().getRoutes().size();
-            m.getReceiver().getRoutes().size();
+            //m.getSender().getRoutes().size();
+            //m.getReceiver().getRoutes().size();
             toReturn.add(new TextMessageDTO(m.getId(), m.getSender().getUsername(), m.getReceiver().getUsername(), m.getMessageBody(), m.getSubject(), m.isRead()));
         }
         HibernateUtil.closeSession(ses);

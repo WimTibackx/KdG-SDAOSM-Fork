@@ -1,0 +1,92 @@
+#recieveField{
+    height: 580px;
+    color: #ffffff;
+
+}
+
+#sendField{
+    height: 580px;
+    color: #ffffff;
+}
+
+
+#sendField table{
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+#recieveField table{
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+#sendField tr{
+    height: 58px;
+}
+
+#recieveField tr{
+    height: 58px;
+}
+
+
+
+.first {
+    margin-left: 5%;
+    width: 120px;
+    text-align: center;
+}
+
+.second{
+    width: 50%;
+}
+
+.third{
+    width: 30%;
+}
+
+.fourth{
+    width: 10%;
+}
+
+.clickMessage{
+    cursor: pointer;
+}
+
+
+#formPopup {
+    position: relative;
+    margin: 100px auto;
+    width: 500px;
+    /*    height: 500px; */
+    background-color: lightgray;
+}
+
+.messageHead {
+    font-size: 2em;
+    color: white;
+    border-bottom: solid 1px gray;
+    padding: 1em 0em 0em 0em;
+    margin-right: 0.5em;
+}
+
+.replyIcon{
+    height: 40px;
+    width: 40px;
+}
+
+.newMessage{
+    border-bottom: 1px solid #98a3a6;
+}
+
+.newMessage input{
+    background: transparent;
+    font-family:monospace;
+    font-size:12px;
+}
+
+textarea{
+    margin-left: 1%;
+}
+
+
+

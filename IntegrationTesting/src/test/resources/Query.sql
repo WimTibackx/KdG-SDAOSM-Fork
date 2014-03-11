@@ -158,6 +158,40 @@ INSERT INTO `t_route` (`id`, `begin_date`, `capacity`, `end_date`, `repeating`, 
 	(6, _binary 0xACED0005737200136F72672E746872656574656E2E62702E536572955D84BA1B2248B20C00007870770904000007DE0A0308E678, 4, _binary 0xACED0005737200136F72672E746872656574656E2E62702E536572955D84BA1B2248B20C00007870770804000007DE0A03EE78, 1, 11, 14, 14),
 	(7, _binary 0xACED0005737200136F72672E746872656574656E2E62702E536572955D84BA1B2248B20C00007870770904000007DE0A0308E678, 4, _binary 0xACED0005737200136F72672E746872656574656E2E62702E536572955D84BA1B2248B20C00007870770804000007DE0A03EE78, 1, 11, 15, 15);
 
+DROP TABLE IF EXISTS `t_textmessage`;
+CREATE TABLE IF NOT EXISTS `t_textmessage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isRead` tinyint(1) DEFAULT NULL,
+  `messageBody` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `receiverId` int(11) DEFAULT NULL,
+  `senderId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_5rllkdv99lk3ycq3wbxjrlja4` (`receiverId`),
+  KEY `FK_avorx6t4o1evct1qsx12k12dq` (`senderId`),
+  CONSTRAINT `FK_avorx6t4o1evct1qsx12k12dq` FOREIGN KEY (`senderId`) REFERENCES `t_user` (`id`),
+  CONSTRAINT `FK_5rllkdv99lk3ycq3wbxjrlja4` FOREIGN KEY (`receiverId`) REFERENCES `t_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+DELETE FROM `t_textmessage`;
+INSERT INTO `t_textmessage` (`id`, `isRead`, `messageBody`, `subject`, `receiverId`, `senderId`) VALUES
+	(1, 0, 'New message body1', 'New message header1', 10, 9),
+	(2, 0, 'New message body2', 'New message header2', 10, 9),
+	(3, 0, 'New message body3', 'New message header3', 10, 9),
+	(4, 0, 'New message body4', 'New message header4', 10, 9),
+	(5, 0, 'New message body5', 'New message header5', 10, 9),
+	(6, 0, 'New message body6', 'New message header6', 10, 9),
+	(7, 0, 'New message body7', 'New message header7', 10, 9),
+	(8, 0, 'New message body8', 'New message header8', 10, 9),
+	(9, 0, 'New message body9', 'New message header9', 10, 9),
+	(10, 0, 'New message body10', 'New message header10', 10, 9),
+	(11, 0, 'New message body11', 'New message header11', 10, 9),
+	(12, 0, 'New message body12', 'New message header12', 10, 9),
+	(13, 0, 'New message body13', 'New message header13', 10, 9),
+	(14, 0, 'New message body14', 'New message header14', 10, 9),
+	(15, 0, 'New message body15', 'New message header15', 10, 9),
+	(16, 0, 'New message body16', 'New message header16', 10, 9),
+	(20, 0, 'New message body TWO', 'New message header TWO', 10, 9);
 
 DROP TABLE IF EXISTS `t_session`;
 CREATE TABLE IF NOT EXISTS `t_session` (

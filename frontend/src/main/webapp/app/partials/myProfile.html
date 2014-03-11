@@ -1,50 +1,35 @@
 <script src="js/controllers/myProfileCtrl.js"></script>
 <section id="inline" ng-controller="myProfileCtrl">
-    <section id="infoprofile">
-        <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}> ({{username}})
-            <section id="tabsMyProfile">
-                <div class="tab" ng-click="tabRoutesClick()">Routes</div>
-                <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
-                <div class="tab" ng-click="tabCarsClick()">Auto's</div>
-            </section>
-        </section>
-        <div id="blockLeft">
-            <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
-            <section id="infoUser">
-                <ul>
-                    <li class="info">
-                        {{dateBirth}}
-                    </li>
-                    <li class="info">{{smoker}}</li>
-                </ul>
+<section id="infoprofile">
+<section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}>
+    ({{username}})
+    <section id="tabsMyProfile">
+        <div class="tab" ng-click="tabRoutesClick()">Routes</div>
+        <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
+        <div class="tab" ng-click="tabCarsClick()">Auto's</div>
+    </section>
+</section>
+<div id="blockLeft">
+    <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
+    <section id="infoUser">
+        <ul>
+            <li class="info">
+                {{dateBirth}}
+            </li>
+            <li class="info">{{smoker}}</li>
+        </ul>
 
-            </section>
-            <a name="changePassword" class="noUnderline" href="http://localhost:8080/frontend/app/index.html#/changePassword"><section class="addTextInfoProfile"><img class="changePasswordIcon" src="../app/img/profilePage/editPencil.png"/>Verander wachtwoord
-            </section></a>
-        </div>
+    </section>
+    <a name="changePassword" class="noUnderline" href="http://localhost:8080/frontend/app/index.html#/changePassword">
+        <section class="addTextInfoProfile"><img class="changePasswordIcon"
+                                                 src="../app/img/profilePage/editPencil.png"/>Verander wachtwoord
+        </section>
+    </a>
+</div>
 
 <!--div id="carsBlock">
     <table id="carsTable">
-        <tr class="tableTitles">
-            <td>
 
-            </td>
-            <td>
-                Type
-            </td>
-            <td>
-                Consumption
-            </td>
-            <td>
-
-<<<<<<< Updated upstream
-                    <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)" src="../app/img/profilePage/removeCross.png"></td>
-                </tr>
-            </table>
-        </ul>
-=======
-            </td>
-        </tr>
         <tr ng-repeat="car in cars">
             <td><img id="carImage" alt="{{car.brand}}" ng-src="../app/img/avatar.JPG"/></td>
             <td>{{car.brand}} {{car.type}}</td>

@@ -9,6 +9,7 @@
     <script src="lib/angular/angular-animate.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
     <script src="lib/angular/angular-route.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="lib/angularui-bootstrap/ui-bootstrap-custom-0.10.0.js"></script>
@@ -67,15 +68,24 @@
             type="text/css"
             />
     <link rel="stylesheet" href="css/addCar.css" />
+
+    <link rel="stylesheet" href="css/inbox.css" />
 </head>
 <body>
 <div id='cssmenu'>
     <ul>
         <li id="MyProfileTab" class='active'><a href='index.html'><span>Mijn profiel</span></a></li>
+
         <li id="SearchTab"><a href='#/search'><span>Zoek carpoolers</span></a></li>
+
         <li class='last'><a href='#' onclick="clickLogout()"><span>Logout</span></a></li>
         <li class='last'><a href='#'><span>Contact</span></a></li>
         <li class='last'><a href='#'><span>About</span></a></li>
+        <li class="last">
+            <a href="http://localhost:8080/frontend/app/index.html#/inbox">
+                <img class="addIcon" src="../app/img/mailIco.png"/>
+            </a>
+        </li>
     </ul>
 </div>
 
