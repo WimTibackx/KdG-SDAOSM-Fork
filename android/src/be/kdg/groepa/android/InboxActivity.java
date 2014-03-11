@@ -2,39 +2,37 @@ package be.kdg.groepa.android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import be.kdg.groepa.model.TextMessage;
+import android.widget.*;
+import be.kdg.groepa.android.dto.TextMessageDTO;
+import be.kdg.groepa.android.task.SetMessageReadTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Created by Tim on 27/02/14.
+ */
 public class InboxActivity extends Activity implements AsyncResponse {
 
     /**
      * Called when the activity is first created.
      */
     private static boolean received = true;
-    private List<TextMessage> sentMessages;
-    private List<TextMessage> receivedMessagesRead;
-    private List<TextMessage> receivedMessagesUnRead;
+    private List<TextMessageDTO> sentMessages;
+    private List<TextMessageDTO> receivedMessagesRead;
+    private List<TextMessageDTO> receivedMessagesUnRead;
     private ListView messagesListViewRead;
     private ListView messagesListViewUnRead;
-    private static ArrayAdapter<TextMessage> adapterRead;
-    private static ArrayAdapter<TextMessage> adapterUnread;
-    private static ArrayAdapter<TextMessage> adapterSent;
+    private static ArrayAdapter<TextMessageDTO> adapterRead;
+    private static ArrayAdapter<TextMessageDTO> adapterUnread;
+    private static ArrayAdapter<TextMessageDTO> adapterSent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("CONSOLE: EXECUTING INBOX ONCREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inbox);
         // The messages come from the main page, where the messages were already loaded. This is to improve performance.
@@ -54,7 +52,7 @@ public class InboxActivity extends Activity implements AsyncResponse {
             for (int i = 0; i < sentMessagesJson.length(); i++) {
                 try {
                     JSONObject obj = new JSONObject(sentMessagesJson.get(i).toString());
-                    sentMessages.add(new TextMessage(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
+                    sentMessages.add(new TextMessageDTO(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -66,9 +64,9 @@ public class InboxActivity extends Activity implements AsyncResponse {
                 try {
                     JSONObject obj = new JSONObject(receivedMessagesJson.get(i).toString());
                     if(obj.getBoolean("read")){
-                        receivedMessagesRead.add(new TextMessage(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
+                        receivedMessagesRead.add(new TextMessageDTO(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
                     } else {
-                        receivedMessagesUnRead.add(new TextMessage(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
+                        receivedMessagesUnRead.add(new TextMessageDTO(obj.getInt("id"), obj.getString("senderUsername"), obj.getString("receiverUsername"), obj.getString("messageBody"), obj.getString("messageSubject"), obj.getBoolean("read")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -76,8 +74,8 @@ public class InboxActivity extends Activity implements AsyncResponse {
             }
         }
         // Create the listviews & configure them
-        this.messagesListViewRead = (ListView) findViewById(R.id.inboxViewRead);
-        this.messagesListViewUnRead = (ListView) findViewById(R.id.inboxViewUnread);
+        this.messagesListViewRead = (ListView) findViewById(R.id.lvInboxViewRead);
+        this.messagesListViewUnRead = (ListView) findViewById(R.id.lvInboxViewUnread);
         adapterRead = new ArrayAdapter<>(this, R.layout.textmessagetextview, receivedMessagesRead);
         adapterUnread = new ArrayAdapter<>(this, R.layout.textmessagetextview, receivedMessagesUnRead);
         messagesListViewRead.setAdapter(adapterRead);
@@ -87,7 +85,7 @@ public class InboxActivity extends Activity implements AsyncResponse {
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextMessage msg = (TextMessage)adapterView.getAdapter().getItem(i);
+                TextMessageDTO msg = (TextMessageDTO)adapterView.getAdapter().getItem(i);
                 Intent goToMyActivity = new Intent(getApplicationContext(), MessageDetailActivity.class);
                 Bundle b = new Bundle();
                 b.putString("senderUsername", msg.getSenderUsername());
@@ -116,9 +114,10 @@ public class InboxActivity extends Activity implements AsyncResponse {
     }
 
     public void changeInboxMode(View view){
-        TextView viewRead = (TextView)findViewById(R.id.readMessagesTextview);
-        TextView viewUnread = (TextView)findViewById(R.id.unreadMessagesTextview);
-        ListView listViewRead = (ListView)findViewById(R.id.inboxViewRead);
+        TextView viewRead = (TextView)findViewById(R.id.tvReadMessagesTextview);
+        TextView viewUnread = (TextView)findViewById(R.id.tvUnreadMessagesTextview);
+        ListView listViewRead = (ListView)findViewById(R.id.lvInboxViewRead);
+        // Switch to inbox
         if(!received){
             viewUnread.setText(R.string.UnreadMessages);
             adapterUnread = new ArrayAdapter<>(this, R.layout.textmessagetextview, receivedMessagesUnRead);
@@ -127,6 +126,7 @@ public class InboxActivity extends Activity implements AsyncResponse {
             viewRead.setVisibility(View.VISIBLE);
 
             received = true;
+        // Switch to sent messages
         } else {
             // On switching to sent messages, we'll use the unread listview to display the sent messages and hide the received messages listview.
             // On changing back to received messages, set everything back to what it was.

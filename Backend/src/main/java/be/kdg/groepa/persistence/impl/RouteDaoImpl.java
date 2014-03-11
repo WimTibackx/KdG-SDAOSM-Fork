@@ -134,7 +134,6 @@ public class RouteDaoImpl implements RouteDao {
         ses.saveOrUpdate(p);
         HibernateUtil.closeSession(ses);
     }
-
     /*
     @Override
     public void addWeekdayRouteWithPlaceTimes(WeekdayRoute wr, List<PlaceTime> ps)

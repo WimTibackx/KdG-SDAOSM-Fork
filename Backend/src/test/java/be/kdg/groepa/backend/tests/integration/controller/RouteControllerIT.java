@@ -4,9 +4,6 @@ import be.kdg.groepa.TestUtil;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
-import net.minidev.json.JSONArray;
-import org.json.simple.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -23,7 +19,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.LocalDate;
 
 import javax.servlet.http.Cookie;
-import java.util.HashMap;
 
 /**
  * Created by delltvgateway on 2/18/14.

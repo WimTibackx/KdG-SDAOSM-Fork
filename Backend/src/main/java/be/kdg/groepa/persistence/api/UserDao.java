@@ -43,4 +43,6 @@ public interface UserDao {
     public void updateUser(User user);
 
     List<Route> getRoutesFromUser(String testUsername);
+
+    public void setUserAndroidId(String username, String id);
 }

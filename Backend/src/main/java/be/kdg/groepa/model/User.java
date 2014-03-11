@@ -56,6 +56,15 @@ public class User {
     @Column(name="avatarURL", nullable = true)
     private String avatarURL;
 
+    @Column(name="androidId", length = 1023)
+    private String androidId;
+
+    @OneToMany(mappedBy="receiver")
+    private List<TextMessage> inbox;
+
+    @OneToMany(mappedBy="sender")
+    private List<TextMessage> outbox;
+
     public User(){}
 
     public User(String name, Gender gender, boolean smoker, String password, LocalDate dateofBirth, String username) {
@@ -132,6 +141,14 @@ public class User {
         this.routes.add(r);
     }
 
+    public void setAndroidId(String androidId) {
+        this.androidId = androidId;
+    }
+
+    public String getAndroidId() {
+        return androidId;
+    }
+
     public enum Gender {
         MALE,
         FEMALE,
@@ -177,5 +194,13 @@ public class User {
 
     public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
+    }
+
+    public List<TextMessage> getInbox() {
+        return inbox;
+    }
+
+    public List<TextMessage> getOutbox() {
+        return outbox;
     }
 }

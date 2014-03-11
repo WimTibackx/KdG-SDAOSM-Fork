@@ -20,4 +20,6 @@
     <string name="ViewUpcomingTrajects">View upcoming rides.</string>
     <string name="uptLoading">Your upcoming trajects are loading, please wait.</string>
     <string name="uptNoneFound">No upcoming routes were found.</string>
+    <string name="SendMessageToPassengers">Message passengers</string>
+    <string name="ConfirmRide">Confirm a ride of this route</string>
 </resources>

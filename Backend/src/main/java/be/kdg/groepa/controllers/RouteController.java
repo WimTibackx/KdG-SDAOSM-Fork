@@ -64,7 +64,6 @@ public class RouteController extends BaseController {
                 user = session.getUser();
             }
         }
-        // (boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end)
         car = (int) dataOb.get("car");
         freeSpots = (String) dataOb.get("freeSpots");
         repeating = (boolean) dataOb.get("repeating");

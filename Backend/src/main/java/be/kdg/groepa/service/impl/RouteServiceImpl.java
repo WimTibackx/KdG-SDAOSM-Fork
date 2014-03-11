@@ -1,6 +1,5 @@
 package be.kdg.groepa.service.impl;
 
-import be.kdg.groepa.helpers.CostManager;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -8,8 +7,6 @@ import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by Pieter-Jan on 18-2-14.
