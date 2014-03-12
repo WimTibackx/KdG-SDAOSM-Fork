@@ -1,12 +1,10 @@
 package be.kdg.groepa.backend.tests.integration.controller;
 
 import be.kdg.groepa.TestUtil;
-import be.kdg.groepa.model.SessionObject;
-import be.kdg.groepa.model.User;
+import be.kdg.groepa.model.*;
+import be.kdg.groepa.service.api.CarService;
+import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.UserService;
-import net.minidev.json.JSONArray;
-import org.json.simple.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,15 +13,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
 
+import javax.ejb.Local;
 import javax.servlet.http.Cookie;
-import java.util.HashMap;
 
 /**
  * Created by delltvgateway on 2/18/14.
@@ -44,6 +42,14 @@ public class RouteControllerIT {
 
     private Cookie cookie;
 
+    @Autowired
+    private CarService carService;
+
+    @Autowired
+    private RouteService routeService;
+
+    private int carId;
+
     @Before
     public void init() throws Exception {
         String username = "username@route.controller.it.example.com";
@@ -51,6 +57,9 @@ public class RouteControllerIT {
         if (!init) {
             User user = new User("TestUser", User.Gender.FEMALE, false, password, LocalDate.of(1993, 1, 1), username);
             this.userService.addUser(user);
+            Car car = new Car("Ford", "Fiesta",8.1, Car.FuelType.DIESEL);
+            carService.addCar(username, car);
+            this.carId = car.getCarId();
         }
         this.userService.checkLogin(username, password);
         SessionObject session = this.userService.getUserSession(username);
@@ -67,12 +76,12 @@ public class RouteControllerIT {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/authorized/route/add")
             .cookie(this.cookie)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content("{ \"car\": 1, \"freeSpots\": \"3\" }"))
+            .content("{ \"car\": "+this.carId+", \"freeSpots\": \"3\" }"))
             .andExpect(MockMvcResultMatchers.jsonPath("error").value("ParseError"))
             .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    /*
+
     @Test
     public void addSuccessfulData() throws Exception {
 
@@ -82,7 +91,51 @@ public class RouteControllerIT {
             .cookie(this.cookie)
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(data))
-            .andExpect(MockMvcResultMatchers.jsonPath("test").value("foobar"))
+            .andExpect(MockMvcResultMatchers.jsonPath("status").value("ok"))
             .andExpect(MockMvcResultMatchers.status().isOk());
-    } */
+    }
+
+    @Test
+    public void requestTraj() throws Exception {
+        User userA = new User("Benjamin Verdin", User.Gender.MALE, false, "Password1", LocalDate.of(1975,07,29), "benjamin.verdin1@traj.example.com");
+        userService.addUser(userA);
+        User userB = new User("Jeanne Wijffels", User.Gender.FEMALE, false, "Password1", LocalDate.of(1956,07,10), "jeanne.wijffels1@traj.example.com");
+        userService.addUser(userB);
+        Car carA = new Car("Ford", "Fiesta", 8.1, Car.FuelType.DIESEL);
+        carService.addCar("benjamin.verdin1@traj.example.com",carA);
+        Route route = new Route(false, 2, LocalDate.now().plusDays(2), LocalDate.now().plusDays(2), userA, carA);
+        Place placeA = new Place("N14 163-193, 2320 Hoogstraten, Belgium", 51.400110, 4.760710);
+        Place placeB = new Place("N115 2-30, 2960 Brecht, Belgium", 51.351255, 4.641555);
+        Place placeC = new Place("Luitenant Lippenslaan 55, 2140 Borgerhout, Belgium", 51.208078, 4.442945);
+        PlaceTime ptA = new PlaceTime(LocalTime.of(6, 45),placeA,route);
+        PlaceTime ptB = new PlaceTime(LocalTime.of(7,3), placeB, route);
+        PlaceTime ptC = new PlaceTime(LocalTime.of(7,17), placeC, route);
+        routeService.addRoute(route);
+
+        Route routeReloaded = routeService.getRoutes(userService.getUser("benjamin.verdin1@traj.example.com")).get(0);
+        int pickupId=-1, dropoffId = -1;
+        for (PlaceTime pt : routeReloaded.getPlaceTimes()) {
+            if (pt.getPlace().getName().equals("N14 163-193, 2320 Hoogstraten, Belgium")) {
+                pickupId = pt.getPlacetimeId();
+            }
+            if (pt.getPlace().getName().equals("Luitenant Lippenslaan 55, 2140 Borgerhout, Belgium")) {
+                dropoffId = pt.getPlacetimeId();
+            }
+        }
+
+        this.userService.checkLogin("jeanne.wijffels1@traj.example.com", "Password1");
+        SessionObject session = this.userService.getUserSession("jeanne.wijffels1@traj.example.com");
+        Cookie cookie = new Cookie("Token", session.getSessionToken());
+        cookie.setPath("/");
+        //Set max age of cookie to 1 day
+        cookie.setMaxAge(60 * 60 * 24);
+        String data = "{\"pickup\": "+pickupId+", \"dropoff\": "+dropoffId+"}";
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/authorized/route/"+routeReloaded.getId()+"/request-traject")
+                .cookie(this.cookie)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(data))
+                .andExpect(MockMvcResultMatchers.jsonPath("status").value("ok"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

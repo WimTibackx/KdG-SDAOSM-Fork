@@ -1,0 +1,7 @@
+#resetPwdForm, #changePwdForm{
+    margin-left: 1em;
+    margin-top: 1em;
+}
+#usernameEmail{
+    width:46%;
+}

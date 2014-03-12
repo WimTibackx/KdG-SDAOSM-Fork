@@ -15,6 +15,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,8 +50,9 @@ public class RouteController extends BaseController {
     @RequestMapping(value="/add", method= RequestMethod.POST)
     public @ResponseBody String addRoute(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject dataOb = new JSONObject(data);
+        AddRouteDTO dto;
         try {
-            AddRouteDTO dto = new AddRouteDTO(new JSONObject(data));
+            dto = new AddRouteDTO(new JSONObject(data));
         } catch (MissingDataException e) {
             JSONObject missingDataJson = new JSONObject();
             missingDataJson.put("error","ParseError");
@@ -52,8 +60,10 @@ public class RouteController extends BaseController {
             return missingDataJson.toString();
         }
 
+        routeService.addRouteByAddRouteDTO(dto, super.getCurrentUser(request));
+
         JSONObject respJson = new JSONObject();
-        respJson.put("test","foobar");
+        respJson.put("status","ok");
         this.updateCookie(request, response);
         return respJson.toString();
     }
@@ -71,8 +81,8 @@ public class RouteController extends BaseController {
         for (Route r : routes) {
             JSONObject jsonR = new JSONObject();
             jsonR.put("id",r.getId());
-            jsonR.put("startDate",r.getBeginDate().toLocalDate().toString());
-            jsonR.put("endDate",r.getEndDate().toLocalDate().toString());
+            jsonR.put("startDate",r.getBeginDate().toString());
+            jsonR.put("endDate",r.getEndDate().toString());
             jsonR.put("repeating",r.isRepeating());
             returndata.add(jsonR);
         }
@@ -101,7 +111,7 @@ public class RouteController extends BaseController {
             return super.respondSimpleAuthorized("error","TrajectNotEnoughCapacity",request, response);
         } catch (PlaceTimesInWrongSequenceException e) {
             Logger.getLogger(RouteController.class).error(e.getMessage());
-            return super.respondSimpleAuthorized("error","PlaceTimesInWeongSequence",request, response);
+            return super.respondSimpleAuthorized("error","PlaceTimesInWrongSequence",request, response);
         } catch (PlaceTimesOfDifferentWeekdayRoutesException e) {
             Logger.getLogger(RouteController.class).error(e.getMessage());
             return super.respondSimpleAuthorized("error","PlaceTimesOfDifferentWeekdayRoutes",request, response);

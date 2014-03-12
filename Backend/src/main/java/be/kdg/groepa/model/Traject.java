@@ -96,4 +96,16 @@ public class Traject {
     public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
         this.weekdayRoute = weekdayRoute;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean isAccepted) {
+        this.isAccepted = isAccepted;
+    }
 }

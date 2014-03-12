@@ -41,6 +41,8 @@
                     </table>
                     <span class="error" ng-show="error.bothrequired">U moet zowel een ophaalpunt als een afzetpunt selecteren.</span>
                     <span class="error" ng-show="error.sequence">Het afzetpunt moet na het ophaalpunt liggen.</span>
+                    <span class="error" ng-show="error.capacity">Helaas is er op het traject dat u koos niet voldoende capaciteit meer.</span>
+                    <span class="error" ng-show="error.unknown">Er trad een fout op. Probeer later opnieuw.</span>
                     <p><input type="submit" ng-click="requestTraject()" name="submit" value="Traject aanvragen" /></p>
                 </div>
                 <div class="rightpane">

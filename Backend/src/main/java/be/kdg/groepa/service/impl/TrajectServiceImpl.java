@@ -1,16 +1,11 @@
 package be.kdg.groepa.service.impl;
 
 import be.kdg.groepa.dtos.UpcomingTrajectDTO;
-import be.kdg.groepa.exceptions.PlaceTimesInWrongSequenceException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentRoutesException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentWeekdayRoutesException;
-import be.kdg.groepa.exceptions.TrajectNotEnoughCapacityException;
-import be.kdg.groepa.model.PlaceTime;
-import be.kdg.groepa.model.Route;
-import be.kdg.groepa.model.Traject;
-import be.kdg.groepa.model.User;
+import be.kdg.groepa.exceptions.*;
+import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.service.api.RouteService;
+import be.kdg.groepa.service.api.TextMessageService;
 import be.kdg.groepa.service.api.TrajectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +24,8 @@ public class TrajectServiceImpl implements TrajectService {
     private TrajectDao trajectDao;
     @Autowired
     private RouteService routeService;
+    @Autowired
+    private TextMessageService textMessageService;
 
     @Autowired
     @Override
@@ -63,9 +60,7 @@ public class TrajectServiceImpl implements TrajectService {
     @Override
     public void addNewTrajectToRoute(PlaceTime previousPlaceTime1, PlaceTime newPlaceTime1, PlaceTime previousPlaceTime2, PlaceTime newPlaceTime2, User user) {
         Traject resultTraject = new Traject(newPlaceTime1, newPlaceTime2, previousPlaceTime1.getRoute(), user);
-        newPlaceTime1.addTraject(resultTraject);
         resultTraject.setRoute(previousPlaceTime1.getRoute());
-            newPlaceTime2.addTraject(resultTraject);
         trajectDao.addTraject(resultTraject);
         insertNewRoutePoint(previousPlaceTime1, newPlaceTime1);
         insertNewRoutePoint(previousPlaceTime2, newPlaceTime2);
@@ -78,10 +73,10 @@ public class TrajectServiceImpl implements TrajectService {
 
     @Override
     public LocalDate getNextDayOfTraject(Traject traject) {
-        if (traject.getRoute().getEndDate().isBefore(LocalDate.now().atStartOfDay())) return null;
+        if (traject.getRoute().getEndDate().isBefore(LocalDate.now())) return null;
         DayOfWeek dow = DayOfWeek.of(traject.getPickup().getWeekdayRoute().getDay()+1);
         LocalDate nextDay = LocalDate.now().with(TemporalAdjusters.nextOrSame(dow));
-        if (nextDay.isAfter(traject.getRoute().getEndDate().toLocalDate())) return null;
+        if (nextDay.isAfter(traject.getRoute().getEndDate())) return null;
         return nextDay;
     }
 
@@ -120,6 +115,7 @@ public class TrajectServiceImpl implements TrajectService {
 
     @Override
     public boolean requestTraject(User user, Route route, int idPickup, int idDropoff) throws PlaceTimesOfDifferentRoutesException, PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, TrajectNotEnoughCapacityException {
+        final String msgBody="%s heeft een traject aangevraagd van %s tot %s. U kan dit via uw profiel accepteren of weigeren.";
         PlaceTime ptPickup = routeService.getPlaceTimeById(idPickup);
         PlaceTime ptDropoff = routeService.getPlaceTimeById(idDropoff);
         if (ptPickup.getRoute().getId() != ptDropoff.getRoute().getId() || ptPickup.getRoute().getId() != route.getId()) {
@@ -137,7 +133,39 @@ public class TrajectServiceImpl implements TrajectService {
 
         Traject t = new Traject(ptPickup, ptDropoff, route, user);
         trajectDao.addTraject(t);
+
+        TextMessage msg = new TextMessage(route.getChauffeur(),user,"[Automatisch bericht] Traject aangevraagd.",String.format(msgBody, user.getName(), ptPickup.getPlace().getName(), ptDropoff.getPlace().getName()));
+        textMessageService.addNewMessage(msg);
         return true;
+    }
+
+    @Override
+    public void acceptTraject(int trajectId, User currentUser) throws UnauthorizedException {
+        final String msgBody="U vroeg een traject aan van %s tot %s. %s accepteerde uw aanvraag.";
+        Traject t = this.getTrajectById(trajectId);
+        User chauffeur = trajectDao.getChauffeurByTraject(t);
+        if (!chauffeur.getId().equals(currentUser.getId())) {
+            throw new UnauthorizedException();
+        }
+
+        t.setAccepted(true);
+        trajectDao.updateTraject(t);
+        TextMessage msg = new TextMessage(chauffeur,t.getUser(),"[Automatisch bericht] Trajectaanvraag geaccepteerd.",String.format(msgBody, t.getPickup().getPlace().getName(), t.getDropoff().getPlace().getName(), chauffeur.getName()));
+        textMessageService.addNewMessage(msg);
+    }
+
+    @Override
+    public void rejectTraject(int trajectId, User currentUser) throws UnauthorizedException {
+        final String msgBody="U vroeg een traject aan van %s tot %s. Helaas werd uw aanvraag geweigerd.";
+        Traject t = this.getTrajectById(trajectId);
+        User chauffeur = trajectDao.getChauffeurByTraject(t);
+        if (!chauffeur.getId().equals(currentUser.getId())) {
+            throw new UnauthorizedException();
+        }
+
+        trajectDao.removeTraject(t);
+        TextMessage msg = new TextMessage(chauffeur,t.getUser(),"[Automatisch bericht] Trajectaanvraag geweigerd.",String.format(msgBody, t.getPickup().getPlace().getName(), t.getDropoff().getPlace().getName()));
+        textMessageService.addNewMessage(msg);
     }
 
     /**

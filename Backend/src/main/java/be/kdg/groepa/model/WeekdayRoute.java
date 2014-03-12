@@ -46,20 +46,14 @@ public class WeekdayRoute {
 
     public WeekdayRoute() {}
 
-    public WeekdayRoute(int day)
-    {
-        this.day = day;
-    }
-
     public WeekdayRoute(Route route, int day) {
         this.route = route;
         this.day = day;
     }
 
-    public void addPlaceTime(PlaceTime pt)
+    protected void addPlaceTime(PlaceTime pt)
     {
         this.placeTimes.add(pt);
-        pt.setWeekdayRoute(this);
     }
 
     public void setRoute(Route r)

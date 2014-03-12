@@ -70,8 +70,8 @@ public class GetRouteDTO {
 
     public static GetRouteDTO createFromModel(Route route,List<WeekdayRoute> wdrs) {
         GetRouteDTO dto = new GetRouteDTO();
-        dto.setBeginDate(route.getBeginDate().toLocalDate());
-        dto.setEndDate(route.getEndDate().toLocalDate());
+        dto.setBeginDate(route.getBeginDate());
+        dto.setEndDate(route.getEndDate());
         dto.setChauffeur(UserDTO.createBasic(route.getChauffeur()));
         dto.setCar(new CarDTO(route.getCar()));
 

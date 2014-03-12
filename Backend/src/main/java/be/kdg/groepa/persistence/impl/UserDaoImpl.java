@@ -35,7 +35,6 @@ public class UserDaoImpl implements UserDao {
     public User getUser(Integer id){
         Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("from User u where u.id = :id");
-        //Query query = HibernateUtil.getSessionFactory().openSession().createQuery("from User u where u.username = :username");
         query.setInteger("id", id);
         User user = (User)query.uniqueResult();
         HibernateUtil.closeSession(ses);
@@ -87,8 +86,6 @@ public class UserDaoImpl implements UserDao {
     public void addUser(User u)
     {
         HibernateUtil.addObject(u);
-        /*if (users.contains(u.getUsername())) throw new UserExistException("User already exists");
-        users.put(u.getUsername(), u);*/
     }
 
     @Override
@@ -179,5 +176,14 @@ public class UserDaoImpl implements UserDao {
         Query query = ses.createQuery("from Route r where r.chauffeur.username = :username");
         query.setString("username",username);
         return query.list();
+    }
+
+    @Override
+    public void setUserAndroidId(String username, String id) {
+        Session ses = HibernateUtil.openSession();
+        User u = getUser(username);
+        u.setAndroidId(id);
+        ses.saveOrUpdate(u);
+        HibernateUtil.closeSession(ses);
     }
 }

@@ -1,18 +1,17 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.UpcomingTrajectDTO;
+import be.kdg.groepa.exceptions.UnauthorizedException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.threeten.bp.LocalTime;
 
 import javax.servlet.http.Cookie;
@@ -167,13 +166,35 @@ public class TrajectController extends BaseController{
             JSONObject jsonR = new JSONObject();
             jsonR.put("id",t.getRoute().getId());
             JSONObject jsonC = new JSONObject();
-            jsonC.put("id",t.getRoute().getChauffeur().getId());
-            jsonC.put("name",t.getRoute().getChauffeur().getName());
-            jsonC.put("avatarURL",t.getRoute().getChauffeur().getAvatarURL());
-            jsonR.put("chauffeur",jsonC);
+            jsonC.put("id", t.getUser().getId());
+            jsonC.put("name",t.getUser().getName());
+            jsonC.put("avatarURL",t.getUser().getAvatarURL());
+            jsonR.put("requester",jsonC);
             jsonT.put("route",jsonR);
             returndata.add(jsonT);
         }
         return new JSONArray(returndata).toString();
+    }
+
+    @RequestMapping(value="/{id}/accept", method=RequestMethod.POST)
+    public @ResponseBody String acceptTraject(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            trajectService.acceptTraject(id, super.getCurrentUser(request));
+        } catch (UnauthorizedException e) {
+            Logger.getLogger(TrajectController.class).error(e.getMessage(),e);
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/{id}/reject", method=RequestMethod.POST)
+    public @ResponseBody String rejectTraject(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            trajectService.rejectTraject(id, super.getCurrentUser(request));
+        } catch (UnauthorizedException e) {
+            Logger.getLogger(TrajectController.class).error(e.getMessage(),e);
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        return super.respondSimpleAuthorized("status", "ok", request, response);
     }
 }

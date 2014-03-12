@@ -2,7 +2,7 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/carpoolCard"
             android:columnCount="12" android:columnOrderPreserved="false"
             android:layout_width="fill_parent" android:layout_height="wrap_content" android:rowCount="5"
-            android:padding="5dp" android:onClick="clickUptCard">
+            android:padding="5dp" android:onClick="clickUptCard" >
 
     <TextView android:text="Maandag 03 Maart" android:layout_row="0" android:layout_column="0"
               android:layout_columnSpan="11"

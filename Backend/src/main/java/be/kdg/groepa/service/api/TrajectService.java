@@ -1,10 +1,7 @@
 package be.kdg.groepa.service.api;
 
 import be.kdg.groepa.dtos.UpcomingTrajectDTO;
-import be.kdg.groepa.exceptions.PlaceTimesInWrongSequenceException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentRoutesException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentWeekdayRoutesException;
-import be.kdg.groepa.exceptions.TrajectNotEnoughCapacityException;
+import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
@@ -41,4 +38,6 @@ public interface TrajectService {
     public List<Traject> getRequestedOnMyRoutes(User user);
 
     public boolean requestTraject(User user, Route route, int idPickup, int idDropoff) throws PlaceTimesOfDifferentRoutesException, PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, TrajectNotEnoughCapacityException;
+    public void acceptTraject(int trajectId, User currentUser) throws UnauthorizedException;
+    public void rejectTraject(int trajectId, User currentUser) throws UnauthorizedException;
 }

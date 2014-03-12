@@ -1,32 +1,14 @@
 package be.kdg.groepa.android;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.*;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
+import be.kdg.groepa.android.task.SendMessageTask;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Tim on 27/02/14.
@@ -50,6 +32,12 @@ public class SendMessageActivity extends Activity implements AsyncResponse {
         if (b != null) {
             if (b.containsKey("receiverUsername")) {
                 editReceiverText.setText(b.getString("receiverUsername"));
+            }
+            if(b.containsKey("messageBody")){
+                editBodyText.setText(b.getString("messageBody"));
+            }
+            if(b.containsKey("messageSubject")){
+                editSubjectText.setText(b.getString("messageSubject"));
             }
         }
         SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);

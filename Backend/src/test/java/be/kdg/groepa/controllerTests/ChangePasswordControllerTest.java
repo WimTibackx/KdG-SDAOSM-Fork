@@ -20,6 +20,7 @@ import org.threeten.bp.LocalDate;
 import javax.servlet.http.Cookie;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -42,12 +43,14 @@ public class ChangePasswordControllerTest {
     private String oldPassword = "Password1";
     private static boolean init = false;
     private static Cookie cookie;
+    private String testUsername2 = "username2@cp.test.com";
 
     @Before
     public void init(){
         if(!init){
             try {
                 userService.addUser(new User("username", User.Gender.MALE, false, oldPassword, LocalDate.of(1993, 10, 20), testUsername));
+                userService.addUser(new User("Username 2", User.Gender.FEMALE, false, oldPassword, LocalDate.of(1993, 10, 20), testUsername2));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,5 +109,22 @@ public class ChangePasswordControllerTest {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
                 .andExpect(jsonPath("result", is("UserNotFound")));
+    }
+
+    @Test
+    public void succesResetPassword() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("username", testUsername2);
+        String myString = json.toString();
+        this.userService.checkLogin(testUsername2, "Password1");
+        cookie = new Cookie("Token", userService.getUserSession(testUsername2).getSessionToken());
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(post("/authorized/changepassword/reset")
+                .cookie(cookie)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(myString))
+                .andExpect(jsonPath("newPassword", notNullValue()));
     }
 }

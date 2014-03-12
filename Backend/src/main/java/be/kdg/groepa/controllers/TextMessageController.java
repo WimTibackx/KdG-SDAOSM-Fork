@@ -1,6 +1,7 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.TextMessageDTO;
+import be.kdg.groepa.helpers.AndroidNotificationHelper;
 import be.kdg.groepa.model.TextMessage;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.TextMessageService;
@@ -30,8 +31,9 @@ public class TextMessageController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/send", method= RequestMethod.POST)
-    public @ResponseBody
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    public
+    @ResponseBody
     String addTextMessage(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject myJson = new JSONObject();
         JSONObject dataOb = new JSONObject(data);
@@ -43,23 +45,28 @@ public class TextMessageController extends BaseController{
         message = dataOb.getString("messageBody");
         subject = dataOb.getString("messageSubject");
 
-        User sender = null;
-        User receiver = null;
+        User sender = userService.getUser(senderUsername);
+        User receiver = userService.getUser(receiverUsername);
 
-            sender = userService.getUser(senderUsername);
-            receiver = userService.getUser(receiverUsername);
-        if(receiver == null){
+        if (receiver == null) {
             myJson.put("error", "Receiver not found.");
             return myJson.toString();
         }
 
         TextMessage textMessage = new TextMessage(sender, receiver, subject, message);
 
-        try{
+        try {
             textMessageService.addNewMessage(textMessage);
-        } catch (Exception e){
+        } catch (Exception e) {
             myJson.put("error", "Message not sent: error occured.");
             return myJson.toString();
+        }
+        if(receiver.getAndroidId() != null){
+            try {
+                AndroidNotificationHelper.sendNotificationToDevice(receiver.getAndroidId(), textMessage.getSubject());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         myJson.put("result", "Message succesfully sent.");
         return myJson.toString();
@@ -68,12 +75,11 @@ public class TextMessageController extends BaseController{
     @Transactional
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public @ResponseBody String getMessagesFromUser(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
-        JSONObject myJson = new JSONObject();
-        Gson gson = new Gson();
 
+        JSONObject myJson = new JSONObject();
         User user = userService.getUserById(id);
         if (user == null) {
-            myJson.put("error","UserDoesNotExist");
+            myJson.put("error", "UserDoesNotExist");
             return myJson.toString();
         }
 
@@ -87,10 +93,9 @@ public class TextMessageController extends BaseController{
 
 
         return myJson.toString();
-
     }
 
-    @RequestMapping(value="/read", method= RequestMethod.POST)
+    @RequestMapping(value = "/read", method = RequestMethod.POST)
     public @ResponseBody void setMessageRead(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject dataOb = new JSONObject(data);
         int messageId;

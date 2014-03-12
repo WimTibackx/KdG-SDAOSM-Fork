@@ -12,8 +12,6 @@ public interface RouteDao {
     public void addRepeatingRoute(Route r);
     public void addNonRepeatingRoute(Route r);
     public void addPlace(Place p);
-    public void addPlaceTimeToPlace(PlaceTime pt, Place p);
-    public void addPlaceTimeToRoute(Route r, PlaceTime pt);
     public void addWeekdayRoute(WeekdayRoute wr);
     public void addRide(Ride r);
     public void confirmRide(Route r);
@@ -24,4 +22,5 @@ public interface RouteDao {
     public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId);
     public List<Route> getRoutes(User user);
     public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius);
+    public void addPlaceTime(PlaceTime pt);
 }

@@ -39,40 +39,40 @@ public class PlaceTime {
     @JoinColumn(name="routeId", nullable = false)
     private Route route;
 
-    /*
-     * TODO WE REALLY NEED TO CLEAN UP THESE CONTROLLERS/USAGES...
-     */
+    public PlaceTime() {}
 
     public PlaceTime(LocalTime time, Place place, Route route) {
         this(time, place);
-        this.route = route;
+        this.setRoute(route);
     }
 
     public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute, Route route) {
         this(time, place, weekdayRoute);
-        this.route = route;
+        this.setRoute(route);
     }
 
     public PlaceTime(LocalTime time, Place place) {
         this(time);
-        this.place = place;
+        this.setPlace(place);
     }
 
     public PlaceTime(LocalTime time) {
-        this.time = time;
+        this.setTime(time);
     }
 
     public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute) {
         this(time, place);
-        this.weekdayRoute = weekdayRoute;
+        this.setWeekdayRoute(weekdayRoute);
     }
 
     public void setPlace(Place place) {
         this.place = place;
+        place.addPlaceTime(this);
     }
 
     public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
         this.weekdayRoute = weekdayRoute;
+        weekdayRoute.addPlaceTime(this);
     }
 
     public Place getPlace() {
@@ -85,6 +85,7 @@ public class PlaceTime {
 
     public void setRoute(Route route) {
         this.route = route;
+        route.addPlaceTime(this);
     }
 
     public WeekdayRoute getWeekdayRoute() {
@@ -103,7 +104,15 @@ public class PlaceTime {
         return placetimeId;
     }
 
-    public void addTraject(Traject t) {
+    protected void addTraject(Traject t) {
         trajecten.add(t);
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public List<Traject> getTrajecten() {
+        return trajecten;
     }
 }

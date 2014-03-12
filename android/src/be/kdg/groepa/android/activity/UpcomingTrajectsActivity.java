@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import be.kdg.groepa.android.R;
@@ -24,12 +25,18 @@ import java.util.Observer;
 public class UpcomingTrajectsActivity extends ListActivity implements Observer {
     private List<UpcomingTrajectDto> trajects;
     private UpcomingTrajectsViewAdapter adapter;
+    private View previousView;
+    private Button btnSendMessage;
+    private Button btnConfirmRide;
+    UpcomingTrajectsViewAdapter.UpcomingTrajectCardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcomingtrajects);
         this.adapter = new UpcomingTrajectsViewAdapter((LayoutInflater)super.getSystemService(Context.LAYOUT_INFLATER_SERVICE), super.getApplicationContext());
+        btnSendMessage = (Button) this.findViewById(R.id.login);
+        btnConfirmRide = (Button) this.findViewById(R.id.login);
         super.setListAdapter(this.adapter);
         new UpcomingTrajectsCall(getApplicationContext(), this);
     }
@@ -47,7 +54,22 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer {
     }
 
     public void clickUptCard(View view) {
-        UpcomingTrajectsViewAdapter.UpcomingTrajectCardView card = (UpcomingTrajectsViewAdapter.UpcomingTrajectCardView)view.getTag();
+        System.out.println("CONSOLE: CLICKED ROUTE");
+        // Reset the previous selected card's background.
+        if(previousView != null){
+            previousView.setBackgroundResource(R.color.white);
+        }
+        view.setBackgroundResource(R.color.black);
+        previousView = view;
+        card = (UpcomingTrajectsViewAdapter.UpcomingTrajectCardView)view.getTag();
         Toast.makeText(super.getApplicationContext(), "Clicked route "+card.getTraject().getId(), Toast.LENGTH_LONG).show();
+    }
+
+    public void messagePassengers(){
+
+    }
+
+    public void confirmRide(){
+
     }
 }

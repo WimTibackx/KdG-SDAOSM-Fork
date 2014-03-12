@@ -13,17 +13,6 @@ import java.util.*;
  * Created by delltvgateway on 2/17/14.
  */
 public class AddRouteDTO {
-    static {
-        Map<String, DayOfWeek> days = new HashMap<>();
-        days.put("Ma",DayOfWeek.MONDAY);
-        days.put("Di",DayOfWeek.TUESDAY);
-        days.put("Wo",DayOfWeek.WEDNESDAY);
-        days.put("Do",DayOfWeek.THURSDAY);
-        days.put("Vr",DayOfWeek.FRIDAY);
-        days.put("Za",DayOfWeek.SATURDAY);
-        days.put("Zo",DayOfWeek.SUNDAY);
-    }
-
     private int carId;
     private int freeSpots;
     private boolean repeating;
@@ -32,9 +21,13 @@ public class AddRouteDTO {
     private List<PlaceDTO> places;
     private Map<DayOfWeek,List<LocalTime>> times;
 
-    public AddRouteDTO (JSONObject data) throws MissingDataException {
+    public AddRouteDTO() {
         this.places = new ArrayList<>();
         this.times = new HashMap<>();
+    }
+
+    public AddRouteDTO (JSONObject data) throws MissingDataException {
+        this();
 
         if (!data.has("car")) { throw new MissingDataException("car"); }
         this.carId = data.getInt("car");
@@ -49,9 +42,9 @@ public class AddRouteDTO {
         this.startDate = LocalDate.parse((String)data.get("startDate"));
 
         if (!data.has("route")) { throw new MissingDataException("route"); }
-        JSONArray route = data.getJSONArray("route");
-        for (int i=0; i<route.length(); i++) {
-            this.places.add(new PlaceDTO(route.getJSONObject(i)));
+        JSONArray places = data.getJSONArray("route");
+        for (int i=0; i<places.length(); i++) {
+            this.places.add(new PlaceDTO(places.getJSONObject(i)));
         }
         if (this.places.size() <= 1) { throw new MissingDataException("places"); }
 
@@ -78,7 +71,7 @@ public class AddRouteDTO {
 
                 List<LocalTime> passageTimes = new ArrayList<>();
                 JSONArray jsonTimes = passages.getJSONArray(key);
-                if (jsonTimes.length()!=places.size()) { throw new MissingDataException("time"); }
+                if (jsonTimes.length()!=this.places.size()) { throw new MissingDataException("time"); }
                 for (int j=0; j<jsonTimes.length(); j++) {
                     if (jsonTimes.get(j).toString().equals("0")) { break; }
                     passageTimes.add(LocalTime.parse(jsonTimes.getString(j)));
@@ -93,7 +86,7 @@ public class AddRouteDTO {
             if (!data.has("passages")) { throw new MissingDataException("passages"); }
             JSONArray jsonTimes = data.getJSONArray("passages");
             List<LocalTime> passageTimes = new ArrayList<>();
-            if (jsonTimes.length()!=places.size()) { throw new MissingDataException("time"); }
+            if (jsonTimes.length()!=this.places.size()) { throw new MissingDataException("time"); }
             for (int j=0; j<jsonTimes.length(); j++) {
                 if (jsonTimes.get(j).toString().equals("0")) { break; }
                 passageTimes.add(LocalTime.parse(jsonTimes.getString(j)));
@@ -105,6 +98,7 @@ public class AddRouteDTO {
     }
 
     public AddRouteDTO(int carId, int freeSpots, boolean repeating, LocalDate startDate, LocalDate endDate, List<PlaceDTO> places, Map<DayOfWeek, List<LocalTime>> times) {
+        this();
         this.carId = carId;
         this.freeSpots = freeSpots;
         this.repeating = repeating;
@@ -140,6 +134,34 @@ public class AddRouteDTO {
 
     public Map<DayOfWeek, List<LocalTime>> getTimes() {
         return times;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
+
+    public void setFreeSpots(int freeSpots) {
+        this.freeSpots = freeSpots;
+    }
+
+    public void setRepeating(boolean repeating) {
+        this.repeating = repeating;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void addPlaceDTO(PlaceDTO p) {
+        this.places.add(p);
+    }
+
+    public void addTime(DayOfWeek d, LocalTime... times) {
+        this.times.put(d,Arrays.asList(times));
     }
 
     @Override

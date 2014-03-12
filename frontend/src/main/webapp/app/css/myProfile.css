@@ -29,7 +29,6 @@
 
 .blockRight, .myRoutes {
     border: solid 1px gray;
-    height: 29.1em;
     margin-right: 1em;
     margin-top: 1em;
     width: 19em;
@@ -38,13 +37,13 @@
 
 .blockRight {
     float: right;
-    height: 485px;
+    min-height: 485px;
     padding:1em;
 }
 
 .myRoutes, #trajects {
     width: 50em;
-    height: 485px;
+    min-height: 485px;
     float: left;
     margin-left: 1em;
 }
@@ -145,24 +144,88 @@
 .addTextInfoProfile{
     color: white;
     cursor: pointer;
-    border-top: solid 1px gray;
-    padding: 1em 0;
+    padding: 0.2em 0;
     bottom: 0px;
     width: 100%;
-    margin-top: 83%;
 }
 
 .noUnderline{
     text-decoration: none;
 }
 
-.changePasswordIcon{
+.changePasswordIcon, .resetPasswordIcon{
     height: 15px;
     width: 15px;
     margin-right: 1em;
     margin-left: 0;
 }
-
 .profilemiddle {
     padding:1em;
+}
+#passwordActions{
+    margin-top: 200px;
+    border-top: solid 1px gray;
+}
+
+#profileTrajecten {
+    position: relative;
+    color:#FFFFFF;
+}
+
+#profileTrajecten .loadingoverlay {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#353535;
+    font-size:2rem;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFFFFF;
+    padding:10em;
+}
+#profileTrajecten table img {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(59, 150, 206);
+    background:#FFFFFF;
+}
+#profileTrajecten h4:first-child {
+    margin-top:0;
+}
+
+#profileTrajecten button.positive {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: rgb(53,53,53);
+    padding: 12px 5px 8px;
+    text-align: center;
+    cursor:pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+#profileTrajecten button.negative {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: #aaaaaa;
+    padding: 12px 5px 8px;
+    text-align: center;
+    cursor:pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+#profileTrajecten table td.details {
+    background: url(../img/search/searchIcon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width:30px;
+    background-position:center center;
+}
+#profileTrajecten table tr.nodata {
+    font-style: italic;
+    text-align: center;
 }

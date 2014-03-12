@@ -15,6 +15,8 @@ var points = [];
 var datetimeClicked = false;
 var userClicked = false;
 
+var smoker = false;
+var gender = true;
 carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("searchCtrl test");
 
@@ -24,6 +26,30 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
      var deactivate = document.getElementById("myProfileTab");
      deactivate.setAttribute("class", "");
      */
+
+    $scope.showSearchImage = function () {
+        return(($scope.modelStart != undefined) && ($scope.modelEnd != undefined) && userClicked && datetimeClicked);
+    };
+
+    $scope.selectSmoker = function (s) {
+        smoker = s;
+        console.log(smoker);
+    }
+    $scope.setNoSmokerClass = function () {
+        return !smoker;
+    }
+    $scope.setSmokerClass = function () {
+        return smoker;
+    }
+    $scope.selectGender = function(g){
+        gender = g;
+    }
+    $scope.setMaleClass = function(){
+        return gender;
+    }
+    $scope.setFemaleClass = function(){
+        return !gender;
+    }
 
     var defaultSearches = function () {
         $scope.hideRouteSearch = true;
@@ -238,7 +264,7 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
 
     defaultSearches();
     $scope.hideRouteSearch = false;
-    $scope.hideSearchIcon = true;
+    //$scope.hideSearchIcon = true;
     initializeMap();
 
     $scope.routeSearchClick = function () {
@@ -252,9 +278,9 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
     $scope.timeSearchClick = function () {
         defaultSearches();
         datetimeClicked = true;
-        if (userClicked && markers.length == 2) {
-            $scope.hideSearchIcon = false;
-        }
+        /*if (userClicked && markers.length == 2) {
+         $scope.hideSearchIcon = false;
+         } */
         $scope.hideTimeSearch = false;
         console.log("click time search");
 
@@ -314,9 +340,9 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
     $scope.userSearchClick = function () {
         defaultSearches();
         userClicked = true;
-        if (datetimeClicked && markers.length == 2) {
-            $scope.hideSearchIcon = false;
-        }
+        /*if (datetimeClicked && markers.length == 2) {
+         $scope.hideSearchIcon = false;
+         } */
         $scope.hideUserSearch = false;
         console.log("click user search");
     }
@@ -330,8 +356,28 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
 
         //get results
         //get markers + radius
-        jsonObject.start = markers[0];
-        jsonObject.end = markers[1];
+        var startLat = markers[0].position.d;
+        var startLng = markers[0].position.e;
+        var startTitle = markers[0].title;
+        var endLat = markers[1].position.d;
+        var endLng = markers[1].position.e;
+        var endTitle = markers[1].title;
+        console.log(markers[0]);
+        console.log(markers[1]);
+        console.log(startLat + " " + startLng + " " + startTitle);
+        console.log(endLat + " " + endLng + " " + endTitle);
+
+        //jsonObject.start = markers[0].position.d;
+        //jsonObject.end = "test";
+        jsonObject.start = {};
+        jsonObject.end = {};
+        jsonObject.start.lat = startLat;
+        jsonObject.start.lng = startLng;
+        jsonObject.start.title = startTitle;
+        jsonObject.end.lat = endLat;
+        jsonObject.end.lng = endLng;
+        jsonObject.end.title = endTitle;
+
         var radius = parseInt(document.getElementById("radiusValue").value);
         jsonObject.radius = radius;
         //get date
@@ -348,28 +394,29 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
         jsonObject.radiusHours = radiusH;
         jsonObject.radiusMinutes = radiusM;
         //get smoker
-        var smokers = document.getElementsByName("smoker");
-        var smoker = "";
-        jsonObject.smoker = false;
-        for (var i = 0; i < smokers.length; i++) {
-            if (smokers[i].checked) {
-                smoker = smokers[i].value;
-                if (i == 0) {
-                    jsonObject.smoker = true;
-                }
-            }
-        }
+        jsonObject.smoker = smoker;
+
         //get age
         var minAge = document.getElementById("minAge").value;
         var maxAge = document.getElementById("maxAge").value;
         jsonObject.minAge = minAge;
         jsonObject.maxAge = maxAge;
 
+        //get gender
+        if(gender){
+            jsonObject.gender = "male";
+        }else{
+            jsonObject.gender = "female";
+        }
+
         console.log(jsonObject);
 
-        $http.post(rootUrl + "/authorized/search", JSON.stringify(jsonObject)).success(function (response) {
+        $http.post(rootUrl + "/authorized/search", JSON.stringify(jsonObject)).success(function () {
             console.log("succes") //TODO: get all routes to create table
-        });
+        }).
+            error(function () {
+                console.log("an error occured");
+            });
     }
 }]);
 

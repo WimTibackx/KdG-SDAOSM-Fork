@@ -8,9 +8,7 @@ import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
-import org.json.Cookie;
 import org.json.JSONObject;
-import org.json.simple.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.threeten.bp.LocalDate;
 
-import javax.ejb.Local;
 import javax.servlet.http.*;
-
-import org.json.*;
-
 
 /**
  * Created by Tim on 18/02/14.

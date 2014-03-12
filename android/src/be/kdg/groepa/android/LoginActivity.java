@@ -6,11 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import be.kdg.groepa.android.task.LoginRequestTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +23,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private EditText txtUsername;
     private EditText txtPassword;
     private Button btnLogin;
+    private LoginRequestTask task;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,21 +34,21 @@ public class LoginActivity extends Activity implements AsyncResponse {
         txtPassword = (EditText) this.findViewById(R.id.txtPwd);
         btnLogin = (Button) this.findViewById(R.id.login);
         final AsyncResponse loginActivity = this;
-        btnLogin.setOnClickListener(new View.OnClickListener() {
 
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), "Clicked button",Toast.LENGTH_LONG).show();
-                LoginRequestTask task = new LoginRequestTask(txtUsername.getText().toString(), txtPassword.getText().toString(),getApplicationContext(), loginActivity);
-                task.execute();
+                         task = new LoginRequestTask(txtUsername.getText().toString(), txtPassword.getText().toString(),getApplicationContext(), loginActivity);
+                         task.execute();
             }
         });
     }
 
     @Override
     public void processFinish(String output) {
-        if (output == null || output.isEmpty()) {
+        if (output == null || output.isEmpty() || output.equals("IOException")) {
             Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+            return;
         }
         JSONObject jsonObject = null;
 
@@ -62,8 +64,11 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 privPrefEditor.putString("Username", txtUsername.getText().toString());
                 privPrefEditor.commit();
                 privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
-                Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_SHORT).show();
                 Intent goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
+                System.out.println("GETTING REGISTRATION ID FROM PREFS: " + privPref.getString("registration_id", "127.0.0.1:8080"));
+                Toast.makeText(getApplicationContext(), "We got a GCM token: " + PreferenceManager.getDefaultSharedPreferences(this).getString("registration_id", ""), Toast.LENGTH_SHORT).show();
+
                 startActivity(goToMyActivity);
             } else {
                 String error = jsonObject.getString("error");

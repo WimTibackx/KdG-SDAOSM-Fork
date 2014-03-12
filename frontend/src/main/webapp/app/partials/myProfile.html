@@ -19,11 +19,18 @@
                 </ul>
 
     </section>
-    <a name="changePassword" class="noUnderline" href="http://localhost:8080/frontend/app/index.html#/changePassword">
-        <section class="addTextInfoProfile"><img class="changePasswordIcon"
-                                                 src="../app/img/profilePage/editPencil.png"/>Verander wachtwoord
-        </section>
-    </a>
+    <section id="passwordActions">
+        <a name="changePassword" class="noUnderline"
+           href="http://localhost:8080/frontend/app/index.html#/changePassword">
+            <section class="addTextInfoProfile"><img class="changePasswordIcon"
+                                                     src="../app/img/profilePage/editPencil.png"/>Verander wachtwoord
+            </section>
+        </a>
+        <a name="resetPassword" class="noUnderline" href="http://localhost:8080/frontend/app/index.html#/resetPassword">
+            <section class="addTextInfoProfile"><img class="resetPasswordIcon"
+                                                     src="../app/img/profilePage/removeCross.png"/>Reset wachtwoord
+            </section>
+        </a></section>
 </div>
 
 <!--div id="carsBlock">
@@ -62,7 +69,7 @@
             <td>Tot</td>
             <td>Herhalend</td>
         </tr></thead>
-        <tbody><tr ng-repeat="route in routes" ng-click="goRoute(route.id)">
+        <tbody><tr ng-repeat="route in routes" ng-click="goRoute(route.id,-1)">
             <td>{{formatDateString(route.startDate)}}</td>
             <td>{{formatDateString(route.endDate)}}</td>
             <td>{{booleanL10n(route.repeating)}}</td>
@@ -149,34 +156,91 @@
     </section>
 </div>
 
-<div class="myRoutes profilemiddle" ng-hide="hideTrajects">
+<div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
+    <div class="loadingoverlay" ng-show="!trajects.mineLoaded || !trajects.iRequestedLoaded || !trajects.requestedOnMyRoutesLoaded">Loading...</div>
+    <h4>Mijn trajecten</h4>
     <table class="general blackwhite">
         <thead><tr>
-            <td>Vertrek</td>
-            <td>Bestemming</td>
+            <td> </td>
             <td>Pick-up</td>
             <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
         </tr></thead>
-        <tbody><tr>
-            <td>Fort verboomstraat 32, 9130 Kieldrecht</td>
-            <td>Nationalestraat 22, 2000 Antwerpen</td>
-            <td>Molenstraat 10, 9130 Kieldrecht</td>
-            <td>Nationalestraat 22, 2000 Antwerpen</td>
-        </tr><tr>
-            <td>Fort verboomstraat 32, 9130 Kieldrecht</td>
-            <td>Nationalestraat 22, 2000 Antwerpen</td>
-            <td>Molenstraat 10, 9130 Kieldrecht</td>
-            <td>Nationalestraat 22, 2000 Antwerpen</td>
+        <tbody><tr ng-show="trajects.mineEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.mine" >
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
         </tr></tbody>
         <tfoot><tr>
-            <td>Vertrek</td>
-            <td>Bestemming</td>
+            <td> </td>
             <td>Pick-up</td>
             <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
         </tr></tfoot>
     </table>
-    <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-    </section>
+    <h4>Trajecten die je aangevraagd hebt</h4>
+    <table class="general blackwhite">
+        <thead><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></thead>
+        <tbody><tr ng-show="trajects.iRequestedEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.iRequested">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></tfoot>
+    </table>
+    <h4>Trajecten die werden aangevraagd op jouw route</h4>
+    <span class="error" ng-show="trajects.error.unauthorized">You are not authorized to do that.</span>
+    <table class="general blackwhite">
+        <thead><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Aangevraagd door</td>
+            <td>Acties</td>
+        </tr></thead>
+        <tbody><tr ng-show="trajects.requestedOnMyRoutesEmpty" class="nodata"><td colspan="6">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.requestedOnMyRoutes">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}" /><span>{{t.route.requester.name}}</span></td>
+            <td>
+                <button class="positive" ng-click="acceptTraject(t.id)">Accepteren</button>
+                <button class="negative" ng-click="rejectTraject(t.id)">Weigeren</button>
+            </td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Aangevraagd door</td>
+            <td>Acties</td>
+        </tr></tfoot>
+    </table>
 </div>
 </section>
+<br class="clear" />
 </section>

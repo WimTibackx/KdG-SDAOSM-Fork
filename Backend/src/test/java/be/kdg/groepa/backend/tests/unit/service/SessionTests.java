@@ -16,8 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
 
-import java.util.UUID;
-
 /**
  * Created by delltvgateway on 2/16/14.
  */
