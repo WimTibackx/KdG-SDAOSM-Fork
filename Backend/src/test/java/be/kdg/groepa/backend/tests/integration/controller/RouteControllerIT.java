@@ -85,7 +85,7 @@ public class RouteControllerIT {
     @Test
     public void addSuccessfulData() throws Exception {
 
-        String data = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\", \"10:00\"],\"Do\": [\"09:30\", \"10:00\"],\"Vr\": [\"09:30\", \"10:00\"],\"Wo\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
+        String data = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Tu\": [\"09:30\", \"10:00\"],\"Th\": [\"09:30\", \"10:00\"],\"Fr\": [\"09:30\", \"10:00\"],\"We\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
         this.mockMvc.perform(MockMvcRequestBuilders.post("/authorized/route/add")
             .cookie(this.cookie)

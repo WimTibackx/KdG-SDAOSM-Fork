@@ -348,7 +348,7 @@ function addTableRow(index, tbody, i){
     var newTimeInput = document.createElement('input');
     newTimeInput.setAttribute('type', 'text');
     newTimeInput.setAttribute('id', 'passageTime' + index);
-    newTimeInput.setAttribute('placeholder', '9:00');
+    newTimeInput.setAttribute('placeholder', '09:00');
     newTableData2.appendChild(newTimeInput);
     newTableRow.appendChild(newTableData0);
     newTableRow.appendChild(newTableData1);
@@ -400,6 +400,11 @@ function addTime(){
         for(i = 0; i< markers.length; i++){
 
             var timeValue = document.getElementById('passageTime'+ i).value;
+            var updTimeValue="";
+            var parts = timeValue.split(":");
+            updTimeValue = (parts[0].length == 1 ? "0"+parts[0] : parts[0])+":";
+            updTimeValue = updTimeValue + (parts[1].length == 1 ? "0"+parts[1] : parts[1]);
+            timeValue = updTimeValue;
 
             var tableElement;
             if (i != 1){

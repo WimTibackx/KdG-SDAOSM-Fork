@@ -153,7 +153,9 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
         return "http://localhost:8080/BackEnd/carImages/"+part;
     };
 
+
     $scope.getWeekdayL10n=function(weekdayNum) {
+
         var weekdaysL10n=["Maandag","Dinsdag","Woensdag","Donderdag","Vrijdag","Zaterdag","Zondag"];
         if (weekdayNum == undefined) return weekdaysL10n[0];
         return weekdaysL10n[weekdayNum];

@@ -150,7 +150,7 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId) {
         Session ses = HibernateUtil.openSession();
-        Query query = ses.createQuery("select wdr from WeekdayRoute wdr left join wdr.route left join wdr.placeTimes where wdr.route.id = :routeId");
+        Query query = ses.createQuery("select wdr from WeekdayRoute wdr left join wdr.route where wdr.route.id = :routeId");
         query.setInteger("routeId",routeId);
         List<WeekdayRoute> wdrs = query.list();
         HibernateUtil.closeSession(ses);

@@ -5,6 +5,7 @@ import be.kdg.groepa.dtos.GetRouteDTO;
 import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.User;
+import be.kdg.groepa.model.WeekdayRoute;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
@@ -79,12 +80,29 @@ public class RouteController extends BaseController {
         List<Route> routes = this.routeService.getRoutes(super.getCurrentUser(request));
         List<JSONObject> returndata = new ArrayList<>();
         for (Route r : routes) {
-            JSONObject jsonR = new JSONObject();
-            jsonR.put("id",r.getId());
-            jsonR.put("startDate",r.getBeginDate().toString());
-            jsonR.put("endDate",r.getEndDate().toString());
-            jsonR.put("repeating",r.isRepeating());
-            returndata.add(jsonR);
+            if (r.isRepeating()) {
+                for (WeekdayRoute wdr : routeService.getWeekdayRoutesOfRoute(r.getId())) {
+                    JSONObject jsonR = new JSONObject();
+                    jsonR.put("id",r.getId());
+                    jsonR.put("startDate", r.getBeginDate().toString());
+                    jsonR.put("endDate",r.getEndDate().toString());
+                    jsonR.put("repeating",r.isRepeating());
+                    jsonR.put("startPlace",  wdr.getPlaceTimes().get(0).getPlace().getName());
+                    jsonR.put("endPlace", wdr.getPlaceTimes().get(wdr.getPlaceTimes().size()-1).getPlace().getName());
+                    jsonR.put("day",wdr.getDay());
+                    returndata.add(jsonR);
+                }
+            } else {
+                JSONObject jsonR = new JSONObject();
+                jsonR.put("id",r.getId());
+                jsonR.put("startDate", r.getBeginDate().toString());
+                jsonR.put("endDate",r.getEndDate().toString());
+                jsonR.put("repeating",r.isRepeating());
+                jsonR.put("startPlace",  r.getPlaceTimes().get(0).getPlace().getName());
+                jsonR.put("endPlace", r.getPlaceTimes().get(r.getPlaceTimes().size()-1).getPlace().getName());
+                jsonR.put("day",r.getBeginDate().getDayOfWeek().getValue()-1);
+                returndata.add(jsonR);
+            }
         }
         //TODO There isn't much we can really say about routes as such
         //  Maybe it would be more useful if we returned weekdayroutes
