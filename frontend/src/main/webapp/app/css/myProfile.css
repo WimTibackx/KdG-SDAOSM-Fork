@@ -233,3 +233,11 @@
     font-style: italic;
     text-align: center;
 }
+
+.tableNavigation {
+    text-align: right;
+}
+
+.tableNavigation button {
+    margin: 0 10px;
+}

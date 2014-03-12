@@ -128,3 +128,11 @@ carpoolServices.factory("$authChecker", ["$http", "$location", "SharedProperties
         }
     }
 }]);
+
+carpoolServices.filter('startFrom', function() {
+    return function(input, start) {
+        if(!input) return null;
+        start = +start;
+        return input.slice(start);
+    }
+});

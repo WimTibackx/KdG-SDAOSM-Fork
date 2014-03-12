@@ -16,8 +16,6 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     var username = null;
     var gender = null;
 
-
-
     $http({
         method: 'GET',
         url: rootUrl + "/authorized/myprofile/",
@@ -201,4 +199,19 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     }
 
     determineActiveTabAtPageload();
+
+    $scope.currentPage = {};
+    $scope.currentPage.route = 0;
+    $scope.currentPage.traj = {};
+    $scope.currentPage.traj.mine = 0;
+    $scope.currentPage.traj.iReq = 0;
+    $scope.currentPage.traj.reqMyRoutes = 0;
+
+    $scope.itemsPerPage = 1;
+    $scope.numberOfPages = function(data) {
+        result = Math.ceil(data.length/$scope.itemsPerPage);
+        console.log(result);
+        return (result > 0) ? Math.ceil(data.length/$scope.itemsPerPage) : "1";
+    }
+
 }]);
