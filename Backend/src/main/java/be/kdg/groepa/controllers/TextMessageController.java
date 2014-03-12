@@ -62,9 +62,12 @@ public class TextMessageController extends BaseController{
             return myJson.toString();
         }
         if(receiver.getAndroidId() != null){
+            System.out.println("CONSOLE --- TMC: AndroidId not null");
             try {
+                System.out.println("CONSOLE --- TMC: Trying sendnotification");
                 AndroidNotificationHelper.sendNotificationToDevice(receiver.getAndroidId(), textMessage.getSubject());
             } catch (Exception e) {
+                System.out.println("CONSOLE -- TMC: Sendnotification failed. Error: " + e.getMessage());
                 e.printStackTrace();
             }
         }

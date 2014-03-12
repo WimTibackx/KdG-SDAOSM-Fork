@@ -42,34 +42,30 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
     private GoogleCloudMessaging gcm;
     private String regId;
     private Context context;
+    private static final String reg_id = "287216615243";
 
 
     @Override
     public void onCreate(Bundle savedInstances) {
         finish();
-        System.out.println("CONSOLE -- CREATING GCMACTIVITY");
         startService(new Intent(GoogleMessageActivity.this, BackgroundService.class));
-        System.out.println("CONSOLE -- GCMACTIVITY STARTED");
         super.onCreate(savedInstances);
         this.context = getApplicationContext();
         if (checkPlayServices()) {
-            System.out.println("CONSOLE -- CHECKPLAYSERVICES SUCCESS. NOW GETTING INSTANCE OF GCM");
             this.gcm = GoogleCloudMessaging.getInstance(this);
-            System.out.println("CONSOLE -- GCM -- GETTING REGISTRATIONID");
             this.regId = getRegistrationId(context);
             System.out.println("CONSOLE -- REGISTRATION ID: " + regId);
-            // Commented to test registering  if (regId.isEmpty()) {
+            if (regId.isEmpty()) {
                 System.out.println("CONSOLE -- REGISTRATIONID WAS EMPTY. REGISTERING IN BACKGROUND");
                 registerInBackground();
-            // }
-        /*} else {
-            Log.i("ServicesAPKError", "No valid Google Play Services APK found");         */
+            }
+        } else {
+            Log.i("ServicesAPKError", "No valid Google Play Services APK found");
         }
     }
 
     @Override
     public void onResume() {
-        System.out.println("CONSOLE -- GCM -- RESUMING");
         super.onResume();
         checkPlayServices();
     }
@@ -77,13 +73,11 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
 
     @Override
     public void processFinish(String output) {
-        System.out.println("CONSOLE -- GCM -- PROCESSING FINISH");
 
     }
 
     // Checks if the device is compatible with Google Play Services
     private boolean checkPlayServices() {
-        System.out.println("CONSOLE -- CHECKING PLAY SERVICES");
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
@@ -94,20 +88,19 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
             }
             return false;
         }
-        System.out.println("CONSOLE -- GCM -- PLAY SERVICES SUCCESS");
         return true;
     }
 
     // Get the app's registrationId from preferences
     private String getRegistrationId(Context context) {
-        System.out.println("CONSOLE -- GCM -- EXECUTING GETREGISTRATIONID");
-        String registrationId = PreferenceManager.getDefaultSharedPreferences(this).getString("registration_id", "");
+        final SharedPreferences prefs = getGCMPreferences(context);
+        String registrationId = prefs.getString(reg_id, "");
         System.out.println("CONSOLE -- GCM -- FOUND GETREGISTRATIONID: " + registrationId);
         if (registrationId.isEmpty()) {
             Log.i("RegistrationFindError", "Registration not found.");
             return "";
         }
-        int registeredVersion = PreferenceManager.getDefaultSharedPreferences(this).getInt("app_version", 0);
+        int registeredVersion = prefs.getInt("app_version", 0);
         int currentVersion = getAppVersion(context);
         System.out.println("CURRENT VERSION: " + currentVersion + " // REGISTERED VERSION: " + registeredVersion);
         if (registeredVersion != currentVersion) {
@@ -207,10 +200,11 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
 
     private void storeRegistrationId(Context context, String regId) {
         System.out.println("CONSOLE -- GCM -- STORING REGISTRATIONID " + regId + " IN PREFERENCES");
+        final SharedPreferences prefs = getGCMPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
         int appVersion = getAppVersion(context);
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("registration_id",
-                regId).commit();
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("app_version",
-                appVersion).commit();
+        editor.putString("registration_id", regId);
+        editor.putInt("app_version", appVersion);
+        editor.commit();
     }
 }

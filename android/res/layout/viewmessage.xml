@@ -10,23 +10,27 @@
             android:layout_height="34dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/messageDetailSenderName" android:enabled="true"/>
+            android:id="@+id/messageDetailSenderName" android:enabled="true"
+            android:layout_weight=".15"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/messageDetailSubject"/>
+            android:id="@+id/messageDetailSubject"
+            android:layout_weight=".15"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="404dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/messageDetailBody" android:focusable="true"/>
+            android:id="@+id/messageDetailBody" android:focusable="true"
+            android:layout_weight=".60"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Reply"
             android:id="@+id/button"
-            android:onClick="sendReply"/>
+            android:onClick="sendReply"
+            android:layout_weight=".10"/>
 </LinearLayout>

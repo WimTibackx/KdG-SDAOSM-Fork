@@ -2,6 +2,7 @@ package be.kdg.groepa.android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import be.kdg.groepa.android.notification.GoogleMessageActivity;
 import be.kdg.groepa.android.task.LoginRequestTask;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +69,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_SHORT).show();
                 Intent goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
                 System.out.println("GETTING REGISTRATION ID FROM PREFS: " + privPref.getString("registration_id", "127.0.0.1:8080"));
-                Toast.makeText(getApplicationContext(), "We got a GCM token: " + PreferenceManager.getDefaultSharedPreferences(this).getString("registration_id", ""), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "We got a GCM token: " + getSharedPreferences(GoogleMessageActivity.class.getSimpleName(), Context.MODE_PRIVATE).getString("registration_id", ""), Toast.LENGTH_SHORT).show();
 
                 startActivity(goToMyActivity);
             } else {

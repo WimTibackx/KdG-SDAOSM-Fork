@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,6 +52,8 @@ public class TextMessageDaoImpl implements TextMessageDao{
             toReturn.add(new TextMessageDTO(m.getId(), m.getSender().getUsername(), m.getReceiver().getUsername(), m.getMessageBody(), m.getSubject(), m.isRead()));
         }
         HibernateUtil.closeSession(ses);
+        // A reverse causes the messages to be returned sorted by most --> least recent
+        Collections.reverse(toReturn);
         return toReturn;
     }
 
@@ -66,6 +69,8 @@ public class TextMessageDaoImpl implements TextMessageDao{
             toReturn.add(new TextMessageDTO(m.getId(), m.getSender().getUsername(), m.getReceiver().getUsername(), m.getMessageBody(), m.getSubject(), m.isRead()));
         }
         HibernateUtil.closeSession(ses);
+        // A reverse causes the messages to be returned sorted by most --> least recent
+        Collections.reverse(toReturn);
         return toReturn;
     }
 

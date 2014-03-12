@@ -34,6 +34,7 @@ public class MessageFromTemplateActivity extends Activity implements AsyncRespon
         if (b != null) {
             if (b.containsKey("receiverUsername")) {
                 editReceiverText.setText(b.getString("receiverUsername"));
+                editReceiverText.setTextIsSelectable(false);
             }
             if(b.containsKey("messageBody")){
                 editBodyText.setText(b.getString("messageBody"));

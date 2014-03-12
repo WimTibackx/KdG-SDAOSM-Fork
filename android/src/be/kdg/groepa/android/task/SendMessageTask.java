@@ -42,7 +42,6 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        System.out.println("CONSOLE -- SM -- STARTED SENDMESSAGETASK");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences",Context.MODE_PRIVATE);
 
@@ -50,8 +49,6 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
 
         String url = "http://"+serverAddr+"/BackEnd/authorized/textmessage/send";
-        System.out.println("CONSOLE -- SM - -URL: " + url);
-        // cookieManager.setCookie(url, "Token="+preferences.getString("Token", "127.0.0.1:8080"));
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
 
@@ -67,7 +64,6 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
         HttpPost httpPost = null;
         httpPost = new HttpPost(url);
         httpPost.setHeader("Cookie", "Token="+privPref.getString("Token", ""));
-        //httpPost
 
         // Execute HTTP Post Request
         String responseString = null;
