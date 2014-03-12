@@ -15,6 +15,8 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     $scope.hideSend = true;
     $scope.hideMessage = true;
     $scope.hideRecieve = false;
+    $scope.recieverName = "";
+    $scope.subject = "";
 
 
 
@@ -126,7 +128,9 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
             while(i <=$scope.end && $scope.allRecievedMessages[i] != undefined){
                 $scope.recievedMessages.push($scope.allRecievedMessages[i])
                 if(!$scope.allRecievedMessages[i].read) {
-                    $scope.recievedMessages[counter].readSrc = '../app/img/unread.png'; ;
+                    $scope.recievedMessages[counter].readSrc = '../app/img/unread.png';
+                }else{
+                    $scope.recievedMessages[counter].readSrc = '../app/img/transparent.png';
                 }
                 counter++;
                 i++;
@@ -135,9 +139,17 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
             console.log($scope.allSendMessages);
             $scope.sendMessages = [];
             var i = $scope.begin;
+            var counter = 0;
             while(i <=$scope.end && $scope.allSendMessages[i] != undefined){
                 $scope.sendMessages.push($scope.allSendMessages[i])
+                if(!$scope.allSendMessages[i].read) {
+                    $scope.sendMessages[counter].readSrc = '../app/img/unread.png';
+                }else{
+                    $scope.sendMessages[counter].readSrc = '../app/img/transparent.png';
+                }
+
                 i++;
+                counter++;
             }
             console.log($scope.sendMessages)
         }
