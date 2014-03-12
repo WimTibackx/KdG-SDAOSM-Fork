@@ -9,33 +9,37 @@ label input, label select {
     left: 200px;
     width: 175px;
 }*/
-section.mainSite#addCar {
+section.mainSite#addCar, section.mainSite#inline {
     padding:10px;
     color:#FFFFFF;
 }
-section.mainSite#addCar header {
+section.mainSite#addCar header, section.mainSite#inline header {
     margin-right:0;
     padding:0;
 }
-section.mainSite#addCar header h3 {
+section.mainSite#addCar header h3, section.mainSite#inline header h3 {
     font-size:2.4rem;
     margin:10px 0;
 }
-section.mainSite#addCar form {
+section.mainSite#addCar form, section.mainSite#inline form {
     width:40rem;
 }
-section.mainSite#addCar span.error {
+section.mainSite#addCar span.error, section.mainSite#inline span.error {
     display:block;
 }
 section.mainSite#addCar label {
     width:10rem;
     font-size:1.4rem;
 }
+section.mainSite#inline label{
+    width:15rem;
+    font-size:1.4rem;
+}
 section.mainSite#addCar select {
     color:#000000;
 }
 section.mainSite#addCar input,
-section.mainSite#addCar select {
+section.mainSite#addCar select, section.mainSite#inline input, {
     width:15rem;
 }
 section.mainSite#addCar input[type="file"] {
@@ -43,11 +47,13 @@ section.mainSite#addCar input[type="file"] {
     width:100%;
     padding:5px;
 }
-section.mainSite#addCar .bottom {
+section.mainSite#addCar .bottom, section.mainSite#inline .bottom {
     margin-top:20px;
 }
 section.mainSite#addCar input[type="submit"],
-section.mainSite#addCar input[type="reset"] {
+section.mainSite#addCar input[type="reset"],
+section.mainSite#inline input[type="submit"],
+section.mainSite#inline input[type="reset"] {
     background: #ffffff;
     border: 1px solid #ccc;
     color: rgb(53,53,53);
@@ -55,25 +61,31 @@ section.mainSite#addCar input[type="reset"] {
     padding: 8px 0 9px;
     width: 150px;
     cursor:pointer;
-    float:right;
     border-radius: 4px;
+    margin-top: 1em;
 }
 section.mainSite#addCar input[type="submit"]:disabled,
 section.mainSite#addCar input[type="reset"]:disabled,
 section.mainSite#addCar input[type="submit"]:hover:disabled,
-section.mainSite#addCar input[type="reset"]:hover:disabled {
+section.mainSite#addCar input[type="reset"]:hover:disabled,
+section.mainSite#inline input[type="submit"]:disabled,
+section.mainSite#inline input[type="reset"]:disabled,
+section.mainSite#inline input[type="submit"]:hover:disabled,
+section.mainSite#inline input[type="reset"]:hover:disabled {
     background-image:url(../img/loading.gif);
     height:39px;
     font-size:0;
     background-repeat: no-repeat;
     background-position: center;
 }
-section.mainSite#addCar input[type="reset"] {
+section.mainSite#addCar input[type="reset"], section.mainSite#inline input[type="reset"] {
     background:#aaaaaa;
     float:left;
 }
 section.mainSite#addCar input[type="submit"]:hover,
-section.mainSite#addCar input[type="reset"]:hover{
+section.mainSite#addCar input[type="reset"]:hover,
+section.mainSite#inline input[type="submit"]:hover,
+section.mainSite#inline input[type="reset"]:hover{
     background: #d1d1d1;
 }
 

@@ -5,8 +5,8 @@
 carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$api', function ($scope, $location, $api) {
     console.log("hey changePassword controller test");
 
-    $scope.changePwd = function () {
-
+    $scope.PasswordSubmit = function () {
+        console.log("submit");
         if ($scope.newpwd1 == $scope.newpwd2) {
             jsonObj = {};
             jsonObj.oldpassword = $scope.oldpwd;

@@ -167,12 +167,12 @@
 
 <div class="content" id="password">
     <div class="form_wrapper">
-        <form class="login active">
+        <form class="login active" id="sendPasswordForm">
             <h3>Paswoord vergeten?</h3>
 
             <div>
                 <label>Username:</label>
-                <input type="text" id="emailadres"/>
+                <input type="text" id="emailadres" ng-model="usernameEmail"/>
                 <span class="error">Username is foutief</span>
             </div>
 

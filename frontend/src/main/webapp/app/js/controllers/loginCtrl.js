@@ -47,6 +47,19 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
 
                 actionLogin(username, password);
             });
+
+            var sendPassword = $('#sendPasswordForm');
+            sendPassword.submit(function (e) {
+                var jsonObject = {};
+                jsonObject.username = $scope.usernameEmail;
+
+                $http.post(rootUrl + "/authorized/changepassword/reset", JSON.stringify(jsonObject)).success(function () {
+                    console.log("New password sended to: " + jsonObject.username);
+                }).
+                    error(function () {
+                        console.log("An error occured");
+                    });
+            });
         });
 
         function actionLogin(username, password) {
