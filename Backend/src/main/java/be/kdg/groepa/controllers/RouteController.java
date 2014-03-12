@@ -3,6 +3,11 @@ package be.kdg.groepa.controllers;
 import be.kdg.groepa.dtos.AddRouteDTO;
 import be.kdg.groepa.dtos.GetRouteDTO;
 import be.kdg.groepa.exceptions.*;
+import be.kdg.groepa.dtos.RideDTO;
+import be.kdg.groepa.dtos.RouteDTO;
+import be.kdg.groepa.exceptions.CarNotFoundException;
+import be.kdg.groepa.exceptions.MissingDataException;
+import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.model.WeekdayRoute;
@@ -28,6 +33,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by delltvgateway on 2/18/14.
@@ -43,6 +51,10 @@ public class RouteController extends BaseController {
 
     @Autowired
     private RouteService routeService;
+    int car;
+    boolean repeating;
+    String startDate, endDate, passageStart, passageEnd, address1, address2, freeSpots;
+    double lat1, long1, lat2, long2;
 
     @Autowired
     private TrajectService trajectService;
@@ -136,5 +148,30 @@ public class RouteController extends BaseController {
         }
 
         return super.respondSimpleAuthorized("status","ok",request,response);
+    }
+
+    @RequestMapping(value="/findCarpoolers", method=RequestMethod.POST)
+    public @ResponseBody String findCarpoolers(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject dataOb = new JSONObject(data);
+        RideDTO dto;
+        try {
+            dto = new RideDTO(dataOb);
+        } catch (MissingDataException e) {
+            JSONObject missingDataJson = new JSONObject();
+            missingDataJson.put("error","ParseError");
+            this.updateCookie(request, response);
+            return missingDataJson.toString();
+        }
+        List<Route> routes = new ArrayList<>();
+        routes = routeService.findCarpoolers(dto.getStartLat(), dto.getStartLon(), dto.getEndLat(), dto.getEndLon(), dto.getG(), dto.isSmoker(), dto.getRadius(), dto.getDep(), dto.getTimeDiff());
+        // TODO: return found routes in JSON objects
+        JSONArray jarray = new JSONArray();
+        for (int i = 0; i < routes.size(); i++)
+        {
+            jarray.put(new RouteDTO(routes.get(i)));
+        }
+        this.updateCookie(request, response);
+        return jarray.toString();
+        //return super.respondSimpleAuthorized("confirmed", "ride confirmed", request, response);
     }
 }

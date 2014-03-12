@@ -42,7 +42,6 @@ public class Route {
     @JoinColumn(name="carId", nullable=false)
     private Car car;
 
-
     @OneToMany(mappedBy="route")
     @LazyCollection(LazyCollectionOption.FALSE)
     @OrderBy("time")
@@ -64,8 +63,6 @@ public class Route {
     public Route(boolean repeating, int capacity, LocalDate beginDate, LocalDate endDate, User chauffeur, Car car) {
         this.repeating = repeating;
         this.capacity = capacity;
-
-
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.chauffeur = chauffeur;

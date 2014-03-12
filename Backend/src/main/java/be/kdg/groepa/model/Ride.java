@@ -3,6 +3,7 @@ package be.kdg.groepa.model;
 import be.kdg.groepa.helpers.CostManager;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
+import org.threeten.bp.LocalDateTime;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -28,6 +29,10 @@ public class Ride {
     @Column(name="distance")
     private double distance;
 
+    @Column(name="date")
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
+    private LocalDateTime date;
+
     @OneToMany(mappedBy="ride")
     @Cascade(CascadeType.ALL)
     private List<Traject> trajecten = new ArrayList<>();
@@ -40,10 +45,11 @@ public class Ride {
         this.distance = distance;
     }
 
-    public Ride(Route r)
+    public Ride(Route r, LocalDateTime date)
     {
         this.totalCost = CostManager.calculateCost(r);
         this.distance = CostManager.getTotalDistance(r);
+        this.date = date;
     }
 
     public void addTraject(Traject t)

@@ -7,6 +7,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -115,8 +117,8 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public void confirmRide(Route r) {
-        Ride ride = new Ride(r);
+    public void confirmRide(Route r, LocalDateTime date) {
+        Ride ride = new Ride(r, date);
         for (Traject t : r.getTrajects())
         {
             ride.addTraject(t);
@@ -167,7 +169,8 @@ public class RouteDaoImpl implements RouteDao {
         return routes;
     }
 
-    public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius) {    // TODO: NOT FINISHED!
+    //public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius) {    // TODO: NOT FINISHED!
+    public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {    // TODO: NOT FINISHED!
         Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("   " +
                 "FROM t_route r " +
@@ -175,14 +178,16 @@ public class RouteDaoImpl implements RouteDao {
                 "JOIN t_placetime pt ON pt.routeId = r.routeId " +
                 "JOIN t_place p ON p.placeId = pt.placeId " +
                 "WHERE u.smoker = :sm AND u.gender = :g " +
+                "AND TIMEDIFF(p.time, :dep) <= :td" +
                 "      AND ABS(p.lat - :p1Lat) <= :r AND ABS(p.lon - :p1Lon) <= :r" +
                 "      AND ABS(p.lat - :p2Lat) <= :r AND ABS(p.lon - :p2Lon) <= :r");  // http://www.tutorialspoint.com/hibernate/hibernate_query_language.htm  //FROM Route r INNER JOIN r.user u WHERE u.smoker = :sm AND u.gender = :g
         query.setBoolean("sm", smoker);
         query.setParameter("g", g);
-        query.setParameter("p1Lat", pt1.getPlace().getLat());
-        query.setParameter("p1Lon", pt1.getPlace().getLon());
-        query.setParameter("p2Lat", pt2.getPlace().getLat());
-        query.setParameter("p2Lon", pt2.getPlace().getLon());
+        query.setParameter("p1Lat", startLat);
+        query.setParameter("p1Lon", startLon);
+        query.setParameter("p2Lat", endLat);
+        query.setParameter("p2Lon", endLon);
+        query.setDouble("r", radius);
         List<Route> rtval = query.list();
         HibernateUtil.closeSession(ses);
         return rtval;
@@ -193,4 +198,6 @@ public class RouteDaoImpl implements RouteDao {
         ses.saveOrUpdate(pt);
         HibernateUtil.closeSession(ses);
     }
+
+
 }
