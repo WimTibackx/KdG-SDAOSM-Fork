@@ -5,6 +5,9 @@
 carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("hey addRoute controller test");
 
+    deleteActiveClass();
+    $('#MyProfileTab').addClass('active');
+
     $scope.passages = {};
 
     $scope.addTime = function () {

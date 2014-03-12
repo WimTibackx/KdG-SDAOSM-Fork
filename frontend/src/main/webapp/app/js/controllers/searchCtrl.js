@@ -20,6 +20,9 @@ var gender = true;
 carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     console.log("searchCtrl test");
 
+    deleteActiveClass();
+    $('#SearchTab').addClass('active');
+
     /*var active = document.getElementById("searchTab");
      active.setAttribute("class", "active");
 

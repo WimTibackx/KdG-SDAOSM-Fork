@@ -3,6 +3,9 @@
  */
 // CONTROLLER: My profile
 carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', "$authChecker", function ($scope, $http, $location, SharedProperties, $authChecker) {
+    deleteActiveClass();
+    $('#MyProfileTab').addClass('active');
+
     $authChecker.checkAuthorization();
 
     $scope.avatarsrc = '../app/img/avatar.JPG';

@@ -33,3 +33,12 @@ function readCookie(name) {
     }
     return null;
 }
+
+function deleteActiveClass(){
+    $('#MyProfileTab').removeClass('active');
+    $('#SearchTab').removeClass('active');
+    $('#PasswordTab').removeClass('active');
+    $('#AboutTab').removeClass('active');
+    $('#ContactTab').removeClass('active');
+    $('#InboxTab').removeClass('active');
+}

@@ -5,8 +5,15 @@
 carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$api', function ($scope, $location, $api) {
     console.log("hey changePassword controller test");
 
+    deleteActiveClass();
+    $('#PasswordTab').removeClass('active');
+
     $scope.PasswordSubmit = function () {
         console.log("submit");
+
+        deleteActiveClass();
+        $('#PasswordTab').addClass('active');
+
         if ($scope.newpwd1 == $scope.newpwd2) {
             jsonObj = {};
             jsonObj.oldpassword = $scope.oldpwd;

@@ -3,6 +3,9 @@
  */
 // CONTROLLER: Inbox
 carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
+    deleteActiveClass();
+    $('#InboxTab').addClass('active');
+
     var detailsEnabled = true;
     var formPopupEnabled = false;
 
