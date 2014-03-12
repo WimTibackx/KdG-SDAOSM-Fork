@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController extends BaseController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class LoginController extends BaseController {
      * Input: { "username": "username@test1.com", "password": "Password1" }
      * Output: { "error": "ParseError" } OR { "error": "LoginComboWrong" } OR { "Token": "(a token)" } + Set-Cookie header
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody String login(@RequestBody String data, HttpServletResponse response) {
         JSONObject myJson = null;
         String username, password;
@@ -73,5 +73,9 @@ public class LoginController extends BaseController {
         return myJson.toString();
     }
 
+    @RequestMapping(value="/authorized/checkAuthorization")
+    public @ResponseBody String checkAuthorization(HttpServletRequest request, HttpServletResponse response) {
+        return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
 
 }

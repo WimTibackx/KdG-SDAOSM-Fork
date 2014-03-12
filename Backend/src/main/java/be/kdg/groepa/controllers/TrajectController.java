@@ -1,23 +1,23 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.UpcomingTrajectDTO;
+import be.kdg.groepa.exceptions.UnauthorizedException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.threeten.bp.LocalTime;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,14 +59,7 @@ public class TrajectController extends BaseController{
         newPt2lat = dataOb.getDouble("newPt2lat");
         newPt2long = dataOb.getDouble("newPt2long");
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies ){
-            if (cookie.getName().equals("Token")) {
-                SessionObject session = userService.getUserSessionByToken(cookie.getValue());
-                user = session.getUser();
-            }
-        }
+        User user = super.getCurrentUser(request);
 
         PlaceTime newPlaceTime1 = new PlaceTime(LocalTime.of(newPt1startHr, newPt1startMin), new Place(newPt1PlaceName, newPt1lat, newPt1long));
         PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(newPt2startHr, newPt2startMin), new Place(newPt2PlaceName, newPt2lat, newPt2long));
@@ -112,5 +105,96 @@ public class TrajectController extends BaseController{
     public @ResponseBody String getMyUpcomingTrajects(HttpServletRequest request, HttpServletResponse response) {
         List<UpcomingTrajectDTO> upcoming = trajectService.getUpcomingTrajects(super.getCurrentUser(request));
         return new JSONArray(upcoming).toString();
+    }
+
+    @RequestMapping(value="/mine", method=RequestMethod.GET)
+    public @ResponseBody String getMyTrajects(HttpServletRequest request, HttpServletResponse response) {
+        List<Traject> trajects = trajectService.getAcceptedTrajects(super.getCurrentUser(request));
+        List<JSONObject> returndata = new ArrayList<>();
+        for (Traject t : trajects) {
+            JSONObject jsonT = new JSONObject();
+            jsonT.put("id",t.getId());
+            jsonT.put("pickup",t.getPickup().getPlace().getName());
+            jsonT.put("dropoff",t.getDropoff().getPlace().getName());
+            jsonT.put("weekday",t.getPickup().getWeekdayRoute().getDay());
+            JSONObject jsonR = new JSONObject();
+            jsonR.put("id",t.getRoute().getId());
+            JSONObject jsonC = new JSONObject();
+            jsonC.put("id",t.getRoute().getChauffeur().getId());
+            jsonC.put("name",t.getRoute().getChauffeur().getName());
+            jsonC.put("avatarURL",t.getRoute().getChauffeur().getAvatarURL());
+            jsonR.put("chauffeur",jsonC);
+            jsonT.put("route",jsonR);
+            returndata.add(jsonT);
+        }
+        return new JSONArray(returndata).toString();
+    }
+
+    @RequestMapping(value="/i-requested", method=RequestMethod.GET)
+    public @ResponseBody String getTrajectsIRequested(HttpServletRequest request, HttpServletResponse response) {
+        List<Traject> trajects = trajectService.getRequestedTrajects(super.getCurrentUser(request));
+        List<JSONObject> returndata = new ArrayList<>();
+        for (Traject t : trajects) {
+            JSONObject jsonT = new JSONObject();
+            jsonT.put("id",t.getId());
+            jsonT.put("pickup",t.getPickup().getPlace().getName());
+            jsonT.put("dropoff",t.getDropoff().getPlace().getName());
+            jsonT.put("weekday",t.getPickup().getWeekdayRoute().getDay());
+            JSONObject jsonR = new JSONObject();
+            jsonR.put("id",t.getRoute().getId());
+            JSONObject jsonC = new JSONObject();
+            jsonC.put("id",t.getRoute().getChauffeur().getId());
+            jsonC.put("name",t.getRoute().getChauffeur().getName());
+            jsonC.put("avatarURL",t.getRoute().getChauffeur().getAvatarURL());
+            jsonR.put("chauffeur",jsonC);
+            jsonT.put("route",jsonR);
+            returndata.add(jsonT);
+        }
+        return new JSONArray(returndata).toString();
+    }
+
+    @RequestMapping(value="/requested-on-my-routes", method=RequestMethod.GET)
+    public @ResponseBody String getTrajectsRequestedOnMyRoutes(HttpServletRequest request, HttpServletResponse response) {
+        List<Traject> trajects = trajectService.getRequestedOnMyRoutes(super.getCurrentUser(request));
+        List<JSONObject> returndata = new ArrayList<>();
+        for (Traject t : trajects) {
+            JSONObject jsonT = new JSONObject();
+            jsonT.put("id",t.getId());
+            jsonT.put("pickup",t.getPickup().getPlace().getName());
+            jsonT.put("dropoff",t.getDropoff().getPlace().getName());
+            jsonT.put("weekday",t.getPickup().getWeekdayRoute().getDay());
+            JSONObject jsonR = new JSONObject();
+            jsonR.put("id",t.getRoute().getId());
+            JSONObject jsonC = new JSONObject();
+            jsonC.put("id", t.getUser().getId());
+            jsonC.put("name",t.getUser().getName());
+            jsonC.put("avatarURL",t.getUser().getAvatarURL());
+            jsonR.put("requester",jsonC);
+            jsonT.put("route",jsonR);
+            returndata.add(jsonT);
+        }
+        return new JSONArray(returndata).toString();
+    }
+
+    @RequestMapping(value="/{id}/accept", method=RequestMethod.POST)
+    public @ResponseBody String acceptTraject(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            trajectService.acceptTraject(id, super.getCurrentUser(request));
+        } catch (UnauthorizedException e) {
+            Logger.getLogger(TrajectController.class).error(e.getMessage(),e);
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/{id}/reject", method=RequestMethod.POST)
+    public @ResponseBody String rejectTraject(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            trajectService.rejectTraject(id, super.getCurrentUser(request));
+        } catch (UnauthorizedException e) {
+            Logger.getLogger(TrajectController.class).error(e.getMessage(),e);
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        return super.respondSimpleAuthorized("status", "ok", request, response);
     }
 }

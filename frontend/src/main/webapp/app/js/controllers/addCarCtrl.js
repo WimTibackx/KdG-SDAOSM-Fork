@@ -1,5 +1,9 @@
 carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
     console.log("hey test car2ctrl");
+
+    deleteActiveClass();
+    $('#MyProfileTab').addClass('active');
+
     var rootUrl = "http://localhost:8080/BackEnd/";
     var insertedCar = 0;
 

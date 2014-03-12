@@ -36,32 +36,43 @@ public class PlaceTime {
     private List<Traject> trajecten = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="routeId", nullable = true)
+    @JoinColumn(name="routeId", nullable = false)
     private Route route;
 
     public PlaceTime() {}
 
+    public PlaceTime(LocalTime time, Place place, Route route) {
+        this(time, place);
+        this.setRoute(route);
+    }
+
+    public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute, Route route) {
+        this(time, place, weekdayRoute);
+        this.setRoute(route);
+    }
+
     public PlaceTime(LocalTime time, Place place) {
         this(time);
-        this.place = place;
+        this.setPlace(place);
     }
 
     public PlaceTime(LocalTime time) {
-        this();
-        this.time = time;
+        this.setTime(time);
     }
 
     public PlaceTime(LocalTime time, Place place, WeekdayRoute weekdayRoute) {
         this(time, place);
-        this.weekdayRoute = weekdayRoute;
+        this.setWeekdayRoute(weekdayRoute);
     }
 
     public void setPlace(Place place) {
         this.place = place;
+        place.addPlaceTime(this);
     }
 
     public void setWeekdayRoute(WeekdayRoute weekdayRoute) {
         this.weekdayRoute = weekdayRoute;
+        weekdayRoute.addPlaceTime(this);
     }
 
     public Place getPlace() {
@@ -74,10 +85,7 @@ public class PlaceTime {
 
     public void setRoute(Route route) {
         this.route = route;
-    }
-
-    public Object getId() {
-        return placetimeId;
+        route.addPlaceTime(this);
     }
 
     public WeekdayRoute getWeekdayRoute() {
@@ -88,8 +96,23 @@ public class PlaceTime {
         return time;
     }
 
-    public void addTraject(Traject t)
-    {
+    public void setPlacetimeId(int placetimeId) {
+        this.placetimeId = placetimeId;
+    }
+
+    public int getPlacetimeId() {
+        return placetimeId;
+    }
+
+    protected void addTraject(Traject t) {
         trajecten.add(t);
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public List<Traject> getTrajecten() {
+        return trajecten;
     }
 }

@@ -47,7 +47,7 @@ public class Place {
         return lon;
     }
 
-    public void addPlaceTime(PlaceTime pt)
+    protected void addPlaceTime(PlaceTime pt)
     {
         this.placeTimes.add(pt);
     }

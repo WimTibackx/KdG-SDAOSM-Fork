@@ -1,30 +1,24 @@
 <script src="js/controllers/myProfileCtrl.js"></script>
 <section id="inline" ng-controller="myProfileCtrl">
-<section id="infoprofile">
-<section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}>
-    ({{username}})
-    <section id="tabsMyProfile">
-        <div class="tab" ng-click="tabRoutesClick()">Routes</div>
-        <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
-        <div class="tab" ng-click="tabCarsClick()">Auto's</div>
-    </section>
-</section>
-<div id="blockLeft">
-    <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
-    <section id="infoUser">
-        <ul>
-            <li class="info">
-                {{dateBirth}}
-            </li>
-            <li class="info">{{smoker}}</li>
-        </ul>
+    <section id="infoprofile">
+        <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}> ({{username}})
+            <section id="tabsMyProfile">
+                <div class="tab" ng-click="tabRoutesClick()">Routes</div>
+                <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
+                <div class="tab" ng-click="tabCarsClick()">Auto's</div>
+            </section>
+        </section>
+        <div id="blockLeft">
+            <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
+            <section id="infoUser">
+                <ul>
+                    <li class="info">
+                        {{formatDate(dateBirth)}}
+                    </li>
+                    <li class="info">{{smoker}}</li>
+                </ul>
 
     </section>
-    <a name="changePassword" class="noUnderline" href="http://localhost:8080/frontend/app/index.html#/changePassword">
-        <section class="addTextInfoProfile"><img class="changePasswordIcon"
-                                                 src="../app/img/profilePage/editPencil.png"/>Verander wachtwoord
-        </section>
-    </a>
 </div>
 
 <!--div id="carsBlock">
@@ -40,7 +34,7 @@
         </tr>
     </table>
 </div-->
-<section id="carField" ng-hide="hideCars">
+<section id="carField" class="profilemiddle" ng-hide="hideCars">
     <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
         <img id="carImage" alt="{{car.brand}}"
              ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
@@ -55,83 +49,40 @@
 </section>
 
 
-<div class="myRoutes" ng-hide="hideRoutes">
-    <table class="routeTable">
-        <tr id="routeTableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-            <td>
-                Aantal personen
-            </td>
-            <td>
-                herhalend
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                2
-            </td>
-            <td>
-                Nee
-            </td>
-        </tr>
+<section class="myRoutes profilemiddle" ng-hide="hideRoutes">
+    <!-- TODO: Would be nice having vertrek, bestemming, dayofweek/nextday but then we need weekdayroutes, not routes -->
+    <table id="routes" class="general blackwhite">
+        <thead><tr>
+            <td>Vanaf</td>
+            <td>Tot</td>
+            <td>Herhalend</td>
+        </tr></thead>
+        <tbody><tr ng-repeat="route in routes" ng-click="goRoute(route.id,-1)">
+            <td>{{formatDateString(route.startDate)}}</td>
+            <td>{{formatDateString(route.endDate)}}</td>
+            <td>{{booleanL10n(route.repeating)}}</td>
+        </tr></tbody>
+        <thead><tr>
+            <td>Vanaf</td>
+            <td>Tot</td>
+            <td>Herhalend</td>
+        </tr></thead>
     </table>
-    <a href="http://localhost:8080/frontend/app/index.html#/addRoute">
-        <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-        </section>
-    </a>
-</div>
+    <p class="addTextProfile" ng-click="goAddRoute()"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg route toe</p>
+</section>
 
 
 <div class="blockRight">
-    <table class="ritTable">
-        <tr class="tableTitles">
+    <table class="ritTable general blackwhite">
+        <thead><tr class="tableTitles">
             <td>
                 Vertrek
             </td>
             <td>
                 Bestemming
             </td>
-        </tr>
-        <tr>
+        </tr></thead>
+        <tbody><tr>
             <td>
                 Fort verboomstraat 32, 9130 Kieldrecht
             </td>
@@ -178,47 +129,106 @@
             <td>
                 Nationalestraat 22, 2000 Antwerpen
             </td>
-        </tr>
+        </tr></tbody>
+        <tfoot><tr class="tableTitles">
+            <td>
+                Vertrek
+            </td>
+            <td>
+                Bestemming
+            </td>
+        </tr></tfoot>
     </table>
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
         toe
     </section>
 </div>
 
-<div class="myRoutes" ng-hide="hideTrajects">
-    <table class="trajectTable">
-        <tr class="tableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-            <td>
-                Pick-up(s)
-            </td>
-            <td>
-                Drop-off(s)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-            <td>
-                <li>Molenstraat 10, 9130 Kieldrecht</li>
-                <li>Kieldrechtsebaan 55, 9130 Verrebroek</li>
-            </td>
-            <td>
-                <li>Nationalestraat 22, 2000 Antwerpen</li>
-            </td>
-        </tr>
+<div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
+    <div class="loadingoverlay" ng-show="!trajects.mineLoaded || !trajects.iRequestedLoaded || !trajects.requestedOnMyRoutesLoaded">Loading...</div>
+    <h4>Mijn trajecten</h4>
+    <table class="general blackwhite">
+        <thead><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></thead>
+        <tbody><tr ng-show="trajects.mineEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.mine" >
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></tfoot>
     </table>
-    <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>{{addText}}
-    </section>
+    <h4>Trajecten die je aangevraagd hebt</h4>
+    <table class="general blackwhite">
+        <thead><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></thead>
+        <tbody><tr ng-show="trajects.iRequestedEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.iRequested">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Chauffeur</td>
+        </tr></tfoot>
+    </table>
+    <h4>Trajecten die werden aangevraagd op jouw route</h4>
+    <span class="error" ng-show="trajects.error.unauthorized">You are not authorized to do that.</span>
+    <table class="general blackwhite">
+        <thead><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Aangevraagd door</td>
+            <td>Acties</td>
+        </tr></thead>
+        <tbody><tr ng-show="trajects.requestedOnMyRoutesEmpty" class="nodata"><td colspan="6">Geen trajecten gevonden</td></tr>
+        <tr ng-repeat="t in trajects.requestedOnMyRoutes">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+            <td>{{t.pickup}}</td>
+            <td>{{t.dropoff}}</td>
+            <td>{{getWeekdayL10n(t.weekday)}}</td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}" /><span>{{t.route.requester.name}}</span></td>
+            <td>
+                <button class="positive" ng-click="acceptTraject(t.id)">Accepteren</button>
+                <button class="negative" ng-click="rejectTraject(t.id)">Weigeren</button>
+            </td>
+        </tr></tbody>
+        <tfoot><tr>
+            <td> </td>
+            <td>Pick-up</td>
+            <td>Drop-off</td>
+            <td>Dag</td>
+            <td>Aangevraagd door</td>
+            <td>Acties</td>
+        </tr></tfoot>
+    </table>
 </div>
 </section>
+<br class="clear" />
 </section>

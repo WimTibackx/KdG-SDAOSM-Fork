@@ -95,8 +95,4 @@ public class loginControllerTest {
                 .content(myString))
                 .andExpect(jsonPath("error", is("LoginComboWrong")));
     }
-
-
-
-
 }

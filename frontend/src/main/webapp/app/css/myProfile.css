@@ -29,7 +29,6 @@
 
 .blockRight, .myRoutes {
     border: solid 1px gray;
-    height: 29.1em;
     margin-right: 1em;
     margin-top: 1em;
     width: 19em;
@@ -38,12 +37,13 @@
 
 .blockRight {
     float: right;
-    height: 485px;
+    min-height: 485px;
+    padding:1em;
 }
 
 .myRoutes, #trajects {
     width: 50em;
-    height: 485px;
+    min-height: 485px;
     float: left;
     margin-left: 1em;
 }
@@ -57,150 +57,8 @@
     padding-left: 0.2em;
 }
 
-/* route table */
-.routeTable {
-    margin-left: 1em;
-    padding: 0px;
-    width: 48em;
-    margin-top: 1em;
-    border: 1px solid #ffffff;
-}
+/* If you're looking for the table stuff, that is now generalised in layout.css */
 
-.routeTable tr:hover, .ritTable tr:hover, .trajectTable tr:hover {
-    background: rgba(238, 238, 238, 0.09);
-    cursor: pointer;
-}
-
-.routeTable table, .ritTable table, .trajectTable table, #carTable table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-}
-
-.routeTable tr:last-child td:last-child, .ritTable tr:last-child td:last-child, .trajectTable tr:last-child td:last-child, #carsTable tr:last-child td:last-child {
-    -moz-border-radius-bottomright: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.routeTable table tr:first-child td:first-child, .ritTable table tr:first-child td:first-child, .trajectTable table tr:first-child td:first-child, #carsTable table tr:first-child td:first-child {
-    -moz-border-radius-topleft: 0px;
-    -webkit-border-top-left-radius: 0px;
-    border-top-left-radius: 0px;
-}
-
-.routeTable table tr:first-child td:last-child, .ritTable table tr:first-child td:last-child, .trajectTable table tr:first-child td:last-child, #carsTable table tr:first-child td:last-child {
-    -moz-border-radius-topright: 0px;
-    -webkit-border-top-right-radius: 0px;
-    border-top-right-radius: 0px;
-}
-
-.routeTable tr:last-child td:first-child, .ritTable tr:last-child td:first-child, .trajectTable tr:last-child td:first-child, #carsTable tr:last-child td:first-child {
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-}
-
-.routeTable tr:hover td, .ritTable tr:hover td, .trajectTable tr:hover td, #carsTable tr:hover td {
-
-}
-
-/*.routeTable tr:nth-child(odd), .ritTable tr:nth-child(odd), .trajectTable tr:nth-child(odd), #carsTable tr:nth-child(odd) {
-    background-color: #c4c4c4;
-}
-
-.routeTable tr:nth-child(even), .ritTable tr:nth-child(even), .trajectTable tr:nth-child(even), #carsTable tr:nth-child(even) {
-    background-color: #ffffff;
-}  */
-
-#routeTableTitles, .tableTitles{
-    cursor: default;
-}
-
-.routeTable td, .ritTable td, .trajectTable td, #carsTable td {
-    vertical-align: middle;
-    text-align: left;
-    padding: 5px;
-    font-size: 12px;
-    font-family: Arial;
-    font-weight: normal;
-    color: white;
-}
-
-.routeTable tr:last-child td, .ritTable tr:last-child td, .trajectTable tr:last-child td, #carsTable tr:last-child td {
-    border-width: 0px 1px 0px 0px;
-}
-
-.routeTable tr td:last-child, .ritTable tr td:last-child, .trajectTable tr td:last-child, #carsTable tr td:last-child {
-    border-width: 0px 0px 1px 0px;
-}
-
-.routeTable tr:last-child td:last-child, .ritTable tr:last-child td:last-child, .trajectTable tr:last-child td:last-child, #carsTable tr:last-child td:last-child {
-    border-width: 0px 0px 0px 0px;
-}
-
-.routeTable tr:first-child td, .ritTable tr:first-child td, .trajectTable tr:first-child td, #carsTable tr:first-child td {
-    background: -o-linear-gradient(bottom, #353535 5%, #353535 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #353535), color-stop(1, #353535));
-    background: -moz-linear-gradient(center top, #353535 5%, #353535 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#353535", endColorstr="#353535");
-    background: -o-linear-gradient(top, #353535, 353535);
-
-    background-color: #353535;
-    border: 0px solid #ffffff;
-    border-width: 0px 0px 1px 1px;
-    /*font-size: 0.8em;*/
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/*.routeTable tr:first-child:hover td, .ritTable tr:first-child:hover td, .trajectTable tr:first-child:hover td, #carsTable tr:first-child:hover td {
-    background: -o-linear-gradient(bottom, #353535 5%, #353535 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #353535), color-stop(1, #353535));
-    background: -moz-linear-gradient(center top, #353535 5%, #353535 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#353535", endColorstr="#353535");
-    background: -o-linear-gradient(top, #353535, 353535);
-
-    background-color: #353535;
-}            */
-
-.routeTable tr:first-child td:first-child, .ritTable tr:first-child td:first-child, .trajectTable tr:first-child td:first-child, #carsTable tr:first-child td:first-child {
-    border-width: 0px 0px 1px 0px;
-    color: white;
-}
-
-.routeTable tr:first-child td:last-child, .ritTable tr:first-child td:last-child, .trajectTable tr:first-child td:last-child, #carsTable tr:first-child td:last-child {
-    border-width: 0px 0px 1px 1px;
-    color: white;
-}
-
-.tableTitles {
-    font-size: 1.3em;
-}
-
-.ritTable {
-    margin-left: 1em;
-    margin-right: 1em;
-    padding: 0px;
-    width: 17em;
-    margin-top: 1em;
-    border: 1px solid #ffffff;
-}
-
-.trajectTable {
-    margin-left: 1em;
-    padding: 0px;
-    width: 48em;
-    margin-top: 1em;
-    border: 1px solid #ffffff;
-}
-
-.ritTable tr td li, .trajectTable tr td li {
-    list-style-type: decimal;
-}
 
 .routeButton {
     background: rgb(53, 53, 53);
@@ -221,14 +79,6 @@
     cursor: pointer;
 }
 
-/*#carsTable{
-    float: left;
-    margin-left: 1em;
-    margin-top: 1em;
-    border: solid 1px gray;
-    width: 60%;
-}    */
-
 /* overview cars my profile */
 #carImage {
     width: 160px;
@@ -239,7 +89,7 @@
 }
 
 #carsOverview {
-    margin: 1em 1em 2.5em 1em;
+    margin-bottom: 2.5em;
     padding-bottom: 5em;
     position: relative;
     cursor: pointer;
@@ -259,7 +109,7 @@
     float: left;
     margin: 1em;
     border: solid 1px gray;
-    width: 50em;
+    width: 53.5em;
     height: 485px;
     position: relative;
 }
@@ -269,7 +119,7 @@
     border-left: solid 1px gray;
 }
 
-.tab {
+#tabsMyProfile .tab {
     font-size: 0.5em;
     float: right;
     margin-left: 3em;
@@ -292,25 +142,94 @@
     position: absolute;
     bottom: 0px;
     width: 100%;
+    margin:0 0 0 -1em;
 }
 
 .addTextInfoProfile{
     color: white;
     cursor: pointer;
-    border-top: solid 1px gray;
-    padding: 1em 0;
+    padding: 0.2em 0;
     bottom: 0px;
     width: 100%;
-    margin-top: 83%;
 }
 
 .noUnderline{
     text-decoration: none;
 }
 
-.changePasswordIcon{
+.changePasswordIcon, .resetPasswordIcon{
     height: 15px;
     width: 15px;
     margin-right: 1em;
     margin-left: 0;
+}
+.profilemiddle {
+    padding:1em;
+}
+#passwordActions{
+    margin-top: 200px;
+    border-top: solid 1px gray;
+}
+
+#profileTrajecten {
+    position: relative;
+    color:#FFFFFF;
+}
+
+#profileTrajecten .loadingoverlay {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#353535;
+    font-size:2rem;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFFFFF;
+    padding:10em;
+}
+#profileTrajecten table img {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(59, 150, 206);
+    background:#FFFFFF;
+}
+#profileTrajecten h4:first-child {
+    margin-top:0;
+}
+
+#profileTrajecten button.positive {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: rgb(53,53,53);
+    padding: 12px 5px 8px;
+    text-align: center;
+    cursor:pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+#profileTrajecten button.negative {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: #aaaaaa;
+    padding: 12px 5px 8px;
+    text-align: center;
+    cursor:pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+#profileTrajecten table td.details {
+    background: url(../img/search/searchIcon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width:30px;
+    background-position:center center;
+}
+#profileTrajecten table tr.nodata {
+    font-style: italic;
+    text-align: center;
 }

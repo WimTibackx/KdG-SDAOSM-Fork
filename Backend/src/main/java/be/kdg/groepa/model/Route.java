@@ -1,11 +1,13 @@
 package be.kdg.groepa.model;
 
 import org.hibernate.annotations.*;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,11 @@ public class Route {
     private int capacity;
 
     @Column(name="begin_date")
-    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
-    private LocalDateTime beginDate;
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDate")
+    private LocalDate beginDate;
     @Column(name="end_date")
-    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
-    private LocalDateTime endDate;
+    @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDate")
+    private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn(name="userId", nullable=false)
@@ -43,6 +45,7 @@ public class Route {
 
     @OneToMany(mappedBy="route")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @OrderBy("time")
     private List<PlaceTime> placeTimes = new ArrayList<>();
 
     @OneToMany(mappedBy="route")
@@ -58,11 +61,7 @@ public class Route {
         this.placeTimes = placeTimes;
     }
 
-    public List<WeekdayRoute> getWeekdayRoutes() {
-        return weekdayRoutes;
-    }
-
-    public Route(boolean repeating, int capacity, LocalDateTime beginDate, LocalDateTime endDate, User chauffeur, Car car, PlaceTime start, PlaceTime end) {
+    public Route(boolean repeating, int capacity, LocalDate beginDate, LocalDate endDate, User chauffeur, Car car) {
         this.repeating = repeating;
         this.capacity = capacity;
 
@@ -71,8 +70,6 @@ public class Route {
         this.endDate = endDate;
         this.chauffeur = chauffeur;
         this.car = car;
-        this.placeTimes.add(start);
-        this.placeTimes.add(end);
     }
 
     public boolean isRepeating()
@@ -85,7 +82,7 @@ public class Route {
         this.weekdayRoutes.add(wr);
     }
 
-    public void addPlaceTime(PlaceTime pt)
+    protected void addPlaceTime(PlaceTime pt)
     {
         this.placeTimes.add(pt);
     }
@@ -126,15 +123,27 @@ public class Route {
         return id;
     }
 
-    public LocalDateTime getBeginDate() {
+    public LocalDate getBeginDate() {
         return beginDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
     public Car getCar() {
         return car;
+    }
+
+    public List<WeekdayRoute> getWeekdayRoutes() {
+        return weekdayRoutes;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

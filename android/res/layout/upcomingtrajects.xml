@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="fill_parent" android:orientation="vertical" android:layout_marginTop="3dp">
+             android:layout_height="fill_parent" android:orientation="vertical" android:layout_marginTop="3dp"
+             android:weightSum="1">
 
-    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/uptLoading" android:text="@string/uptLoading"/>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/uptLoading"
+              android:text="@string/uptLoading"
+              android:layout_gravity="top"
+            android:layout_weight=".10"/>
     <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/uptNoneFound" android:text="@string/uptNoneFound" android:visibility="gone" />
 
     <ListView
-            android:layout_height="match_parent" android:layout_width="fill_parent"
+            android:layout_height="422dp" android:layout_width="fill_parent"
             android:id="@android:id/list" android:padding="5dp"
-            android:dividerHeight="3dp" android:divider="#00000000"/>
+            android:dividerHeight="3dp" android:divider="#00000000" android:layout_gravity="top"
+            android:layout_weight="0.70"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_weight=".20">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/SendMessageToPassengers"
+                android:id="@+id/btnMessagePassenger"
+                android:layout_weight="0.80"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_weight=".20"
+                android:layout_height="wrap_content"
+                android:text="@string/ConfirmRide"
+                android:id="@+id/btnConfirmRide"/>
+    </LinearLayout>
 
     <!--<include layout="@layout/upcoming_traject_card" android:id="@+id/upt1"/>
 

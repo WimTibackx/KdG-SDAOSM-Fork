@@ -4,13 +4,13 @@ package be.kdg.groepa.service.impl;
 import be.kdg.groepa.exceptions.PasswordFormatException;
 import be.kdg.groepa.exceptions.UsernameExistsException;
 import be.kdg.groepa.exceptions.UsernameFormatException;
+import be.kdg.groepa.helpers.EmailSender;
+import be.kdg.groepa.helpers.PasswordGenerator;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 
-import be.kdg.groepa.exceptions.PasswordFormatException;
-import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.UserService;
 import org.apache.log4j.Logger;
@@ -179,7 +179,6 @@ public class UserServiceImpl implements UserService {
         f.delete();
         user.setAvatarURL(null);
         userDao.updateUser(user);
-        //userDao.removeUserPicture(username);
     }
 
     @Override
@@ -198,8 +197,40 @@ public class UserServiceImpl implements UserService {
         return userDao.getRoutesFromUser(testUsername);
     }
 
+    @Override
+    public void setUserAndroidId(String username, String id) {
+        userDao.setUserAndroidId(username, id);
+    }
+
+    @Override
+    public String resetPassword(String username) throws Exception {
+        User u = getUser(username);
+        String newPw = PasswordGenerator.generateRandomPassword();
+        int res = changePasswordWithoutOld(username, newPw);
+        if(res == 1){
+            EmailSender.sendPasswordResetEmail(username, newPw);
+        } else if (res == 3){
+            throw new Exception("New password was invalid");
+        } else if (res == 4){
+            throw new Exception("No user was found with username");
+        }
+        return newPw;
+    }
+
     public void removeCarPicture(Car car) {
         userDao.removeCarPicture(car);
     }
 
+    private int changePasswordWithoutOld(String username, String newPassword) {   // return reasons: 1 = succes, 2 = old password does not match, 3 = new password doesn't respect conditions, 4 = user does not exist
+        User user = userDao.getUser(username);
+        if (user != null) {
+            if (!isValidPassword(newPassword)) return 3;
+            else
+            {
+                userDao.changePassword(username, encryptString(newPassword));
+                return 1;
+            }
+        }
+        return 4;
+    }
 }

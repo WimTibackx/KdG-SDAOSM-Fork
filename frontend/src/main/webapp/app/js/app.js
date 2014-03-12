@@ -1,5 +1,4 @@
-var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingControllers', 'carpoolServices', 'carpoolDirectives'
-]);
+var carpoolingApp = angular.module('carpoolingApp', ['ngRoute', 'carpoolingControllers', 'carpoolServices', 'carpoolDirectives']);
 
 carpoolingApp.config(['$routeProvider', '$controllerProvider',
     function ($routeProvider, $controllerProvider) {
@@ -47,6 +46,9 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
             when('/search', {
                 templateUrl: 'partials/search.html'//,
                //controller: 'searchCtrl'
+            }).
+            when("/route/:routeId",{
+                templateUrl: 'partials/viewRoute.html'
             }).
             when('/inbox', {
                 templateUrl: 'partials/inbox.html'

@@ -3,6 +3,7 @@ package be.kdg.groepa.persistence.impl;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -22,37 +23,6 @@ public class RouteDaoImpl implements RouteDao {
     @Transactional
     @Override
     public void addRepeatingRoute(Route r) {
-
-        /*Session ses = HibernateUtil.openSession();
-        for(PlaceTime pt:r.getAllPlaceTimes()){
-            ses.saveOrUpdate(pt.getPlace());
-            ses.saveOrUpdate(pt);
-        }
-        ses.saveOrUpdate(r);
-        HibernateUtil.closeSession(ses);
-        // HibernateUtil.addObject(r); ???
-
-        Session ses = HibernateUtil.openSession();
-        List<WeekdayRoute> wrs = r.getWeekdayRoutes();
-        for (int j = 0; j < wrs.size(); j++)
-        {
-            WeekdayRoute wr = wrs.get(j);
-            int sz = wr.getPlaceTimes().size();
-            for (int i = 0; i < sz; i++)
-            {
-                System.out.println(wr.getPlaceTimes().size());
-                PlaceTime pt = wr.getPlaceTimes().get(i);
-                savePlaceTimeToPlace(pt, pt.getPlace(), ses);
-                pt.setWeekdayRoute(wr);
-                wr.addPlaceTime(pt);
-                ses.saveOrUpdate(pt);
-            }
-            ses.saveOrUpdate(wr);
-            r.addWeekdayRoute(wr);
-            wr.setRoute(r);
-            ses.saveOrUpdate(r);
-        }*/
-
         Session ses = HibernateUtil.openSession();
         List<WeekdayRoute> wrs = r.getWeekdayRoutes();
         for (WeekdayRoute wr : wrs)
@@ -61,6 +31,7 @@ public class RouteDaoImpl implements RouteDao {
             for (PlaceTime pt : placetimes)
             {
                 ses.saveOrUpdate(pt.getPlace());
+                ses.saveOrUpdate(pt.getRoute());
                 ses.saveOrUpdate(pt);
             }
             ses.saveOrUpdate(wr);
@@ -76,61 +47,17 @@ public class RouteDaoImpl implements RouteDao {
         Session ses = HibernateUtil.openSession();
         for (PlaceTime pt : r.getPlaceTimes())
         {
-            ses.saveOrUpdate(pt.getPlace());//savePlaceTimeToPlace(pt, pt.getPlace(), ses);
+            ses.saveOrUpdate(pt.getPlace());
+            ses.saveOrUpdate(pt.getRoute());
             ses.saveOrUpdate(pt);
         }
         ses.saveOrUpdate(r);
         HibernateUtil.closeSession(ses);
     }
 
-    private void savePlaceTimeToPlace(PlaceTime pt, Place p,Session s)
-    {
-        Query q = s.createQuery("FROM Place plaats WHERE plaats.name = :na");
-        q.setString("na", p.getName());
-        s.saveOrUpdate(pt);
-        Place place = null;//(Place)q.uniqueResult();
-        if (place != null)
-        {
-            place.addPlaceTime(pt);
-            pt.setPlace(place);
-            s.saveOrUpdate(place);
-            s.saveOrUpdate(pt);
-            p = null;
-            p = place;
-        }
-        else
-        {
-            s.saveOrUpdate(p);     // Might have to change
-            p.addPlaceTime(pt);
-            pt.setPlace(p);
-            s.saveOrUpdate(p);
-            s.saveOrUpdate(pt);
-        }
-    }
-
-
-
-
-    /*
-    @Override
-    public void addRepeatingRoute(Route r)
-    {
-        //List<Place> places = r.
-    } */
-
     @Override
     public void addPlace(Place p) {
         Session ses = HibernateUtil.openSession();
-        ses.saveOrUpdate(p);
-        HibernateUtil.closeSession(ses);
-    }
-
-    @Override
-    public void addPlaceTimeToPlace(PlaceTime pt, Place p) {
-        Session ses = HibernateUtil.openSession();
-        pt.setPlace(p);
-        p.addPlaceTime(pt);
-        ses.saveOrUpdate(pt);
         ses.saveOrUpdate(p);
         HibernateUtil.closeSession(ses);
     }
@@ -146,21 +73,10 @@ public class RouteDaoImpl implements RouteDao {
         }
     }*/
 
-    @Transactional
-    @Override
-    public void addPlaceTimeToRoute(Route r, PlaceTime pt)
-    {
-        Session ses = HibernateUtil.openSession();
-        pt.setRoute(r);
-        r.addPlaceTime(pt);
-        ses.saveOrUpdate(pt);
-        ses.saveOrUpdate(r);
-        HibernateUtil.closeSession(ses);
-    }
-
     @Override
     public void addWeekdayRoute(WeekdayRoute wr) {
         Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(wr.getRoute());
         ses.saveOrUpdate(wr);
         HibernateUtil.closeSession(ses);
     }
@@ -216,6 +132,7 @@ public class RouteDaoImpl implements RouteDao {
         Query query = ses.createQuery("from PlaceTime pt where pt.placetimeId = :id");
         query.setInteger("id", id);
         PlaceTime pt = (PlaceTime)query.uniqueResult();
+        pt.getTrajecten().size();
         HibernateUtil.closeSession(ses);
         return pt;
     }
@@ -223,7 +140,7 @@ public class RouteDaoImpl implements RouteDao {
     @Override
     public Route getRouteById(int routeId) {
         Session ses = HibernateUtil.openSession();
-        Query query = ses.createQuery("from Route ro where ro.id = :id");
+        Query query = ses.createQuery("select ro from Route ro where ro.id = :id");
         query.setInteger("id", routeId);
         Route route = (Route)query.uniqueResult();
         HibernateUtil.closeSession(ses);
@@ -231,6 +148,25 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
+    public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("select wdr from WeekdayRoute wdr left join wdr.route left join wdr.placeTimes where wdr.route.id = :routeId");
+        query.setInteger("routeId",routeId);
+        List<WeekdayRoute> wdrs = query.list();
+        HibernateUtil.closeSession(ses);
+        return wdrs;
+    }
+
+    @Override
+    public List<Route> getRoutes(User user) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("from Route r where r.chauffeur.id = :userId");
+        query.setInteger("userId",user.getId());
+        List<Route> routes = query.list();
+        HibernateUtil.closeSession(ses);
+        return routes;
+    }
+
     public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius) {    // TODO: NOT FINISHED!
         Session ses = HibernateUtil.openSession();
         Query query = ses.createQuery("   " +
@@ -250,5 +186,11 @@ public class RouteDaoImpl implements RouteDao {
         List<Route> rtval = query.list();
         HibernateUtil.closeSession(ses);
         return rtval;
+    }
+
+    public void addPlaceTime(PlaceTime pt) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(pt);
+        HibernateUtil.closeSession(ses);
     }
 }

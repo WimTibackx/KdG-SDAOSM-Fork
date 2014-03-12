@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +29,9 @@ public class TrajectDaoImpl implements TrajectDao {
         ses.saveOrUpdate(traject.getPickup());
         ses.saveOrUpdate(traject.getDropoff().getPlace());
         ses.saveOrUpdate(traject.getDropoff());
+        ses.saveOrUpdate(traject.getRoute().getChauffeur());
         ses.saveOrUpdate(traject.getRoute());
+        ses.saveOrUpdate(traject.getUser());
         ses.saveOrUpdate(traject);
         HibernateUtil.closeSession(ses);
     }
@@ -59,7 +60,9 @@ public class TrajectDaoImpl implements TrajectDao {
         Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(previousPlaceTime.getPlace());
         ses.saveOrUpdate(newPlaceTime.getPlace());
+        ses.saveOrUpdate(previousPlaceTime.getRoute());
         ses.saveOrUpdate(previousPlaceTime);
+        ses.saveOrUpdate(newPlaceTime.getRoute());
         ses.saveOrUpdate(newPlaceTime);
         ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);
@@ -83,5 +86,49 @@ public class TrajectDaoImpl implements TrajectDao {
         List<Traject> trajects = query.list();
         HibernateUtil.closeSession(ses);
         return trajects;
+    }
+
+    @Override
+    public List<Traject> getRequestedTrajects(User user) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("select t from Traject t where isAccepted = false and user.id = :userId");
+        query.setParameter("userId", user.getId());
+        List<Traject> trajects = query.list();
+        HibernateUtil.closeSession(ses);
+        return trajects;
+    }
+
+    @Override
+    public List<Traject> getRequestedOnMyRoutes(User user) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("select t from Traject t join t.route where isAccepted = false and t.route.chauffeur.id = :userId");
+        query.setParameter("userId", user.getId());
+        List<Traject> trajects = query.list();
+        HibernateUtil.closeSession(ses);
+        return trajects;
+    }
+
+    @Override
+    public void updateTraject(Traject t) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(t);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public void removeTraject(Traject t) {
+        Session ses = HibernateUtil.openSession();
+        ses.delete(t);
+        HibernateUtil.closeSession(ses);
+    }
+
+    @Override
+    public User getChauffeurByTraject(Traject t) {
+        Session ses = HibernateUtil.openSession();
+        Query query = ses.createQuery("select u from Traject t join t.route join t.route.chauffeur u where t.id = :trajectId");
+        query.setParameter("trajectId", t.getId());
+        User user = (User)query.uniqueResult();
+        HibernateUtil.closeSession(ses);
+        return user;
     }
 }

@@ -21,13 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/authorized/changepassword")
-public class ChangePasswordController extends BaseController{
+public class ChangePasswordController extends BaseController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method= RequestMethod.POST)
-    public @ResponseBody String changePassword(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String changePassword(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject myJson = new JSONObject(), inJson = new JSONObject(data);
         String oldpassword, newpassword;
         User user = null;
@@ -36,16 +38,16 @@ public class ChangePasswordController extends BaseController{
         newpassword = (String) inJson.get("newpassword");
 
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies ){
+        for (Cookie cookie : cookies) {
             if (cookie.getName().equals("Token")) {
                 SessionObject session = userService.getUserSessionByToken(cookie.getValue());
                 user = session.getUser();
             }
         }
 
-        if(user != null){
+        if (user != null) {
             int resultValue = userService.changePassword(user.getUsername(), oldpassword, newpassword);
-            if(resultValue == 1){
+            if (resultValue == 1) {
                 myJson.put("result", "PasswordChanged");
             } else if (resultValue == 2) {
                 myJson.put("result", "OldPasswordWrong");
@@ -57,11 +59,19 @@ public class ChangePasswordController extends BaseController{
         }
         super.updateCookie(request, response);
         return myJson.toString();
-
-
-
-
-
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/reset")
+    public @ResponseBody String resetPassword(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject dataJson = new JSONObject(data), myJson = new JSONObject();
+        String username = dataJson.getString("username"), result;
+        try {
+            result = userService.resetPassword(username);
+        } catch (Exception e) {
+            myJson.put("error", "Something went wrong. Your password was not reset.");
+            return myJson.toString();
+        }
+        myJson.put("newPassword", result);
+        return myJson.toString();
+    }
 }

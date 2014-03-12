@@ -16,8 +16,14 @@ import java.util.List;
 @Service("textMessageService")
 public class TextMessageServiceImpl implements TextMessageService {
 
-    @Autowired
+
     private TextMessageDao textMessageDao;
+
+    @Autowired
+    @Override
+    public void setTextMessageDao(TextMessageDao dao) {
+        this.textMessageDao = dao;
+    }
 
     @Override
     public void addNewMessage(TextMessage message) {

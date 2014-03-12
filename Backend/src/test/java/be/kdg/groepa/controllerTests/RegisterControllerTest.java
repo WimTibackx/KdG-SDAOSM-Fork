@@ -1,10 +1,7 @@
 package be.kdg.groepa.controllerTests;
 
 import be.kdg.groepa.TestUtil;
-import be.kdg.groepa.model.User;
-import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 public class RegisterControllerTest {
     private MockMvc mockMvc;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;

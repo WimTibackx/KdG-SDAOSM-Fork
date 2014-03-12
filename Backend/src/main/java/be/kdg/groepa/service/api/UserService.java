@@ -36,4 +36,8 @@ public interface UserService {
     public void setUserPicture(User user, InputStream picture, String originalName) throws IOException;
 
     List<Route> getRoutesFromUser(String testUsername);
+
+    public void setUserAndroidId(String username, String id);
+
+    public String resetPassword(String username) throws Exception;
 }

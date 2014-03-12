@@ -125,4 +125,8 @@ public class Car {
     public FuelType getFuelType() {
         return fuelType;
     }
+
+    public void setCarId(Integer carId) {
+        this.carId = carId;
+    }
 }
