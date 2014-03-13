@@ -219,7 +219,7 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
-#profileTrajecten table td.details {
+.myRoutes table td.details, #profileTrajecten table td.details {
     background: url(../img/search/searchIcon.png);
     background-size: contain;
     background-repeat: no-repeat;
@@ -229,4 +229,12 @@
 #profileTrajecten table tr.nodata {
     font-style: italic;
     text-align: center;
+}
+
+.tableNavigation {
+    text-align: right;
+}
+
+.tableNavigation button {
+    margin: 0 10px;
 }

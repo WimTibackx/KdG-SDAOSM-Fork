@@ -60,20 +60,19 @@ public class AddRouteDTO {
                 DayOfWeek dow = null;
                 String key = (String)daysIt.next();
                 switch (key) {
-                    case "Ma": dow=DayOfWeek.MONDAY; break;
-                    case "Di": dow=DayOfWeek.TUESDAY; break;
-                    case "Wo": dow=DayOfWeek.WEDNESDAY; break;
-                    case "Do": dow=DayOfWeek.THURSDAY; break;
-                    case "Vr": dow=DayOfWeek.FRIDAY; break;
-                    case "Za": dow=DayOfWeek.SATURDAY; break;
-                    case "Zo": dow=DayOfWeek.SUNDAY; break;
+                    case "Mo": dow=DayOfWeek.MONDAY; break;
+                    case "Tu": dow=DayOfWeek.TUESDAY; break;
+                    case "We": dow=DayOfWeek.WEDNESDAY; break;
+                    case "Th": dow=DayOfWeek.THURSDAY; break;
+                    case "Fr": dow=DayOfWeek.FRIDAY; break;
+                    case "Sa": dow=DayOfWeek.SATURDAY; break;
+                    case "Su": dow=DayOfWeek.SUNDAY; break;
                 }
 
                 List<LocalTime> passageTimes = new ArrayList<>();
                 JSONArray jsonTimes = passages.getJSONArray(key);
                 if (jsonTimes.length()!=this.places.size()) { throw new MissingDataException("time"); }
                 for (int j=0; j<jsonTimes.length(); j++) {
-                    if (jsonTimes.get(j).toString().equals("0")) { break; }
                     passageTimes.add(LocalTime.parse(jsonTimes.getString(j)));
                 }
                 if (passageTimes.size()>0) {

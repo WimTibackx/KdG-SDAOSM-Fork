@@ -18,8 +18,8 @@
                     <li class="info">{{smoker}}</li>
                 </ul>
 
-    </section>
-</div>
+             </section>
+        </div>
 
 <!--div id="carsBlock">
     <table id="carsTable">
@@ -50,46 +50,74 @@
 
 
 <section class="myRoutes profilemiddle" ng-hide="hideRoutes">
-    <!-- TODO: Would be nice having vertrek, bestemming, dayofweek/nextday but then we need weekdayroutes, not routes -->
     <table id="routes" class="general blackwhite">
-        <thead><tr>
+        <thead>
+        <tr>
+            <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
             <td>Herhalend</td>
-        </tr></thead>
-        <tbody><tr ng-repeat="route in routes" ng-click="goRoute(route.id,-1)">
+            <td>Vertrek</td>
+            <td>Bestemming</td>
+            <td>Dag</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="route in routes | startFrom:currentPage.route*itemsPerPage | limitTo:itemsPerPage">
+            <td class="details" ng-click="goRoute(route.id,route.day)"></td>
             <td>{{formatDateString(route.startDate)}}</td>
             <td>{{formatDateString(route.endDate)}}</td>
             <td>{{booleanL10n(route.repeating)}}</td>
-        </tr></tbody>
-        <thead><tr>
+            <td>{{route.startPlace}}</td>
+            <td>{{route.endPlace}}</td>
+            <td>{{getWeekdayL10n(route.day)}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
             <td>Herhalend</td>
-        </tr></thead>
+            <td>Vertrek</td>
+            <td>Bestemming</td>
+            <td>Dag</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right;">
+                <button ng-disabled="currentPage.route == 0" ng-click="currentPage.route=currentPage.route-1">
+                    Previous
+                </button>
+            </td>
+            <td style="text-align: center;">
+                {{currentPage.route+1}}/{{numberOfPages(routes)}}
+            </td>
+            <td colspan="3">
+                <button ng-disabled="currentPage.route >= routes.length/itemsPerPage - 1" ng-click="currentPage.route=currentPage.route+1">
+                    Next
+                </button>
+            </td>
+        </tr>
+        </tfoot>
     </table>
-    <p class="addTextProfile" ng-click="goAddRoute()"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg route toe</p>
+    <p class="addTextProfile" ng-click="goAddRoute()"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg
+        route toe</p>
 </section>
 
 
 <div class="blockRight">
     <table class="ritTable general blackwhite">
-        <thead><tr class="tableTitles">
+        <thead>
+        <tr class="tableTitles">
             <td>
                 Vertrek
             </td>
             <td>
                 Bestemming
             </td>
-        </tr></thead>
-        <tbody><tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
         </tr>
+        </thead>
+        <tbody>
         <tr>
             <td>
                 Fort verboomstraat 32, 9130 Kieldrecht
@@ -129,15 +157,26 @@
             <td>
                 Nationalestraat 22, 2000 Antwerpen
             </td>
-        </tr></tbody>
-        <tfoot><tr class="tableTitles">
+        </tr>
+        <tr>
+            <td>
+                Fort verboomstraat 32, 9130 Kieldrecht
+            </td>
+            <td>
+                Nationalestraat 22, 2000 Antwerpen
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class="tableTitles">
             <td>
                 Vertrek
             </td>
             <td>
                 Bestemming
             </td>
-        </tr></tfoot>
+        </tr>
+        </tfoot>
     </table>
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
         toe
@@ -145,90 +184,158 @@
 </div>
 
 <div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
-    <div class="loadingoverlay" ng-show="!trajects.mineLoaded || !trajects.iRequestedLoaded || !trajects.requestedOnMyRoutesLoaded">Loading...</div>
+    <div class="loadingoverlay"
+         ng-show="!trajects.mineLoaded || !trajects.iRequestedLoaded || !trajects.requestedOnMyRoutesLoaded">Loading...
+    </div>
     <h4>Mijn trajecten</h4>
     <table class="general blackwhite">
-        <thead><tr>
-            <td> </td>
+        <thead>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Chauffeur</td>
-        </tr></thead>
-        <tbody><tr ng-show="trajects.mineEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
-        <tr ng-repeat="t in trajects.mine" >
-            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="trajects.mineEmpty" class="nodata">
+            <td colspan="5">Geen trajecten gevonden</td>
+        </tr>
+        <tr ng-repeat="t in trajects.mine | startFrom:currentPage.traj.mine*itemsPerPage | limitTo:itemsPerPage">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"></td>
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
-        </tr></tbody>
-        <tfoot><tr>
-            <td> </td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Chauffeur</td>
-        </tr></tfoot>
+        </tr>
+        <tr>
+            <td colspan="5" class="tableNavigation">
+                <button ng-disabled="currentPage.traj.mine == 0" ng-click="currentPage.traj.mine=currentPage.traj.mine-1">
+                    Previous
+                </button>
+
+                {{currentPage.traj.mine+1}}/{{numberOfPages(trajects.mine)}}
+
+                <button ng-disabled="currentPage.traj.mine >= trajects.mine.length/itemsPerPage - 1" ng-click="currentPage.traj.mine=currentPage.traj.mine+1">
+                    Next
+                </button>
+            </td>
+        </tr>
+        </tfoot>
     </table>
     <h4>Trajecten die je aangevraagd hebt</h4>
     <table class="general blackwhite">
-        <thead><tr>
-            <td> </td>
+        <thead>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Chauffeur</td>
-        </tr></thead>
-        <tbody><tr ng-show="trajects.iRequestedEmpty" class="nodata"><td colspan="5">Geen trajecten gevonden</td></tr>
-        <tr ng-repeat="t in trajects.iRequested">
-            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="trajects.iRequestedEmpty" class="nodata">
+            <td colspan="5">Geen trajecten gevonden</td>
+        </tr>
+        <tr ng-repeat="t in trajects.iRequested | startFrom:currentPage.traj.iReq*itemsPerPage | limitTo:itemsPerPage">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"></td>
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}" /><span>{{t.route.chauffeur.name}}</span></td>
-        </tr></tbody>
-        <tfoot><tr>
-            <td> </td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Chauffeur</td>
-        </tr></tfoot>
+        </tr>
+        <tr>
+            <td colspan="5" class="tableNavigation">
+                <button ng-disabled="currentPage.traj.iReq == 0" ng-click="currentPage.traj.iReq=currentPage.traj.iReq-1">
+                    Previous
+                </button>
+
+                {{currentPage.traj.iReq+1}}/{{numberOfPages(trajects.iRequested)}}
+
+                <button ng-disabled="currentPage.traj.iReq >= trajects.iRequested.length/itemsPerPage - 1" ng-click="currentPage.traj.iReq=currentPage.traj.iReq+1">
+                    Next
+                </button>
+            </td>
+        </tr>
+        </tfoot>
     </table>
     <h4>Trajecten die werden aangevraagd op jouw route</h4>
     <span class="error" ng-show="trajects.error.unauthorized">You are not authorized to do that.</span>
     <table class="general blackwhite">
-        <thead><tr>
-            <td> </td>
+        <thead>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Aangevraagd door</td>
             <td>Acties</td>
-        </tr></thead>
-        <tbody><tr ng-show="trajects.requestedOnMyRoutesEmpty" class="nodata"><td colspan="6">Geen trajecten gevonden</td></tr>
-        <tr ng-repeat="t in trajects.requestedOnMyRoutes">
-            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"> </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="trajects.requestedOnMyRoutesEmpty" class="nodata">
+            <td colspan="6">Geen trajecten gevonden</td>
+        </tr>
+        <tr ng-repeat="t in trajects.requestedOnMyRoutes | startFrom:currentPage.traj.reqMyRoutes*itemsPerPage | limitTo:itemsPerPage">
+            <td class="details" ng-click="goRoute(t.route.id,t.weekday)"></td>
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}" /><span>{{t.route.requester.name}}</span></td>
+            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}"/><span>{{t.route.requester.name}}</span>
+            </td>
             <td>
                 <button class="positive" ng-click="acceptTraject(t.id)">Accepteren</button>
                 <button class="negative" ng-click="rejectTraject(t.id)">Weigeren</button>
             </td>
-        </tr></tbody>
-        <tfoot><tr>
-            <td> </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
             <td>Pick-up</td>
             <td>Drop-off</td>
             <td>Dag</td>
             <td>Aangevraagd door</td>
             <td>Acties</td>
-        </tr></tfoot>
+        </tr>
+        <tr>
+            <td colspan="6" class="tableNavigation">
+                <button ng-disabled="currentPage.traj.reqMyRoutes == 0" ng-click="currentPage.traj.reqMyRoutes=currentPage.traj.reqMyRoutes-1">
+                    Previous
+                </button>
+
+                {{currentPage.traj.reqMyRoutes+1}}/{{numberOfPages(trajects.requestedOnMyRoutes)}}
+
+                <button ng-disabled="currentPage.traj.reqMyRoutes >= trajects.requestedOnMyRoutes.length/itemsPerPage - 1" ng-click="currentPage.traj.reqMyRoutes=currentPage.traj.reqMyRoutes+1">
+                    Next
+                </button>
+            </td>
+        </tr>
+        </tfoot>
     </table>
 </div>
 </section>
-<br class="clear" />
+<br class="clear"/>
 </section>

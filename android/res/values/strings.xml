@@ -22,4 +22,8 @@
     <string name="uptNoneFound">No upcoming routes were found.</string>
     <string name="SendMessageToPassengers">Message passengers</string>
     <string name="ConfirmRide">Confirm a ride of this route</string>
+    <string name="Left">Departed</string>
+    <string name="TrafficJam">Traffic Jam</string>
+    <string name="NotLeft">Not departed yet</string>
+    <string name="NotDrivingTomorrow">Not driving tomorrow</string>
 </resources>

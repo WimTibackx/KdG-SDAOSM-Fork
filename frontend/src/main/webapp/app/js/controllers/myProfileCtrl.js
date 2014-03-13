@@ -17,8 +17,6 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     var gender = null;
     var avatarUrl = null ;
 
-
-
     $http({
         method: 'GET',
         url: rootUrl + "/authorized/myprofile/",
@@ -172,7 +170,9 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
     };
 
+
     $scope.getWeekdayL10n=function(weekdayNum) {
+
         var weekdaysL10n=["Maandag","Dinsdag","Woensdag","Donderdag","Vrijdag","Zaterdag","Zondag"];
         if (weekdayNum == undefined) return weekdaysL10n[0];
         return weekdaysL10n[weekdayNum];
@@ -218,4 +218,19 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     }
 
     determineActiveTabAtPageload();
+
+    $scope.currentPage = {};
+    $scope.currentPage.route = 0;
+    $scope.currentPage.traj = {};
+    $scope.currentPage.traj.mine = 0;
+    $scope.currentPage.traj.iReq = 0;
+    $scope.currentPage.traj.reqMyRoutes = 0;
+
+    $scope.itemsPerPage = 1;
+    $scope.numberOfPages = function(data) {
+        result = Math.ceil(data.length/$scope.itemsPerPage);
+        console.log(result);
+        return (result > 0) ? Math.ceil(data.length/$scope.itemsPerPage) : "1";
+    }
+
 }]);

@@ -50,6 +50,7 @@ public class TextMessageControllerTest {
         if(!init){
             sender = new User(username1, User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 03), username1);
             receiver =  new User(username2, User.Gender.MALE, false, "Succes1", LocalDate.of(1993, 10, 03), username2);
+            receiver.setAndroidId("APA91bG1lNfmlJVl0g4wdhicPBS454KrJCPqpTBXhW9RshTe9DQxWOEtMPr8Vh6X0iQ0UqvMhHxS65Y_ChD2lkhWANaFetNQvT6OsoaNsCpV3OrwF8WJJDXq2GH48vTD9M1_FGY5THgnHWsiKZsDc-02DoxOB_BGUQ");
             userService.addUser(sender);
             userService.addUser(receiver);
             init = true;

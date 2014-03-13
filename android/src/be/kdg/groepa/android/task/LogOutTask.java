@@ -46,18 +46,12 @@ public class LogOutTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... v)
     {
-        System.out.println("CONSOLE -- STARTING LOGOUTTASK");
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response;
-        String responseString = null;
-
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences",Context.MODE_PRIVATE);
-        System.out.println("CONSOLE -- LOGOUT -- GOT SHAREDPREFERENCES");
         SharedPreferences.Editor privPrefEditor = privPref.edit();
         privPrefEditor.remove("Token");
         privPrefEditor.remove("UserId");
         privPrefEditor.remove("Username");
-        System.out.println("CONSOLE -- LOGOUT -- DONE EDITING SHAREDPREFERENCES");
+        privPrefEditor.commit();
 
         return "Logged out";
     }

@@ -23,11 +23,12 @@ public class MessageDetailActivity extends Activity implements AsyncResponse {
         TextView bodyText = (TextView)findViewById(R.id.messageDetailBody);
         TextView subjectText = (TextView)findViewById(R.id.messageDetailSubject);
         senderText = (TextView)findViewById(R.id.messageDetailSenderName);
-        senderText.setText(b.getString("senderUsername"));
-        bodyText.setText(b.getString("messageBody"));
-        subjectText.setText(b.getString("messageSubject"));
+        senderText.setText("Sender: " + b.getString("senderUsername"));
+        bodyText.setText("Message: " + b.getString("messageBody"));
+        subjectText.setText("Subject: " + b.getString("messageSubject"));
     }
-        @Override
+
+    @Override
     public void processFinish(String output) {
 
     }
@@ -35,7 +36,8 @@ public class MessageDetailActivity extends Activity implements AsyncResponse {
     public void sendReply(View view){
         Intent goToMyActivity = new Intent(this, SendMessageActivity.class);
         Bundle b = new Bundle();
-        b.putString("receiverUsername", senderText.getText().toString());
+        // Don't copy the "Sender: "
+        b.putString("receiverUsername", senderText.getText().subSequence(8, senderText.getText().length()).toString());
         goToMyActivity.putExtras(b);
         startActivity(goToMyActivity);
     }

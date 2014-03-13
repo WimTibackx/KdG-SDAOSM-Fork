@@ -3,6 +3,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 <PreferenceCategory android:title="Dev options">
     <EditTextPreference android:key="carpoolServer"
-                        android:defaultValue="172.20.10.5:8008" />
+                        android:defaultValue="172.20.10.2:8080" />
 </PreferenceCategory>
 </PreferenceScreen>

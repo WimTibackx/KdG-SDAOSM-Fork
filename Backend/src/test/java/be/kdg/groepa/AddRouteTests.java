@@ -62,7 +62,7 @@ public class AddRouteTests {
 
     @Test
     public void dtoCorrectRepeating() throws MissingDataException {
-        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\", \"10:00\"],\"Do\": [\"09:30\", \"10:00\"],\"Vr\": [\"09:30\", \"10:00\"],\"Wo\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
+        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Tu\": [\"09:30\", \"10:00\"],\"Th\": [\"09:30\", \"10:00\"],\"Fr\": [\"09:30\", \"10:00\"],\"We\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
         PlaceDTO start = new PlaceDTO(51.21523, 4.398739999999975, "Nationalestraat, 2000 Antwerpen, België");
         PlaceDTO end = new PlaceDTO(51.2171198, 4.4008122000000185, "Kammenstraat, 2000 Antwerpen, België");
         List<PlaceDTO> places= Arrays.asList(start, end);
@@ -81,19 +81,19 @@ public class AddRouteTests {
 
     @Test(expected = MissingDataException.class)
     public void dtoMissingSimpleField() throws MissingDataException {
-        final String input = "{\"car\": 1,\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\", \"10:00\"],\"Do\": [\"09:30\", \"10:00\"],\"Vr\": [\"09:30\", \"10:00\"],\"Wo\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
+        final String input = "{\"car\": 1,\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Tu\": [\"09:30\", \"10:00\"],\"Th\": [\"09:30\", \"10:00\"],\"Fr\": [\"09:30\", \"10:00\"],\"We\": [\"12:30\", \"13:00\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
         new AddRouteDTO(new JSONObject(input));
     }
 
     @Test(expected = MissingDataException.class)
     public void dtoOnePlace() throws MissingDataException {
-        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\"],\"Do\": [\"09:30\"],\"Vr\": [\"09:30\"],\"Wo\": [\"12:30\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"}]}";
+        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Tu\": [\"09:30\"],\"Th\": [\"09:30\"],\"Fr\": [\"09:30\"],\"We\": [\"12:30\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"}]}";
         new AddRouteDTO(new JSONObject(input));
     }
 
     @Test(expected = MissingDataException.class)
     public void dtoMissingTime() throws MissingDataException {
-        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Di\": [\"09:30\"],\"Do\": [\"09:30\"],\"Vr\": [\"09:30\"],\"Wo\": [\"12:30\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
+        final String input = "{\"car\": 1,\"freeSpots\": \"3\",\"repeating\": true,\"startDate\": \"2014-02-19\",\"endDate\": \"2014-02-27\",\"passages\": {\"Tu\": [\"09:30\"],\"Th\": [\"09:30\"],\"Fr\": [\"09:30\"],\"We\": [\"12:30\"]},\"route\": [{\"lat\": 51.21523,\"long\": 4.398739999999975,\"address\": \"Nationalestraat, 2000 Antwerpen, België\"},{\"lat\": 51.2171198,\"long\": 4.4008122000000185,\"address\": \"Kammenstraat, 2000 Antwerpen, België\"}]}";
         new AddRouteDTO(new JSONObject(input));
     }
 

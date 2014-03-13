@@ -10,11 +10,15 @@ import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.persistence.api.UserDao;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
+import be.kdg.groepa.service.api.TextMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalTime;
 import java.util.ArrayList;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +47,9 @@ public class RouteServiceImpl implements RouteService {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private TextMessageService msgService;
 
     @Override
     public void addRoute(Route r) {
@@ -74,10 +81,10 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void confirmRide(Route r) {
-        //Ride ride = new Ride(CostManager.calculateCost(r), CostManager.getTotalDistance(r));
-        routeDao.confirmRide(r);
+    public void confirmRide(int routeId, LocalDateTime date) {
+        routeDao.confirmRide(this.getRouteById(routeId), date);
     }
+
     @Override
     public PlaceTime getPlaceTimeById(int id){
         return routeDao.getPlaceTimeById(id);
@@ -143,6 +150,15 @@ public class RouteServiceImpl implements RouteService {
 
         Traject t = new Traject(placeTimes.get(0), placeTimes.get(placeTimes.size()-1),r,user);
         r.addTraject(t);
+    }
+
+    @Override
+    public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {
+        // TODO: get to send this message aargh
+        //TextMessage tm = new TextMessage(chauffeur, passengers, "Ride confirmed - date", "Name of chauffeur has confirmed a ride at date. Please contribute to the costs, €14.22");
+        //msgService.addNewMessage(tm);
+        // If needed, time difference or radius will have to be reformed here.
+        return routeDao.findCarpoolers(startLat, startLon, endLat, endLon, g, smoker, radius, dep, timeDiff);
     }
 }
 

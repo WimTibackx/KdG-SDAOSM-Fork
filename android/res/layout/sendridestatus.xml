@@ -11,37 +11,49 @@
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton"/>
+                android:text="@string/Left"
+                android:id="@+id/leftButton"
+                android:layout_weight=".10"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TrafficJam"
+                android:id="@+id/trafficJamButton"
+                android:layout_weight=".10"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NotLeft"
+                android:id="@+id/notLeftButton"
+                android:layout_weight=".10"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NotDrivingTomorrow"
+                android:id="@+id/notDrivingButton"
+                android:layout_weight=".10"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New RadioButton"
-                android:id="@+id/radioButton2"/>
+                android:id="@+id/radioButton5"
+                android:layout_weight=".10"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New RadioButton"
-                android:id="@+id/radioButton3"/>
+                android:id="@+id/radioButton6"
+                android:layout_weight=".10"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New RadioButton"
-                android:id="@+id/radioButton4"/>
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton5"/>
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton6"/>
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton7"/>
+                android:id="@+id/radioButton7"
+                android:layout_weight=".10"/>
     </RadioGroup>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Send"
+            android:id="@+id/buttonSendRideStatus"/>
 </LinearLayout>

@@ -55,22 +55,16 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            System.out.println("CONSOLE -- USERNAME: " + this.username);
-            System.out.println("CONSOLE -- PASSWORD: " + this.password);
             jsonObject.put("username", this.username);
             jsonObject.put("password",this.password);
         } catch (JSONException e) {
-            System.out.println("CONSOLE -- JSONEXCEPTION ERROR: " + e.getMessage());
             e.printStackTrace();
         }
 
         List<NameValuePair> param = new ArrayList<>(1);
         param.add(new BasicNameValuePair("data",jsonObject.toString()));
-        System.out.println("CONSOLE -- PARAMETERS ADDED");
-
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        System.out.println("CONSOLE --- GOT SHARED PREFS");
         // For mysterious reasons, threading errors seem to occur on hardware devices because the Looper is not prepared.
         // This serves as a workaround and prevents it being called twice.
         if(!looped){
@@ -80,14 +74,12 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
 
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
 
-        System.out.println("CONSOLE -- SET DEFAULT VALUES IN PREFMANAGER");
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
 
         String url = "http://"+serverAddr+"/BackEnd/login";
-        System.out.println("CONSOLE -- URL: " + url);
 
         HttpPost httpPost = new HttpPost(url);
-        System.out.println("CONSOLE -- HTTPPOST CREATED");
+        System.out.println("CONSOLE -- LOGIN: URL = " + url);
         //httpPost.
 
 
@@ -95,8 +87,8 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
-            System.out.println("CONSOLE -- EXECUTING HTTPPOST");
             response = httpclient.execute(httpPost);
+            System.out.println("CONSOLE -- HTTPPOST EXECUTED");
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                 System.out.println("CONSOLE -- HTTPPOST OK");

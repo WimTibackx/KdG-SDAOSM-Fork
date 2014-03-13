@@ -39,7 +39,6 @@ public class SetMessageReadTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        System.out.println("CONSOLE -- DOING SETMESSAGEREAD IN BACKGROUND");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences",Context.MODE_PRIVATE);
 
@@ -47,7 +46,6 @@ public class SetMessageReadTask extends AsyncTask<Void, Void, String> {
         String serverAddr = preferences.getString("carpoolServer","127.0.0.1:8080");
 
         String url = "http://"+serverAddr+"/BackEnd/authorized/textmessage/read";
-        System.out.println("CONSOLE -- SETMESSAGEREAD URL: " + url);
         // cookieManager.setCookie(url, "Token="+preferences.getString("Token", "127.0.0.1:8080"));
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
@@ -68,24 +66,19 @@ public class SetMessageReadTask extends AsyncTask<Void, Void, String> {
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
-            System.out.println("CONSOLE -- SETMESSAGEREAD -- EXECUTING HTTPPOST NOW");
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                System.out.println("CONSOLE -- SETMESSAGEREAD -- HTTPPOST OK");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
                 responseString = "Success";
             } else{
-                System.out.println("CONSOLE -- SETMESSAGEREAD -- HTTPPOST NOT OK :( ");
-
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            System.out.println("CONSOLE -- IOEXCEPTION AT SETMESSAGEREAD: " + e.getMessage());
             Log.e("IOExc at SetMessageRead",e.getMessage());
         }
         return responseString;
