@@ -33,9 +33,9 @@ public class Ride {
     @Type(type="org.jadira.usertype.dateandtime.threetenbp.PersistentLocalDateTime")
     private LocalDateTime date;
 
-    @OneToMany(mappedBy="ride")
-    @Cascade(CascadeType.ALL)
-    private List<Traject> trajecten = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name="trajectId")
+    private Traject traject;
 
     public Ride () {}
 
@@ -52,8 +52,11 @@ public class Ride {
         this.date = date;
     }
 
-    public void addTraject(Traject t)
-    {
-        trajecten.add(t);
+    public Traject getTraject() {
+        return traject;
+    }
+
+    public void setTraject(Traject traject) {
+        this.traject = traject;
     }
 }

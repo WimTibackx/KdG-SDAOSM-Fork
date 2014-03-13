@@ -2,6 +2,7 @@ package be.kdg.groepa.helpers;
 
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
+import be.kdg.groepa.model.Traject;
 
 /**
  * Created by Pieter-Jan on 26-2-14.
@@ -22,5 +23,10 @@ public class CostManager {
     public static double calculateCost(Route r)
     {
         return 10.00;
+    }
+
+    public static double getTrajectCost(Traject t)  // Calculate the cost for a specific traject within a route
+    {
+        return 0.00;
     }
 }

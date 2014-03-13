@@ -37,9 +37,9 @@ public class Traject {
     @JoinColumn(name="userId")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="rideId")
-    private Ride ride;
+    @OneToMany(mappedBy="traject")
+    @Cascade(CascadeType.ALL)
+    private List<Ride> rides = new ArrayList<>();
 
     @Column(name="isAccepted")
     private boolean isAccepted;
@@ -65,10 +65,6 @@ public class Traject {
     public Traject(PlaceTime pointA, PlaceTime pointB, Route route, User user, WeekdayRoute weekdayRoute) {
         this(pointA, pointB, route, user);
         this.weekdayRoute = weekdayRoute;
-    }
-
-    public void setRide(Ride r){
-        this.ride = r;
     }
 
     public PlaceTime getPickup() { return pickup; }
@@ -107,5 +103,10 @@ public class Traject {
 
     public void setAccepted(boolean isAccepted) {
         this.isAccepted = isAccepted;
+    }
+
+    public void addRide(Ride r)
+    {
+        this.rides.add(r);
     }
 }

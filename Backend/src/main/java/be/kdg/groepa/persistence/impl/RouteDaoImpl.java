@@ -121,8 +121,8 @@ public class RouteDaoImpl implements RouteDao {
         Ride ride = new Ride(r, date);
         for (Traject t : r.getTrajects())
         {
-            ride.addTraject(t);
-            t.setRide(ride);
+            ride.setTraject(t);
+            t.addRide(ride);
         }
         Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(ride);

@@ -80,9 +80,29 @@ public class RouteServiceImpl implements RouteService {
         routeDao.addRide(r);
     }
 
+    private List<User> getRoutePassengers(Route r)
+    {
+        List<User> rtval = new ArrayList<>();
+        for (Traject t : r.getTrajects())
+        {
+            rtval.add(t.getUser());
+        }
+        return rtval;
+    }
+
     @Override
     public void confirmRide(int routeId, LocalDateTime date) {
-        routeDao.confirmRide(this.getRouteById(routeId), date);
+        // TODO: Costmanagers afmaken!
+        TextMessage tm;
+        Route r = this.getRouteById(routeId);
+        List<User> passengers = getRoutePassengers(r);
+        for (User p : passengers)
+        {
+            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2d", r.getChauffeur().getName(), date.toString(), 12.2156);
+            tm = new TextMessage(r.getChauffeur(), p, "Ride confirmed - " + date.toString(), temp);
+            msgService.addNewMessage(tm);
+        }
+        routeDao.confirmRide(r, date);
     }
 
     @Override
@@ -154,9 +174,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {
-        // TODO: get to send this message aargh
-        //TextMessage tm = new TextMessage(chauffeur, passengers, "Ride confirmed - date", "Name of chauffeur has confirmed a ride at date. Please contribute to the costs, €14.22");
-        //msgService.addNewMessage(tm);
         // If needed, time difference or radius will have to be reformed here.
         return routeDao.findCarpoolers(startLat, startLon, endLat, endLon, g, smoker, radius, dep, timeDiff);
     }
