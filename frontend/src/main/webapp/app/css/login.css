@@ -227,6 +227,13 @@ form.forgot_password{
     text-align: left;
     font-size: 14px;
 }
+
+.success {
+    color: green;
+    font-size: 13px;
+    display: block;
+    margin: 4px 30px;
+}
 /*.form_wrapper input[type="submit"]:hover {
 	background: #d9d9d9;
 	-moz-box-shadow: 0px 0px 2px #eaeaea inset;
@@ -236,9 +243,9 @@ form.forgot_password{
 }*/
 
 
-#register, #password {
+/* #register, #password {
     display: none;
-}
+} */
 
 /* icons */
 #loginIcons {

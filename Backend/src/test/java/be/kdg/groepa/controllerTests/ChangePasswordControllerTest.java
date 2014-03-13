@@ -121,10 +121,10 @@ public class ChangePasswordControllerTest {
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(post("/authorized/changepassword/reset")
+        mockMvc.perform(post("/resetPassword")
                 .cookie(cookie)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(myString))
-                .andExpect(jsonPath("newPassword", notNullValue()));
+                .andExpect(jsonPath("success", is(1)));
     }
 }
