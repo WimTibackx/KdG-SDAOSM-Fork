@@ -1,7 +1,5 @@
 //Redefining this in the global scope because someone removed it before removing all references
 //  and thus quite a lot of shit broke -_-
-var rootUrl = "http://localhost:8080/BackEnd";
-
 var carpoolingControllers = angular.module('carpoolingControllers', ['ui.bootstrap']);
 
 /* Little experiment to load controllers

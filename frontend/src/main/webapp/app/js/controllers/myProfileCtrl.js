@@ -226,11 +226,14 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     $scope.currentPage.traj.iReq = 0;
     $scope.currentPage.traj.reqMyRoutes = 0;
 
-    $scope.itemsPerPage = 1;
-    $scope.numberOfPages = function(data) {
-        result = Math.ceil(data.length/$scope.itemsPerPage);
-        console.log(result);
-        return (result > 0) ? Math.ceil(data.length/$scope.itemsPerPage) : "1";
+    $scope.itemsPerPage = itemsPerPage;
+    $scope.numberOfPages = function (data) {
+        if (data) {
+            result = Math.ceil(data.length / $scope.itemsPerPage);
+            return (result > 0) ? result : 1;
+        } else {
+            return -1;
+        }
     }
 
 }]);

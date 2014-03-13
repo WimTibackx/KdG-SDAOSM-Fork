@@ -57,3 +57,12 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 redirectTo: '/login'
             });
     }]);
+
+// BEGIN GLOBAL VARIABLES
+// Root URL for API calls
+var rootUrl = "http://localhost:8080/BackEnd";
+
+// Table paginating: items per page
+var itemsPerPage = 1;
+
+// END GLOBAL VARIABLES

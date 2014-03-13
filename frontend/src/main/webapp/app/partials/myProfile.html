@@ -90,7 +90,9 @@
                 </button>
             </td>
             <td style="text-align: center;">
-                {{currentPage.route+1}}/{{numberOfPages(routes)}}
+                {{currentPage.route+1}}
+                /
+                {{numberOfPages(routes)}}
             </td>
             <td colspan="3">
                 <button ng-disabled="currentPage.route >= routes.length/itemsPerPage - 1" ng-click="currentPage.route=currentPage.route+1">
@@ -225,7 +227,9 @@
                     Previous
                 </button>
 
-                {{currentPage.traj.mine+1}}/{{numberOfPages(trajects.mine)}}
+                {{currentPage.traj.mine+1}}
+                /
+                {{numberOfPages(trajects.mine)}}
 
                 <button ng-disabled="currentPage.traj.mine >= trajects.mine.length/itemsPerPage - 1" ng-click="currentPage.traj.mine=currentPage.traj.mine+1">
                     Next
@@ -272,7 +276,9 @@
                     Previous
                 </button>
 
-                {{currentPage.traj.iReq+1}}/{{numberOfPages(trajects.iRequested)}}
+                {{currentPage.traj.iReq+1}}
+                /
+                {{numberOfPages(trajects.iRequested)}}
 
                 <button ng-disabled="currentPage.traj.iReq >= trajects.iRequested.length/itemsPerPage - 1" ng-click="currentPage.traj.iReq=currentPage.traj.iReq+1">
                     Next
@@ -326,7 +332,9 @@
                     Previous
                 </button>
 
-                {{currentPage.traj.reqMyRoutes+1}}/{{numberOfPages(trajects.requestedOnMyRoutes)}}
+                {{currentPage.traj.reqMyRoutes+1}}
+                /
+                {{numberOfPages(trajects.requestedOnMyRoutes)}}
 
                 <button ng-disabled="currentPage.traj.reqMyRoutes >= trajects.requestedOnMyRoutes.length/itemsPerPage - 1" ng-click="currentPage.traj.reqMyRoutes=currentPage.traj.reqMyRoutes+1">
                     Next
