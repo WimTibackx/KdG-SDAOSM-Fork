@@ -8,13 +8,14 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
     $authChecker.checkAuthorization();
 
-    $scope.avatarsrc = '../app/img/avatar.JPG';
+
     $scope.routes=[];
 
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';
     var counter = 0;
     var username = null;
     var gender = null;
+    var avatarUrl = null ;
 
 
 
@@ -37,6 +38,9 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
                 loadRoutes();
                 username = obj["name"];
                 gender = obj["gender"];
+                if (obj.hasOwnProperty("avatarURL")) {
+                    avatarUrl = obj["avatarURL"]
+                }
                 if(gender == ("FEMALE")){
                     $scope.gendersrc = '../app/img/female.png';
                 } else{
@@ -45,6 +49,7 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
                 $scope.personname = username;
                 $scope.dateBirth = new Date(obj["dateOfBirth"]);
                 $scope.cars = obj["cars"];
+                console.log($scope.cars);
                 $scope.username = obj["username"]
                 if (obj["smoker"]) {
                     $scope.smoker = "Roker"
@@ -145,12 +150,26 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
         });
     }
 
-    $scope.getAvatarUrl=function(part) {
-        return "http://localhost:8080/BackEnd/userImages/"+part;
+    $scope.getAvatarUrl=function(){
+        console.log("Test ");
+        if (avatarUrl != null){
+            return "http://localhost:8080/BackEnd/userImages/"+avatarUrl;
+        }else{
+            if (gender == "FEMALE"){
+                return "../app/img/femaleAvatar.png";
+            }else {
+                return "../app/img/maleAvatar.png";
+            }
+        }
     };
 
     $scope.getCarImageUrl=function(part) {
-        return "http://localhost:8080/BackEnd/carImages/"+part;
+        if (part != null){
+            return "http://localhost:8080/BackEnd/carImages/"+part;
+        }else{
+            return "../app/img/carAvatar.jpg"
+        }
+
     };
 
     $scope.getWeekdayL10n=function(weekdayNum) {

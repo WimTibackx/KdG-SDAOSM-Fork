@@ -26,10 +26,9 @@
         <section id="formPopup">
             <section id="carPicker">
                 Kies uw wagen
-                <div id="carList">
-                    <img alt="auto" src="tmpfiles/delorean.jpg" data-index="0">
-                    <img alt="auto" src="tmpfiles/shelby.jpg" data-index="1" id="selectedCar">
-                </div>
+                <section id="carList">
+
+                </section>
             </section>
             <section id="numberOfPlaces">
                 Aantal vrije plaatsen in de wagen
@@ -40,7 +39,8 @@
                 </div>
             </section>
             <section id="sDatePicker">
-                <input id="startDatePicker" class="datePicker" type="date">
+                <label>Start datum<input id="startDatePicker" class="datePicker" type="date"></label>
+                <label ng-show="repeatBox" id="endDate">Eind datum<input id="endDatePicker" class="datePicker" type="date"></label>
             </section>
             <section id="repeating">
                 Herhalend?
@@ -67,49 +67,11 @@
 
 
             </section>
-            <section id="eDatePicker">
-                <input id="endDatePicker" class="datePicker" type="date">
-            </section>
-            <section id="times">
-                <input type="text" id="depTime" placeholder="9:00">
-                tot
-                <input type="text" id="arrTime" placeholder="17:00">
-            </section>
+
             <section id="finalAdd">
                 <type type="button" onclick="submitAllData()">Toevoegen</type>
                 <type type="button" onclick="cancelRoute()">Cancel</type>
             </section>
-
-            <!--
-                    <div id="col1">
-                        <p>Met welke wagen wilt u deze route rijden?</p>
-
-                        <p>Hoeveel personen kunnen er meerijden?</p>
-
-                        <p>Wat zijn de tijdstippen van vertrek?</p>
-
-
-                    </div>
-                    <div id="col2">
-                        <p><select id="selectWagen">
-                            <option value="wagen1">Wagen 1</option>
-                            <option value="wagen2">Wagen 2</option>
-                        </select>
-                        </p>
-
-                        <p>
-                            <input type="number" min="1" value="1" step="1" id="aantal">
-                        </p>
-
-                        <p>
-                            <input type="number" min="0" max="23" value="0" step="1" id="uur">
-                            <input type="number" min="1" max="59" value="0" step="1" id="minuut">
-                        </p>
-                    </div>
-
-                    <input type="radio" name="type" value="eenmalig" checked>Eenmalig
-                    <input type="radio" name="type" value="herhalend">Herhalend
-                    -->
 
         </section>
     </div>

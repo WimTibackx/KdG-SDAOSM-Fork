@@ -52,6 +52,7 @@ public class ProfileController extends BaseController {
         userDTO.setName(user.getName());
         userDTO.setSmoker(user.isSmoker());
         userDTO.setUsername(user.getUsername());
+        userDTO.setAvatarURL(user.getAvatarURL());
 
         Gson gson = new Gson();
         String json = gson.toJson(userDTO);
@@ -80,7 +81,7 @@ public class ProfileController extends BaseController {
                 userDTO.setName(user.getName());
                 userDTO.setSmoker(user.isSmoker());
                 userDTO.setUsername(user.getUsername());
-
+                userDTO.setAvatarURL(user.getAvatarURL());
                 Gson gson = new Gson();
                 json = gson.toJson(userDTO);
             }

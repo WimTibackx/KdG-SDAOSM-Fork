@@ -127,7 +127,9 @@
 #carList img {
     max-height: 90%;
     vertical-align: middle;
+    margin-right: 5%;
 }
+
 
 #selectedCar {
     border: 5px dotted gray;

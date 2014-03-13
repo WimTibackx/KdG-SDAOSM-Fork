@@ -9,7 +9,7 @@
             </section>
         </section>
         <div id="blockLeft">
-            <img id="avatar" alt="avatar user" ng-src={{avatarsrc}}>
+            <img id="avatar" alt="avatar user" ng-src={{getAvatarUrl()}}>
             <section id="infoUser">
                 <ul>
                     <li class="info">
@@ -36,8 +36,8 @@
 </div-->
 <section id="carField" class="profilemiddle" ng-hide="hideCars">
     <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
-        <img id="carImage" alt="{{car.brand}}"
-             ng-src="http://localhost:8080/BackEnd/carImages/{{car.photoUrl}}"/>
+        <img class="carImage" alt="{{car.brand}}"
+             ng-src="{{getCarImageUrl(car.photoUrl)}}"/>
         <section id="carSpecs">
             <span class="brand">{{car.brand}}</span><br/><span class="consumption">{{car.consumption}}</span>
         </section>

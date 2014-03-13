@@ -7,6 +7,7 @@ import be.kdg.groepa.exceptions.MissingDataException;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.CarService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by delltvgateway on 2/20/14.
@@ -141,5 +145,22 @@ public class CarController extends BaseController {
         JSONObject obj = new JSONObject(carDTO);
         super.updateCookie(request, response);
         return obj.toString();
+    }
+
+    @RequestMapping(value="/authorized/user/car/get", method=RequestMethod.GET)
+    public @ResponseBody String get(HttpServletRequest request, HttpServletResponse response) {
+        List<Car> cars = new ArrayList<>();
+        cars = this.getCurrentUser(request).getCars();
+        List<JSONObject> returnData = new ArrayList<>();
+        for (Car car : cars){
+            JSONObject jsonR = new JSONObject();
+            jsonR.put("id",car.getCarId());
+            jsonR.put("brand", car.getBrand());
+            jsonR.put("type", car.getType());
+            jsonR.put("url",car.getPictureURL());
+            returnData.add(jsonR);
+        }
+        super.updateCookie(request, response);
+        return new JSONArray(returnData).toString();
     }
 }
