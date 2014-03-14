@@ -46,14 +46,11 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
         try {
             response = new DefaultHttpClient().execute(request);
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("HttpTask",e.getMessage());
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             response.getEntity().writeTo(out);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         result = out.toString();
         return response;
@@ -76,21 +73,4 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
         if (!this.addCookie) return;
         request.setHeader("Cookie", "Token="+PreferencesHelper.getLocalUser(this.context).getToken());
     }
-
-    /*private String responseAsString(HttpResponse response) {
-        System.out.println("HTTPTASK RESPONSEASSTRING");
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            System.out.println("SHTTPTASK RESPONSEASSTRING: WRITING NOW");
-            response.getEntity().writeTo(out);
-            System.out.println("SHTTPTASK RESPONSEASSTRING: CLOSING");
-
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("IOExc at responseAsString", e.getMessage());
-            return "";
-        }
-        return out.toString();
-    } */
 }

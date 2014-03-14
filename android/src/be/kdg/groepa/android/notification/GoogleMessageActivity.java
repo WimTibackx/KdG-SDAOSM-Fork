@@ -58,7 +58,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
                 registerInBackground();
             }
         } else {
-            Log.i("ServicesAPKError", "No valid Google Play Services APK found");
         }
     }
 
@@ -82,7 +81,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this, GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
 
             } else {
-                Log.i("NotSupported", "This device is not supported");
             }
             return false;
         }

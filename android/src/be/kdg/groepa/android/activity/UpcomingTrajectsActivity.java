@@ -141,12 +141,9 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
                 }
             }
         } catch (JSONException e) {
-            System.out.println("JSONEXCEPTION WHEN SIZING: " + e.getMessage());
         }
         SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
         SharedPreferences.Editor privPrefEditor = privPref.edit();
-        System.out.println("SET USERNAMES: " + usernames);
-        System.out.println("SET PLACES: " + places);
         privPrefEditor.putStringSet("usernames", usernames);
         privPrefEditor.putStringSet("places", places);
         privPrefEditor.commit();
@@ -158,7 +155,6 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
 
     public void confirmRide() {
         UpcomingTrajectDto traj = card.getTraject();
-        System.out.println("PICKUPTIME: " + traj.getPickupTime());
         int year = traj.getRouteYear();
         int month = traj.getRouteMonth();
         int day = traj.getRouteDay();

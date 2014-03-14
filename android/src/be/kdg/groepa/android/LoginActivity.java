@@ -87,7 +87,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 }
             }
         } catch (JSONException e) {
-            e.printStackTrace();
         }
 
     }

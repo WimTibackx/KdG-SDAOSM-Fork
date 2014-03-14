@@ -79,7 +79,6 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
         String url = "http://"+serverAddr+"/BackEnd/login";
 
         HttpPost httpPost = new HttpPost(url);
-        System.out.println("CONSOLE -- LOGIN: URL = " + url);
         //httpPost.
 
 
@@ -88,7 +87,6 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
             response = httpclient.execute(httpPost);
-            System.out.println("CONSOLE -- HTTPPOST EXECUTED");
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -96,13 +94,11 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
                 out.close();
                 responseString = out.toString();
             } else{
-                System.out.println("CONSOLE -- HTTPSTATUS NOT OK");
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            System.out.println("IOEXCEP AT LOGIN" + e.getMessage());
             return "IOException";
         }
         return responseString;

@@ -86,7 +86,6 @@ public class MessagePassengersTask extends AsyncTask<Void, Void, String> {
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            Log.e("IOExc at SendMessage",e.getMessage());
         }
         return responseString;
     }

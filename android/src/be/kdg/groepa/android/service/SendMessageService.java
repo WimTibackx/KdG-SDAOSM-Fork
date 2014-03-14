@@ -25,14 +25,10 @@ public class SendMessageService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        System.out.println("HANDLING INTENT OF SENDMESSAGESERVICE");
         Bundle extras = intent.getExtras();
         SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
         String senderUsername = privPref.getString("Username", "");
-        System.out.println("NEW TASK SENDER: " + senderUsername);
-        System.out.println("NEW TASK ");
         SendMessageTask task = new SendMessageTask(senderUsername, extras.getString("receiverUsername"), extras.getString("messageSubject"), extras.getString("messageBody"), getApplicationContext());
-        System.out.println("EXECUTING TASK");
         task.execute();
     }
 }

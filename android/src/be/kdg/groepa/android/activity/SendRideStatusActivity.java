@@ -35,7 +35,6 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("ONCREATE SUPER INC");
         super.onCreate(savedInstanceState);
         initiateComponents();
 
@@ -54,13 +53,10 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
                 final String msg = String.format("I will arrive at %s in %d hours and %d minutes.", spnPlaces.getSelectedItem().toString(), nmbrPickerHours.getValue(), nmbrPickerMinutes.getValue());
                 for (final String s : this.passengerUsernames) {
                     messagePassenger(msg, s);
-                    System.out.println("SENDING MESSAGE TO USER: " + s + " ; MESSAGE: " + msg);
-
                 }
                 break;
             default:
                 for (final String s : this.passengerUsernames) {
-                    System.out.println("SENDING MESSAGE TO USER: " + s + " ; MESSAGE: " + selection);
                     messagePassenger(selection, s);
                 }
         }
@@ -84,7 +80,6 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        System.out.println("SENDRIDE -- SAVING INSTANCE STATE " + outState);
         super.onSaveInstanceState(outState);
     }
 

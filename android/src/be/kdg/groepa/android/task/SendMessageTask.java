@@ -79,7 +79,6 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
-            System.out.println("SENDING TASK TO BACKEND");
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -88,20 +87,16 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
                 out.close();
                 responseString = out.toString();
             } else{
-                System.out.println("STATUSLINE NOK: " + statusLine.getReasonPhrase());
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            Log.e("IOExc at SendMessage",e.getMessage());
         }
         return responseString;
     }
 
     protected void onPostExecute(String result) {
-        System.out.println("POSTEXECUTE TASK");
-
         if(delegate != null){
             this.delegate.processFinish(result);
         }

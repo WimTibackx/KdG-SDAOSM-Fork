@@ -60,7 +60,6 @@ public class HomePageActivity extends Activity implements AsyncResponse{
                     unreadMessages++;
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         ((Button) this.findViewById(R.id.btnGoToInbox)).setText(String.valueOf(unreadMessages));

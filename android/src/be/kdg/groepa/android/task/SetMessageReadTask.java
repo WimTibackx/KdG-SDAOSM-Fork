@@ -79,7 +79,6 @@ public class SetMessageReadTask extends AsyncTask<Void, Void, String> {
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            Log.e("IOExc at SetMessageRead",e.getMessage());
         }
         return responseString;
     }

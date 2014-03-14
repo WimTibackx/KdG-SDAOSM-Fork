@@ -46,12 +46,9 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
             this.chauffeurId = data.getInt("chauffeurId");
             this.chauffeurName = data.getString("chauffeurName");
             this.chauffeurUsername = data.getString("chauffeurUsername");
-            System.out.println("UPCOMINGTRAJDTO: INITIALISING JSONARRAYS");
             this.passengerUsernames = (JSONArray)data.get("passengerUsernames");
-            System.out.println("PASSENGERUSERNAMES: " + passengerUsernames);
             this.passengerNames = (JSONArray)data.get("passengerNames");
             this.passengerPictures = (JSONArray)data.get("passengerPictures");
-            System.out.println("ROUTEPLACES: " + routePlaces);
             this.routePlaces = (JSONArray)data.get("routePlaces");
             this.routeYear = data.getInt("routeYear");
             this.routeMonth = data.getInt("routeMonth");
@@ -60,12 +57,8 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
             this.routeStartMinute = data.getInt("routeStartMinute");
 
         } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("UpcomingTraject", e.getMessage());
         } catch (ParseException e) {
-            e.printStackTrace();
         }
-        System.out.println("DONE CREATING UPCOMINGTRAJDTO");
     }
 
     public int getId() {
