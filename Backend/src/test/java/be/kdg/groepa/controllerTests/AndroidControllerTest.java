@@ -56,6 +56,7 @@ public class AndroidControllerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            init=true;
         }
     }
 

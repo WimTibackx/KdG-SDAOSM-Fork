@@ -229,6 +229,10 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
     $scope.hideRouteSearch = false;
     initializeMap();
 
+    $scope.routesEmpty = function() {
+        return $scope.routes.length == 0;
+    };
+
     $scope.routeSearchClick = function () {
         defaultSearches();
 
@@ -298,12 +302,12 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
         var endTitle = markers[1].title;
         jsonObject.start = {};
         jsonObject.end = {};
-        jsonObject.start.lat = startLat;
-        jsonObject.start.lng = startLng;
-        jsonObject.start.title = startTitle;
-        jsonObject.end.lat = endLat;
-        jsonObject.end.lng = endLng;
-        jsonObject.end.title = endTitle;
+        jsonObject.end.lat = startLat;
+        jsonObject.end.lng = startLng;
+        jsonObject.end.title = startTitle;
+        jsonObject.start.lat = endLat;
+        jsonObject.start.lng = endLng;
+        jsonObject.start.title = endTitle;
 
         var radius = parseInt(document.getElementById("radiusValue").value);
         jsonObject.radius = radius;

@@ -69,6 +69,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr ng-show="routesEmpty()" class="nodata">
+                    <td colspan="7">Er werden geen routes gevonden. Probeer uw zoekradius te vergroten.</td>
+                </tr>
                 <tr ng-repeat="route in routes | startFrom:currentPage.route*itemsPerPage | limitTo:itemsPerPage">
                     <td class="details" ng-click="goRoute(route.id,route.day)"></td>
                     <td>{{formatDateString(route.startDate)}}</td>
