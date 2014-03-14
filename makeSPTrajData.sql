@@ -1,9 +1,4 @@
--- --------------------------------------------------------------------------------
--- Routine DDL
--- Note: comments before and after the routine body will not be stored by the server
--- --------------------------------------------------------------------------------
 DELIMITER $$
-
 CREATE DEFINER=`groepA`@`%` PROCEDURE `trajdata`()
 BEGIN
 DECLARE userA, userB, userC, userD, userE, userF int;
@@ -95,6 +90,7 @@ INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:33"
 SELECT last_insert_id() INTO ptD;
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:55", placeB, routeA, wdrA);
 SELECT last_insert_id() INTO ptE;
+
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("06:45", placeH, routeA, wdrB);
 SELECT last_insert_id() INTO ptF;
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:10", placeA, routeA, wdrB);
@@ -105,6 +101,7 @@ INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:31"
 SELECT last_insert_id() INTO ptI;
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:53", placeB, routeA, wdrB);
 SELECT last_insert_id() INTO ptJ;
+
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:30", placeA, routeB, wdrC);
 SELECT last_insert_id() INTO ptK;
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:36", placeG, routeB, wdrC);
@@ -114,18 +111,20 @@ SELECT last_insert_id() INTO ptM;
 INSERT INTO t_placetime (time, placeId, routeId, weekdayRouteId) VALUES ("07:56", placeC, routeB, wdrC);
 SELECT last_insert_id() INTO ptN;
 
-INSERT INTO t_traject (isAccepted, pickupId, dropoffId, routeId, userId) VALUES 
-	(1, ptC, ptE, routeA, userF),
-	(1, ptG, ptJ, routeA, userF),
-	(1, ptK, ptN, routeB, userF),
-	(1, ptA, ptE, routeA, userE),
-	(1, ptB, ptD, routeA, userA),
-	(1, ptD, ptE, routeA, userB),
-	(1, ptF, ptJ, routeA, userE),
-	(1, ptI, ptJ, routeA, userB),
-	(1, ptH, ptJ, routeA, userC),
-	(1, ptM, ptN, routeB, userC),
-	(1, ptL, ptN, routeB, userD);
+INSERT INTO t_traject (isAccepted, pickupId, dropoffId, routeId, userId, weekdayrouteId) VALUES 
+	(1, ptC, ptE, routeA, userF, wdrA),
+	(1, ptG, ptJ, routeA, userF, wdrB),
+	(1, ptK, ptN, routeB, userF, wdrC),
+	(1, ptA, ptE, routeA, userE, wdrA),
+	(1, ptB, ptD, routeA, userA, wdrA),
+	(1, ptD, ptE, routeA, userB, wdrA),
+	(1, ptF, ptJ, routeA, userE, wdrB),
+	(1, ptI, ptJ, routeA, userB, wdrB),
+	(1, ptH, ptJ, routeA, userC, wdrB),
+	(1, ptM, ptN, routeB, userC, wdrC),
+	(1, ptL, ptN, routeB, userD, wdrC);
 
 COMMIT;
-END
+END$$
+DELIMITER ;
+
