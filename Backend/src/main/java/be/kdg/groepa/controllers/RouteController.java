@@ -2,12 +2,8 @@ package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.AddRouteDTO;
 import be.kdg.groepa.dtos.GetRouteDTO;
-import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.dtos.RideDTO;
-import be.kdg.groepa.dtos.RouteDTO;
-import be.kdg.groepa.exceptions.CarNotFoundException;
-import be.kdg.groepa.exceptions.MissingDataException;
-import be.kdg.groepa.model.PlaceTime;
+import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.model.WeekdayRoute;
@@ -26,9 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by delltvgateway on 2/18/14.
@@ -146,25 +139,55 @@ public class RouteController extends BaseController {
     @RequestMapping(value="/findCarpoolers", method=RequestMethod.POST)
     public @ResponseBody String findCarpoolers(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
         JSONObject dataOb = new JSONObject(data);
+
         RideDTO dto;
+        Logger logger =  Logger.getLogger(LoginController.class.getName());
         try {
             dto = new RideDTO(dataOb);
         } catch (MissingDataException e) {
+
+            logger.info("DATA IS "+ e);
             JSONObject missingDataJson = new JSONObject();
             missingDataJson.put("error","ParseError");
             this.updateCookie(request, response);
             return missingDataJson.toString();
         }
-        List<Route> routes = new ArrayList<>();
-        routes = routeService.findCarpoolers(dto.getStartLat(), dto.getStartLon(), dto.getEndLat(), dto.getEndLon(), dto.getG(), dto.isSmoker(), dto.getRadius(), dto.getDep(), dto.getTimeDiff());
+
+        logger.info("TimeDiff is: " + dto);
+
+        List<Integer> routes = routeService.findCarpoolers(dto.getStartLat(), dto.getStartLon(), dto.getEndLat(), dto.getEndLon(), dto.getG(), dto.isSmoker(), dto.getRadius(), dto.getDep(), dto.getTimeDiff());
+        logger.info(routes.size());
         // TODO: return found routes in JSON objects
-        JSONArray jarray = new JSONArray();
-        for (int i = 0; i < routes.size(); i++)
-        {
-            jarray.put(new RouteDTO(routes.get(i)));
-        }
+        List<JSONObject> returndata = new ArrayList<>();
+        for(Integer routeId : routes){
+            Route r = routeService.getRouteById(routeId);
+            if (r.isRepeating()) {
+                for (WeekdayRoute wdr : routeService.getWeekdayRoutesOfRoute(r.getId())) {
+                    JSONObject jsonR = new JSONObject();
+                    jsonR.put("id",r.getId());
+                    jsonR.put("startDate", r.getBeginDate().toString());
+                    jsonR.put("endDate",r.getEndDate().toString());
+                    jsonR.put("repeating",r.isRepeating());
+                    jsonR.put("startPlace",  wdr.getPlaceTimes().get(0).getPlace().getName());
+                    jsonR.put("endPlace", wdr.getPlaceTimes().get(wdr.getPlaceTimes().size()-1).getPlace().getName());
+                    jsonR.put("day",wdr.getDay());
+                    returndata.add(jsonR);
+                }
+            } else {
+                JSONObject jsonR = new JSONObject();
+                jsonR.put("id",r.getId());
+                jsonR.put("startDate", r.getBeginDate().toString());
+                jsonR.put("endDate",r.getEndDate().toString());
+                jsonR.put("repeating",r.isRepeating());
+                jsonR.put("startPlace",  r.getPlaceTimes().get(0).getPlace().getName());
+                jsonR.put("endPlace", r.getPlaceTimes().get(r.getPlaceTimes().size()-1).getPlace().getName());
+                jsonR.put("day",r.getBeginDate().getDayOfWeek().getValue()-1);
+                returndata.add(jsonR);
+            }
+           }
+
         this.updateCookie(request, response);
-        return jarray.toString();
+        return new JSONArray(returndata).toString();
         //return super.respondSimpleAuthorized("confirmed", "ride confirmed", request, response);
     }
 }

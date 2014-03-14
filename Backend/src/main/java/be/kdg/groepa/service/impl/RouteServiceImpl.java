@@ -3,7 +3,6 @@ package be.kdg.groepa.service.impl;
 import be.kdg.groepa.dtos.AddRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
 import be.kdg.groepa.exceptions.CarNotFoundException;
-import be.kdg.groepa.helpers.CostManager;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -14,11 +13,10 @@ import be.kdg.groepa.service.api.TextMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.LocalTime;
-import java.util.ArrayList;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -173,7 +171,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {
+    public List<Integer> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {
         // If needed, time difference or radius will have to be reformed here.
         return routeDao.findCarpoolers(startLat, startLon, endLat, endLon, g, smoker, radius, dep, timeDiff);
     }

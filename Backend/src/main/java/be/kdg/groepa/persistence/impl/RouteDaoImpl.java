@@ -1,17 +1,18 @@
 package be.kdg.groepa.persistence.impl;
 
+import be.kdg.groepa.controllers.LoginController;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
-import org.hibernate.Hibernate;
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -170,25 +171,45 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     //public List<Route> findCarpoolers(PlaceTime pt1, PlaceTime pt2, User.Gender g, boolean smoker, double radius) {    // TODO: NOT FINISHED!
-    public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {    // TODO: NOT FINISHED!
+    public List<Integer> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {    // TODO: NOT FINISHED!
         Session ses = HibernateUtil.openSession();
-        Query query = ses.createQuery("   " +
-                "FROM t_route r " +
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Logger logger =  Logger.getLogger(LoginController.class.getName());
+        int genderInt = g.equals(User.Gender.FEMALE)? 1 : 0 ;
+        int smokerInt = smoker ? 1: 0;
+
+
+        double latRadius = radius / 111;
+        double amountKmAtStartLong = ((Math.PI / 180)*6365*Math.cos(startLon));
+        double amountKmAtEndLong = ((Math.PI / 180)*6365*Math.cos(endLon));
+        double lonStartRadius = radius / amountKmAtStartLong;
+        double lonEndRadius = radius / amountKmAtEndLong;
+
+
+
+        logger.info("lat: " + (startLat + latRadius ) + "Lon: " + ((Math.abs(lonStartRadius) + startLon)));
+        logger.info("lat: " + (endLat + latRadius ) + "Lon: " + ((Math.abs(lonEndRadius) + endLon)));
+        Query query = ses.createSQLQuery("SELECT DISTINCT r.id FROM t_route r " +
                 "JOIN t_user u ON r.userId = u.id " +
-                "JOIN t_placetime pt ON pt.routeId = r.routeId " +
+                "JOIN t_placetime pt ON pt.routeId = r.id " +
                 "JOIN t_place p ON p.placeId = pt.placeId " +
-                "WHERE u.smoker = :sm AND u.gender = :g " +
-                "AND TIMEDIFF(p.time, :dep) <= :td" +
-                "      AND ABS(p.lat - :p1Lat) <= :r AND ABS(p.lon - :p1Lon) <= :r" +
-                "      AND ABS(p.lat - :p2Lat) <= :r AND ABS(p.lon - :p2Lon) <= :r");  // http://www.tutorialspoint.com/hibernate/hibernate_query_language.htm  //FROM Route r INNER JOIN r.user u WHERE u.smoker = :sm AND u.gender = :g
-        query.setBoolean("sm", smoker);
-        query.setParameter("g", g);
+                "WHERE ABS(p.lat - :p1Lat) <= :rLat AND ABS(p.lon - :p1Lon) <= :rLonStart " +
+                "AND ABS(p.lat - :p2Lat) <= :rLat AND ABS(p.lon - :p2Lon) <= :rLonEnd AND u.gender = :g " +
+                "AND u.smoker = :sm " +
+                "AND ABS((TIME_TO_SEC(pt.time) -  TIME_TO_SEC(:dep))) <= :td");
+        query.setParameter("g", genderInt);
         query.setParameter("p1Lat", startLat);
         query.setParameter("p1Lon", startLon);
         query.setParameter("p2Lat", endLat);
         query.setParameter("p2Lon", endLon);
-        query.setDouble("r", radius);
-        List<Route> rtval = query.list();
+        query.setDouble("rLat", Math.abs(latRadius));
+        query.setDouble("rLonStart", Math.abs(lonStartRadius));
+        query.setDouble("rLonEnd", Math.abs(lonEndRadius));
+        query.setParameter("dep", dep.toString(dtf));
+        query.setParameter("td", timeDiff);
+        query.setParameter("sm", smokerInt) ;
+        List<Integer> rtval = query.list();
+        logger.info(rtval.size());
         HibernateUtil.closeSession(ses);
         return rtval;
     }

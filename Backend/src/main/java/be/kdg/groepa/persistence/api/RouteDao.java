@@ -24,5 +24,5 @@ public interface RouteDao {
     public List<WeekdayRoute> getWeekdayRoutesOfRoute(int routeId);
     public List<Route> getRoutes(User user);
     public void addPlaceTime(PlaceTime pt);
-    public List<Route> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff);
+    public List<Integer> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff);
 }

@@ -2,13 +2,8 @@ package be.kdg.groepa.dtos;
 
 import be.kdg.groepa.exceptions.MissingDataException;
 import be.kdg.groepa.model.User;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
-
-import java.util.*;
 
 /**
  * Created by Pieter-Jan on 11-3-14.
@@ -45,7 +40,7 @@ public class RideDTO {
         this.endLon = data.getJSONObject("end").getDouble("lng");
         if (data.getString("gender").equals("female")) this.g = User.Gender.FEMALE;
         else this.g = User.Gender.MALE;
-        this.timeDiff = (data.getInt("radiusHours") * 60) + data.getInt("radiusMinutes");
+        this.timeDiff = (data.getInt("radiusHours") * 60 *60) + (data.getInt("radiusMinutes") * 60);
         this.smoker = data.getBoolean("smoker");
         this.radius = data.getDouble("radius");
         this.dep = LocalTime.of(data.getInt("hours"), data.getInt("minutes"));
