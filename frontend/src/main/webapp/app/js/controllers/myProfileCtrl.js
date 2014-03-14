@@ -2,6 +2,8 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: My profile
+var gender = null;
+var avatarUrl = null ;
 carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', "$authChecker", function ($scope, $http, $location, SharedProperties, $authChecker) {
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
@@ -14,8 +16,12 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';
     var counter = 0;
     var username = null;
-    var gender = null;
-    var avatarUrl = null ;
+
+    var defaultActive = function(){
+        $('#routeTab').removeClass('activeTab');
+        $('#trajectTab').removeClass('activeTab');
+        $('#carTab').removeClass('activeTab');
+    }
 
     $http({
         method: 'GET',
@@ -68,18 +74,25 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     };
 
     $scope.tabRoutesClick = function () {
+        defaultActive();
+        $('#routeTab').addClass('activeTab');
+
         $scope.hideCars = true;
         $scope.hideRoutes = false;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg route toe";
     };
     $scope.tabCarsClick = function () {
+        defaultActive();
+        $('#carTab').addClass('activeTab');
         $scope.hideCars = false;
         $scope.hideRoutes = true;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg auto toe";
     };
     $scope.tabTrajectsClick = function () {
+        defaultActive();
+        $('#trajectTab').addClass('activeTab');
         loadTrajects();
         $scope.hideCars = true;
         $scope.hideRoutes = true;

@@ -47,6 +47,7 @@
 
 .third{
     width: 30%;
+    padding-right: 1em;
 }
 
 .fourth{
@@ -123,4 +124,17 @@ textarea{
     border-top: solid 1px white;
 }
 
+#noMessages{
+    margin-left:1em;
+    margin-top:1em;
+}
+
+#newMessage{
+    height: 40px;
+    width: 40px;
+    margin-top: -0.5em;
+    float:right;
+    margin-left: 1em;
+    cursor: pointer;
+}
 

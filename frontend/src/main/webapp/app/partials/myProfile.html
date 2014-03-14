@@ -3,9 +3,9 @@
     <section id="infoprofile">
         <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}> ({{username}})
             <section id="tabsMyProfile">
-                <div class="tab" ng-click="tabRoutesClick()">Routes</div>
-                <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
-                <div class="tab" ng-click="tabCarsClick()">Auto's</div>
+                <div class="tab" id="routeTab" ng-click="tabRoutesClick()">Routes</div>
+                <div class="tab" id="trajectTab" ng-click="tabTrajectsClick()">Trajecten</div>
+                <div class="tab" id="carTab" ng-click="tabCarsClick()">Auto's</div>
             </section>
         </section>
         <div id="blockLeft">
@@ -110,7 +110,7 @@
 </section>
 
 
-<div class="blockRight">
+<!--div class="blockRight">
     <table class="ritTable general blackwhite">
         <thead>
         <tr class="tableTitles">
@@ -186,7 +186,7 @@
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
         toe
     </section>
-</div>
+</div-->
 
 <div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
     <div class="loadingoverlay"

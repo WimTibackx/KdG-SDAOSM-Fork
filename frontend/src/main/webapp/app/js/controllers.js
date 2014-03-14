@@ -39,4 +39,9 @@ function deleteActiveClass(){
     $('#AboutTab').removeClass('active');
     $('#ContactTab').removeClass('active');
     $('#InboxTab').removeClass('active');
+    $('#MyRitsTab').removeClass('active');
+}
+
+function deleteActiveTab(){
+
 }
