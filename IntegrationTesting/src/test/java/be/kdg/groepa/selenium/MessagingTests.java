@@ -33,7 +33,7 @@ public class MessagingTests {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        Helper.doLogin(driver,"gio@degruyter.com", "Giovanni69");
+        Helper.doLogin(driver,"user2@tmc.test.com", "Succes1");
         driver.get("http://localhost:8080/frontend/app/index.html#/inbox");
         Helper.wait(Helper.WAIT_SHORT);
 
@@ -42,7 +42,9 @@ public class MessagingTests {
         searchResults.get(0).click();
         Helper.wait(Helper.WAIT_SHORT);
         WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
-        assertEquals("timv@nroe.yen aan gio@degruyter.com", element.getText());
+        assertEquals("user@tmc.test.com aan user2@tmc.test.com", element.getText());
+
+        driver.close();
     }
 
     @Test
@@ -50,7 +52,7 @@ public class MessagingTests {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        Helper.doLogin(driver,"gio@degruyter.com", "Giovanni69");
+        Helper.doLogin(driver,"user2@tmc.test.com", "Succes1");
         driver.get("http://localhost:8080/frontend/app/index.html#/inbox");
         Helper.wait(Helper.WAIT_SHORT);
 
@@ -59,7 +61,7 @@ public class MessagingTests {
         searchResults.get(3).click();
         Helper.wait(Helper.WAIT_SHORT);
         WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
-        assertEquals("timv@nroe.yen aan gio@degruyter.com", element.getText());
+        assertEquals("user@tmc.test.com aan user2@tmc.test.com", element.getText());
 
         element = driver.findElementByName("inboxClick");
         element.click();
@@ -67,7 +69,7 @@ public class MessagingTests {
         searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
         assertTrue("There has to be 9 messages loaded in the send message-tab", searchResults.size()==9);
         assertTrue("Message 4 should be read", searchResults.get(3).findElement(By.xpath("//td/img")).getAttribute("alt").equals("true"));
-
+        driver.close();
     }
 
     @Test
@@ -75,7 +77,7 @@ public class MessagingTests {
         FirefoxDriver driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        Helper.doLogin(driver,"gio@degruyter.com", "Giovanni69");
+        Helper.doLogin(driver,"user2@tmc.test.com", "Succes1");
         driver.get("http://localhost:8080/frontend/app/index.html#/inbox");
         Helper.wait(Helper.WAIT_SHORT);
 
@@ -104,7 +106,7 @@ public class MessagingTests {
         searchResults =  driver.findElementsByXPath("//section[@id='sendField']/table/tbody/tr");
         assertTrue("Message 4 should be read", searchResults.get(searchResults.size() - 1).findElement(By.xpath("//td/img")).getAttribute("alt").equals("false"));
 
-
+        driver.close();
 
 
 

@@ -1,15 +1,11 @@
 package be.kdg.groepa.selenium;
 
-import com.ibatis.common.jdbc.ScriptRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.sql.DriverManager;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -58,16 +54,16 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("currentPass");
+        element = driver.findElementByName("current");
         element.sendKeys("Succes1");
 
-        element = driver.findElementByName("oldPass1");
+        element = driver.findElementByName("new");
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("oldPass2");
+        element = driver.findElementByName("repeating");
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         try {
@@ -76,19 +72,19 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("currentPass");
+        element = driver.findElementByName("current");
         element.clear();
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("oldPass1");
+        element = driver.findElementByName("new");
         element.clear();
         element.sendKeys("Succes1");
 
-        element = driver.findElementByName("oldPass2");
+        element = driver.findElementByName("repeating");
         element.clear();
         element.sendKeys("Succes1");
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         element = driver.findElementByName("message");
@@ -129,16 +125,16 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("currentPass");
+        element = driver.findElementByName("current");
         element.sendKeys("Fail1");
 
-        element = driver.findElementByName("oldPass1");
+        element = driver.findElementByName("new");
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("oldPass2");
+        element = driver.findElementByName("repeating");
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         try {
@@ -184,16 +180,16 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("currentPass");
+        element = driver.findElementByName("current");
         element.sendKeys("Succes1");
 
-        element = driver.findElementByName("oldPass1");
+        element = driver.findElementByName("new");
         element.sendKeys("NewPass1");
 
-        element = driver.findElementByName("oldPass2");
+        element = driver.findElementByName("repeating");
         element.sendKeys("NewPass2");
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         try {
@@ -239,16 +235,16 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("currentPass");
+        element = driver.findElementByName("current");
         element.sendKeys("Succes1");
 
-        element = driver.findElementByName("oldPass1");
+        element = driver.findElementByName("new");
         element.sendKeys("Fail");
 
-        element = driver.findElementByName("oldPass2");
+        element = driver.findElementByName("repeating");
         element.sendKeys("Fail");
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         try {
@@ -294,7 +290,7 @@ public class ChangePasswordTests {
             e.printStackTrace();
         }
 
-        element = driver.findElementByName("changePasswordButton");
+        element = driver.findElementByName("submit");
         element.click();
 
         try {

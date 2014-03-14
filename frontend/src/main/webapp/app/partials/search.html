@@ -49,14 +49,65 @@
         </section>
 
         <section id="userSearchOptions" ng-hide="hideUserSearch">
-            <section id="ageBlock">Leeftijd tussen: <input type="number" id="minAge" max="99" min="18" value="18"/> en
-                <input
-                        type="number" id="maxAge" max="99" min="18" value="19"/></section>
+
             <img src="../app/img/profilePage/noSmoker.png" alt="noSmoker" id="noSmoker" ng-class="{'selectedSmoking': setNoSmokerClass()}" ng-click="selectSmoker(false)"/>
             <img src="../app/img/profilePage/smoker.png" alt="smoker" id="smoker" ng-class="{'selectedSmoking': setSmokerClass()}" ng-click="selectSmoker(true)"/>
             <br/><img src="../app/img/male.png" alt="male" id="male" ng-class="{'selectedGender': setMaleClass()}" ng-click="selectGender(true)"/>
             <img src="../app/img/female.png" alt="male" id="female" ng-class="{'selectedGender': setFemaleClass()}" ng-click="selectGender(false)"/>
         </section>
-        <section id="searchResults" ng-hide="hideResultsSearch">search results</section>
+        <section class="myRoutes" id="searchResults" ng-hide="hideResultsSearch">search results
+            <table id="routes" class="general blackwhite">
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>Vanaf</td>
+                    <td>Tot</td>
+                    <td>Herhalend</td>
+                    <td>Vertrek</td>
+                    <td>Bestemming</td>
+                    <td>Dag</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="route in routes | startFrom:currentPage.route*itemsPerPage | limitTo:itemsPerPage">
+                    <td class="details" ng-click="goRoute(route.id,route.day)"></td>
+                    <td>{{formatDateString(route.startDate)}}</td>
+                    <td>{{formatDateString(route.endDate)}}</td>
+                    <td>{{booleanL10n(route.repeating)}}</td>
+                    <td>{{route.startPlace}}</td>
+                    <td>{{route.endPlace}}</td>
+                    <td>{{getWeekdayL10n(route.day)}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Vanaf</td>
+                    <td>Tot</td>
+                    <td>Herhalend</td>
+                    <td>Vertrek</td>
+                    <td>Bestemming</td>
+                    <td>Dag</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: right;">
+                        <button ng-disabled="currentPage.route == 0" ng-click="currentPage.route=currentPage.route-1">
+                            Previous
+                        </button>
+                    </td>
+                    <td style="text-align: center;">
+                        {{currentPage.route+1}}
+                        /
+                        {{numberOfPages(routes)}}
+                    </td>
+                    <td colspan="3">
+                        <button ng-disabled="currentPage.route >= routes.length/itemsPerPage - 1" ng-click="currentPage.route=currentPage.route+1">
+                            Next
+                        </button>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </section>
     </section>
 </section>

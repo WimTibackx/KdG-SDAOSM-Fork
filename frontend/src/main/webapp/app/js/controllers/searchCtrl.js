@@ -17,11 +17,16 @@ var userClicked = false;
 
 var smoker = false;
 var gender = true;
-carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', '$authChecker', function ($scope, $http, $location, $authChecker) {
     console.log("searchCtrl test");
 
     deleteActiveClass();
     $('#SearchTab').addClass('active');
+
+    $authChecker.checkAuthorization();
+
+    $scope.itemsPerPage = itemsPerPage;
+    $scope.currentPage = 0;
 
     /*var active = document.getElementById("searchTab");
      active.setAttribute("class", "active");
@@ -359,11 +364,12 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
 
         //get results
         //get markers + radius
-        var startLat = markers[0].position.d;
-        var startLng = markers[0].position.e;
+        console.log(markers)
+        var startLat = markers[0].position.k;
+        var startLng = markers[0].position.A;
         var startTitle = markers[0].title;
-        var endLat = markers[1].position.d;
-        var endLng = markers[1].position.e;
+        var endLat = markers[1].position.k;
+        var endLng = markers[1].position.A;
         var endTitle = markers[1].title;
         console.log(markers[0]);
         console.log(markers[1]);
@@ -399,12 +405,6 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
         //get smoker
         jsonObject.smoker = smoker;
 
-        //get age
-        var minAge = document.getElementById("minAge").value;
-        var maxAge = document.getElementById("maxAge").value;
-        jsonObject.minAge = minAge;
-        jsonObject.maxAge = maxAge;
-
         //get gender
         if(gender){
             jsonObject.gender = "male";
@@ -412,14 +412,40 @@ carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$lo
             jsonObject.gender = "female";
         }
 
-        console.log(jsonObject);
+        console.log(JSON.stringify(jsonObject));
 
-        $http.post(rootUrl + "/authorized/search", JSON.stringify(jsonObject)).success(function () {
+
+        $http.post(rootUrl + "/authorized/route/findCarpoolers", JSON.stringify(jsonObject))
+            .success(function (response) {
             console.log("succes") //TODO: get all routes to create table
+                console.log(response)
+                $scope.routes=response;
         }).
             error(function () {
                 console.log("an error occured");
             });
+    }
+
+    $scope.goRoute = function(id,day) { $location.path("/route/"+id).hash(day); };
+    $scope.goAddRoute = function() { $location.path("/addRoute"); };
+
+    $scope.formatDate = function(date) {
+        if (date == undefined) return "";
+        return date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+    };
+    $scope.formatDateString = function(dateString) {
+        var date = new Date(dateString);
+        return $scope.formatDate(date);
+    };
+    $scope.booleanL10n = function(b) { return b ? "Ja" : "Nee"; };
+
+    $scope.numberOfPages = function (data) {
+        if (data) {
+            result = Math.ceil(data.length / $scope.itemsPerPage);
+            return (result > 0) ? result : 1;
+        } else {
+            return -1;
+        }
     }
 }]);
 

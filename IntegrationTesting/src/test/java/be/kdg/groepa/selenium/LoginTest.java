@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -57,7 +55,7 @@ public class LoginTest {
         assertEquals("User should be redirected to login page when he/she isn't authorized", "http://localhost:8080/frontend/app/index.html#/login", url);
 
         WebElement element = driver.findElementById("error");
-        assertEquals(element.getText(), "Authorization is required");
+        assertEquals(element.getText(), "Authorization is required.");
         driver.close();
 
     }

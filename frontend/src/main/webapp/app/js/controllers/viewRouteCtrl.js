@@ -21,9 +21,11 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
                 return;
             }
         }
+        console.log(data)
         $scope.route.startDate = new Date(data.beginDate);
         $scope.route.endDate = new Date(data.endDate);
         $scope.route.chauffeur = data.chauffeur;
+
         $scope.route.chauffeur.dob = new Date($scope.route.chauffeur.dateOfBirth);
         $scope.route.car = data.car;
         $scope.route.weekdayroutes=[];
@@ -94,12 +96,26 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         return weekdaysL10n[weekdayNum];
     };
 
-    $scope.getAvatarUrl=function(part) {
-        return "http://localhost:8080/BackEnd/userImages/"+part;
+    $scope.getAvatarUrl=function(url, gender){
+        if (url != null){
+            return "http://localhost:8080/BackEnd/userImages/"+url;
+        }else{
+            console.log(gender);
+            if (gender == "FEMALE"){
+                return "../app/img/femaleAvatar.png";
+            }else {
+                return "../app/img/maleAvatar.png";
+            }
+        }
     };
 
     $scope.getCarImageUrl=function(part) {
-        return "http://localhost:8080/BackEnd/carImages/"+part;
+        if (part != null){
+            return "http://localhost:8080/BackEnd/carImages/"+part;
+        }else{
+            return "../app/img/carAvatar.jpg"
+        }
+
     };
 
     $scope.requestTraject = function() {
