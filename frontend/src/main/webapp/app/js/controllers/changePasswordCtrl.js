@@ -5,6 +5,8 @@
 carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$api', function ($scope, $location, $api) {
     console.log("hey changePassword controller test");
 
+    $authChecker.checkAuthorization();
+
     deleteActiveClass();
     $('#PasswordTab').removeClass('active');
 
