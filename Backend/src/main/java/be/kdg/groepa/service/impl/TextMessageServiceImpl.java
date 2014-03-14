@@ -1,6 +1,7 @@
 package be.kdg.groepa.service.impl;
 
 import be.kdg.groepa.dtos.TextMessageDTO;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.TextMessage;
 import be.kdg.groepa.persistence.api.TextMessageDao;
 import be.kdg.groepa.service.api.TextMessageService;
@@ -43,5 +44,10 @@ public class TextMessageServiceImpl implements TextMessageService {
     @Override
     public void readMessage(int messageId) {
         textMessageDao.readMessage(messageId);
+    }
+
+    @Override
+    public void sendMessageToPassengers(Route r, String body, String msg) {
+
     }
 }

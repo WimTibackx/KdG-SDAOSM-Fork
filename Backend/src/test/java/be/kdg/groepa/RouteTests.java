@@ -10,6 +10,7 @@ import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
+import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,6 +45,9 @@ public class RouteTests {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private TrajectService trajectService;
 
     @Test
     public void testNonRepRoute()
@@ -354,5 +358,121 @@ public class RouteTests {
         Route changedRoute = routeService.getRoutes(user).get(1);
         Assert.assertEquals("Carbrand should be 'Opel' now", "Opel", changedRoute.getCar().getBrand());
         Assert.assertEquals("Capacity should be '5' now",5, changedRoute.getCapacity());
+        // This is to have some testdata concerning trajects for (non-)repeating routes.
+    }
+
+    @Test
+    public void testRepRouteTrajects()
+    {
+        Car c = new Car("Fiat", "Panda", 7.2, Car.FuelType.DIESEL);
+        User u = new User("Peter", User.Gender.MALE, true, "Spoed12345", LocalDate.of(1993, 4, 12), "petertje@spoed.com", c);
+        User p1 = new User("Tim", User.Gender.FEMALE, true, "Timmetje123", LocalDate.of(1993, 3, 13), "timmetje@tim.tim");
+        User p2 = new User("Melissa", User.Gender.FEMALE, true, "Melissa123", LocalDate.of(1993, 7, 3), "melissa@tim.tim");
+
+
+        try {
+            userService.addUser(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        carService.addCar("petertje@spoed.com", c);
+        Route r = new Route(true, 4, LocalDate.now(), LocalDate.now(), u, c);
+        Place place = new Place("Brasschaat", 231.988796454f, 132.56684684f);
+        Place place2 = new Place("Willekeurige Carpoolparking", 431.98987133664f, 411.9889459684f);
+        Place place3 = new Place("Rooseveltplaats", 564.98731478966f, 342.97136455781f);
+        Place place4 = new Place("Andere plek", 154.987132654f, 189.9874561981f);
+
+        WeekdayRoute wr = new WeekdayRoute(r, 0);
+        WeekdayRoute wr1 = new WeekdayRoute(r, 1);
+
+        PlaceTime[] pts = new PlaceTime[8];
+
+        pts[0] = new PlaceTime(LocalTime.of(8, 0), place, wr, r);
+        pts[1] = new PlaceTime(LocalTime.of(8, 10), place2, wr, r);
+        pts[2] = new PlaceTime(LocalTime.of(8, 20), place3, wr, r);
+        pts[3] = new PlaceTime(LocalTime.of(8, 25), place4, wr, r);
+
+        pts[4] = new PlaceTime(LocalTime.of(7, 0), place, wr1, r);
+        pts[5] = new PlaceTime(LocalTime.of(7, 10), place2, wr1, r);
+        pts[6] = new PlaceTime(LocalTime.of(7, 20), place3, wr1, r);
+        pts[7] = new PlaceTime(LocalTime.of(7, 25), place4, wr1, r);
+
+        r.addWeekdayRoute(wr);
+        r.addWeekdayRoute(wr1);
+        routeService.addRoute(r);
+
+        Traject t1 = new Traject(pts[1], pts[3], r, p1, wr);
+        Traject t2 = new Traject(pts[4], pts[6], r, p2, wr);
+        Traject t3 = new Traject(pts[2], pts[7], r, p1, wr1);
+
+        wr.addTraject(t1);
+        wr.addTraject(t2);
+        wr1.addTraject(t3);
+
+        // NOT route.addTraject here; that would be for NON-REPEATING routes!!!
+
+        t1.setAccepted(true);
+        t2.setAccepted(true);
+        t3.setAccepted(true);
+
+        trajectService.addTraject(t1);
+        trajectService.addTraject(t2);
+        trajectService.addTraject(t3);
+
+        assertTrue("Add repeating route trajects failed", true);
+    }
+
+    @Test
+    public void testNormalRouteTrajects()
+    {
+        Car c = new Car("BMW", "X6 - M", 7.2, Car.FuelType.DIESEL);
+        User u = new User("Bart", User.Gender.MALE, true, "vochtenRules123", LocalDate.of(1993, 4, 12), "bart.vochten@kdg.be", c);
+        User p1 = new User("Chris", User.Gender.FEMALE, true, "javaTheBest123", LocalDate.of(1993, 3, 13), "behielsje@kdg.be");
+        User p2 = new User("Kris", User.Gender.FEMALE, true, "DeMuynck1234", LocalDate.of(1993, 7, 3), "demuynck@kdg.be");
+
+        try {
+            userService.addUser(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        carService.addCar("bart.vochten@kdg.be", c);
+        Route r = new Route(true, 4, LocalDate.now(), LocalDate.now(), u, c);
+        Place place = new Place("Brasschaat", 231.988796454f, 132.56684684f);
+        Place place2 = new Place("Grote Markt", 431.98987133664f, 411.9889459684f);
+        Place place3 = new Place("Schouwburg", 564.98731478966f, 342.97136455781f);
+        Place place4 = new Place("Groenplaats", 154.987132654f, 189.9874561981f);
+
+        PlaceTime[] pts = new PlaceTime[8];
+
+        pts[0] = new PlaceTime(LocalTime.of(8, 0), place, r);
+        pts[1] = new PlaceTime(LocalTime.of(8, 10), place2, r);
+        pts[2] = new PlaceTime(LocalTime.of(8, 20), place3, r);
+        pts[3] = new PlaceTime(LocalTime.of(8, 25), place4, r);
+
+        pts[4] = new PlaceTime(LocalTime.of(7, 0), place, r);
+        pts[5] = new PlaceTime(LocalTime.of(7, 10), place2, r);
+        pts[6] = new PlaceTime(LocalTime.of(7, 20), place3, r);
+        pts[7] = new PlaceTime(LocalTime.of(7, 25), place4, r);
+
+        routeService.addRoute(r);
+
+        Traject t1 = new Traject(pts[1], pts[3], r, p1);
+        Traject t2 = new Traject(pts[4], pts[6], r, p2);
+        Traject t3 = new Traject(pts[2], pts[7], r, p1);
+
+        r.addTraject(t1);
+        r.addTraject(t2);
+        r.addTraject(t3);
+
+        t1.setAccepted(true);
+        t2.setAccepted(true);
+        t3.setAccepted(true);
+
+        trajectService.addTraject(t1);
+        trajectService.addTraject(t2);
+        trajectService.addTraject(t3);
+
+        assertTrue("Add normal route trajects failed", true);
     }
 }

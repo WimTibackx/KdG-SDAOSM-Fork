@@ -1,5 +1,6 @@
 package be.kdg.groepa.model;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.threeten.bp.LocalTime;
 

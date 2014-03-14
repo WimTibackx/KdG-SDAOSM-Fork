@@ -47,7 +47,7 @@ public class Ride {
 
     public Ride(Route r, LocalDateTime date)
     {
-        this.totalCost = CostManager.calculateCost(r);
+        this.totalCost = CostManager.getRouteCost(r);
         this.distance = CostManager.getTotalDistance(r);
         this.date = date;
     }

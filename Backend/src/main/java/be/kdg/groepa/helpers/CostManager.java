@@ -4,6 +4,8 @@ import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
 
+import java.util.List;
+
 /**
  * Created by Pieter-Jan on 26-2-14.
  */
@@ -11,22 +13,34 @@ public class CostManager {
 
     public static double calculateCost(PlaceTime p, PlaceTime t) // Calculate cost for en entire route
     {
-        // GoogleMaps.zoekDieShit(p, t);    // TODO: Add Google Maps functionality
+        // TODO: Add Google Maps functionality
         return 0.00;
     }
 
-    public static double getTotalDistance(Route r)
+    public static double getRouteCost(Route r)
     {
-        return 10.00;  // TODO: Add Google Maps functionality
+        double sum = 0.00;
+        for (double d : getRouteCosts(r))
+        {
+            sum += d;
+        }
+        return sum;
     }
 
-    public static double calculateCost(Route r)
+    public static double[] getRouteCosts(Route r)
     {
-        return 10.00;
+        double[] rtval = new double[r.getPlaceTimes().size()-1];
+        List<PlaceTime> temp = r.getAllPlaceTimes();
+        for (int i = 0; i < rtval.length; i++)
+        {
+            rtval[i] = calculateCost(temp.get(i), temp.get(i+1));
+        }
+        rtval[r.getPlaceTimes().size()-2] = calculateCost(temp.get(r.getPlaceTimes().size()-2), temp.get(r.getPlaceTimes().size()-1));
+        return rtval;
     }
 
-    public static double getTrajectCost(Traject t)  // Calculate the cost for a specific traject within a route
-    {
+    public static double getTotalDistance(Route r) {
+
         return 0.00;
     }
 }
