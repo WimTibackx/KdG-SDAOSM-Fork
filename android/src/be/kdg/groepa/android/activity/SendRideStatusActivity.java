@@ -11,8 +11,10 @@ import android.widget.*;
 import android.widget.Button;
 import android.widget.RadioButton;
 import be.kdg.groepa.android.AsyncResponse;
+import be.kdg.groepa.android.HomePageActivity;
 import be.kdg.groepa.android.R;
 import be.kdg.groepa.android.SendMessageActivity;
+import be.kdg.groepa.android.service.SendMessageService;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -62,21 +64,22 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
                     messagePassenger(selection, s);
                 }
         }
+        processFinish("Done");
     }
 
     private void messagePassenger(String msg, String receiver) {
-        Intent goToMyActivity = new Intent(this, SendMessageActivity.class);
+        Intent service = new Intent(this, SendMessageService.class);
         Bundle b = new Bundle();
         b.putString("receiverUsername", receiver);
         b.putString("messageSubject", msg);
         b.putString("messageBody", msg);
-        goToMyActivity.putExtras(b);
-        startActivity(goToMyActivity);
+        service.putExtras(b);
+        startService(service);
     }
 
     @Override
     public void processFinish(String output) {
-        // startActivity(goToMyActivity);
+        startActivity(new Intent(this, HomePageActivity.class));
     }
 
     @Override

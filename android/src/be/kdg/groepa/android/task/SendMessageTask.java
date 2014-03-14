@@ -40,6 +40,14 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
         this.delegate = response;
     }
 
+    public SendMessageTask(String sender, String receiver, String subject, String body, Context context){
+        this.sender = sender;
+        this.receiver = receiver;
+        this.subject = subject;
+        this.body = body;
+        this.context = context;
+    }
+
     @Override
     protected String doInBackground(Void... voids) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
@@ -54,6 +62,7 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
 
         JSONObject jsonObject = new JSONObject();
         try {
+            System.out.println("SENDER: " + sender);
             jsonObject.put("senderUsername", sender);
             jsonObject.put("receiverUsername", receiver);
             jsonObject.put("messageSubject", subject);
@@ -70,6 +79,7 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
+            System.out.println("SENDING TASK TO BACKEND");
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -78,6 +88,7 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
                 out.close();
                 responseString = out.toString();
             } else{
+                System.out.println("STATUSLINE NOK: " + statusLine.getReasonPhrase());
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
@@ -89,6 +100,10 @@ public class SendMessageTask extends AsyncTask<Void, Void, String> {
     }
 
     protected void onPostExecute(String result) {
-        this.delegate.processFinish(result);
+        System.out.println("POSTEXECUTE TASK");
+
+        if(delegate != null){
+            this.delegate.processFinish(result);
+        }
     }
 }

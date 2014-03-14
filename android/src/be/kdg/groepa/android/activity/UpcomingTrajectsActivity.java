@@ -60,7 +60,6 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
         // The SendMessage-button will only activate when a route is clicked, and its function will alter based on the user
         btnSendMessage.getBackground().setAlpha(128);
         btnSendMessage.setClickable(false);
-        btnSendMessage.setVisibility(View.INVISIBLE);
 
         privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
         super.setListAdapter(this.adapter);
@@ -99,7 +98,6 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
         if (card.getTraject().getChauffeurId() != privPref.getInt("UserId", -1)) {
             btnConfirmRide.setClickable(false);
             btnConfirmRide.getBackground().setAlpha(128);
-            btnSendMessage.setVisibility(View.VISIBLE);
             btnSendMessage.setText("Message driver");
             btnSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -115,7 +113,7 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
             btnConfirmRide.setClickable(true);
             btnConfirmRide.getBackground().setAlpha(255);
             // Disabling messaging passengers because the functionality is not completely implemented.
-            btnSendMessage.setVisibility(View.INVISIBLE);
+            // btnSendMessage.setVisibility(View.INVISIBLE);
             btnSendMessage.setText("Message passengers");
             btnSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

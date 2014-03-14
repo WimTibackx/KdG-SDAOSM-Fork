@@ -45,7 +45,6 @@ public class SendMessageActivity extends Activity implements AsyncResponse {
                 editSubjectText.setKeyListener(null);
             }
             if(b.containsKey("receiverUsername") && b.containsKey("messageBody") && b.containsKey("messageSubject")){
-                System.out.println("AUTOMATICALLY SENDING MESSAGE");
                 SendMessageTask task = new SendMessageTask(senderUsername, editReceiverText.getText().toString(), editSubjectText.getText().toString(), editBodyText.getText().toString(), getApplicationContext(), this);
                 task.execute();
             }
@@ -54,6 +53,7 @@ public class SendMessageActivity extends Activity implements AsyncResponse {
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Clicked button");
                 SendMessageTask task = new SendMessageTask(senderUsername, editReceiverText.getText().toString(), editSubjectText.getText().toString(), editBodyText.getText().toString(), getApplicationContext(), msgAc);
                 task.execute();
             }
@@ -62,6 +62,7 @@ public class SendMessageActivity extends Activity implements AsyncResponse {
 
     @Override
     public void processFinish(String output) {
+        System.out.println("Processing finish");
         JSONObject outputJson = null;
         Intent goToMyActivity = null;
         try {
