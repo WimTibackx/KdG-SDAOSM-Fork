@@ -13,6 +13,10 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         center: {latitude: 51.219448, longitude: 4.402464},
         zoom: 8
     };
+    $scope.viewTrajects=false;
+
+    $scope.shouldshow={};
+    var tabnums = [];
 
     $http.get(rootUrl + "/authorized/route/"+$routeParams.routeId).success(function(data) {
         if (data.hasOwnProperty("error")) {
@@ -30,9 +34,10 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         $scope.route.car = data.car;
         $scope.route.weekdayroutes=[];
 
+        tabnums=[];
         for (var i in data.passages) {
             if (i === 'length' || !data.passages.hasOwnProperty(i)) continue;
-            var p = {num:i, passages:data.passages[i],markers:[]};
+            var p = {num:i, passages:data.passages[i],markers:[],trajects:[],trajectsEmpty:true};
             for (var j=0; j<p.passages.length; j++) {
                 var m = {
                     title: p.passages[j].address,
@@ -42,12 +47,11 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
                 p.markers.push(m);
             }
             $scope.route.weekdayroutes.push(p);
+            tabnums.push(i);
         }
 
+        getTrajectsOnRoute();
         determineActiveTabAtPageload();
-        console.log("LET THE DEBUGGING COMMENCE.");
-        console.log(data);
-        console.log($scope.route.weekdayroutes);
         $scope.isLoading=false;
     });
 
@@ -55,6 +59,11 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         activeTab = tabNum;
         $scope.error={};
         $scope.trajRequest={};
+        $scope.shouldshow={};
+        for (var i=0; i<tabnums.length; i++) {
+            $scope.shouldshow[tabnums[i]]=(tabnums[i]==activeTab);
+        }
+        console.log($scope.shouldshow);
     };
 
     $scope.shouldShowTab=function(tabNum) {
@@ -184,8 +193,43 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         console.log("is now",wantedIndex);
         if (wantedIndex == -1) {
             activeTab = $scope.route.weekdayroutes[0].num;
+            $scope.activateTab(activeTab);
             return;
         }
         activeTab = $location.hash();
+        $scope.activateTab(activeTab);
     }
+
+    function getTrajectsOnRoute() {
+        $http.get(rootUrl+"/authorized/traject/on-route/"+$routeParams.routeId).success(function(data) {
+            if (data.hasOwnProperty("error") && data.error == "Unauthorized") {
+                //No problem here, user just shouldn't see the info
+                return;
+            }
+            for (var i=0; i<data.length; i++) {
+                for (var j=0; j<$scope.route.weekdayroutes.length; j++) {
+                    if (data[i].weekday == $scope.route.weekdayroutes[j].num) {
+                        $scope.route.weekdayroutes[j].trajects.push(data[i]);
+                    }
+                    $scope.route.weekdayroutes[j].trajectsEmpty = ($scope.route.weekdayroutes[j].trajects.length == 0);
+                }
+            }
+            $scope.viewTrajects=true;
+        });
+    }
+
+    $scope.currentPage=0;
+    $scope.itemsPerPage = itemsPerPage;
+    $scope.numberOfPages = function (data) {
+        if (data) {
+            result = Math.ceil(data.length / $scope.itemsPerPage);
+            return (result > 0) ? result : 1;
+        } else {
+            return -1;
+        }
+    };
+
+    $scope.goToProfile=function(userId) {
+        $location.path("/profile/"+userId);
+    };
 }]);

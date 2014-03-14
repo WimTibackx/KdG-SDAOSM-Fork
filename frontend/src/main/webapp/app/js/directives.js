@@ -68,6 +68,7 @@ carpoolDirectives.directive('cpaGmap',function() {
         mapData.directionsService.route(directionsRequest, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 mapData.directionsRenderer.setDirections(result);
+                console.log("panning to",result.routes[0].bounds);
                 mapData.map.panToBounds(result.routes[0].bounds);
             } else {
                 console.log("Error calculating route: " + status);
@@ -78,16 +79,24 @@ carpoolDirectives.directive('cpaGmap',function() {
     function link(scope, element, attrs) {
         console.log("cpaGmap -- Linking",element[0],scope.markers);
         initMap(element[0],scope.markers,defaultMapOptions);
-        scope.$watch(scope.isShown,function(value) {
-           console.log("isShown changed, is now: "+value);
+       /* scope.$watch(scope.isshown,function(value) {
+           console.log("isShown changed, is now: "+value,scope.isshown);
+            initMap(element[0],scope.markers,defaultMapOptions);
+        });*/
+        attrs.$observe('isshown', function(value) {
+
+            console.log("attr changed, is now"+value/*,scope.isshown*/);
+
+            initMap(element[0],scope.markers,defaultMapOptions);
         });
+
     }
 
     return {
         restrict: 'E',
         scope: {
-            markers:"=markers",
-            isShown:"=isShown"
+            markers:"=markers"//,
+            //isshown:"=isshown"
         },
         link: link
     };

@@ -212,7 +212,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            <td ng-click="goToProfile(t.route.chauffeur.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
             </td>
         </tr>
         </tbody>
@@ -261,7 +261,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            <td ng-click="goToProfile(t.route.chauffeur.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
             </td>
         </tr>
         </tbody>
@@ -312,7 +312,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}"/><span>{{t.route.requester.name}}</span>
+            <td ng-click="goToProfile(t.route.requester.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}"/><span>{{t.route.requester.name}}</span>
             </td>
             <td>
                 <button class="positive" ng-click="acceptTraject(t.id)">Accepteren</button>

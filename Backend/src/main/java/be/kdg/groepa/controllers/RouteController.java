@@ -77,6 +77,12 @@ public class RouteController extends BaseController {
     @RequestMapping(value="/mine",method=RequestMethod.GET)
     public @ResponseBody String getMyRoutes(HttpServletRequest request, HttpServletResponse response) {
         List<Route> routes = this.routeService.getRoutes(super.getCurrentUser(request));
+        List<JSONObject> returndata = getWdrListJson(routes);
+        super.updateCookie(request, response);
+        return new JSONArray(returndata).toString();
+    }
+
+    private List<JSONObject> getWdrListJson(List<Route> routes) {
         List<JSONObject> returndata = new ArrayList<>();
         for (Route r : routes) {
             if (r.isRepeating()) {
@@ -103,10 +109,7 @@ public class RouteController extends BaseController {
                 returndata.add(jsonR);
             }
         }
-        //TODO There isn't much we can really say about routes as such
-        //  Maybe it would be more useful if we returned weekdayroutes
-        super.updateCookie(request, response);
-        return new JSONArray(returndata).toString();
+        return returndata;
     }
 
     // Could also do a put here, but maybe it's better to remain consistent and only use GET and POST now
@@ -212,5 +215,13 @@ public class RouteController extends BaseController {
             return super.respondSimpleAuthorized("error","Unauthorized", request, response);
         }
         return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/user/{userId}", method=RequestMethod.GET)
+    public @ResponseBody String getByUser(@PathVariable("userId") int userId, HttpServletRequest request, HttpServletResponse response) {
+        List<Route> routes=routeService.getRoutes(userService.getUserById(userId));
+        List<JSONObject> returndata = getWdrListJson(routes);
+        super.updateCookie(request, response);
+        return new JSONArray(returndata).toString();
     }
 }

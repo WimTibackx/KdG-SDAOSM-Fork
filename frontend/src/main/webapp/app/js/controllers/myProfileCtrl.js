@@ -102,6 +102,10 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     };
     $scope.booleanL10n = function(b) { return b ? "Ja" : "Nee"; };
 
+    $scope.goToProfile=function(userId) {
+        $location.path("/profile/"+userId);
+    };
+
     function loadRoutes() {
         $http.get(rootUrl+"/authorized/route/mine").success(function (data) {
             $scope.routes=data;
