@@ -3,6 +3,7 @@ package be.kdg.groepa.helpers;
 import be.kdg.groepa.model.Car;
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -90,6 +91,8 @@ public class CostManager {
                 response.append(inputLine);
             }
             in.close();
+            Logger.getLogger(CostManager.class).info("GoogleApi response:");
+            Logger.getLogger(CostManager.class).info(response.toString());
             JSONObject json = new JSONObject(response.toString());
             int distance = 0;
             if (!json.getString("status").equals("OK"))
