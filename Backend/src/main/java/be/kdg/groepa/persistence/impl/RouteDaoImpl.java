@@ -105,6 +105,15 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
+    public Traject getPassengerTraject(Route r, User u) {      // returns null when the user has no traject on that route
+        for (Traject t : r.getTrajects())
+        {
+            if (t.getUser() == u) return t;
+        }
+        return null;
+    }
+
+    @Override
     public void editWeekdayRoute(WeekdayRoute wr, List<PlaceTime> placetimes) {
         Session ses = HibernateUtil.openSession();
         for (PlaceTime t : placetimes)

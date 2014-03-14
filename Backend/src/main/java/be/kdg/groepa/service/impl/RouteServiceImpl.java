@@ -5,6 +5,7 @@ import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
 import be.kdg.groepa.exceptions.CarNotFoundException;
 import be.kdg.groepa.exceptions.UnauthorizedException;
+import be.kdg.groepa.helpers.CostManager;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -90,13 +91,33 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public void confirmRide(int routeId, LocalDateTime date) {
-        // TODO: Costmanagers afmaken!
         TextMessage tm;
         Route r = this.getRouteById(routeId);
         List<User> passengers = getRoutePassengers(r);
+        double[] routeCosts = CostManager.getRouteCosts(r);
         for (User p : passengers)
         {
-            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2f", r.getChauffeur().getName(), date.toString(), 12.2156);
+            //String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2f", r.getChauffeur().getName(), date.toString(), 12.2156);
+            int start = 0, end = 0, i = 0;
+            Traject t = routeDao.getPassengerTraject(r, p);
+            for (PlaceTime pt : r.getPlaceTimes())
+            {
+                if (pt == t.getPickup())
+                {
+                    start = i;
+                }
+                else if (pt == t.getDropoff())
+                {
+                    end = i;
+                }
+                i++;
+            }
+            double cost = 0.00;
+            for (int j = 0; j < routeCosts.length; j++)
+            {
+                if (j >= start && j < end) cost += routeCosts[j];
+            }
+            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2f", r.getChauffeur().getName(), date.toString(), cost);
             tm = new TextMessage(r.getChauffeur(), p, "Ride confirmed - " + date.toString(), temp);
             msgService.addNewMessage(tm);
         }
