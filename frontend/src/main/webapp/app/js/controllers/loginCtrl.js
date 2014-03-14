@@ -4,14 +4,11 @@
 // CONTROLLER: Login
 carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
 
-    console.log("hey test login ctrl");
-    console.log(readCookie("Token"));
     if (SharedProperties.getProperty() != null) {
         $("#error").text(SharedProperties.getProperty());
         $("#error").show();
         SharedProperties.setProperty(null);
     }
-    console.log(SharedProperties.getProperty());
     if (readCookie("Token") == null) {
 
         var login = document.getElementById('login');
@@ -39,7 +36,6 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
         $(document).ready(function () {
 
             var login = $("#loginform");
-            console.log("Hij komt in doc.ready function")
 
             login.submit(function (e) {
                 e.preventDefault();
@@ -52,7 +48,6 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
         });
 
         function actionLogin(username, password) {
-            console.log("Hij komt in action login function")
             var data = {username: username, password: password};
             var counter = 0;
             $http({
@@ -62,12 +57,8 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
                 headers: {'Content-Type': "text/plain; charset=utf-8"}
             }).success(function (response) {
 
-                    console.log(response)
-                    //var obj = JSON.parse(response);
                     obj = response;
-                    console.log(obj);
                     if (obj.hasOwnProperty("Token")) {
-                        console.log("Test");
                         $location.path("/myProfile");
                         $("#cssmenu").show();
                         $("#error").hide();
@@ -89,10 +80,8 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
 
         }
 
-        console.log("Test gij komt hier")
 
     } else {
-        console.log("It's because of this ??");
         $location.path("/myProfile");
     }
 }

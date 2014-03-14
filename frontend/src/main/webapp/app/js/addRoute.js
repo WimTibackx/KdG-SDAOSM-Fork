@@ -120,10 +120,6 @@ function onPlaceChanged() {
 function updateAddress(step, latlng) {
     geoCoder.geocode({ location: latlng }, function (result, status) {
         if (status == "OK") {
-            /* console.log('------------');
-             for (var i = 0; i < result.length; i++) {
-             console.log(result[i].formatted_address);
-             } */
             //change marker title
             markers[step].setTitle(result[0].formatted_address);
             if (step == 0) {
@@ -133,7 +129,6 @@ function updateAddress(step, latlng) {
             }
             calcRoute();
         } else {
-            console.log("Error decoding address: " + status);
             setTimeout(function () {
                 updateAddress(step, latlng);
             }, 1000);
@@ -161,16 +156,7 @@ function calcRoute() {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
                 var routepoints = result.routes[0].overview_path;
-                console.log(routepoints);
-                /*for (i = 0; i < routepoints.length; i++) {
-                    console.log(new google.maps.Marker({
-                        map: map,
-                        position: routepoints[i]
-                    }));
-
-                } */
             } else {
-                console.log("Error calculating route: " + status);
                 setTimeout(function () {
                     calcRoute();
                 }, 1000);
@@ -213,7 +199,6 @@ function openWindow() {
     newTable.appendChild(newTbody);
     parentElement.appendChild(newTable);
     var index = 1;
-    console.log(markers)
     for (i = 0; i < markers.length; i++) {
 
         if (i != 1){
@@ -229,42 +214,11 @@ function openWindow() {
     if (dateElement.prop('type') != 'date') {
         alert(dateElement.prop('type'));
     } else {
-        console.log("No problem");
     }
 
     $('#overlay').show();
 }
 
-/*
-function addTime() {
-    if (typeof(passages)) {
-
-    }
-    console.log($('#days').find(':input:checked').length);
-
-    $('#days').find(':input:checked').each(function () {
-        var time = [];
-        time.push($('#repDepTime').val(), $('#repArrTime').val());
-
-        passages[$(this).data('day')] = time;
-
-        $(this).prop('checked', false);
-    });
-
-    fillTable();
-}
-
-function fillTable() {
-    var table = document.getElementById('days');
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < passages.length; j++) {
-            if (passages[j][i] != 0) {
-                table.rows[i + 1].cells[j + 1].innerText = passages[j][i];
-            }
-        }
-    }
-}
-*/
 
 function submitAllData() {
     var car = $('#selectedCar').data('index');
@@ -275,7 +229,6 @@ function submitAllData() {
 
 
     if (!repeating) {
-        console.log("Hij komt in NOT repeating")
         endDate = startDate
         passages = [];
         for(i = 0; i < points.length; i++){
@@ -285,7 +238,6 @@ function submitAllData() {
         passages = {};
         passages = repeatingpassages;
     }
-    console.log(passages)
 
 
 
@@ -299,7 +251,6 @@ function submitAllData() {
     }
     jsonObject.passages = passages
 
-    console.log(JSON.stringify(jsonObject));
     var rootUrl = "http://localhost:8080/BackEnd/";
     $.ajax({
         url: rootUrl + "authorized/route/add",
@@ -309,7 +260,6 @@ function submitAllData() {
         success: function (){
         }
     });
-    //jQuery.post('http://localhost:8080/BackEnd//authorized/route/add', JSON.stringify(jsonObject)); // TODO: enable sending Json to backend
 }
 
 function addListeners() {
@@ -319,7 +269,6 @@ function addListeners() {
 function addPassagePoint(){
     counter++;
     var parentElement = document.getElementById('controls');
-    //<input id="txtEnd" class="controls" type="text" placeholder="Geef eindpunt in.">
 
     var newInput = document.createElement('input');
 
@@ -342,7 +291,6 @@ function addTableRow(index, tbody, i){
     var newTableData0 = document.createElement('td');
     newTableData0.appendChild(document.createTextNode(i));
     var newTableData1 = document.createElement('td');
-    console.log(index)
     newTableData1.appendChild(document.createTextNode(markers[index].title));
     var newTableData2 = document.createElement('td');
     var newTimeInput = document.createElement('input');
@@ -408,7 +356,6 @@ function addTime(){
 
             var tableElement;
             if (i != 1){
-                console.log(currentObject.value + (i+1))
                 tableElement = document.getElementById(currentObject.value + (i+1));
             }else{
                 tableElement = document.getElementById(currentObject.value + markers.length);

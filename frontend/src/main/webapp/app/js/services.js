@@ -35,30 +35,16 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
 
         switch (statusCode) {
             case 404:
-                console.log('Error: 404 Not Found');
                 break;
             case 401:
-                console.log('Error: 401 Not Authorized!')
                 $location.path("/login");
                 break;
             default:
-                console.log('Error: status code ' + status);
-                console.log('Technical mumbo-jumbo');
-                console.log('Data:');
-                console.log(data);
-                console.log('Status');
-                console.log(status);
-                console.log('Headers');
-                console.log(headers);
-                console.log('Config');
-                console.log(config);
-                console.log('=====');
         }
     }
 
     return {
         get: function (endpoint, callback) {
-            console.log("Get from " + endpoint);
             $http.get(rootUrl + endpoint)
                 .success(function (data, status, headers, config) {
                     if (data.hasOwnProperty('error')) {
@@ -71,7 +57,6 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
         },
 
         post: function (endpoint, data, callback) {
-            console.log("Post to " + endpoint);
             $http.post(rootUrl + endpoint, data)
                 .success(function (data, status, headers, config) {
                     if (data.hasOwnProperty('error')) {
@@ -87,8 +72,6 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
 }]);
 
 carpoolServices.factory("$authChecker", ["$http", "$location", "SharedProperties", function($http, $location, SharedProperties) {
-    console.log("$authorized initted");
-
     function readCookie(name) {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -101,13 +84,11 @@ carpoolServices.factory("$authChecker", ["$http", "$location", "SharedProperties
     }
 
     function toLogin() {
-        console.log("Redirecting user to login...");
         SharedProperties.setProperty("Authorization is required.");
         $location.path("/login").hash("");
     }
 
     function toProfile() {
-        console.log("Redirecting user to profile...");
         $location.path("/myProfile").hash("");
     }
 

@@ -70,16 +70,13 @@ carpoolDirectives.directive('cpaGmap',function() {
                 mapData.directionsRenderer.setDirections(result);
                 mapData.map.panToBounds(result.routes[0].bounds);
             } else {
-                console.log("Error calculating route: " + status);
             }
         });
     }
 
     function link(scope, element, attrs) {
-        console.log("cpaGmap -- Linking",element[0],scope.markers);
         initMap(element[0],scope.markers,defaultMapOptions);
         scope.$watch(scope.isShown,function(value) {
-           console.log("isShown changed, is now: "+value);
         });
     }
 

@@ -23,11 +23,8 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
         headers: {'Content-Type': "text/plain; charset=utf-8"}
     }).success(function (response) {
             obj = response;
-            console.log(obj)
-            var temp;
             if (obj.hasOwnProperty("error")) {
                 if (obj["error"] == "AuthorizationNeeded") {
-                    console.log("He is not authorized");
                     $location.path("/login");
                     SharedProperties.setProperty("Authorization is required")
 
@@ -47,23 +44,17 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
                 $scope.personname = username;
                 $scope.dateBirth = new Date(obj["dateOfBirth"]);
                 $scope.cars = obj["cars"];
-                console.log($scope.cars);
                 $scope.username = obj["username"]
                 if (obj["smoker"]) {
                     $scope.smoker = "Roker"
                 } else {
                     $scope.smoker = "Geen roker"
                 }
-                console.log(JSON.stringify(obj["dateOfBirth"]))
             }
         });
 
-    $scope.removeCar = function (carId) {
-        console.log(carId);
-    };
 
     $scope.clickCar = function (car) {
-        console.log(car.carId);
         window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile/changeRemoveCar/" + car.carId + "";
     };
 
@@ -149,7 +140,6 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     }
 
     $scope.getAvatarUrl=function(){
-        console.log("Test ");
         if (avatarUrl != null){
             return "http://localhost:8080/BackEnd/userImages/"+avatarUrl;
         }else{

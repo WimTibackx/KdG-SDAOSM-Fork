@@ -1,5 +1,4 @@
 carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
-    console.log("hey test car2ctrl");
 
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
@@ -17,7 +16,6 @@ carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$lo
         $scope.canStartCar=true;
         $scope.cdForm.$error.required = !!$scope.cdForm.brand.$error.required || !!$scope.cdForm.type.$error.required
             || !!$scope.cdForm.fueltype.$error.required || !!$scope.cdForm.consumption.$error.required;
-        console.log("is invalid: "+$scope.cdForm.$invalid);
         var data = {
             brand: $scope.cdBrand, type: $scope.cdType, fueltype: $scope.cdFueltype, consumption: $scope.cdConsumption
         };

@@ -21,19 +21,7 @@
              </section>
         </div>
 
-<!--div id="carsBlock">
-    <table id="carsTable">
 
-        <tr ng-repeat="car in cars">
-            <td><img id="carImage" alt="{{car.brand}}" ng-src="../app/img/avatar.JPG"/></td>
-            <td>{{car.brand}} {{car.type}}</td>
-            <td>{{car.consumption}}</td>
-
-            <td><img class="imgMarkup" alt="remove car" img ng-click="removeCar(car.carId)"
-                     src="../app/img/profilePage/removeCross.jpg"></td>
-        </tr>
-    </table>
-</div-->
 <section id="carField" class="profilemiddle" ng-hide="hideCars">
     <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
         <img class="carImage" alt="{{car.brand}}"

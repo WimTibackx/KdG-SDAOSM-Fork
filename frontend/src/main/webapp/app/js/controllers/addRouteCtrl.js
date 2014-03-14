@@ -7,7 +7,6 @@ var selectedCar;
 
 
 carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-    console.log("hey addRoute controller test");
 
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
@@ -43,7 +42,6 @@ carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$
 
 
     $scope.addTime = function () {
-        console.log("Angular: " + $('#days').find(':input:checked').length);
 
         $('#days').find(':input:checked').each(function () {
             var time = [];

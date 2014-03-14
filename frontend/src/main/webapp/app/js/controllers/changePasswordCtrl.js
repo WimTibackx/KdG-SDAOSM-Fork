@@ -2,8 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // Change Password Controller
-carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$http', function ($scope, $location, $http) {
-    console.log("hey changePassword controller test");
+carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$http', '$authChecker', function ($scope, $location, $http, $authChecker) {
 
     $authChecker.checkAuthorization();
 
@@ -11,7 +10,6 @@ carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$loc
     $('#PasswordTab').removeClass('active');
 
     $scope.PasswordSubmit = function () {
-        console.log("submit");
 
         deleteActiveClass();
         $('#PasswordTab').addClass('active');
@@ -28,7 +26,6 @@ carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$loc
                 data: JSON.stringify(jsonObj)
             }).success(function (response) {
 
-                    console.log(response);
                     if (response.hasOwnProperty("result")) {
                         if (response["result"] == "PasswordChanged") {
                             $scope.hideError = true;

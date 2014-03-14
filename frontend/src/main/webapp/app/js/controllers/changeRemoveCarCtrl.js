@@ -16,8 +16,6 @@ carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$ro
         url: rootUrl + "/authorized/user/car/" + id + "/",
         headers: {'Content-Type': "text/plain; charset=utf-8"}
     }).success(function (response) {
-            console.log(response);
-            //TODO: error handling
 
             $scope.carBrand = response.brand;
             $scope.carType = response.type;
@@ -34,16 +32,6 @@ carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$ro
                     document.getElementById("diesel").checked = true;
                     break;
             }
-
-            /*if (response.hasOwnProperty("inserted")) {
-             insertedCar = response.inserted;
-             console.log("We can proceed to uploading ze photo");
-             $("#addcardata").css("display", "none");
-             $("#addcarimage").css("display", "block");
-             } else if (response.hasOwnProperty("error")) {
-             console.log("We had an error!");
-             $("#addcarform #error").html("We had an error!");
-             }   */
         });
 
     // buttons
@@ -61,7 +49,6 @@ carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$ro
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var jsonResponse = JSON.parse(xhr.responseText);
                     if (jsonResponse.hasOwnProperty("error")) {
-                        console.log(jsonResponse.error);
                         if (jsonResponse.error == "CarNotFound") {
                             $("#error").html("There was a problem with the car");
                         } else if (jsonResponse.error == "CarNotYours") {
@@ -79,30 +66,24 @@ carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$ro
 
 
     $scope.changeCarSpecs = function () {
-        console.log("change car clicked");
 
         var jsonObject = {};
 
         var brand = document.getElementById("carNameInput").value;
-        console.log(brand);
         var type = document.getElementById("carType").value;
-        console.log(type);
         var consumption = document.getElementById("carConsumption").value;
-        console.log(consumption);
 
         var fuels = document.getElementsByName("fuel");
         var fuel = "";
         for (var i = 0; i < fuels.length; i++) {
             if (fuels[i].checked) fuel = fuels[i].value;
         }
-        console.log(fuel);
 
         jsonObject.brand = brand;
         jsonObject.type = type;
         jsonObject.consumption = consumption;
         jsonObject.fueltype = fuel;
 
-        console.log(jsonObject);
 
         //send to backend
         $http({
@@ -111,19 +92,16 @@ carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$ro
             data: JSON.stringify(jsonObject),
             headers: {'Content-Type': "text/plain; charset=utf-8"}
         }).success(function (response) {
-                console.log("Car specs changed");
                 window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile";
             });
     }
     $scope.deleteCar = function () {
-        console.log("delete car clicked");
 
         $http({
             method: 'POST',
             url: rootUrl + "/authorized/user/car/" + id + "/delete",
             headers: {'Content-Type': "text/plain; charset=utf-8"}
         }).success(function (response) {
-                console.log("Car deleted");
                 window.location.href = "http://localhost:8080/frontend/app/index.html#/myProfile";
             });
     }

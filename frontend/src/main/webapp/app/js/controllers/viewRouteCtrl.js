@@ -21,7 +21,6 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
                 return;
             }
         }
-        console.log(data)
         $scope.route.startDate = new Date(data.beginDate);
         $scope.route.endDate = new Date(data.endDate);
         $scope.route.chauffeur = data.chauffeur;
@@ -45,9 +44,6 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         }
 
         determineActiveTabAtPageload();
-        console.log("LET THE DEBUGGING COMMENCE.");
-        console.log(data);
-        console.log($scope.route.weekdayroutes);
         $scope.isLoading=false;
     });
 
@@ -100,7 +96,6 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
         if (url != null){
             return "http://localhost:8080/BackEnd/userImages/"+url;
         }else{
-            console.log(gender);
             if (gender == "FEMALE"){
                 return "../app/img/femaleAvatar.png";
             }else {
@@ -120,7 +115,6 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
 
     $scope.requestTraject = function() {
         $scope.error={};
-        console.log($scope.trajRequest.pickup,$scope.trajRequest.dropoff);
         if ($scope.trajRequest.pickup == undefined || $scope.trajRequest.dropoff == undefined) {
             $scope.error.bothrequired=true;
             return;
@@ -161,7 +155,6 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
             }
         }
         if (wantedIndex == -1) return undefined;
-        console.log(wantedIndex, $scope.route.weekdayroutes[wantedIndex]);
         var relevantPassages=$scope.route.weekdayroutes[wantedIndex].passages;
         var wanted = undefined;
         for (var i=0; i<relevantPassages.length; i++) {
@@ -176,12 +169,10 @@ carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '
     function determineActiveTabAtPageload() {
         var wantedIndex=-1;
         for (var j=0; j<$scope.route.weekdayroutes.length; j++) {
-            console.log("determining activetab: ",$location.hash(),$scope.route.weekdayroutes[j].num,$location.hash() == $scope.route.weekdayroutes[j].num);
             if ($location.hash() == $scope.route.weekdayroutes[j].num) {
                 wantedIndex=j;
             }
         }
-        console.log("is now",wantedIndex);
         if (wantedIndex == -1) {
             activeTab = $scope.route.weekdayroutes[0].num;
             return;

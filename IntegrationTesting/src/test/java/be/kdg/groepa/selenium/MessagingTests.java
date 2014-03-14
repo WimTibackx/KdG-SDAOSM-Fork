@@ -38,7 +38,7 @@ public class MessagingTests {
         Helper.wait(Helper.WAIT_SHORT);
 
         List<WebElement> searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
-        assertTrue("There has to be 9 messages loaded in the send message-tab", searchResults.size()==9);
+        assertTrue("There should be atleast one message", searchResults.size() > 0 );
         searchResults.get(0).click();
         Helper.wait(Helper.WAIT_SHORT);
         WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
@@ -57,7 +57,7 @@ public class MessagingTests {
         Helper.wait(Helper.WAIT_SHORT);
 
         List<WebElement> searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
-        assertTrue("There has to be 9 messages loaded in the send message-tab", searchResults.size()==9);
+        assertTrue("There should be atleast one message", searchResults.size() > 0 );
         searchResults.get(3).click();
         Helper.wait(Helper.WAIT_SHORT);
         WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
@@ -67,7 +67,7 @@ public class MessagingTests {
         element.click();
         Helper.wait(Helper.WAIT_SHORT);
         searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
-        assertTrue("There has to be 9 messages loaded in the send message-tab", searchResults.size()==9);
+        assertTrue("There should be atleast one message", searchResults.size() > 0 );
         assertTrue("Message 4 should be read", searchResults.get(3).findElement(By.xpath("//td/img")).getAttribute("alt").equals("true"));
         driver.close();
     }
@@ -84,7 +84,7 @@ public class MessagingTests {
         int sendMessageSize = driver.findElementsByXPath("//section[@id='sendField']/table/tbody/tr").size();
 
         List<WebElement> searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
-        assertTrue("There has to be 9 messages loaded in the send message-tab", searchResults.size()==9);
+        assertTrue("There should be atleast one message", searchResults.size() > 0 );
         WebElement element = searchResults.get(3).findElement(By.xpath("//td[contains(@class, 'fourth')]/img"));
         element.click();
         Helper.wait(Helper.WAIT_SHORT);

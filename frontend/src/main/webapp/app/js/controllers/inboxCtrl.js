@@ -114,7 +114,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     }
 
     $scope.replyMessage = function (message) {
-        console.log("show overlay");
 
         clickedOverlay = true;
 
@@ -129,7 +128,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     }
 
     $scope.openDetails = function (message, type) {
-        console.log("clicked open details");
 
         if (!clickedOverlay) {
 
@@ -138,8 +136,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
             clickedMessage = true;
 
             selectedMessage = message.id;
-            //console.log($('#message'+message.id));
-            //$('#message'+selectedMessage).addClass('selectedMessage');
 
             if (type == 'recieve') {
                 $('.hideReceiver').hide();
@@ -149,7 +145,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
                 $('.hideSender').hide();
             }
             if (detailsEnabled) {
-                console.log("details enabled = true");
 
                 currentMessage = message;
                 var data = {messageId: message.id}
@@ -226,7 +221,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     }
 
     function selectString($scope, type) {
-        console.log("selectString");
 
         if (type == 'recieve') {
             $scope.recievedMessages = [];
@@ -244,7 +238,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
             }
 
         } else if (type == 'send') {
-            console.log($scope.allSendMessages);
             $scope.sendMessages = [];
             var i = $scope.begin;
             var counter = 0;
@@ -263,7 +256,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     }
 
     function loadMessages(type) {
-        console.log("loadMessages");
 
         $http({
             method: 'GET',
@@ -285,7 +277,6 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     }
 
     $scope.clickOverlay = function () {
-        console.log("clicked overlay");
 
         if (formPopupEnabled) {
             formPopupEnabled = false;

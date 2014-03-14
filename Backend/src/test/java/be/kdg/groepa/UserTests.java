@@ -82,8 +82,6 @@ public class UserTests {
             userService.addUser(new User("Wimmetje", User.Gender.MALE, false, "testPassword1", LocalDate.of(1993, 10, 20), "test@user.com"));
         } catch (Exception e) {
             failed = true;
-            System.out.println(e.getMessage());
-            String temp = e.getMessage();
             e.printStackTrace();
         }
         assertFalse("The user could not be registered", failed);
