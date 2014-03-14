@@ -65,12 +65,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 privPrefEditor.putInt("UserId", id);
                 privPrefEditor.putString("Username", txtUsername.getText().toString());
                 privPrefEditor.commit();
-                privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
-                Toast.makeText(getApplicationContext(),"We logged in: token is "+token + " and username is " + txtUsername.getText().toString() ,Toast.LENGTH_SHORT).show();
                 Intent goToMyActivity = new Intent(getApplicationContext(), HomePageActivity.class);
-                System.out.println("GETTING REGISTRATION ID FROM PREFS: " + privPref.getString("registration_id", "127.0.0.1:8080"));
-                Toast.makeText(getApplicationContext(), "We got a GCM token: " + getSharedPreferences(GoogleMessageActivity.class.getSimpleName(), Context.MODE_PRIVATE).getString("registration_id", ""), Toast.LENGTH_SHORT).show();
-
                 startActivity(goToMyActivity);
             } else {
                 String error = jsonObject.getString("error");

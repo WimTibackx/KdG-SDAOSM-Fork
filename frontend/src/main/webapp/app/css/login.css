@@ -56,11 +56,12 @@ a.back{
     margin-top: 2em;
 	width:350px;
 	font-size:16px;
+    color: #353535;
 }
 .form_wrapper h3,
 .form_wrapper h4 {
 	padding:20px 30px 20px 30px;
-	background-color:rgb(53,53,53);
+	background-color:#353535;
 	color:#fff;
 	font-size:25px;
 	border-bottom:1px solid #ddd;
@@ -145,7 +146,7 @@ form.forgot_password{
     height: 10em;
 }
 .form_wrapper .bottom{
-	background-color:rgb(53,53,53);
+	background-color:#353535;
 	border-top:1px solid #ddd;
 	margin-top:20px;
 	clear:both;
@@ -189,7 +190,7 @@ form.forgot_password{
 .form_wrapper input[type="reset"] {
 	background: #ffffff;
 	border: 1px solid #ccc;
-	color: rgb(53,53,53);
+	color: #353535;
 	font-family: "Trebuchet MS", "Myriad Pro", sans-serif;
 	font-size: 14px;
 	font-weight: bold;
@@ -227,6 +228,13 @@ form.forgot_password{
     text-align: left;
     font-size: 14px;
 }
+
+.success {
+    color: green;
+    font-size: 13px;
+    display: block;
+    margin: 4px 30px;
+}
 /*.form_wrapper input[type="submit"]:hover {
 	background: #d9d9d9;
 	-moz-box-shadow: 0px 0px 2px #eaeaea inset;
@@ -236,9 +244,9 @@ form.forgot_password{
 }*/
 
 
-#register, #password {
+/* #register, #password {
     display: none;
-}
+} */
 
 /* icons */
 #loginIcons {

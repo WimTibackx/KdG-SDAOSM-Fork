@@ -1,6 +1,8 @@
 package be.kdg.groepa.service.api;
 
 import be.kdg.groepa.dtos.AddRouteDTO;
+import be.kdg.groepa.dtos.ChangeRouteDTO;
+import be.kdg.groepa.exceptions.UnauthorizedException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -27,4 +29,5 @@ public interface RouteService {
     public List<Route> getRoutes(User user);
     public void addRouteByAddRouteDTO(AddRouteDTO r, User user);
     public List<Integer> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff);
+    public void editRoute(ChangeRouteDTO dto, User user) throws UnauthorizedException;
 }

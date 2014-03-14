@@ -1,6 +1,7 @@
 package be.kdg.groepa.controllers;
 
 import be.kdg.groepa.dtos.AddRouteDTO;
+import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.GetRouteDTO;
 import be.kdg.groepa.dtos.RideDTO;
 import be.kdg.groepa.exceptions.*;
@@ -189,5 +190,27 @@ public class RouteController extends BaseController {
         this.updateCookie(request, response);
         return new JSONArray(returndata).toString();
         //return super.respondSimpleAuthorized("confirmed", "ride confirmed", request, response);
+    }
+
+    @RequestMapping(value="/{id}/change", method=RequestMethod.POST)
+    public @ResponseBody String change(@PathVariable("id") int id, @RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        ChangeRouteDTO dto=null;
+        try {
+            dto = new ChangeRouteDTO(new JSONObject(data));
+        } catch (MissingDataException e) {
+            Logger.getLogger(RouteController.class).error(e.getMessage(), e);
+            super.updateCookie(request, response);
+            JSONObject errorData = new JSONObject();
+            errorData.put("error","MissingData");
+            errorData.put("specific",e.getMessage());
+            return errorData.toString();
+        }
+
+        try {
+            routeService.editRoute(dto,super.getCurrentUser(request));
+        } catch (UnauthorizedException e) {
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        return super.respondSimpleAuthorized("status", "ok", request, response);
     }
 }

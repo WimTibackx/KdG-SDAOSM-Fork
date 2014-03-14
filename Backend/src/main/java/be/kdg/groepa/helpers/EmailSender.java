@@ -2,6 +2,7 @@ package be.kdg.groepa.helpers;
 
 import java.util.Properties;
 import javax.mail.*;
+import javax.mail.Authenticator;
 import javax.mail.internet.*;
 /**
  * Created by Tim on 8/03/14.
@@ -17,7 +18,7 @@ public class EmailSender {
         properties.put("mail.smtp.port", "587");
 
 
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator(){
+        Session session = Session.getInstance(properties, new Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication("sd2014groepa@gmail.com", "software123!");
             }
@@ -32,7 +33,7 @@ public class EmailSender {
             Transport.send(message);
         
         
-        } catch (MessagingException ex){
+        } catch (Exception ex){
             System.out.println("Error occured: " + ex.getMessage());
         }
     }

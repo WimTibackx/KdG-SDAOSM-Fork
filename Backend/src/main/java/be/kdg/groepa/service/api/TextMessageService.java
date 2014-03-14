@@ -1,6 +1,7 @@
 package be.kdg.groepa.service.api;
 
 import be.kdg.groepa.dtos.TextMessageDTO;
+import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.TextMessage;
 import be.kdg.groepa.persistence.api.TextMessageDao;
 
@@ -19,4 +20,6 @@ public interface TextMessageService {
     public List<TextMessageDTO> getSentMessagesByUser(int userId);
 
     public void readMessage(int messageId);
+
+    public void sendMessageToPassengers(Route r, String body, String msg);
 }

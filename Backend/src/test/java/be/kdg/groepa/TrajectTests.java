@@ -1,17 +1,11 @@
 package be.kdg.groepa;
 
-import be.kdg.groepa.exceptions.PlaceTimesInWrongSequenceException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentRoutesException;
-import be.kdg.groepa.exceptions.PlaceTimesOfDifferentWeekdayRoutesException;
-import be.kdg.groepa.exceptions.TrajectNotEnoughCapacityException;
+import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TextMessageDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
-import be.kdg.groepa.service.api.RouteService;
-import be.kdg.groepa.service.api.TextMessageService;
-import be.kdg.groepa.service.api.TrajectService;
-import be.kdg.groepa.service.api.UserService;
+import be.kdg.groepa.service.api.*;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
@@ -25,6 +19,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
+
+import java.util.List;
 
 /**
  * Created by Tim on 19/02/14.
@@ -59,6 +55,9 @@ public class TrajectTests {
     private TextMessageDao textMessageDao;
     private TextMessageDao textMessageDaoMock;
 
+    @Autowired
+    private CarService carService;
+
     private String testUsername = "user@tt.test.com";
     private String testUsername2 = "user2@tt.test.com";
     private String testUsername3 = "user3@tt.test.com";
@@ -76,7 +75,6 @@ public class TrajectTests {
 
     private static boolean initiated = false;
     //@Before
-    //TODO: This shit doesn't fucking work anymore because the data/our model/our dao-layer are crap -_-
     public void init(){
         if(!initiated){
             car = new Car("Audi", "A5", 11, Car.FuelType.SUPER95);
@@ -115,39 +113,6 @@ public class TrajectTests {
         }
         initiated = true;
     }
-
-    /*@Test
-    public void addTrajectToRoute(){
-        PlaceTime pointA = new PlaceTime(LocalTime.of(8, 25), new Place("UserHome", 10, 20));
-        PlaceTime pointC = new PlaceTime(LocalTime.of(12,30), new Place("UserWork", 11, 20));
-        trajectService.addTraject(new Traject(pointA, pointC, routeA, user));
-        assertEquals("Incorrect amount of PlaceTimes in route", 6, user.getRoutes().get(0).getAllPlaceTimes().size());  // actually expected 4, but route now gets an extra Traject by default (so 2 extra PlaceTimes)
-    }*/
-
-    /*@Test
-    public void removeTrajectFromRoute(){
-        Traject traj = new Traject(new PlaceTime(LocalTime.of(10, 25), new Place("UserHome", 10, 20)), new PlaceTime(LocalTime.of(15,30), new Place("UserWork", 11, 20)), routeB, user2);
-        trajectService.addTraject(traj);
-        assertEquals("Not enough PlaceTimes in route", 6, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story as "addTrajectToRoute"
-        trajectService.removeTrajectFromRoute(routeB, traj);
-        assertEquals("Wrong amount of PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story ^.
-    }*/
-
-    /*@Test
-    public void addPlaceTimeAfterExistingRoutePoint(){
-        PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        trajectService.insertNewRoutePoint(routeC.getPlaceTimes().get(0), newPlaceTime2);
-        assertEquals("Incorrect PlaceTime at given position of route", newPlaceTime2, routeC.getAllPlaceTimes().get(1));
-    }*/
-
-    /*@Test
-    public void addTrajectToRouteWithPoints(){
-        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        PlaceTime newPlaceTime3 = new PlaceTime(LocalTime.of(17,45), new Place("OtherUserWork", 9, 20));
-        trajectService.addNewTrajectToRoute(routeD.getPlaceTimes().get(0), newPlaceTime, routeD.getPlaceTimes().get(1), newPlaceTime3, user4);
-        assertEquals("New PlaceTime 1 is not at the right position", routeD.getPlaceTimes().get(1), newPlaceTime);
-        assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime3);
-    }*/
 
     /*
      * This method tests TrajectService.getNextDayOfTraject(Traject)
@@ -243,13 +208,16 @@ public class TrajectTests {
 
     @Test(expected=PlaceTimesOfDifferentRoutesException.class)
     public void requestTrajectDifferentRoutes() throws PlaceTimesOfDifferentRoutesException, PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, TrajectNotEnoughCapacityException {
-        Route routeA = new Route(false, 3, LocalDate.now(), LocalDate.now(), null, null);
+        User userA = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"diffRoutesA@reqTraj.example.com");
+        Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        User userB = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"diffRoutesB@reqTraj.example.com");
+        Route routeA = new Route(false, 3, LocalDate.now(), LocalDate.now(), userA, carA);
         routeA.setId(1);
         PlaceTime placeTimeAX = new PlaceTime(LocalTime.now(),new Place("N14 163-193, 2320 Hoogstraten, Belgium", 51.400110, 4.760710), routeA);
         placeTimeAX.setPlacetimeId(1);
         PlaceTime placeTimeAY = new PlaceTime(LocalTime.now().plusHours(2), new Place("Willebroekkaai 35, 1000 Brussel, Belgium", 50.862557, 4.352118), routeA);
         placeTimeAY.setPlacetimeId(2);
-        Route routeB = new Route(false, 3, LocalDate.now(), LocalDate.now(), null, null);
+        Route routeB = new Route(false, 3, LocalDate.now(), LocalDate.now(), userA, carA);
         routeB.setId(2);
         PlaceTime placeTimeBX = new PlaceTime(LocalTime.now(),new Place("Luitenant Lippenslaan 55, 2140 Borgerhout, Belgium", 51.208078, 4.442945), routeB);
         placeTimeBX.setPlacetimeId(3);
@@ -261,13 +229,16 @@ public class TrajectTests {
         EasyMock.expect(this.routeDaoMock.getPlaceTimeById(3)).andReturn(placeTimeBX);
         EasyMock.replay(this.routeDaoMock);
 
-        this.trajectService.requestTraject(null, routeA, 1, 3);
+        this.trajectService.requestTraject(userB, routeA, 1, 3);
         Assert.fail();
     }
 
     @Test(expected=PlaceTimesOfDifferentWeekdayRoutesException.class)
     public void requestTrajectDifferentWdrs() throws PlaceTimesOfDifferentRoutesException, PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, TrajectNotEnoughCapacityException {
-        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), null, null);
+        User userA = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"diffWdrsA@reqTraj.example.com");
+        Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        User userB = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"diffWdrsB@reqTraj.example.com");
+        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
         routeA.setId(1);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
         WeekdayRoute weekdayRouteB = new WeekdayRoute(routeA, LocalDateTime.now().plusDays(1).getDayOfWeek().getValue());
@@ -289,13 +260,16 @@ public class TrajectTests {
         EasyMock.expect(this.routeDaoMock.getPlaceTimeById(3)).andReturn(placeTimeBX);
         EasyMock.replay(this.routeDaoMock);
 
-        this.trajectService.requestTraject(null, routeA, 1, 3);
+        this.trajectService.requestTraject(userB, routeA, 1, 3);
         Assert.fail();
     }
 
     @Test(expected=PlaceTimesInWrongSequenceException.class)
     public void requestTrajectPickupAfterDropoff() throws PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentRoutesException, TrajectNotEnoughCapacityException {
-        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), null, null);
+        User userA = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"pickupAftDropoffA@reqTraj.example.com");
+        Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        User userB = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"pickupAftDropoffB@reqTraj.example.com");
+        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
         routeA.setId(1);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
         weekdayRouteA.setWeekdayrouteId(1);
@@ -310,13 +284,16 @@ public class TrajectTests {
         EasyMock.expect(this.routeDaoMock.getPlaceTimeById(2)).andReturn(placeTimeAY);
         EasyMock.replay(this.routeDaoMock);
 
-        this.trajectService.requestTraject(null, routeA, 2, 1);
+        this.trajectService.requestTraject(userB, routeA, 2, 1);
         Assert.fail();
     }
 
     @Test(expected=PlaceTimesInWrongSequenceException.class)
     public void requestTrajectPickupEqualsDropoff() throws PlaceTimesOfDifferentWeekdayRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentRoutesException, TrajectNotEnoughCapacityException {
-        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), null, null);
+        User userA = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"pickupEqDropoffA@reqTraj.example.com");
+        Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        User userB = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"pickupEqDropoffB@reqTraj.example.com");
+        Route routeA = new Route(true, 3, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
         routeA.setId(1);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
         weekdayRouteA.setWeekdayrouteId(1);
@@ -331,13 +308,16 @@ public class TrajectTests {
         EasyMock.expect(this.routeDaoMock.getPlaceTimeById(1)).andReturn(placeTimeAX);
         EasyMock.replay(this.routeDaoMock);
 
-        this.trajectService.requestTraject(null, routeA, 1, 1);
+        this.trajectService.requestTraject(userB, routeA, 1, 1);
         Assert.fail();
     }
 
     @Test(expected=TrajectNotEnoughCapacityException.class)
     public void requestTrajectNoCapacityOnOnePart() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException {
-        Route routeA = new Route(true, 1, LocalDate.now(), LocalDate.now().plusDays(1), null, null);
+        User userA = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"notEnoughCapA@reqTraj.example.com");
+        Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        User userB = new User("Foobar",User.Gender.FEMALE,false,"Password1",LocalDate.of(1993,1,1),"notEnoughCapB@reqTraj.example.com");
+        Route routeA = new Route(true, 1, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
         routeA.setId(1);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
         weekdayRouteA.setWeekdayrouteId(1);
@@ -357,39 +337,29 @@ public class TrajectTests {
         EasyMock.expect(this.routeDaoMock.getPlaceTimeById(3)).andReturn(placeTimeAZ);
         EasyMock.replay(this.routeDaoMock);
 
-        this.trajectService.requestTraject(null, routeA, 1, 3);
+        this.trajectService.requestTraject(userB, routeA, 1, 3);
         Assert.fail();
     }
 
     @Test
-    public void requestTrajectSuccess() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException {
-        User userA = new User("Shauni Ordelman",User.Gender.FEMALE, false, "Password1", LocalDate.of(1980,5,24),"shauni.ordelman@traj.example.com");
-        //TextMessageDao MOCKEN
+    public void requestTrajectSuccess() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException, PasswordFormatException, UsernameExistsException, UsernameFormatException {
+        User userA = new User("Foobar",User.Gender.FEMALE, false, "Password1", LocalDate.of(1980,5,24),"successA@reqTraj.example.com");
         Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
-        userA.addCar(carA);
-        carA.setUser(userA);
-        User userB = new User("Benjamin Verdin", User.Gender.MALE, false, "Password1", LocalDate.of(1980,5,24), "benjamin.verdin@traj.example.com");
+        userService.addUser(userA);
+        carService.addCar("successA@reqTraj.example.com",carA);
+        User userB = new User("Foobar", User.Gender.MALE, false, "Password1", LocalDate.of(1980,5,24), "successB@reqTraj.example.com");
+        userService.addUser(userB);
         Route routeA = new Route(true, 2, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
-        routeA.setId(1);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
-        weekdayRouteA.setWeekdayrouteId(1);
         routeA.addWeekdayRoute(weekdayRouteA);
         PlaceTime placeTimeAX = new PlaceTime(LocalTime.now(),new Place("N14 163-193, 2320 Hoogstraten, Belgium", 51.400110, 4.760710), weekdayRouteA, routeA);
-        placeTimeAX.setPlacetimeId(1);
         PlaceTime placeTimeAY = new PlaceTime(LocalTime.now().plusHours(1), new Place("N177 100-122, 2850 Boom, Belgium", 51.090334, 4.365175), weekdayRouteA, routeA);
-        placeTimeAY.setPlacetimeId(2);
         PlaceTime placeTimeAZ = new PlaceTime(LocalTime.now().plusHours(2), new Place("Willebroekkaai 35, 1000 Brussel, Belgium", 50.862557, 4.352118), weekdayRouteA, routeA);
-        placeTimeAZ.setPlacetimeId(3);
-        Traject trajectA = new Traject(placeTimeAX, placeTimeAZ, routeA, userA);
-        routeA.addTraject(trajectA);
+        routeService.addRoute(routeA);
 
-        this.initTrajectDaoMock();
-        EasyMock.expect(this.routeDaoMock.getPlaceTimeById(1)).andReturn(placeTimeAX);
-        EasyMock.expect(this.routeDaoMock.getPlaceTimeById(2)).andReturn(placeTimeAY);
-        this.trajectDaoMock.addTraject(new Traject(placeTimeAX, placeTimeAZ, routeA, userB));
-        EasyMock.expectLastCall();
-        EasyMock.replay(this.routeDaoMock);
-
-        Assert.assertTrue("Adding this traject should work",this.trajectService.requestTraject(userB, routeA, 1, 2));
+        List<PlaceTime> placeTimes = routeService.getRoutes(userService.getUser("successA@reqTraj.example.com")).get(0).getPlaceTimes();
+        int idPtAX = placeTimes.get(0).getPlacetimeId();
+        int idPtAY = placeTimes.get(1).getPlacetimeId();
+        Assert.assertTrue("Adding this traject should work",this.trajectService.requestTraject(userService.getUser("successB@reqTraj.example.com"), routeService.getRoutes(userService.getUser("successA@reqTraj.example.com")).get(0), idPtAX, idPtAY));
     }
 }

@@ -1,34 +1,39 @@
-#recieveField{
-    height: 580px;
-    color: #ffffff;
-
+#recieveField, #sendField{
+    width: 100%;
+    border-right: solid 1px gray;
+    padding-right: 1em;
+    margin-left: 0.5em;
 }
 
-#sendField{
-    height: 580px;
-    color: #ffffff;
+.messageField{
+    margin-left: 1em;
+    float: left;
+    margin-top: -1em;
+}
+.messageBody{
+    margin-top: 1em;
+    font-size: 1.2em;
 }
 
-
-#sendField table{
+.messageTable{
+    width: 50%;
     font-size: 15px;
     vertical-align: middle;
+    border-right: solid 1px gray;
+    padding-right: 6em;
+    float: left;
 }
 
-#recieveField table{
+#sendField table, #recieveField table{
+    width: 50%;
     font-size: 15px;
     vertical-align: middle;
+    margin-top: 1em;
 }
 
-#sendField tr{
-    height: 58px;
+#sendField tr, #recieveField tr{
+    height: 53px;
 }
-
-#recieveField tr{
-    height: 58px;
-}
-
-
 
 .first {
     margin-left: 5%;
@@ -37,7 +42,7 @@
 }
 
 .second{
-    width: 50%;
+    width: 60%;
 }
 
 .third{
@@ -52,43 +57,70 @@
     cursor: pointer;
 }
 
-
 #formPopup {
     position: relative;
     margin: 100px auto;
-    width: 500px;
+    width: 400px;
     /*    height: 500px; */
-    background-color: lightgray;
+    background-color: rgba(53, 53, 53, 0.8);
 }
 
 .messageHead {
     font-size: 2em;
     color: white;
-    border-bottom: solid 1px gray;
-    padding: 1em 0em 0em 0em;
-    margin-right: 0.5em;
+    margin-top: 1em;
 }
 
-.replyIcon{
-    height: 40px;
-    width: 40px;
-}
-
-.newMessage{
-    border-bottom: 1px solid #98a3a6;
+.replyIcon, .deleteIcon{
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
 }
 
 .newMessage input{
     background: transparent;
-    font-family:monospace;
     font-size:12px;
+    color: white !important;
+    border: none;
 }
 
 textarea{
     margin-left: 1%;
     font-size: 12px;
     font: Arial;
+    color: black;
 }
 
+.mailInformation{
+    font-size: 0.9em;
+}
+
+.selectedMessage{
+    background: gray;
+}
+
+.pagingIcon{
+    width:25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+#formPopup label, #formPopup textarea{
+    margin-left: 1em;
+    resize: none;
+}
+
+#formpopup label{
+    color: white;
+}
+#formPopup textarea{
+    color: black;
+    width:380px;
+    height: 100px;
+}
+
+#finalAdd{
+    border-top: solid 1px white;
+}
 
 

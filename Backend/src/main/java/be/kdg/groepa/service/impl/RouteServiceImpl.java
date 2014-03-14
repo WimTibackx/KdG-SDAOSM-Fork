@@ -1,8 +1,10 @@
 package be.kdg.groepa.service.impl;
 
 import be.kdg.groepa.dtos.AddRouteDTO;
+import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
 import be.kdg.groepa.exceptions.CarNotFoundException;
+import be.kdg.groepa.exceptions.UnauthorizedException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.persistence.api.RouteDao;
 import be.kdg.groepa.persistence.api.TrajectDao;
@@ -16,9 +18,7 @@ import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Pieter-Jan on 18-2-14.
@@ -96,7 +96,7 @@ public class RouteServiceImpl implements RouteService {
         List<User> passengers = getRoutePassengers(r);
         for (User p : passengers)
         {
-            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2d", r.getChauffeur().getName(), date.toString(), 12.2156);
+            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2f", r.getChauffeur().getName(), date.toString(), 12.2156);
             tm = new TextMessage(r.getChauffeur(), p, "Ride confirmed - " + date.toString(), temp);
             msgService.addNewMessage(tm);
         }
@@ -174,6 +174,142 @@ public class RouteServiceImpl implements RouteService {
     public List<Integer> findCarpoolers(double startLat, double startLon, double endLat, double endLon, User.Gender g, boolean smoker, double radius, LocalTime dep, int timeDiff) {
         // If needed, time difference or radius will have to be reformed here.
         return routeDao.findCarpoolers(startLat, startLon, endLat, endLon, g, smoker, radius, dep, timeDiff);
+    }
+
+    @Override
+    public void editRoute(ChangeRouteDTO dto, User user) throws UnauthorizedException {
+        Route originalRoute = this.getRouteById(dto.getRouteId());
+        if (!originalRoute.getChauffeur().equals(user)) throw new UnauthorizedException();
+
+        // First, copy everything onto the new route
+        //  Route
+        //  Weekdayroutes
+        //  Placetimes
+        //  Not: Traject, we'll send a message to everyone to check the updated route TODO
+        //  Not: places, these should already exist
+        Map<Integer, WeekdayRoute> weekdayRouteMap = new HashMap<>();
+        Map<Integer, PlaceTime> placeTimeMap = new HashMap<>();
+        Route newRoute = new Route(originalRoute.isRepeating(), originalRoute.getCapacity(), dto.getStartDate(), originalRoute.getEndDate(), originalRoute.getChauffeur(), originalRoute.getCar());
+        if (originalRoute.isRepeating()) {
+            for (WeekdayRoute wdr : this.getWeekdayRoutesOfRoute(dto.getRouteId())) {
+                WeekdayRoute newWdr = new WeekdayRoute(newRoute, wdr.getDay());
+                weekdayRouteMap.put(wdr.getWeekdayrouteId(), newWdr);
+                for (PlaceTime pt : wdr.getPlaceTimes()) {
+                    PlaceTime ptLoaded = this.getPlaceTimeById(pt.getPlacetimeId());
+                    PlaceTime newPt = new PlaceTime(ptLoaded.getTime(), ptLoaded.getPlace(), newWdr, newRoute);
+                    placeTimeMap.put(pt.getPlacetimeId(), newPt);
+                }
+                newRoute.addWeekdayRoute(newWdr);
+            }
+        } else {
+            for (PlaceTime pt : newRoute.getPlaceTimes()) {
+                PlaceTime ptLoaded = this.getPlaceTimeById(pt.getPlacetimeId());
+                PlaceTime newPt = new PlaceTime(ptLoaded.getTime(), ptLoaded.getPlace(), newRoute);
+                placeTimeMap.put(pt.getPlacetimeId(), newPt);
+            }
+        }
+
+        // Loop over the changes, and make them
+        for (ChangeRouteDTO.Change change : dto.getChanges()) {
+            if (change instanceof ChangeRouteDTO.DeletePlaceTime) {
+                ChangeRouteDTO.DeletePlaceTime changeT = (ChangeRouteDTO.DeletePlaceTime) change;
+                PlaceTime newPt = placeTimeMap.get(changeT.getPlaceTimeId());
+                newRoute.getPlaceTimes().remove(newPt);
+                if (newRoute.isRepeating()) {
+                    newPt.getWeekdayRoute().getPlaceTimes().remove(newPt);
+                }
+
+                List<PlaceTime> newPts = null;
+                if (newRoute.isRepeating()) {
+                    newPts = weekdayRouteMap.get(changeT.getWeekdayRouteId()).getPlaceTimes();
+                } else {
+                    newPts = newRoute.getPlaceTimes();
+                }
+
+                for (ChangeRouteDTO.PlaceTimeSpecifier pts : changeT.getTimes()) {
+                    for (PlaceTime remainingNewPt : newPts) {
+                        if (Double.compare(remainingNewPt.getPlace().getLat(),pts.getLat()) == 0 && Double.compare(remainingNewPt.getPlace().getLon(), pts.getLng()) == 0) {
+                            remainingNewPt.setTime(pts.getTime());
+                        }
+                    }
+                }
+            } else if (change instanceof ChangeRouteDTO.ChangeTime) {
+                ChangeRouteDTO.ChangeTime changeT = (ChangeRouteDTO.ChangeTime) change;
+
+                List<PlaceTime> newPts = null;
+                if (newRoute.isRepeating()) {
+                    newPts = weekdayRouteMap.get(changeT.getWeekdayRouteId()).getPlaceTimes();
+                } else {
+                    newPts = newRoute.getPlaceTimes();
+                }
+
+                for (ChangeRouteDTO.PlaceTimeSpecifier pts : changeT.getTimes()) {
+                    for (PlaceTime newPt : newPts) {
+                        if (Double.compare(newPt.getPlace().getLat(),pts.getLat()) == 0 && Double.compare(newPt.getPlace().getLon(), pts.getLng()) == 0) {
+                            newPt.setTime(pts.getTime());
+                        }
+                    }
+                }
+            } else if (change instanceof ChangeRouteDTO.AddWeekdayRoute) {
+                ChangeRouteDTO.AddWeekdayRoute changeT = (ChangeRouteDTO.AddWeekdayRoute) change;
+                WeekdayRoute newWdr = new WeekdayRoute(newRoute, changeT.getDay());
+                newRoute.addWeekdayRoute(newWdr);
+                for (ChangeRouteDTO.PlaceTimeSpecifier pts : changeT.getTimes()) {
+                    new PlaceTime(pts.getTime(), new Place(pts.getAddress(), pts.getLat(), pts.getLng()), newWdr, newRoute);
+                }
+            } else if (change instanceof ChangeRouteDTO.DeleteWeekdayRoute) {
+                ChangeRouteDTO.DeleteWeekdayRoute changeT = (ChangeRouteDTO.DeleteWeekdayRoute) change;
+                newRoute.getWeekdayRoutes().remove(weekdayRouteMap.get(changeT.getWeekdayRouteId()));
+                Iterator<PlaceTime> ptsInRoute = newRoute.getPlaceTimes().iterator();
+                while (ptsInRoute.hasNext()) {
+                    PlaceTime pt = ptsInRoute.next();
+                    if (pt.getWeekdayRoute().getDay() == weekdayRouteMap.get(changeT.getWeekdayRouteId()).getDay()) {
+                        ptsInRoute.remove();
+                    }
+                }
+            } else if (change instanceof ChangeRouteDTO.AddPlaceTime) {
+                ChangeRouteDTO.AddPlaceTime changeT = (ChangeRouteDTO.AddPlaceTime) change;
+                List<PlaceTime> newPts = null;
+                if (newRoute.isRepeating()) {
+                    newPts = weekdayRouteMap.get(changeT.getWeekdayRouteId()).getPlaceTimes();
+                } else {
+                    newPts = newRoute.getPlaceTimes();
+                }
+                for (ChangeRouteDTO.PlaceTimeSpecifier pts : changeT.getPlaceTimeSpecifiers()) {
+                    if (Double.compare(pts.getLat(), changeT.getLat()) == 0 && Double.compare(pts.getLng(), changeT.getLng()) == 0) {
+                        new PlaceTime(pts.getTime(), new Place(changeT.getAddress(), changeT.getLat(), changeT.getLng()), weekdayRouteMap.get(changeT.getWeekdayRouteId()), newRoute);
+                    } else {
+                        for (PlaceTime newPt : newPts) {
+                            if (Double.compare(newPt.getPlace().getLat(),pts.getLat()) == 0 && Double.compare(newPt.getPlace().getLon(), pts.getLng()) == 0) {
+                                newPt.setTime(pts.getTime());
+                            }
+                        }
+                    }
+                }
+            } else if (change instanceof ChangeRouteDTO.ChangeCar) {
+                ChangeRouteDTO.ChangeCar changeT = (ChangeRouteDTO.ChangeCar) change;
+                Car newCar = null;
+                try {
+                    newCar = carService.get(changeT.getCarId());
+                } catch (CarNotFoundException e) {
+                    e.printStackTrace();
+                    //TODO
+                }
+                newRoute.setCar(newCar);
+                newRoute.setCapacity(changeT.getCapacity());
+            }
+        }
+
+        // Add the route
+        if (newRoute.isRepeating()) {
+            routeDao.addRepeatingRoute(newRoute);
+        } else {
+            routeDao.addNonRepeatingRoute(newRoute);
+        }
+
+        // Change the original route (date)
+        originalRoute.setEndDate(dto.getStartDate().minusDays(1));
+        routeDao.updateRoute(originalRoute);
     }
 }
 

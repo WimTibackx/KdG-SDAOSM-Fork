@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
 import be.kdg.groepa.android.R;
-import be.kdg.groepa.android.activity.MessageDialogActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**

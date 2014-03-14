@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/editBodyText" android:layout_weight="0.53"
-            android:textColor="#00d407"
+            android:id="@+id/editBodyText"
+            android:textColor="@color/blue"
             android:focusableInTouchMode="true" android:clickable="true" android:hint="@string/EnterTextHere"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:maxLines="5"/>
     <Button
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:text="@string/Send"
-            android:id="@+id/buttonSendMessage" android:layout_gravity="right" android:textColor="#65b736"/>
+            android:id="@+id/buttonSendMessage" android:layout_gravity="right"/>
 </LinearLayout>

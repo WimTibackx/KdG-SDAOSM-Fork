@@ -13,12 +13,6 @@ import java.util.List;
 public interface TrajectDao {
     void addTraject(Traject t);
 
-    void removeTrajectFromRoute(Route route, Traject traj);
-
-    void saveRoute(Route route);
-
-    void saveRouteAndPoints(Route route, PlaceTime previousPlaceTime, PlaceTime newPlaceTime);
-
     Traject getTrajectById(int trajectId);
 
     public List<Traject> getAcceptedTrajects(User user);

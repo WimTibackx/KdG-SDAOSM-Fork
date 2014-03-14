@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/UnreadMessages"
             android:id="@+id/tvUnreadMessagesTextview" android:focusable="true" android:focusableInTouchMode="true"
-            android:textColor="#00d407" android:textIsSelectable="true" android:editable="true"
+            android:textColor="@color/blue" android:textIsSelectable="true"
             android:textSize="20sp"/>
     <ListView
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/ReadMessages"
-            android:id="@+id/tvReadMessagesTextview" android:singleLine="false" android:textColor="#00d407"
+            android:id="@+id/tvReadMessagesTextview" android:textColor="@color/blue"
             android:textSize="20sp"/>
     <ListView
             android:layout_width="match_parent"

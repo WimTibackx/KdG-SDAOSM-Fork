@@ -29,24 +29,30 @@ public class SendMessageActivity extends Activity implements AsyncResponse {
         editReceiverText = (EditText) findViewById(R.id.editReceiverText);
         editSubjectText = (EditText) findViewById(R.id.editSubjectText);
         Button btnSendMessage = (Button) this.findViewById(R.id.buttonSendMessage);
+        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
+        final String senderUsername = privPref.getString("Username", "");
         if (b != null) {
             if (b.containsKey("receiverUsername")) {
                 editReceiverText.setText(b.getString("receiverUsername"));
+                editReceiverText.setKeyListener(null);
             }
             if(b.containsKey("messageBody")){
                 editBodyText.setText(b.getString("messageBody"));
+                editBodyText.setKeyListener(null);
             }
             if(b.containsKey("messageSubject")){
                 editSubjectText.setText(b.getString("messageSubject"));
+                editSubjectText.setKeyListener(null);
+            }
+            if(b.containsKey("receiverUsername") && b.containsKey("messageBody") && b.containsKey("messageSubject")){
+                SendMessageTask task = new SendMessageTask(senderUsername, editReceiverText.getText().toString(), editSubjectText.getText().toString(), editBodyText.getText().toString(), getApplicationContext(), this);
+                task.execute();
             }
         }
-        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
-        final String senderUsername = privPref.getString("Username", "");
         final AsyncResponse msgAc = this;
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Clicked button", Toast.LENGTH_LONG).show();
                 SendMessageTask task = new SendMessageTask(senderUsername, editReceiverText.getText().toString(), editSubjectText.getText().toString(), editBodyText.getText().toString(), getApplicationContext(), msgAc);
                 task.execute();
             }

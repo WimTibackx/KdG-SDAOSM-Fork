@@ -61,17 +61,4 @@ public class ChangePasswordController extends BaseController {
         return myJson.toString();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/reset")
-    public @ResponseBody String resetPassword(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
-        JSONObject dataJson = new JSONObject(data), myJson = new JSONObject();
-        String username = dataJson.getString("username"), result;
-        try {
-            result = userService.resetPassword(username);
-        } catch (Exception e) {
-            myJson.put("error", "Something went wrong. Your password was not reset.");
-            return myJson.toString();
-        }
-        myJson.put("newPassword", result);
-        return myJson.toString();
-    }
 }

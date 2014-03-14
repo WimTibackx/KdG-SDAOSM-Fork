@@ -19,7 +19,8 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
         menu.style.display = 'none';
         var register = document.getElementById('register');
         var password = document.getElementById('password');
-        document.getElementById('loginIcon').addEventListener('click', function () {
+
+        /* document.getElementById('loginIcon').addEventListener('click', function () {
             login.style.display = 'block';
             register.style.display = 'none';
             password.style.display = 'none';
@@ -33,7 +34,7 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
             password.style.display = 'block';
             register.style.display = 'none';
             login.style.display = 'none';
-        });
+        }); */
 
         $(document).ready(function () {
 
@@ -48,18 +49,6 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
                 actionLogin(username, password);
             });
 
-            var sendPassword = $('#sendPasswordForm');
-            sendPassword.submit(function (e) {
-                var jsonObject = {};
-                jsonObject.username = $scope.usernameEmail;
-
-                $http.post(rootUrl + "/authorized/changepassword/reset", JSON.stringify(jsonObject)).success(function () {
-                    console.log("New password sended to: " + jsonObject.username);
-                }).
-                    error(function () {
-                        console.log("An error occured");
-                    });
-            });
         });
 
         function actionLogin(username, password) {

@@ -6,18 +6,19 @@
 
     <string name="LoginComboWrong_ErrorTitle">Login combination wrong.</string>
     <string name="LoginComboWrong_ErrorMsg">The combination of username/password is wrong.</string>
-    <string name="SendNewMessage">Send a new message.</string>
+    <string name="SendNewMessage">New message</string>
     <string name="Send">Send message.</string>
     <string name="EnterPersonName">Enter person\'s name here.</string>
     <string name="EnterTextHere">Enter your message here.</string>
-    <string name="Logout">Log out.</string>
+    <string name="Logout">Log out</string>
     <string name="EnterMessageSubject">Enter message subject here.</string>
     <string name="EnterTargetEmail">Enter receiver\'s e-mail address here.</string>
     <string name="Reply">Reply to message.</string>
     <string name="ReadMessages">Read messages.</string>
     <string name="UnreadMessages">Unread messages.</string>
     <string name="SentMessages">Sent messages.</string>
-    <string name="ViewUpcomingTrajects">View upcoming rides.</string>
+    <string name="SendMessages">Send messages.</string>
+    <string name="ViewUpcomingTrajects">Upcoming rides</string>
     <string name="uptLoading">Your upcoming trajects are loading, please wait.</string>
     <string name="uptNoneFound">No upcoming routes were found.</string>
     <string name="SendMessageToPassengers">Message passengers</string>
@@ -26,4 +27,9 @@
     <string name="TrafficJam">Traffic Jam</string>
     <string name="NotLeft">Not departed yet</string>
     <string name="NotDrivingTomorrow">Not driving tomorrow</string>
+    <string name="TimeUntilNextPoint">Time until next point</string>
+    <string name="minutes">minutes</string>
+    <string name="hours">hours</string>
+    <string name="place">place</string>
+    <string name="DisableNotifications">Disable notifications</string>
 </resources>

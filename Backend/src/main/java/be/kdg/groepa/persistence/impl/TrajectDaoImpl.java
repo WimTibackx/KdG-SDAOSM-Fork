@@ -1,12 +1,9 @@
 package be.kdg.groepa.persistence.impl;
 
-import be.kdg.groepa.model.PlaceTime;
-import be.kdg.groepa.model.Route;
 import be.kdg.groepa.model.Traject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.persistence.api.TrajectDao;
 import be.kdg.groepa.persistence.util.HibernateUtil;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -33,38 +30,6 @@ public class TrajectDaoImpl implements TrajectDao {
         ses.saveOrUpdate(traject.getRoute());
         ses.saveOrUpdate(traject.getUser());
         ses.saveOrUpdate(traject);
-        HibernateUtil.closeSession(ses);
-    }
-
-    @Transactional
-    @Override
-    public void removeTrajectFromRoute(Route route, Traject traj) {
-        Session ses = HibernateUtil.openSession();
-        route.removeTraject(traj);
-        ses.delete(traj);
-        ses.saveOrUpdate(route.getChauffeur());
-        ses.saveOrUpdate(route);
-        HibernateUtil.closeSession(ses);
-    }
-
-    @Override
-    public void saveRoute(Route route) {
-        Session ses = HibernateUtil.openSession();
-        ses.saveOrUpdate(route);
-        HibernateUtil.closeSession(ses);
-    }
-
-    @Transactional
-    @Override
-    public void saveRouteAndPoints(Route route, PlaceTime previousPlaceTime, PlaceTime newPlaceTime) {
-        Session ses = HibernateUtil.openSession();
-        ses.saveOrUpdate(previousPlaceTime.getPlace());
-        ses.saveOrUpdate(newPlaceTime.getPlace());
-        ses.saveOrUpdate(previousPlaceTime.getRoute());
-        ses.saveOrUpdate(previousPlaceTime);
-        ses.saveOrUpdate(newPlaceTime.getRoute());
-        ses.saveOrUpdate(newPlaceTime);
-        ses.saveOrUpdate(route);
         HibernateUtil.closeSession(ses);
     }
 

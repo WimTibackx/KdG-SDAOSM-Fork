@@ -51,4 +51,8 @@ public class Place {
     {
         this.placeTimes.add(pt);
     }
+
+    public List<PlaceTime> getPlaceTimes() {
+        return placeTimes;
+    }
 }

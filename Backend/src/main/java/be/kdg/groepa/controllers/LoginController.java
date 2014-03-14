@@ -78,4 +78,18 @@ public class LoginController extends BaseController {
         return super.respondSimpleAuthorized("status", "ok", request, response);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/resetPassword")
+    public @ResponseBody String resetPassword(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        org.json.JSONObject dataJson = new org.json.JSONObject(data), myJson = new org.json.JSONObject();
+        String username = dataJson.getString("username"), result;
+        try {
+            result = userService.resetPassword(username);
+        } catch (Exception e) {
+            myJson.put("error", e.getMessage());
+            return myJson.toString();
+        }
+        myJson.put("success", 1);
+        return myJson.toString();
+    }
+
 }

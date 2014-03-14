@@ -2,7 +2,8 @@
 <script src="js/controllers/registerCtrl.js"></script>
 <script src="js/controllers/passwordCtrl.js"></script>
 <script src="js/controllers/addCarCtrl.js"></script>
-<div class="content" id="login" ng-controller="loginCtrl">
+<div ng-init="showSection='login'"></div>
+<div class="content" id="login" ng-controller="loginCtrl" ng-show="showSection == 'login'">
     <div id="form_wrapper" class="form_wrapper">
         <form class="login active" id="loginform">
             <h3>Login</h3>
@@ -25,7 +26,7 @@
     <div class="clear"></div>
 </div>
 
-<div class="content" id="register" ng-controller="registerCtrl">
+<div class="content" id="register" ng-controller="registerCtrl" ng-show="showSection == 'register'">
     <div class="form_wrapper">
         <form name="udForm" id="registerform" ng-submit="udSubmit()" novalidate ng-show="getNgShow(0)">
             <h3 class="beforeh4">Registreer</h3>
@@ -165,15 +166,15 @@
     <div class="clear"></div>
 </div>
 
-<div class="content" id="password">
+<div class="content" id="password" ng-show="showSection == 'password'" ng-controller="passwordCtrl">
     <div class="form_wrapper">
-        <form class="login active" id="sendPasswordForm">
+        <form class="login active" id="sendPasswordForm" ng-submit="sendPassword()">
             <h3>Paswoord vergeten?</h3>
 
             <div>
                 <label>Username:</label>
                 <input type="text" id="emailadres" ng-model="usernameEmail"/>
-                <span class="error">Username is foutief</span>
+                <span ng-class="PWRClass" ng-show="displayPWRFeedback">{{PWRFeedback}}</span>
             </div>
 
             <div class="bottom">
@@ -185,7 +186,7 @@
     <div class="clear"></div>
 </div>
 <section id="loginIcons">
-    <img src="img/login/loginIcon.jpg" id="loginIcon"/><br/>
-    <img src="img/login/registerIcon.png" id="registerIcon"/><br/>
-    <img src="img/login/passwordForget.png" id="passwordIcon"/>
+    <img src="img/login/loginIcon.jpg" id="loginIcon" ng-click="showSection='login'"/><br/>
+    <img src="img/login/registerIcon.png" id="registerIcon" ng-click="showSection='register'" /><br/>
+    <img src="img/login/passwordForget.png" id="passwordIcon" ng-click="showSection='password'" />
 </section>

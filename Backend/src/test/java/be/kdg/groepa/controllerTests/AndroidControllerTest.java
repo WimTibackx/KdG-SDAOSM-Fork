@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.LocalDate;
 
+import javax.servlet.http.Cookie;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 public class AndroidControllerTest {
     private MockMvc mockMvc;
+    private static Cookie cookie;
+
 
     @Autowired
     private UserService userService;
@@ -53,7 +57,6 @@ public class AndroidControllerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            init = true;
         }
     }
 
