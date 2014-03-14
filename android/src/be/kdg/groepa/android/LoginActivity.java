@@ -49,7 +49,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
     @Override
     public void processFinish(String output) {
         if (output == null || output.isEmpty() || output.equals("IOException")) {
-            Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_LONG).show();
             return;
         }
         JSONObject jsonObject = null;
@@ -84,7 +83,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
                             }).show();
                         break;
                     case "ParseError":
-                        Toast.makeText(getApplicationContext(),"We had an error: "+error,Toast.LENGTH_LONG).show();
                         break;
                 }
             }

@@ -1,6 +1,7 @@
 package be.kdg.groepa.controllerTests;
 
 import be.kdg.groepa.TestUtil;
+import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
 import org.json.simple.JSONObject;
@@ -33,8 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 public class AndroidControllerTest {
     private MockMvc mockMvc;
-    private static Cookie cookie;
-
 
     @Autowired
     private UserService userService;

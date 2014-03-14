@@ -109,4 +109,8 @@ public class Traject {
     {
         this.rides.add(r);
     }
+
+    public List<Ride> getRides() {
+        return rides;
+    }
 }

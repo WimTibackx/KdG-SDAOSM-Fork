@@ -91,7 +91,6 @@ public class LoginRequestTask extends AsyncTask<Void, Void, String> {
             System.out.println("CONSOLE -- HTTPPOST EXECUTED");
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                System.out.println("CONSOLE -- HTTPPOST OK");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();

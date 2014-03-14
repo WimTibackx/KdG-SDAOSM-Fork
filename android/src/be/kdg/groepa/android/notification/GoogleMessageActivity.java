@@ -54,9 +54,7 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
         if (checkPlayServices()) {
             this.gcm = GoogleCloudMessaging.getInstance(this);
             this.regId = getRegistrationId(context);
-            System.out.println("CONSOLE -- REGISTRATION ID: " + regId);
             if (regId.isEmpty()) {
-                System.out.println("CONSOLE -- REGISTRATIONID WAS EMPTY. REGISTERING IN BACKGROUND");
                 registerInBackground();
             }
         } else {
@@ -95,14 +93,11 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(reg_id, "");
-        System.out.println("CONSOLE -- GCM -- FOUND GETREGISTRATIONID: " + registrationId);
         if (registrationId.isEmpty()) {
-            Log.i("RegistrationFindError", "Registration not found.");
             return "";
         }
         int registeredVersion = prefs.getInt("app_version", 0);
         int currentVersion = getAppVersion(context);
-        System.out.println("CURRENT VERSION: " + currentVersion + " // REGISTERED VERSION: " + registeredVersion);
         if (registeredVersion != currentVersion) {
             return "";
         }
@@ -127,7 +122,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
 
 
     private void registerInBackground() {
-        System.out.println("CONSOLE -- REGISTRING IN BACKGROUND");
         new AsyncTask() {
             @Override
             protected String doInBackground(Object[] objects) {
@@ -142,7 +136,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
                     storeRegistrationId(context, regId);
 
                 } catch (IOException e) {
-                    System.out.println("CONSOLE -- ERROR -- IOEXCEPTION: " + e.getMessage());
                     msg = "An error occured: " +
                             e.getMessage();
                 }
@@ -152,7 +145,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
     }
 
     private void sendRegistrationIdToBackend() {
-        System.out.println("CONSOLE -- GCM -- SENDING REGISTRATION ID TO BACKGROUND");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences privPref = context.getSharedPreferences("CarpoolPreferences", Context.MODE_PRIVATE);
 
@@ -162,7 +154,6 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
         String url = "http://" + serverAddr + "/BackEnd/authorized/user/registerandroid";
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse response = null;
-        System.out.println("URL: " + url);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", regId);
@@ -173,33 +164,25 @@ public class GoogleMessageActivity extends Activity implements AsyncResponse {
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setHeader("Cookie", "Token=" + privPref.getString("Token", ""));
-        System.out.println("SENDING REGISTRATION -- COOKIE: " + privPref.getString("Token", ""));
-        System.out.println("SENDING REGISTRATION -- JSON: " + jsonObject.toString());
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
-            System.out.println("REGISTERTOBG: JSON: " + jsonObject.toString());
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                System.out.println("STATUSLINE OK");
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 response.getEntity().writeTo(out);
                 out.close();
-                Log.i("Success", out.toString());
             } else {
                 //Closes the connection.
-                System.out.println("STATUSLINE REGISTERTOBG NOT OK ERROR: " + statusLine.getReasonPhrase());
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            Log.e("IOExc at SendMessage", e.getMessage());
         }
     }
 
     private void storeRegistrationId(Context context, String regId) {
-        System.out.println("CONSOLE -- GCM -- STORING REGISTRATIONID " + regId + " IN PREFERENCES");
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         int appVersion = getAppVersion(context);

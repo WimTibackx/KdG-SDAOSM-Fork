@@ -44,7 +44,6 @@ public class HomePageActivity extends Activity implements AsyncResponse{
 
     @Override
     public void processFinish(String output) {
-        System.out.println("CONSOLE -- HOMEPAGE: PROCESSING FINISH");
         JSONObject outputJson = null;
         int unreadMessages = 0;
         try {

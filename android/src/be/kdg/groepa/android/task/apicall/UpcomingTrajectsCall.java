@@ -20,7 +20,9 @@ public class UpcomingTrajectsCall extends Observable implements HttpTaskUser {
         super();
         this.resultDtos = new ArrayList<>();
         super.addObserver(observer);
+        System.out.println("UPTRJCALL: ADDED OBSERVER, CREATING HTTPTASK");
         HttpTask task = new HttpTask(context, true, "/authorized/traject/myupcoming", this);
+        System.out.println("TASK CREATED, EXECUTING");
         task.execute();
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 import android.widget.Button;
@@ -12,6 +13,10 @@ import android.widget.RadioButton;
 import be.kdg.groepa.android.AsyncResponse;
 import be.kdg.groepa.android.R;
 import be.kdg.groepa.android.SendMessageActivity;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.Set;
 
 /**
  * Created by Tim on 27/02/14.
@@ -24,12 +29,13 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
     private NumberPicker nmbrPickerMinutes;
     private NumberPicker nmbrPickerHours;
     private Spinner spnPlaces;
-    private final int minMinutes = 5, maxMinutes = 60, stepMinutes = 5, minHours = 0, maxHours = 6, stepHours = 1;
+    private final int minMinutes = 0, maxMinutes = 59, minHours = 0, maxHours = 6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        System.out.println("ONCREATE SUPER INC");
         super.onCreate(savedInstanceState);
-        initiateComponents(savedInstanceState);
+        initiateComponents();
 
     }
 
@@ -38,18 +44,20 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
         View radioButton = radioGroup.findViewById(id);
         int radioId = radioGroup.indexOfChild(radioButton);
         RadioButton btn = (RadioButton) radioGroup.getChildAt(radioId);
-        String selection = (String) btn.getText();
+        final String selection = (String) btn.getText();
         System.out.println("CONSOLE -- SELECTION: " + selection);
         switch (selection) {
+
             case "Time until next point":
-                String msg = String.format("I will arrive at %s in %d hours and %d minutes.", spnPlaces.getSelectedItem().toString(), nmbrPickerHours.getValue(), nmbrPickerMinutes.getValue());
-                for (String s : this.passengerUsernames) {
-                    System.out.println("SENDING MESSAGE TO USER: " + s + " ; MESSAGE: " + msg);
+                final String msg = String.format("I will arrive at %s in %d hours and %d minutes.", spnPlaces.getSelectedItem().toString(), nmbrPickerHours.getValue(), nmbrPickerMinutes.getValue());
+                for (final String s : this.passengerUsernames) {
                     messagePassenger(msg, s);
+                    System.out.println("SENDING MESSAGE TO USER: " + s + " ; MESSAGE: " + msg);
+
                 }
                 break;
             default:
-                for (String s : this.passengerUsernames) {
+                for (final String s : this.passengerUsernames) {
                     System.out.println("SENDING MESSAGE TO USER: " + s + " ; MESSAGE: " + selection);
                     messagePassenger(selection, s);
                 }
@@ -60,7 +68,7 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
         Intent goToMyActivity = new Intent(this, SendMessageActivity.class);
         Bundle b = new Bundle();
         b.putString("receiverUsername", receiver);
-        b.putString("messageHeader", msg);
+        b.putString("messageSubject", msg);
         b.putString("messageBody", msg);
         goToMyActivity.putExtras(b);
         startActivity(goToMyActivity);
@@ -71,9 +79,27 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
         // startActivity(goToMyActivity);
     }
 
-    private void initiateComponents(Bundle savedInstances) {
-        this.passengerUsernames = savedInstances.getStringArray("passengerUsernames");
-        this.placeNames = savedInstances.getStringArray("routePlaces");
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        System.out.println("SENDRIDE -- SAVING INSTANCE STATE " + outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void initiateComponents() {
+        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
+        Set<String> usernames = privPref.getStringSet("usernames", null);
+        Set<String> places = privPref.getStringSet("places", null);
+        passengerUsernames = new String[usernames.size()];
+        placeNames = new String[places.size()];
+        int c = 0;
+        for (String s : usernames) {
+            passengerUsernames[c] = s;
+            c++;
+        }
+        c = 0;
+        for (String s : places) {
+            placeNames[c] = s;
+        }
 
         setContentView(R.layout.sendridestatus);
         radioGroup = (RadioGroup) findViewById(R.id.rgRideStatus);
@@ -125,21 +151,11 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
         nmbrPickerMinutes = (NumberPicker) this.findViewById(R.id.nmbrMinutesLeft);
         nmbrPickerMinutes.setMinValue(minMinutes);
         nmbrPickerMinutes.setMaxValue(maxMinutes);
-        String[] valuesMinutes = new String[maxMinutes / minMinutes];
-        for (int i = minMinutes; i <= maxMinutes; i += stepMinutes) {
-            valuesMinutes[(i / stepMinutes) - 1] = String.valueOf(i);
-        }
-        nmbrPickerMinutes.setDisplayedValues(valuesMinutes);
         nmbrPickerMinutes.setVisibility(View.INVISIBLE);
 
         nmbrPickerHours = (NumberPicker) this.findViewById(R.id.nmbrHoursLeft);
         nmbrPickerHours.setMinValue(minHours);
         nmbrPickerHours.setMaxValue(maxHours);
-        String[] valuesHours = new String[maxHours +1];
-        for (int i = minHours; i <= maxHours; i += stepHours) {
-            valuesHours[(i / stepHours) - 1] = String.valueOf(i);
-        }
-        nmbrPickerHours.setDisplayedValues(valuesHours);
         nmbrPickerHours.setVisibility(View.INVISIBLE);
 
         // Fill the placespinner

@@ -128,13 +128,13 @@ public class RouteDaoImpl implements RouteDao {
 
     @Override
     public void confirmRide(Route r, LocalDateTime date) {
+        Session ses = HibernateUtil.openSession();
         Ride ride = new Ride(r, date);
         for (Traject t : r.getTrajects())
         {
             ride.setTraject(t);
             t.addRide(ride);
         }
-        Session ses = HibernateUtil.openSession();
         ses.saveOrUpdate(ride);
         HibernateUtil.closeSession(ses);
     }
@@ -156,6 +156,9 @@ public class RouteDaoImpl implements RouteDao {
         Query query = ses.createQuery("select ro from Route ro where ro.id = :id");
         query.setInteger("id", routeId);
         Route route = (Route)query.uniqueResult();
+        for(Traject t:route.getTrajects()){
+            t.getRides().size();
+        }
         HibernateUtil.closeSession(ses);
         return route;
     }

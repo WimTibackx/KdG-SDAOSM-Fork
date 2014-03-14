@@ -27,6 +27,7 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
     private String entrypoint;
     private boolean addCookie;
     private HttpTaskUser httpTaskUser;
+    private static String result;
 
     public HttpTask(Context context, boolean addCookie, String entrypoint, HttpTaskUser httpTaskUser) {
         this.context = context;
@@ -37,6 +38,7 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
 
     @Override
     protected HttpResponse doInBackground(Void... params) {
+        System.out.println("HTTPTASK DOINBACKGROUND STARTED");
         HttpGet request = new HttpGet(this.getFullUrl());
         this.addCookieIfNeeded(request);
         HttpResponse response = null;
@@ -47,6 +49,13 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
             e.printStackTrace();
             Log.e("HttpTask",e.getMessage());
         }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            response.getEntity().writeTo(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        result = out.toString();
         return response;
     }
 
@@ -54,13 +63,8 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
     protected void onPostExecute(HttpResponse response) {
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
-            System.out.println("CONSOLE: STATUSLINE NOK: " + statusLine.getReasonPhrase());
-            //response.getEntity().getContent().close();
-            System.out.println("CONSOLE: IOEX: " + statusLine.getReasonPhrase());
-            Log.e("IOExc at onPostExecute",statusLine.getReasonPhrase());
             return;
         }
-        String result = this.responseAsString(response);
         this.httpTaskUser.responseSuccess(result);
     }
 
@@ -73,10 +77,14 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
         request.setHeader("Cookie", "Token="+PreferencesHelper.getLocalUser(this.context).getToken());
     }
 
-    private String responseAsString(HttpResponse response) {
+    /*private String responseAsString(HttpResponse response) {
+        System.out.println("HTTPTASK RESPONSEASSTRING");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
+            System.out.println("SHTTPTASK RESPONSEASSTRING: WRITING NOW");
             response.getEntity().writeTo(out);
+            System.out.println("SHTTPTASK RESPONSEASSTRING: CLOSING");
+
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,5 +92,5 @@ public class HttpTask extends AsyncTask<Void, Void, HttpResponse> {
             return "";
         }
         return out.toString();
-    }
+    } */
 }

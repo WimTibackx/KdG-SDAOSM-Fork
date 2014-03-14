@@ -9,8 +9,6 @@ import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
-import javax.servlet.http.Cookie;
-import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

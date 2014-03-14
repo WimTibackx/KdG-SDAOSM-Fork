@@ -1,11 +1,8 @@
 package be.kdg.groepa.controllers;
 
-import be.kdg.groepa.dtos.RideDTO;
 import be.kdg.groepa.exceptions.MissingDataException;
-import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.RouteService;
-import be.kdg.groepa.service.api.TextMessageService;
-import be.kdg.groepa.service.api.UserService;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.threeten.bp.LocalDateTime;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Pieter-Jan on 8-3-14.
@@ -33,6 +27,8 @@ public class RideController extends BaseController {
 
     @RequestMapping(value="/confirmRide",method= RequestMethod.POST)
     public @ResponseBody void confirmRide(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+        Logger logger = Logger.getLogger("ConfirmRide");
+        logger.debug("Started confirmRide");
         JSONObject dataOb = new JSONObject(data);
         LocalDateTime date = null;
         int routeId = 0;

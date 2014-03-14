@@ -20,13 +20,11 @@ import be.kdg.groepa.android.helper.UpcomingTrajectsViewAdapter;
 import be.kdg.groepa.android.task.ConfirmRideTask;
 import be.kdg.groepa.android.task.SetMessageReadTask;
 import be.kdg.groepa.android.task.apicall.UpcomingTrajectsCall;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * Created by delltvgateway on 3/3/14.
@@ -42,7 +40,6 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
     UpcomingTrajectsViewAdapter.UpcomingTrajectCardView card;
     SharedPreferences privPref;
     private final int minMinutes = 5, maxMinutes = 60, stepMinutes = 5, minHours = 0, maxHours = 6, stepHours = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +60,9 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
         // The SendMessage-button will only activate when a route is clicked, and its function will alter based on the user
         btnSendMessage.getBackground().setAlpha(128);
         btnSendMessage.setClickable(false);
+        btnSendMessage.setVisibility(View.INVISIBLE);
 
         privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
-
         super.setListAdapter(this.adapter);
         new UpcomingTrajectsCall(getApplicationContext(), this);
     }
@@ -84,7 +81,9 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
 
     @Override
     public void processFinish(String response) {
-        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+        Intent goToMyActivity = new Intent(this, HomePageActivity.class);
+        startActivity(goToMyActivity);
     }
 
     public void clickUptCard(View view) {
@@ -103,7 +102,6 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
             btnSendMessage.setText("Message driver");
             btnSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    System.out.println("CONSOLE -- CLICKED -- USERNAME: " + card.getTraject().getChauffeurUsername());
                     Intent goToMyActivity = new Intent(getApplicationContext(), SendMessageActivity.class);
                     Bundle b = new Bundle();
                     b.putString("receiverUsername", card.getTraject().getChauffeurUsername());
@@ -126,22 +124,45 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer, 
     }
 
     public void messagePassengers() {
-        Bundle b = new Bundle();
-        b.putStringArray("usernames", card.getTraject().getPassengerUsernames());
-        b.putStringArray("routePlaces", card.getTraject().getRoutePlaces());
+        JSONArray jsonUsernames = card.getTraject().getPassengerUsernames();
+        JSONArray jsonRoutePlaces = card.getTraject().getRoutePlaces();
+        Set<String> usernames = new HashSet<>(), places = new HashSet<>();
+        // First get the required size of the arrays, then copy the filled data to them.
+        try {
+            for (int i = 0; i < jsonUsernames.length(); i++) {
+                if (!jsonUsernames.getString(i).equals("null")) {
+                    usernames.add(jsonUsernames.getString(i));
+                }
+            }
+            for (int i = 0; i < jsonRoutePlaces.length(); i++) {
+                if (!jsonRoutePlaces.getString(i).equals("null")) {
+                    places.add(jsonRoutePlaces.getString(i));
+                }
+            }
+        } catch (JSONException e) {
+            System.out.println("JSONEXCEPTION WHEN SIZING: " + e.getMessage());
+        }
+        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
+        SharedPreferences.Editor privPrefEditor = privPref.edit();
+        System.out.println("SET USERNAMES: " + usernames);
+        System.out.println("SET PLACES: " + places);
+        privPrefEditor.putStringSet("usernames", usernames);
+        privPrefEditor.putStringSet("places", places);
+        privPrefEditor.commit();
+
         Intent goToMyActivity = new Intent(this, SendRideStatusActivity.class);
-        goToMyActivity.putExtras(b);
         startActivity(goToMyActivity);
+
     }
 
     public void confirmRide() {
         UpcomingTrajectDto traj = card.getTraject();
-        String[] time = traj.getPickupTime().split(":");
-        int year = traj.getNextOccurrence().get(Calendar.YEAR);
-        int month = traj.getNextOccurrence().get(Calendar.MONTH);
-        int day = traj.getNextOccurrence().get(Calendar.DAY_OF_WEEK);
-        int hour = Integer.parseInt(time[0]);
-        int min = Integer.parseInt(time[1]);
+        System.out.println("PICKUPTIME: " + traj.getPickupTime());
+        int year = traj.getRouteYear();
+        int month = traj.getRouteMonth();
+        int day = traj.getRouteDay();
+        int hour = traj.getRouteStartHour();
+        int min = traj.getRouteStartMinute();
         JSONObject json = new JSONObject();
         try {
             json.put("year", year);

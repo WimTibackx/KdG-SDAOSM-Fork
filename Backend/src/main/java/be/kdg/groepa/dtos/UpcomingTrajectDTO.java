@@ -23,6 +23,7 @@ public class UpcomingTrajectDTO {
     private String[] passengerNames;
     private String[] passengerPictures;
     private String[] routePlaces;
+    private int routeYear, routeMonth, routeDay, routeStartHour, routeStartMinute;
 
     public UpcomingTrajectDTO() {
     }
@@ -44,6 +45,13 @@ public class UpcomingTrajectDTO {
         this.passengerUsernames = new String[8];
         this.passengerPictures = new String[8];
         this.routePlaces = new String[16];
+        this.routeYear = traject.getRoute().getBeginDate().getYear();
+        this.routeMonth = traject.getRoute().getBeginDate().getMonthValue();
+        this.routeDay = traject.getRoute().getBeginDate().getDayOfMonth();
+        PlaceTime first = traject.getRoute().getAllPlaceTimes().get(0);
+        // Somehow, the hours get reduced by 1 automatically, so this is a hotfix for that.
+        this.routeStartHour = first.getTime().getHour()+1;
+        this.routeStartMinute = first.getTime().getMinute();
 
         if (traject.getRoute().isRepeating()) {
             int i = 0, j = 0;
@@ -183,6 +191,46 @@ public class UpcomingTrajectDTO {
 
     public String[] getRoutePlaces() {
         return routePlaces;
+    }
+
+    public int getRouteYear() {
+        return routeYear;
+    }
+
+    public void setRouteYear(int routeYear) {
+        this.routeYear = routeYear;
+    }
+
+    public int getRouteMonth() {
+        return routeMonth;
+    }
+
+    public void setRouteMonth(int routeMonth) {
+        this.routeMonth = routeMonth;
+    }
+
+    public int getRouteDay() {
+        return routeDay;
+    }
+
+    public void setRouteDay(int routeDay) {
+        this.routeDay = routeDay;
+    }
+
+    public int getRouteStartHour() {
+        return routeStartHour;
+    }
+
+    public void setRouteStartHour(int routeStartHour) {
+        this.routeStartHour = routeStartHour;
+    }
+
+    public int getRouteStartMinute() {
+        return routeStartMinute;
+    }
+
+    public void setRouteStartMinute(int routeStartMinute) {
+        this.routeStartMinute = routeStartMinute;
     }
 
     public void setRoutePlaces(String[] routePlaces) {

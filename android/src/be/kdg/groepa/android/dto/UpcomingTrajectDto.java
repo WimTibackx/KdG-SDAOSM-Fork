@@ -1,6 +1,7 @@
 package be.kdg.groepa.android.dto;
 
 import android.util.Log;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,10 +25,11 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
     private int chauffeurId;
     private String chauffeurName;
     private String chauffeurUsername;
-    private String[] passengerUsernames;
-    private String[] passengerNames;
-    private String[] passengerPictures;
-    private String[] routePlaces;
+    private JSONArray passengerUsernames;
+    private JSONArray passengerNames;
+    private JSONArray passengerPictures;
+    private JSONArray routePlaces;
+    private int routeYear, routeMonth, routeDay, routeStartHour, routeStartMinute;
 
     public UpcomingTrajectDto(JSONObject data) {
         try {
@@ -44,16 +46,26 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
             this.chauffeurId = data.getInt("chauffeurId");
             this.chauffeurName = data.getString("chauffeurName");
             this.chauffeurUsername = data.getString("chauffeurUsername");
-            this.passengerUsernames = (String[])data.get("passengerUsernames");
-            this.passengerNames = (String[])data.get("passengerNames");
-            this.passengerPictures = (String[])data.get("passengerPictures");
-            this.routePlaces = (String[])data.get("routePlaces");
+            System.out.println("UPCOMINGTRAJDTO: INITIALISING JSONARRAYS");
+            this.passengerUsernames = (JSONArray)data.get("passengerUsernames");
+            System.out.println("PASSENGERUSERNAMES: " + passengerUsernames);
+            this.passengerNames = (JSONArray)data.get("passengerNames");
+            this.passengerPictures = (JSONArray)data.get("passengerPictures");
+            System.out.println("ROUTEPLACES: " + routePlaces);
+            this.routePlaces = (JSONArray)data.get("routePlaces");
+            this.routeYear = data.getInt("routeYear");
+            this.routeMonth = data.getInt("routeMonth");
+            this.routeDay = data.getInt("routeDay");
+            this.routeStartHour = data.getInt("routeStartHour");
+            this.routeStartMinute = data.getInt("routeStartMinute");
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("UpcomingTraject", e.getMessage());
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        System.out.println("DONE CREATING UPCOMINGTRAJDTO");
     }
 
     public int getId() {
@@ -96,24 +108,40 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
         return chauffeurUsername;
     }
 
-    public String[] getPassengerUsernames() {
+    public JSONArray getPassengerUsernames() {
         return passengerUsernames;
     }
 
-    public String[] getPassengerNames() {
+    public JSONArray getPassengerNames() {
         return passengerNames;
     }
 
-    public String[] getPassangerPictures() {
+    public JSONArray getPassengerPictures() {
         return passengerPictures;
     }
 
-    public String[] getPassengerPictures() {
-        return passengerPictures;
-    }
-
-    public String[] getRoutePlaces() {
+    public JSONArray getRoutePlaces() {
         return routePlaces;
+    }
+
+    public int getRouteYear() {
+        return routeYear;
+    }
+
+    public int getRouteMonth() {
+        return routeMonth;
+    }
+
+    public int getRouteDay() {
+        return routeDay;
+    }
+
+    public int getRouteStartHour() {
+        return routeStartHour;
+    }
+
+    public int getRouteStartMinute() {
+        return routeStartMinute;
     }
 
     @Override

@@ -73,6 +73,7 @@ public class ConfirmRideTask extends AsyncTask<Void, Void, String> {
 
         try {
             httpPost.setEntity(new StringEntity(jsonObject.toString(), HTTP.UTF_8));
+            System.out.println("CONFIRMRIDE JSON: " + jsonObject);
             response = httpclient.execute(httpPost);
             StatusLine statusLine = response.getStatusLine();
             if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -92,6 +93,6 @@ public class ConfirmRideTask extends AsyncTask<Void, Void, String> {
     }
 
     protected void onPostExecute(String result) {
-        this.delegate.processFinish(result);
+        this.delegate.processFinish(result.equals("")?"Successfully confirmed ride.":result);
     }
 }
