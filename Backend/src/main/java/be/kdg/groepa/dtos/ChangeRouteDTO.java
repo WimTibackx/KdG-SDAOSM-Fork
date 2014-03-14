@@ -336,6 +336,17 @@ public class ChangeRouteDTO {
 
         public PlaceTimeSpecifier() {}
 
+        public PlaceTimeSpecifier(double lat, double lng, LocalTime time) {
+            this.lat = lat;
+            this.lng = lng;
+            this.time = time;
+        }
+
+        public PlaceTimeSpecifier(double lat, double lng, LocalTime time, String address) {
+            this(lat, lng, time);
+            this.address = address;
+        }
+
         public PlaceTimeSpecifier(JSONObject json) throws MissingDataException {
             if (!json.has("lat")) throw new MissingDataException("lat");
             this.lat = json.getInt("lat");

@@ -260,6 +260,7 @@ public class RouteServiceImpl implements RouteService {
             } else if (change instanceof ChangeRouteDTO.AddWeekdayRoute) {
                 ChangeRouteDTO.AddWeekdayRoute changeT = (ChangeRouteDTO.AddWeekdayRoute) change;
                 WeekdayRoute newWdr = new WeekdayRoute(newRoute, changeT.getDay());
+                newRoute.addWeekdayRoute(newWdr);
                 for (ChangeRouteDTO.PlaceTimeSpecifier pts : changeT.getTimes()) {
                     new PlaceTime(pts.getTime(), new Place(pts.getAddress(), pts.getLat(), pts.getLng()), newWdr, newRoute);
                 }

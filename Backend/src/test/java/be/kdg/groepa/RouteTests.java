@@ -3,6 +3,10 @@ package be.kdg.groepa;
 import be.kdg.groepa.dtos.AddRouteDTO;
 import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
+import be.kdg.groepa.exceptions.PasswordFormatException;
+import be.kdg.groepa.exceptions.UnauthorizedException;
+import be.kdg.groepa.exceptions.UsernameExistsException;
+import be.kdg.groepa.exceptions.UsernameFormatException;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
@@ -151,5 +155,204 @@ public class RouteTests {
         dto.addChange(change);
 
         routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        Assert.assertEquals("There should be one less placetime", 2, changedRoute.getPlaceTimes().size());
+        Assert.assertEquals("Time of the second should have changed",LocalTime.of(9,20),changedRoute.getPlaceTimes().get(1).getTime());
+    }
+
+    @Test
+    public void testChangeTime() throws PasswordFormatException, UsernameExistsException, UsernameFormatException, UnauthorizedException {
+        User u = new User("testchangetime", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), "testchangetime@rcit.example.com");
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        userService.addUser(u);
+        carService.addCar("testchangetime@rcit.example.com",c);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser("testchangetime@rcit.example.com")).get(0);
+
+        User user = this.userService.getUser("testchangetime@rcit.example.com");
+
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.ChangeTime change = new ChangeRouteDTO.ChangeTime();
+        change.setWeekdayRouteId(routeService.getWeekdayRoutesOfRoute(loadedR.getId()).get(0).getWeekdayrouteId());
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(8, 5)));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.5, 4.4, LocalTime.of(8, 15)));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7,4.6,LocalTime.of(9,25)));
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        Assert.assertEquals("Time of the first should have changed",LocalTime.of(8,5),changedRoute.getPlaceTimes().get(0).getTime());
+        Assert.assertEquals("Time of the second should have changed",LocalTime.of(8,15),changedRoute.getPlaceTimes().get(1).getTime());
+        Assert.assertEquals("Time of the third shouldn't have changed",LocalTime.of(9,25),changedRoute.getPlaceTimes().get(2).getTime());
+    }
+
+    @Test
+    public void testAddWeekdayRoute() throws PasswordFormatException, UsernameExistsException, UsernameFormatException, UnauthorizedException {
+        final String username = "testAddWeekdayRoute@rcit.example.com";
+        User u = new User("testAddWeekdayRoute", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), username);
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        userService.addUser(u);
+        carService.addCar(username,c);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser(username)).get(0);
+
+        User user = this.userService.getUser(username);
+
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.AddWeekdayRoute change = new ChangeRouteDTO.AddWeekdayRoute();
+        change.setDay(LocalDate.now().plusDays(2).getDayOfWeek().getValue()-1);
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(9,5), "Place1"));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.6, 4.5, LocalTime.of(9,20), "Place2B"));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7, 4.6, LocalTime.of(9,25), "Place3"));
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        List<WeekdayRoute> newWdrs = routeService.getWeekdayRoutesOfRoute(changedRoute.getId());
+        Assert.assertEquals("Time of the first shouldn't have changed", LocalTime.of(9, 5), newWdrs.get(0).getPlaceTimes().get(0).getTime());
+        Assert.assertEquals("The second day should have 3 placetimes",3,newWdrs.get(1).getPlaceTimes().size());
+    }
+
+    @Test
+    public void testDeleteWeekdayRoute() throws PasswordFormatException, UsernameExistsException, UsernameFormatException, UnauthorizedException {
+        final String username = "testDeleteWeekdayRoute@rcit.example.com";
+        User u = new User("testDeleteWeekdayRoute", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), username);
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        userService.addUser(u);
+        carService.addCar(username,c);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        WeekdayRoute wdrB = new WeekdayRoute(r, LocalDate.now().plusDays(1).getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdrB);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser(username)).get(0);
+        List<WeekdayRoute> oldWdrs = routeService.getWeekdayRoutesOfRoute(loadedR.getId());
+
+        User user = this.userService.getUser(username);
+
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.DeleteWeekdayRoute change = new ChangeRouteDTO.DeleteWeekdayRoute();
+        change.setWeekdayRouteId(oldWdrs.get(1).getWeekdayrouteId());
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        List<WeekdayRoute> newWdrs = routeService.getWeekdayRoutesOfRoute(changedRoute.getId());
+        Assert.assertEquals("There should only be one WDR left",1,newWdrs.size());
+    }
+
+    @Test
+    public void testAddPlaceTime() throws PasswordFormatException, UsernameExistsException, UsernameFormatException, UnauthorizedException {
+        final String username = "testAddPlaceTime@rcit.example.com";
+        User u = new User("testAddPlaceTime", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), username);
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        userService.addUser(u);
+        carService.addCar(username,c);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser(username)).get(0);
+        List<WeekdayRoute> oldWdrs = routeService.getWeekdayRoutesOfRoute(loadedR.getId());
+
+        User user = this.userService.getUser(username);
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.AddPlaceTime change = new ChangeRouteDTO.AddPlaceTime();
+        change.setWeekdayRouteId(oldWdrs.get(0).getWeekdayrouteId());
+        change.setLat(51.8);
+        change.setLng(4.7);
+        change.setAddress("Place4");
+        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(9, 5)));
+        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.5,4.4,LocalTime.of(9,15)));
+        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.7,4.6,LocalTime.of(9,25)));
+        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.8,4.7,LocalTime.of(9,30)));
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        Assert.assertEquals("There should be 4 pts now", 4, changedRoute.getPlaceTimes().size());
+    }
+
+    @Test
+    public void testChangeCar() throws PasswordFormatException, UsernameExistsException, UsernameFormatException, UnauthorizedException {
+        final String username = "testChangeCar@rcit.example.com";
+        User u = new User("testChangeCar", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), username);
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        Car carB = new Car("Opel","Astra", 8.6, Car.FuelType.SUPER95);
+        userService.addUser(u);
+        carService.addCar(username, c);
+        carService.addCar(username,carB);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser(username)).get(0);
+        List<WeekdayRoute> oldWdrs = routeService.getWeekdayRoutesOfRoute(loadedR.getId());
+
+        User user = this.userService.getUser(username);
+        List<Car> cars = user.getCars();
+        int carBId = -1;
+        for (Car car : cars) {
+            if (car.getBrand().equals("Opel")) {
+                carBId = car.getCarId();
+            }
+        }
+
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.ChangeCar change = new ChangeRouteDTO.ChangeCar();
+        change.setCarId(carBId);
+        change.setCapacity(5);
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
+
+        Route changedRoute = routeService.getRoutes(user).get(1);
+        Assert.assertEquals("Carbrand should be 'Opel' now", "Opel", changedRoute.getCar().getBrand());
+        Assert.assertEquals("Capacity should be '5' now",5, changedRoute.getCapacity());
     }
 }
