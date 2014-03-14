@@ -3,55 +3,69 @@
     <section id="infoprofile">
         <section id="profileName"><span id="profileheader">{{type}}</span>
             <span>
-                <img ng-click="previousPage()" class="addIcon" src="../app/img/previous.jpg"/>
-                <img ng-click="nextPage()" class="addIcon" src="../app/img/next.jpg"/>
+                <img ng-click="previousPage()" class="pagingIcon" ng-src="{{backIcon}}" ng-hide="hidePagingBackIcon"/>  {{page}}
+                <img ng-click="nextPage()" class="pagingIcon" ng-src="{{nextIcon}}" ng-hide="hidePagingNextIcon"/>
             </span>
             <section id="tabsMyProfile">
-
-                <div name="inboxClick" class="tab" ng-click="tabInboxClick()">Inbox</div>
                 <div name="sendClick" class="tab" ng-click="tabSendClick()">Verzonden berichten</div>
+                <div name="inboxClick" class="tab" ng-click="tabInboxClick()">Inbox</div>
             </section>
         </section>
 
     </section>
 
     <section id="sendField" ng-hide="hideSend">
-        <table>
-            <tr class="clickMessage" ng-repeat="sendMessage in sendMessages" ng-click="openDetails(sendMessage, 'send')" >
-                <td class="first"><img class="gender" alt="{{sendMessage.read}}"  ng-src={{sendMessage.readSrc}}></td>
+        <table class="messageTable">
+            <tr class="clickMessage" ng-repeat="sendMessage in sendMessages"
+                ng-click="openDetails(sendMessage, 'send')">
+                <td class="first"><img class="gender" alt="{{sendMessage.read}}" ng-src={{sendMessage.readSrc}}></td>
                 <td class="second">{{sendMessage.messageSubject}}</td>
                 <td class="third">{{sendMessage.senderUsername}}</td>
-
             </tr>
         </table>
-    </section>
-    <section id="recieveField" ng-hide="hideRecieve">
-        <table>
-            <tr class="clickMessage" ng-repeat="recieveMessage in recievedMessages" ng-click="openDetails(recieveMessage, 'recieve')">
-                <td class="first"><img class="gender" alt="{{recieveMessage.read}}" ng-src={{recieveMessage.readSrc}}></td>
-                <td class="second">{{recieveMessage.messageSubject}}</td>
-                <td class="third">{{recieveMessage.senderUsername}}</td>
-                <td class="fourth"><img ng-click="replyMessage(recieveMessage)" class="replyIcon" src="../app/img/Send_mail.png"/></td>
-            </tr>
-        </table>
-    </section>
-
-    <section id="messageField" ng-hide="hideMessage">
-        <span name="messageHeader" class="messageHead">{{subject}}</span>
-        <div>
-            {{sender}}
-            aan {{receiver}}
-        </div>
-        <section>
-            {{messageBody}}
+        <section class="messageField" ng-hide="hideMessage">
+            <div name="messageHeader" class="messageHead">Title: {{subjectO}}</div>
+            <div class="mailInformation">
+                <label class="hideSender">Van: {{sender}}</label>
+                <label class="hideReceiver">Aan: {{receiver}}</label>
+            </div>
+            <section class="messageBody">
+                {{messageBody}}
+            </section>
         </section>
     </section>
+
+    <section id="recieveField" ng-hide="hideRecieve">
+        <table class="messageTable">
+            <tr class="clickMessage" ng-repeat="recieveMessage in recievedMessages"
+                ng-click="openDetails(recieveMessage, 'recieve')" id="message{{recieveMessage.id}}">
+                <td class="first"><img class="gender" alt="{{recieveMessage.read}}" ng-src={{recieveMessage.readSrc}}>
+                </td>
+                <td class="second">{{recieveMessage.messageSubject}}</td>
+                <td class="third">{{recieveMessage.senderUsername}}</td>
+                <td class="fourth"><img ng-click="replyMessage(recieveMessage)" class="replyIcon"
+                                        src="../app/img/Send_mail.png"/></td>
+            </tr>
+        </table>
+        <section class="messageField" ng-hide="hideMessage">
+            <div name="messageHeader" class="messageHead">Title: {{subjectO}}</div>
+            <div class="mailInformation">
+                <label class="hideSender">Van: {{sender}}</label>
+                <label class="hideReceiver">Aan: {{receiver}}</label>
+            </div>
+            <section class="messageBody">
+                {{messageBody}}
+            </section>
+        </section>
+    </section>
+
+
     <section id="overlay" ng-click="clickOverlay()">
         <div id="darkOverlay"></div>
         <div id="cssCenterTrick">
             <section id="formPopup" ng-click="clickFormpopup()">
                 <div class="newMessage">
-                    <label>Aan: <input ng-style="inputStyle(recieverName)" type="text" ng-model="recieverName" /></label>
+                    <label>Aan: <input ng-style="inputStyle(recieverName)" type="text" ng-model="recieverName"/></label>
                 </div>
                 <div class="newMessage">
                     <label>Van: {{sender}}</label>
@@ -59,12 +73,10 @@
                 <div class="newMessage">
                     <label>Onderwerp: <input ng-style="inputStyle(subject)" type="text" ng-model="subject"/></label>
                 </div>
-                <textarea rows="10" cols="75" ng-model="messageBody"></textarea>
+                <textarea id="mBodyTextarea" ng-model="mBody" maxlength="255" placeholder="Type hier je bericht..."></textarea>
                 <section id="finalAdd">
                     <type name="SendMessageButton" type="button" ng-click="sendMessageToUser()">Verstuur</type>
                 </section>
-
-
             </section>
         </div>
     </section>
