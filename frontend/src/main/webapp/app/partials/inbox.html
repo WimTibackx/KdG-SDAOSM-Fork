@@ -6,13 +6,17 @@
                 <img ng-click="previousPage()" class="pagingIcon" ng-src="{{backIcon}}" ng-hide="hidePagingBackIcon"/>  {{page}}
                 <img ng-click="nextPage()" class="pagingIcon" ng-src="{{nextIcon}}" ng-hide="hidePagingNextIcon"/>
             </span>
+
+            <img id="newMessage" src="../app/img/newMessage.png" ng-click="sendNewMessage()"/>
             <section id="tabsMyProfile">
-                <div name="sendClick" class="tab" ng-click="tabSendClick()">Verzonden berichten</div>
-                <div name="inboxClick" class="tab" ng-click="tabInboxClick()">Inbox</div>
+                <div id="tabSend" name="sendClick" class="tab" ng-click="tabSendClick()">Verzonden berichten</div>
+                <div id="tabInbox" name="inboxClick" class="tab" ng-click="tabInboxClick()">Inbox</div>
             </section>
         </section>
 
     </section>
+
+    <div id="noMessages" ng-show="noMessagesToShow">Je hebt geen berichten</div>
 
     <section id="sendField" ng-hide="hideSend">
         <table class="messageTable">
@@ -20,7 +24,7 @@
                 ng-click="openDetails(sendMessage, 'send')">
                 <td class="first"><img class="gender" alt="{{sendMessage.read}}" ng-src={{sendMessage.readSrc}}></td>
                 <td class="second">{{sendMessage.messageSubject}}</td>
-                <td class="third">{{sendMessage.senderUsername}}</td>
+                <td class="third">{{sendMessage.receiverUsername}}</td>
             </tr>
         </table>
         <section class="messageField" ng-hide="hideMessage">
@@ -65,13 +69,13 @@
         <div id="cssCenterTrick">
             <section id="formPopup" ng-click="clickFormpopup()">
                 <div class="newMessage">
-                    <label>Aan: <input ng-style="inputStyle(recieverName)" type="text" ng-model="recieverName"/></label>
+                    <label>Aan: <input id="recieverInputField" ng-style="inputStyle(recieverName)" type="text" ng-model="recieverName"/></label>
                 </div>
                 <div class="newMessage">
                     <label>Van: {{sender}}</label>
                 </div>
                 <div class="newMessage">
-                    <label>Onderwerp: <input ng-style="inputStyle(subject)" type="text" ng-model="subject"/></label>
+                    <label>Onderwerp: <input id="subjectInputField" ng-style="inputStyle(subject)" type="text" ng-model="subject"/></label>
                 </div>
                 <textarea id="mBodyTextarea" ng-model="mBody" maxlength="255" placeholder="Type hier je bericht..."></textarea>
                 <section id="finalAdd">

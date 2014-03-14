@@ -38,11 +38,11 @@
 .blockRight {
     float: right;
     min-height: 485px;
-    padding:1em;
+    padding: 1em;
 }
 
 .myRoutes, #trajects {
-    width: 53.5em;
+    width: 73.5em;
     min-height: 485px;
     float: left;
     margin-left: 1em;
@@ -52,13 +52,13 @@
     height: 1em;
     padding-left: 0.2em;
 }
+
 .gender {
     height: 1em;
     padding-left: 0.2em;
 }
 
 /* If you're looking for the table stuff, that is now generalised in layout.css */
-
 
 .routeButton {
     background: rgb(53, 53, 53);
@@ -68,7 +68,6 @@
     float: right;
     padding: 0.5em;
 }
-
 
 .imgMarkup {
     height: 30px;
@@ -106,7 +105,7 @@
     float: left;
     margin: 1em;
     border: solid 1px gray;
-    width: 53.5em;
+    width: 73.5em;
     height: 485px;
     position: relative;
 }
@@ -117,7 +116,7 @@
 }
 
 #tabsMyProfile .tab {
-    font-size: 0.5em;
+    font-size: 1.6rem;
     float: right;
     margin-left: 3em;
     cursor: pointer;
@@ -139,10 +138,10 @@
     position: absolute;
     bottom: 0px;
     width: 100%;
-    margin:0 0 0 -1em;
+    margin: 0 0 0 -1em;
 }
 
-.addTextInfoProfile{
+.addTextInfoProfile {
     color: white;
     cursor: pointer;
     padding: 0.2em 0;
@@ -150,82 +149,90 @@
     width: 100%;
 }
 
-.noUnderline{
+.noUnderline {
     text-decoration: none;
 }
 
-.changePasswordIcon, .resetPasswordIcon{
+.changePasswordIcon, .resetPasswordIcon {
     height: 15px;
     width: 15px;
     margin-right: 1em;
     margin-left: 0;
 }
+
 .profilemiddle {
-    padding:1em;
+    padding: 1em;
 }
-#passwordActions{
+
+#passwordActions {
     margin-top: 200px;
     border-top: solid 1px gray;
 }
 
 #profileTrajecten {
     position: relative;
-    color:#FFFFFF;
+    color: #FFFFFF;
 }
 
 #profileTrajecten .loadingoverlay {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#353535;
-    font-size:2rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #353535;
+    font-size: 2rem;
     text-align: center;
     vertical-align: middle;
     color: #FFFFFF;
-    padding:10em;
+    padding: 10em;
 }
+
 #profileTrajecten table img {
     margin-right: 5px;
     width: 30px;
     height: 30px;
     border: 1px solid rgb(59, 150, 206);
-    background:#FFFFFF;
+    background: #FFFFFF;
 }
+
 #profileTrajecten h4:first-child {
-    margin-top:0;
+    margin-top: 0;
 }
 
 #profileTrajecten button.positive {
     background: #ffffff;
     border: 1px solid #ccc;
-    color: rgb(53,53,53);
+    color: rgb(53, 53, 53);
     padding: 12px 5px 8px;
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 #profileTrajecten button.negative {
     background: #ffffff;
     border: 1px solid #ccc;
     color: #aaaaaa;
     padding: 12px 5px 8px;
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 .myRoutes table td.details, #profileTrajecten table td.details {
-    background: url(../img/search/searchIcon.png);
+    background: url(../img/search/openIcon.png);
     background-size: contain;
     background-repeat: no-repeat;
-    width:30px;
-    background-position:center center;
+    width: 30px;
+    background-position: center center;
+    cursor: pointer;
 }
+
 #profileTrajecten table tr.nodata {
     font-style: italic;
     text-align: center;
@@ -237,4 +244,11 @@
 
 .tableNavigation button {
     margin: 0 10px;
+}
+
+.activeTab {
+    display: inline;
+    border-bottom: 3px solid rgb(59, 150, 206);
+    float: left;
+    margin: 0;
 }

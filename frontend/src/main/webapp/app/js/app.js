@@ -41,9 +41,9 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
             }).
             when('/search', {
                 templateUrl: 'partials/search.html'//,
-               //controller: 'searchCtrl'
+                //controller: 'searchCtrl'
             }).
-            when("/route/:routeId",{
+            when("/route/:routeId", {
                 templateUrl: 'partials/viewRoute.html'
             }).
             when('/inbox', {

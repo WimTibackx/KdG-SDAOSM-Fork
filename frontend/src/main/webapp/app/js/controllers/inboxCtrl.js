@@ -10,9 +10,16 @@ var page = 1;
 var clickedMessage = false;
 var clickedOverlay = false;
 
+var tabClicked = "recieve";
+
 carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     deleteActiveClass();
     $('#InboxTab').addClass('active');
+
+    var defaultActive = function () {
+        $('#tabInbox').removeClass('activeTab');
+        $('#tabSend').removeClass('activeTab');
+    }
 
     var detailsEnabled = true;
     var formPopupEnabled = false;
@@ -34,15 +41,28 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
     $scope.backIcon = "../app/img/backDisabled.png";
     $scope.nextIcon = "../app/img/next.png";
 
-    loadMessages('recieve');
-
+    $scope.allRecievedMessages = [];
+    $scope.allSendMessages = []
 
     var beginIcons = function () {
-        $scope.backIcon = "../app/img/backDisabled.png";
-        if (((page * 9) >= $scope.allRecievedMessages.length) || ((page * 9) >= $scope.allSendMessages.length)) {
-            $scope.nextIcon = "../app/img/nextDisabled.png";
+        console.log("CHeck")
+        console.log(tabClicked);
+        if (tabClicked == "recieve") {
+
+            $scope.backIcon = "../app/img/backDisabled.png";
+
+            if (((page * 9) >= $scope.allRecievedMessages.length)) {
+                console.log("wroonf if");
+                $scope.nextIcon = "../app/img/nextDisabled.png";
+            } else {
+                $scope.nextIcon = "../app/img/next.png";
+            }
         } else {
-            $scope.nextIcon = "../app/img/next.png";
+            if (((page * 9) >= $scope.allSendMessages.length)) {
+                $scope.nextIcon = "../app/img/nextDisabled.png";
+            } else {
+                $scope.nextIcon = "../app/img/next.png";
+            }
         }
     }
     var overPageOne = function () {
@@ -51,6 +71,7 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
         }
     }
     var isPageOne = function () {
+        beginIcons();
         if (page == 1) {
             $scope.backIcon = "../app/img/backDisabled.png";
         }
@@ -58,7 +79,7 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
 
     $scope.nextPage = function () {
         if ($scope.type == 'Inbox') {
-            if ($scope.end < $scope.allRecievedMessages.length) {
+            if ($scope.end < ($scope.allRecievedMessages.length) - 1) {
                 $scope.begin = $scope.begin + 9;
                 $scope.end = $scope.end + 9;
                 selectString($scope, 'recieve')
@@ -72,7 +93,7 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
                 overPageOne();
             }
         } else {
-            if ($scope.end < $scope.allSendMessages.length) {
+            if ($scope.end < ($scope.allSendMessages.length) - 1) {
                 $scope.begin = $scope.begin + 9;
                 $scope.end = $scope.end + 9;
                 selectString($scope, 'send')
@@ -179,16 +200,20 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
                 //$scope.hidePagingIcons = true;
                 //$scope.recieveMessage.readSrc = '../app/img/check.png';
             }
-        }else{
+        } else {
             clickedOverlay = false;
         }
     }
 
     $scope.tabInboxClick = function () {
+        tabClicked = "recieve";
+        defaultActive();
+        $('#tabInbox').addClass('activeTab');
+
         page = 1;
         $scope.page = page;
 
-        beginIcons();
+
 
         detailsEnabled = true;
         $scope.type = "Inbox";
@@ -202,13 +227,19 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
         //$scope.hidePagingIcons = false;
 
         loadMessages('recieve');
+        beginIcons();
     }
 
     $scope.tabSendClick = function () {
+        defaultActive();
+        $('#tabSend').addClass('activeTab');
+
+        tabClicked = "send";
+
         page = 1;
         $scope.page = page;
 
-        beginIcons();
+
 
         detailsEnabled = true;
         $scope.type = "Verzonden berichten";
@@ -218,6 +249,7 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
         $scope.begin = 0;
         $scope.end = 8;
         loadMessages('send');
+        beginIcons();
     }
 
     $scope.inputStyle = function (str) {
@@ -253,7 +285,7 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
                 if (!$scope.allSendMessages[i].read) {
                     $scope.sendMessages[counter].readSrc = '../app/img/unread.png';
                 } else {
-                    $scope.sendMessages[counter].readSrc = '../app/img/transparent.png';
+                    $scope.sendMessages[counter].readSrc = '../app/img/check.png';
                 }
 
                 i++;
@@ -279,6 +311,19 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
                 } else {
                     $scope.allRecievedMessages = obj["receivedMessages"]
                     $scope.allSendMessages = obj["sentMessages"]
+                    console.log($scope.allSendMessages);
+                    console.log($scope.allRecievedMessages);
+                    $scope.noMessagesToShow = false;
+                    if (type == 'recieve') {
+                        if (obj["receivedMessages"].length == 0) {
+                            $scope.noMessagesToShow = true;
+                        }
+                    } else {
+                        if (obj["sentMessages"].length == 0) {
+                            $scope.noMessagesToShow = true;
+                        }
+                    }
+
                     selectString($scope, type)
                 }
             });
@@ -315,8 +360,41 @@ carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$loc
             url: rootUrl + "/authorized/textmessage/send"
         }).success(function (response) {
                 $('#overlay').hide();
+                $scope.tabInboxClick();
+                $scope.tabSendClick();
             });
-
-
     }
+
+    $scope.sendNewMessage = function () {
+
+        detailsEnabled = false;
+        //ng-Show, ng-Hide won't work, it keeps the ng-hide propery active on the overlay
+        $('#overlay').show();
+
+        $http({
+            method: 'GET',
+            url: rootUrl + "/authorized/myprofile/",
+            headers: {'Content-Type': "text/plain; charset=utf-8"}
+        }).success(function (response) {
+                obj = response;
+
+                $scope.mBody = "";
+                $scope.recieverName = "Ontvanger";
+                $scope.sender = obj["username"];
+                $scope.subject = "Onderwerp";
+
+                $('#recieverInputField').focus(function () {
+                    if ($scope.recieverName == "Ontvanger") {
+                        $scope.recieverName = "";
+                    }
+                })
+                $('#subjectInputField').focus(function () {
+                    if ($scope.subject == "Onderwerp") {
+                        $scope.subject = "";
+                    }
+                })
+            });
+    }
+
+    $scope.tabInboxClick();
 }]);
