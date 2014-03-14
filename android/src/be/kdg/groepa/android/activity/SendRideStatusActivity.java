@@ -167,5 +167,9 @@ public class SendRideStatusActivity extends Activity implements AsyncResponse {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnPlaces.setAdapter(adapter);
         spnPlaces.setVisibility(View.INVISIBLE);
+
+        nmbrPickerMinutes.setVisibility(View.INVISIBLE);
+        nmbrPickerHours.setVisibility(View.INVISIBLE);
+        spnPlaces.setVisibility(View.INVISIBLE);
     }
 }

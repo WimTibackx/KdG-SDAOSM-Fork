@@ -80,20 +80,21 @@
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/hours" android:singleLine="true" android:gravity="center_vertical"
-                    android:id="@+id/tvHours" android:layout_gravity="center_horizontal" android:layout_weight=".20"/>
+                    android:id="@+id/tvHours" android:layout_gravity="center_horizontal" android:layout_weight=".20" android:visibility="invisible"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/minutes"
                     android:id="@+id/tvMinutes" android:singleLine="true" android:gravity="center_vertical"
-                    android:layout_gravity="center_horizontal" android:layout_weight=".20"/>
+                    android:layout_gravity="center_horizontal" android:layout_weight=".20" android:visibility="invisible"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/place"
-                    android:id="@+id/tvPlace" android:layout_gravity="center_horizontal" android:layout_weight=".60"/>
+                    android:id="@+id/tvPlace" android:layout_gravity="center_horizontal" android:layout_weight=".60"
+                    android:visibility="invisible"/>
         </TableRow>
     </TableLayout>
 </LinearLayout>
