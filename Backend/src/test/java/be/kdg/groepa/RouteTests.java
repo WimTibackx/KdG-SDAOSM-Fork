@@ -426,9 +426,9 @@ public class RouteTests {
     public void testNormalRouteTrajects()
     {
         Car c = new Car("BMW", "X6 - M", 7.2, Car.FuelType.DIESEL);
-        User u = new User("Bart", User.Gender.MALE, true, "vochtenRules123", LocalDate.of(1993, 4, 12), "bart.vochten@kdg.be", c);
-        User p1 = new User("Chris", User.Gender.FEMALE, true, "javaTheBest123", LocalDate.of(1993, 3, 13), "behielsje@kdg.be");
-        User p2 = new User("Kris", User.Gender.FEMALE, true, "DeMuynck1234", LocalDate.of(1993, 7, 3), "demuynck@kdg.be");
+        User u = new User("Bart", User.Gender.MALE, true, "vochtenRules123", LocalDate.of(1993, 4, 12), "b.vochten@carpool.be", c);
+        User p1 = new User("Chris", User.Gender.FEMALE, true, "javaTheBest123", LocalDate.of(1993, 3, 13), "behielsje@carpool.be");
+        User p2 = new User("Kris", User.Gender.FEMALE, true, "DeMuynck1234", LocalDate.of(1993, 7, 3), "demuynck@carpool.be");
 
         try {
             userService.addUser(u);
@@ -436,7 +436,7 @@ public class RouteTests {
             e.printStackTrace();
         }
 
-        carService.addCar("bart.vochten@kdg.be", c);
+        carService.addCar("b.vochten@carpool.be", c);
         Route r = new Route(true, 4, LocalDate.now(), LocalDate.now(), u, c);
         Place place = new Place("Brasschaat", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Grote Markt", 431.98987133664f, 411.9889459684f);
