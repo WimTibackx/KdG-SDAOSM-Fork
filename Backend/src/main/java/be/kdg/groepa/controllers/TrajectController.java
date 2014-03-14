@@ -29,6 +29,9 @@ public class TrajectController extends BaseController{
     @Autowired
     private TrajectService trajectService;
 
+    @Autowired
+    private RouteService routeService;
+
     @RequestMapping(value="/myupcoming", method=RequestMethod.GET)
     public @ResponseBody String getMyUpcomingTrajects(HttpServletRequest request, HttpServletResponse response) {
         List<UpcomingTrajectDTO> upcoming = trajectService.getUpcomingTrajects(super.getCurrentUser(request));
@@ -124,5 +127,32 @@ public class TrajectController extends BaseController{
             return super.respondSimpleAuthorized("error","Unauthorized", request, response);
         }
         return super.respondSimpleAuthorized("status", "ok", request, response);
+    }
+
+    @RequestMapping(value="/on-route/{routeId}", method=RequestMethod.GET)
+    public @ResponseBody String getTrajectsOnRoute(@PathVariable("routeId") int routeId, HttpServletRequest request, HttpServletResponse response) {
+        User user = super.getCurrentUser(request);
+        Route r = routeService.getRouteById(routeId);
+        if (!user.getId().equals(r.getChauffeur().getId())) {
+            return super.respondSimpleAuthorized("error","Unauthorized", request, response);
+        }
+        List<JSONObject> returndata = new ArrayList<>();
+        for (Traject t : r.getTrajects()) {
+            if (!t.isAccepted()) continue;
+            JSONObject jsonT = new JSONObject();
+            jsonT.put("id",t.getId());
+            jsonT.put("pickup",t.getPickup().getPlace().getName());
+            jsonT.put("dropoff",t.getDropoff().getPlace().getName());
+            jsonT.put("weekday",t.getPickup().getWeekdayRoute().getDay());
+            JSONObject jsonC = new JSONObject();
+            jsonC.put("id", t.getUser().getId());
+            jsonC.put("name",t.getUser().getName());
+            jsonC.put("avatarURL",t.getUser().getAvatarURL());
+            jsonT.put("passenger",jsonC);
+            returndata.add(jsonT);
+        }
+        super.updateCookie(request, response);
+        return new JSONArray(returndata).toString();
+
     }
 }

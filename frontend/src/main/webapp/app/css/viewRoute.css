@@ -34,6 +34,7 @@ section.mainSite#viewRoute header ul#tablist li {
     float: left;
     margin: 0 10px 5px;
     padding: 0px 2px 2px 2px;
+    cursor: pointer;
 }
 section.mainSite#viewRoute header ul#tablist li.active {
     border-bottom: 3px solid rgb(59, 150, 206);
@@ -64,7 +65,7 @@ section.mainSite#viewRoute #tabgroup .tab .leftpane p.decoratedinfo img {
 section.mainSite#viewRoute #tabgroup .tab .rightpane {
     width:65%;
     float:left;
-    height:500px;
+    height:auto;
 }
 section.mainSite#viewRoute #tabgroup .tab .rightpane .map-canvas {
     height:100%;
@@ -118,4 +119,11 @@ section.mainSite#viewRoute cpa-gmap.map-wrapper {
     width: 100%;
     height: 100%;
     display: block;
+}
+section.mainSite#viewRoute table img {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(59, 150, 206);
+    background:#FFFFFF;
 }

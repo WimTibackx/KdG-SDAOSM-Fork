@@ -15,11 +15,7 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
                 //controller: 'myProfileCtrl'
             }).
             when('/myProfile/changeRemoveCar/:carId/', {
-                templateUrl: 'partials/changeRemoveCar.html'//,
-                //controller: 'changeRemoveCarCtrl'
-                /* TODO ONOPGELOST MERGECONFLICT
-                templateUrl: 'partials/changeRemoveCar.html',
-                controller: 'changeRemoveCarCtrl'*/
+                templateUrl: 'partials/changeRemoveCar.html'
             }).
             when('/contact', {
                 templateUrl: 'partials/contact.html'
@@ -43,13 +39,19 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
             }).
             when('/search', {
                 templateUrl: 'partials/search.html'//,
-               //controller: 'searchCtrl'
+                //controller: 'searchCtrl'
             }).
-            when("/route/:routeId",{
+            when("/route/:routeId", {
                 templateUrl: 'partials/viewRoute.html'
             }).
             when('/inbox', {
                 templateUrl: 'partials/inbox.html'
+            }).
+            when('/changeRoute/:routeId', {
+                templateUrl: 'partials/changeRoute.html'
+            }).
+            when('/profile/:userId',{
+                templateUrl: 'partials/profile.html'
             }).
             otherwise({
                 redirectTo: '/login'

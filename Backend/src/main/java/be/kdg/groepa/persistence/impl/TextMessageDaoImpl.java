@@ -44,7 +44,7 @@ public class TextMessageDaoImpl implements TextMessageDao{
     public List<TextMessageDTO> getReceivedMessagesByUser(int userId) {
         Session ses = HibernateUtil.openSession();
         List<TextMessageDTO> toReturn = new ArrayList<TextMessageDTO>();
-        Query query = ses.createQuery("from User u where u.id = :id");
+        Query query = ses.createQuery("from User u where u.id = :id order by u.id");
         query.setInteger("id", userId);
         User user = (User)query.uniqueResult();
         // Get the routes of the sender and receiver to counter lazyInitializationExceptions
@@ -61,7 +61,7 @@ public class TextMessageDaoImpl implements TextMessageDao{
     public List<TextMessageDTO> getSentMessagesByUser(int userId) {
         Session ses = HibernateUtil.openSession();
         List<TextMessageDTO> toReturn = new ArrayList<TextMessageDTO>();
-        Query query = ses.createQuery("from User u where u.id = :id");
+        Query query = ses.createQuery("from User u where u.id = :id order by u.id");
         query.setInteger("id", userId);
         User user = (User)query.uniqueResult();
         // Get the routes of the sender and receiver to counter lazyInitializationExceptions

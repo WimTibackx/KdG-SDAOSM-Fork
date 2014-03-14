@@ -2,6 +2,8 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: My profile
+var gender = null;
+var avatarUrl = null ;
 carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', "$authChecker", function ($scope, $http, $location, SharedProperties, $authChecker) {
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
@@ -14,8 +16,12 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     //$scope.carPicture = 'http://localhost8080:BackEnd/carImages/';
     var counter = 0;
     var username = null;
-    var gender = null;
-    var avatarUrl = null ;
+
+    var defaultActive = function(){
+        $('#routeTab').removeClass('activeTab');
+        $('#trajectTab').removeClass('activeTab');
+        $('#carTab').removeClass('activeTab');
+    }
 
     $http({
         method: 'GET',
@@ -59,18 +65,25 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
     };
 
     $scope.tabRoutesClick = function () {
+        defaultActive();
+        $('#routeTab').addClass('activeTab');
+
         $scope.hideCars = true;
         $scope.hideRoutes = false;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg route toe";
     };
     $scope.tabCarsClick = function () {
+        defaultActive();
+        $('#carTab').addClass('activeTab');
         $scope.hideCars = false;
         $scope.hideRoutes = true;
         $scope.hideTrajects = true;
         $scope.addText = "Voeg auto toe";
     };
     $scope.tabTrajectsClick = function () {
+        defaultActive();
+        $('#trajectTab').addClass('activeTab');
         loadTrajects();
         $scope.hideCars = true;
         $scope.hideRoutes = true;
@@ -80,6 +93,8 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
     $scope.goRoute = function(id,day) { $location.path("/route/"+id).hash(day); };
     $scope.goAddRoute = function() { $location.path("/addRoute"); };
+    $scope.goChangeRoute = function(id) { $location.path("/changeRoute/"+id); };
+
 
     $scope.formatDate = function(date) {
         if (date == undefined) return "";
@@ -90,6 +105,10 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
         return $scope.formatDate(date);
     };
     $scope.booleanL10n = function(b) { return b ? "Ja" : "Nee"; };
+
+    $scope.goToProfile=function(userId) {
+        $location.path("/profile/"+userId);
+    };
 
     function loadRoutes() {
         $http.get(rootUrl+"/authorized/route/mine").success(function (data) {

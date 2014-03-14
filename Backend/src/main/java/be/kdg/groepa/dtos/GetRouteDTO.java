@@ -2,6 +2,7 @@ package be.kdg.groepa.dtos;
 
 import be.kdg.groepa.model.PlaceTime;
 import be.kdg.groepa.model.Route;
+import be.kdg.groepa.model.Traject;
 import be.kdg.groepa.model.WeekdayRoute;
 import org.threeten.bp.LocalDate;
 

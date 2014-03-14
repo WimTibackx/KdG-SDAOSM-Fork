@@ -3,9 +3,9 @@
     <section id="infoprofile">
         <section id="profileName"><span id="profileheader">Welkom, {{personname}}</span><img id="gender" ng-src={{gendersrc}}> ({{username}})
             <section id="tabsMyProfile">
-                <div class="tab" ng-click="tabRoutesClick()">Routes</div>
-                <div class="tab" ng-click="tabTrajectsClick()">Trajecten</div>
-                <div class="tab" ng-click="tabCarsClick()">Auto's</div>
+                <div class="tab" id="routeTab" ng-click="tabRoutesClick()">Routes</div>
+                <div class="tab" id="trajectTab" ng-click="tabTrajectsClick()">Trajecten</div>
+                <div class="tab" id="carTab" ng-click="tabCarsClick()">Auto's</div>
             </section>
         </section>
         <div id="blockLeft">
@@ -42,6 +42,7 @@
         <thead>
         <tr>
             <td></td>
+            <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
             <td>Herhalend</td>
@@ -53,6 +54,7 @@
         <tbody>
         <tr ng-repeat="route in routes | startFrom:currentPage.route*itemsPerPage | limitTo:itemsPerPage">
             <td class="details" ng-click="goRoute(route.id,route.day)"></td>
+            <td ng-click="goChangeRoute(route.id)">Edit</td>
             <td>{{formatDateString(route.startDate)}}</td>
             <td>{{formatDateString(route.endDate)}}</td>
             <td>{{booleanL10n(route.repeating)}}</td>
@@ -63,6 +65,7 @@
         </tbody>
         <tfoot>
         <tr>
+            <td></td>
             <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
@@ -95,7 +98,7 @@
 </section>
 
 
-<div class="blockRight">
+<!--div class="blockRight">
     <table class="ritTable general blackwhite">
         <thead>
         <tr class="tableTitles">
@@ -171,7 +174,7 @@
     <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
         toe
     </section>
-</div>
+</div-->
 
 <div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
     <div class="loadingoverlay"
@@ -197,7 +200,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            <td ng-click="goToProfile(t.route.chauffeur.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
             </td>
         </tr>
         </tbody>
@@ -246,7 +249,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
+            <td ng-click="goToProfile(t.route.chauffeur.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.chauffeur.avatarURL)}}"/><span>{{t.route.chauffeur.name}}</span>
             </td>
         </tr>
         </tbody>
@@ -297,7 +300,7 @@
             <td>{{t.pickup}}</td>
             <td>{{t.dropoff}}</td>
             <td>{{getWeekdayL10n(t.weekday)}}</td>
-            <td><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}"/><span>{{t.route.requester.name}}</span>
+            <td ng-click="goToProfile(t.route.requester.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.route.requester.avatarURL)}}"/><span>{{t.route.requester.name}}</span>
             </td>
             <td>
                 <button class="positive" ng-click="acceptTraject(t.id)">Accepteren</button>

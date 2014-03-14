@@ -7,3 +7,20 @@
 #changePwdForm label {
     display: block;
 }
+
+
+
+/* changeRoute */
+
+#changeRoute {
+    position: relative;
+}
+#changeRoute #rightpane {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+
+    width: 300px;
+    border: 1px solid white;
+
+}
