@@ -3,10 +3,7 @@ package be.kdg.groepa;
 import be.kdg.groepa.dtos.AddRouteDTO;
 import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
-import be.kdg.groepa.exceptions.PasswordFormatException;
-import be.kdg.groepa.exceptions.UnauthorizedException;
-import be.kdg.groepa.exceptions.UsernameExistsException;
-import be.kdg.groepa.exceptions.UsernameFormatException;
+import be.kdg.groepa.exceptions.*;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
@@ -200,15 +197,15 @@ public class RouteTests {
         change.setWeekdayRouteId(routeService.getWeekdayRoutesOfRoute(loadedR.getId()).get(0).getWeekdayrouteId());
         change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(8, 5)));
         change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.5, 4.4, LocalTime.of(8, 15)));
-        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7,4.6,LocalTime.of(9,25)));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7, 4.6, LocalTime.of(9, 25)));
         dto.addChange(change);
 
         routeService.editRoute(dto, user);
 
         Route changedRoute = routeService.getRoutes(user).get(1);
         Assert.assertEquals("Time of the first should have changed",LocalTime.of(8,5),changedRoute.getPlaceTimes().get(0).getTime());
-        Assert.assertEquals("Time of the second should have changed",LocalTime.of(8,15),changedRoute.getPlaceTimes().get(1).getTime());
-        Assert.assertEquals("Time of the third shouldn't have changed",LocalTime.of(9,25),changedRoute.getPlaceTimes().get(2).getTime());
+        Assert.assertEquals("Time of the second should have changed", LocalTime.of(8, 15), changedRoute.getPlaceTimes().get(1).getTime());
+        Assert.assertEquals("Time of the third shouldn't have changed", LocalTime.of(9, 25), changedRoute.getPlaceTimes().get(2).getTime());
     }
 
     @Test
@@ -234,10 +231,10 @@ public class RouteTests {
         dto.setRouteId(loadedR.getId());
         dto.setStartDate(LocalDate.now().plusMonths(1));
         ChangeRouteDTO.AddWeekdayRoute change = new ChangeRouteDTO.AddWeekdayRoute();
-        change.setDay(LocalDate.now().plusDays(2).getDayOfWeek().getValue()-1);
+        change.setDay(LocalDate.now().plusDays(2).getDayOfWeek().getValue() - 1);
         change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(9,5), "Place1"));
-        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.6, 4.5, LocalTime.of(9,20), "Place2B"));
-        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7, 4.6, LocalTime.of(9,25), "Place3"));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.6, 4.5, LocalTime.of(9, 20), "Place2B"));
+        change.addTime(new ChangeRouteDTO.PlaceTimeSpecifier(51.7, 4.6, LocalTime.of(9, 25), "Place3"));
         dto.addChange(change);
 
         routeService.editRoute(dto, user);
@@ -317,7 +314,7 @@ public class RouteTests {
         change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.3, 4.2, LocalTime.of(9, 5)));
         change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.5,4.4,LocalTime.of(9,15)));
         change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.7,4.6,LocalTime.of(9,25)));
-        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.8,4.7,LocalTime.of(9,30)));
+        change.addPlaceTimeSpecifier(new ChangeRouteDTO.PlaceTimeSpecifier(51.8, 4.7, LocalTime.of(9, 30)));
         dto.addChange(change);
 
         routeService.editRoute(dto, user);
@@ -372,8 +369,7 @@ public class RouteTests {
     }
 
     @Test
-    public void testRepRouteTrajects()
-    {
+    public void testRepRouteTrajects() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException, UnauthorizedException {
         Car c = new Car("Fiat", "Panda", 7.2, Car.FuelType.DIESEL);
         User u = new User("Peter", User.Gender.MALE, true, "Spoed12345", LocalDate.of(1993, 4, 12), "petertje@spoed.com", c);
         User p1 = new User("Tim", User.Gender.FEMALE, true, "Timmetje123", LocalDate.of(1993, 3, 13), "timmetje@tim.tim");
@@ -413,30 +409,26 @@ public class RouteTests {
         r.addWeekdayRoute(wr1);
         routeService.addRoute(r);
 
-        Traject t1 = new Traject(pts[1], pts[3], r, p1, wr);
-        Traject t2 = new Traject(pts[4], pts[6], r, p2, wr);
-        Traject t3 = new Traject(pts[2], pts[7], r, p1, wr1);
+        User uReloaded = userService.getUser("petertje@spoed.com");
+        Route routeReloaded = routeService.getRoutes(uReloaded).get(0);
+        User p1Reloaded = userService.getUser("timmetje@tim.tim");
+        User p2Reloaded = userService.getUser("melissa@tim.tim");
+        List<WeekdayRoute> weekdayRoutes = routeService.getWeekdayRoutesOfRoute(routeReloaded.getId());
+        
+        trajectService.requestTraject(p1Reloaded, routeReloaded, weekdayRoutes.get(0).getPlaceTimes().get(1).getPlacetimeId(), weekdayRoutes.get(0).getPlaceTimes().get(3).getPlacetimeId());
+        trajectService.requestTraject(p2Reloaded, routeReloaded, weekdayRoutes.get(0).getPlaceTimes().get(0).getPlacetimeId(), weekdayRoutes.get(0).getPlaceTimes().get(2).getPlacetimeId());
+        trajectService.requestTraject(p1Reloaded, routeReloaded, weekdayRoutes.get(1).getPlaceTimes().get(2).getPlacetimeId(), weekdayRoutes.get(1).getPlaceTimes().get(3).getPlacetimeId());
 
-        wr.addTraject(t1);
-        wr.addTraject(t2);
-        wr1.addTraject(t3);
-
-        // NOT route.addTraject here; that would be for NON-REPEATING routes!!!
-
-        t1.setAccepted(true);
-        t2.setAccepted(true);
-        t3.setAccepted(true);
-
-        trajectService.addTraject(t1);
-        trajectService.addTraject(t2);
-        trajectService.addTraject(t3);
+        List<Traject> reqTrajects = trajectService.getRequestedOnMyRoutes(uReloaded);
+        for (Traject t : reqTrajects) {
+            trajectService.acceptTraject(t.getId(),uReloaded);
+        }
 
         assertTrue("Add repeating route trajects failed", true);
     }
 
     @Test
-    public void testNormalRouteTrajects()
-    {
+    public void testNormalRouteTrajects() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException, UnauthorizedException {
         Car c = new Car("BMW", "X6 - M", 7.2, Car.FuelType.DIESEL);
         User u = new User("Bart", User.Gender.MALE, true, "vochtenRules123", LocalDate.of(1993, 4, 12), "b.vochten@carpool.be", c);
         User p1 = new User("Chris", User.Gender.FEMALE, true, "javaTheBest123", LocalDate.of(1993, 3, 13), "behielsje@carpool.be");
@@ -451,7 +443,7 @@ public class RouteTests {
         }
 
         carService.addCar("b.vochten@carpool.be", c);
-        Route r = new Route(true, 4, LocalDate.now(), LocalDate.now(), u, c);
+        Route r = new Route(false, 4, LocalDate.now(), LocalDate.now(), u, c);
         Place place = new Place("Brasschaat", 231.988796454f, 132.56684684f);
         Place place2 = new Place("Grote Markt", 431.98987133664f, 411.9889459684f);
         Place place3 = new Place("Schouwburg", 564.98731478966f, 342.97136455781f);
@@ -471,21 +463,19 @@ public class RouteTests {
 
         routeService.addRoute(r);
 
-        Traject t1 = new Traject(pts[1], pts[3], r, p1);
-        Traject t2 = new Traject(pts[4], pts[6], r, p2);
-        Traject t3 = new Traject(pts[2], pts[7], r, p1);
+        User uReloaded = userService.getUser("b.vochten@carpool.be");
+        Route routeReloaded = routeService.getRoutes(uReloaded).get(0);
+        User p1Reloaded = userService.getUser("behielsje@carpool.be");
+        User p2Reloaded = userService.getUser("demuynck@carpool.be");
 
-        r.addTraject(t1);
-        r.addTraject(t2);
-        r.addTraject(t3);
+        trajectService.requestTraject(p1Reloaded, routeReloaded, routeReloaded.getPlaceTimes().get(1).getPlacetimeId(), routeReloaded.getPlaceTimes().get(3).getPlacetimeId());
+        trajectService.requestTraject(p2Reloaded, routeReloaded, routeReloaded.getPlaceTimes().get(0).getPlacetimeId(), routeReloaded.getPlaceTimes().get(2).getPlacetimeId());
+        trajectService.requestTraject(p1Reloaded, routeReloaded, routeReloaded.getPlaceTimes().get(2).getPlacetimeId(), routeReloaded.getPlaceTimes().get(7).getPlacetimeId());
 
-        t1.setAccepted(true);
-        t2.setAccepted(true);
-        t3.setAccepted(true);
-
-        trajectService.addTraject(t1);
-        trajectService.addTraject(t2);
-        trajectService.addTraject(t3);
+        List<Traject> reqTrajects = trajectService.getRequestedOnMyRoutes(uReloaded);
+        for (Traject t : reqTrajects) {
+            trajectService.acceptTraject(t.getId(),uReloaded);
+        }
 
         assertTrue("Add normal route trajects failed", true);
     }

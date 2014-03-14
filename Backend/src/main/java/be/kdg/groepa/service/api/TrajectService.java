@@ -17,14 +17,6 @@ import java.util.List;
 public interface TrajectService {
     public void setTrajectDao(TrajectDao dao);
 
-    void addTraject(Traject t);
-
-    void removeTrajectFromRoute(Route route, Traject traj);
-
-    void insertNewRoutePoint(PlaceTime previousPlaceTime, PlaceTime newPlaceTime);
-
-    void addNewTrajectToRoute(PlaceTime placeTime, PlaceTime newPlaceTime, PlaceTime placeTime1, PlaceTime newPlaceTime2, User user);
-
     Traject getTrajectById(int trajectId);
 
     /*

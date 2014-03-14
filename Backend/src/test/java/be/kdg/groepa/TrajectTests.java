@@ -114,39 +114,6 @@ public class TrajectTests {
         initiated = true;
     }
 
-    /*@Test
-    public void addTrajectToRoute(){
-        PlaceTime pointA = new PlaceTime(LocalTime.of(8, 25), new Place("UserHome", 10, 20));
-        PlaceTime pointC = new PlaceTime(LocalTime.of(12,30), new Place("UserWork", 11, 20));
-        trajectService.addTraject(new Traject(pointA, pointC, routeA, user));
-        assertEquals("Incorrect amount of PlaceTimes in route", 6, user.getRoutes().get(0).getAllPlaceTimes().size());  // actually expected 4, but route now gets an extra Traject by default (so 2 extra PlaceTimes)
-    }*/
-
-    /*@Test
-    public void removeTrajectFromRoute(){
-        Traject traj = new Traject(new PlaceTime(LocalTime.of(10, 25), new Place("UserHome", 10, 20)), new PlaceTime(LocalTime.of(15,30), new Place("UserWork", 11, 20)), routeB, user2);
-        trajectService.addTraject(traj);
-        assertEquals("Not enough PlaceTimes in route", 6, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story as "addTrajectToRoute"
-        trajectService.removeTrajectFromRoute(routeB, traj);
-        assertEquals("Wrong amount of PlaceTimes in route", 4, user2.getRoutes().get(0).getAllPlaceTimes().size()); // Same story ^.
-    }*/
-
-    /*@Test
-    public void addPlaceTimeAfterExistingRoutePoint(){
-        PlaceTime newPlaceTime2 = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        trajectService.insertNewRoutePoint(routeC.getPlaceTimes().get(0), newPlaceTime2);
-        assertEquals("Incorrect PlaceTime at given position of route", newPlaceTime2, routeC.getAllPlaceTimes().get(1));
-    }*/
-
-    /*@Test
-    public void addTrajectToRouteWithPoints(){
-        PlaceTime newPlaceTime = new PlaceTime(LocalTime.of(9, 30), new Place("OtherUserHome", 9, 18));
-        PlaceTime newPlaceTime3 = new PlaceTime(LocalTime.of(17,45), new Place("OtherUserWork", 9, 20));
-        trajectService.addNewTrajectToRoute(routeD.getPlaceTimes().get(0), newPlaceTime, routeD.getPlaceTimes().get(1), newPlaceTime3, user4);
-        assertEquals("New PlaceTime 1 is not at the right position", routeD.getPlaceTimes().get(1), newPlaceTime);
-        assertEquals("New PlaceTime 2 is not at the rigth position", routeD.getPlaceTimes().get(3), newPlaceTime3);
-    }*/
-
     /*
      * This method tests TrajectService.getNextDayOfTraject(Traject)
      * We'll need:  a repeating traject that ends in a couple of weeks
@@ -377,7 +344,6 @@ public class TrajectTests {
     @Test
     public void requestTrajectSuccess() throws TrajectNotEnoughCapacityException, PlaceTimesOfDifferentRoutesException, PlaceTimesInWrongSequenceException, PlaceTimesOfDifferentWeekdayRoutesException, PasswordFormatException, UsernameExistsException, UsernameFormatException {
         User userA = new User("Foobar",User.Gender.FEMALE, false, "Password1", LocalDate.of(1980,5,24),"successA@reqTraj.example.com");
-        //TextMessageDao MOCKEN
         Car carA = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
         userService.addUser(userA);
         carService.addCar("successA@reqTraj.example.com",carA);

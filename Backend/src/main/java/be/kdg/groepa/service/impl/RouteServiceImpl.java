@@ -103,7 +103,7 @@ public class RouteServiceImpl implements RouteService {
         List<User> passengers = getRoutePassengers(r);
         for (User p : passengers)
         {
-            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2d", r.getChauffeur().getName(), date.toString(), 12.2156);
+            String temp = String.format("%s has confirmed riding the route on %s.\nPlease contribute to the fuel costs: €%.2f", r.getChauffeur().getName(), date.toString(), 12.2156);
             tm = new TextMessage(r.getChauffeur(), p, "Ride confirmed - " + date.toString(), temp);
             msgService.addNewMessage(tm);
         }

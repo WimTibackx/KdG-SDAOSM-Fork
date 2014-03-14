@@ -13,7 +13,6 @@ import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.temporal.TemporalAdjusters;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -31,39 +30,6 @@ public class TrajectServiceImpl implements TrajectService {
     @Override
     public void setTrajectDao(TrajectDao dao) {
         this.trajectDao = dao;
-    }
-
-    @Override
-    public void addTraject(Traject traj) {
-        traj.getRoute().addTraject(traj);
-        traj.getPickup().setRoute(traj.getRoute());
-        traj.getDropoff().setRoute(traj.getRoute());
-        trajectDao.addTraject(traj);
-    }
-
-    @Transactional
-    @Override
-    public void removeTrajectFromRoute(Route route, Traject traj) {
-        trajectDao.removeTrajectFromRoute(route, traj);
-    }
-
-    @Override
-    public void insertNewRoutePoint(PlaceTime previousPlaceTime, PlaceTime newPlaceTime) {
-        if (!previousPlaceTime.getRoute().getPlaceTimes().contains(newPlaceTime)) {
-            int previousIndex = previousPlaceTime.getRoute().getPlaceTimes().indexOf(previousPlaceTime);
-            previousPlaceTime.getRoute().getPlaceTimes().add(previousIndex + 1, newPlaceTime);
-        trajectDao.saveRouteAndPoints(previousPlaceTime.getRoute(), previousPlaceTime, newPlaceTime);
-        }
-    }
-
-    @Transactional
-    @Override
-    public void addNewTrajectToRoute(PlaceTime previousPlaceTime1, PlaceTime newPlaceTime1, PlaceTime previousPlaceTime2, PlaceTime newPlaceTime2, User user) {
-        Traject resultTraject = new Traject(newPlaceTime1, newPlaceTime2, previousPlaceTime1.getRoute(), user);
-        resultTraject.setRoute(previousPlaceTime1.getRoute());
-        trajectDao.addTraject(resultTraject);
-        insertNewRoutePoint(previousPlaceTime1, newPlaceTime1);
-        insertNewRoutePoint(previousPlaceTime2, newPlaceTime2);
     }
 
     @Override
