@@ -28,10 +28,10 @@
             </tr>
         </table>
         <section class="messageField" ng-hide="hideMessage">
-            <div name="messageHeader" class="messageHead">Title: {{subjectO}}</div>
+            <div name="messageFieldHeader" class="messageHead">Title: {{subjectO}}</div>
             <div class="mailInformation">
-                <label class="hideSender">Van: {{sender}}</label>
-                <label class="hideReceiver">Aan: {{receiver}}</label>
+                <label name="sendername" class="hideSender">Van: {{sender}}</label>
+                <label name="receivername" class="hideReceiver">Aan: {{receiver}}</label>
             </div>
             <section class="messageBody">
                 {{messageBody}}

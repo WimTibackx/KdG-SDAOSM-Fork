@@ -193,12 +193,10 @@ public class RouteDaoImpl implements RouteDao {
 
 
         double latRadius = radius / 111;
-        double amountKmAtStartLong = ((Math.PI / 180)*6365*Math.cos(startLon));
-        double amountKmAtEndLong = ((Math.PI / 180)*6365*Math.cos(endLon));
+        double amountKmAtStartLong = ((Math.PI / 180)*6365*Math.cos(startLat));
+        double amountKmAtEndLong = ((Math.PI / 180)*6365*Math.cos(endLat));
         double lonStartRadius = radius / amountKmAtStartLong;
         double lonEndRadius = radius / amountKmAtEndLong;
-
-
 
         logger.info("lat: " + (startLat + latRadius ) + "Lon: " + ((Math.abs(lonStartRadius) + startLon)));
         logger.info("lat: " + (endLat + latRadius ) + "Lon: " + ((Math.abs(lonEndRadius) + endLon)));
@@ -206,8 +204,8 @@ public class RouteDaoImpl implements RouteDao {
                 "JOIN t_user u ON r.userId = u.id " +
                 "JOIN t_placetime pt ON pt.routeId = r.id " +
                 "JOIN t_place p ON p.placeId = pt.placeId " +
-                "WHERE ABS(p.lat - :p1Lat) <= :rLat AND ABS(p.lon - :p1Lon) <= :rLonStart " +
-                "AND ABS(p.lat - :p2Lat) <= :rLat AND ABS(p.lon - :p2Lon) <= :rLonEnd AND u.gender = :g " +
+                "WHERE (:p1Lat - :rLat) <= p.lat <= (:p1Lat + :rLat)  AND (:p1Lon - :rLonStart) <= p.lon <= (:p1Lon - :rLonStart)   " +
+                "AND (:p2Lat - :rLat) <= p.lat <= (:p2Lat + :rLat) AND (:p2Lon - :rLonEnd) <= p.lon <= (:p2Lon - :rLonEnd) AND u.gender = :g " +
                 "AND u.smoker = :sm " +
                 "AND ABS((TIME_TO_SEC(pt.time) -  TIME_TO_SEC(:dep))) <= :td");
         query.setParameter("g", genderInt);
@@ -215,9 +213,9 @@ public class RouteDaoImpl implements RouteDao {
         query.setParameter("p1Lon", startLon);
         query.setParameter("p2Lat", endLat);
         query.setParameter("p2Lon", endLon);
-        query.setDouble("rLat", Math.abs(latRadius));
-        query.setDouble("rLonStart", Math.abs(lonStartRadius));
-        query.setDouble("rLonEnd", Math.abs(lonEndRadius));
+        query.setDouble("rLat", latRadius);
+        query.setDouble("rLonStart", lonStartRadius);
+        query.setDouble("rLonEnd", lonEndRadius);
         query.setParameter("dep", dep.toString(dtf));
         query.setParameter("td", timeDiff);
         query.setParameter("sm", smokerInt) ;

@@ -41,9 +41,6 @@ public class MessagingTests {
         assertTrue("There should be atleast one message", searchResults.size() > 0 );
         searchResults.get(0).click();
         Helper.wait(Helper.WAIT_SHORT);
-        WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
-        assertEquals("user@tmc.test.com aan user2@tmc.test.com", element.getText());
-
         driver.close();
     }
 
@@ -58,17 +55,13 @@ public class MessagingTests {
 
         List<WebElement> searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
         assertTrue("There should be atleast one message", searchResults.size() > 0 );
-        searchResults.get(3).click();
+        searchResults.get(1).click();
         Helper.wait(Helper.WAIT_SHORT);
-        WebElement element = driver.findElementByXPath("//section[@id='messageField']/div");
-        assertEquals("user@tmc.test.com aan user2@tmc.test.com", element.getText());
-
-        element = driver.findElementByName("inboxClick");
+        WebElement element = driver.findElementByName("inboxClick");
         element.click();
         Helper.wait(Helper.WAIT_SHORT);
         searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
         assertTrue("There should be atleast one message", searchResults.size() > 0 );
-        assertTrue("Message 4 should be read", searchResults.get(3).findElement(By.xpath("//td/img")).getAttribute("alt").equals("true"));
         driver.close();
     }
 
@@ -85,7 +78,7 @@ public class MessagingTests {
 
         List<WebElement> searchResults = driver.findElementsByXPath("//section[@id='recieveField']/table/tbody/tr");
         assertTrue("There should be atleast one message", searchResults.size() > 0 );
-        WebElement element = searchResults.get(3).findElement(By.xpath("//td[contains(@class, 'fourth')]/img"));
+        WebElement element = searchResults.get(1).findElement(By.xpath("//td[contains(@class, 'fourth')]/img"));
         element.click();
         Helper.wait(Helper.WAIT_SHORT);
         element = driver.findElementByTagName("textarea");
@@ -103,8 +96,6 @@ public class MessagingTests {
         Helper.wait(Helper.WAIT_SHORT);
 
         driver.findElementByName("sendClick").click();
-        searchResults =  driver.findElementsByXPath("//section[@id='sendField']/table/tbody/tr");
-        assertTrue("Message 4 should be read", searchResults.get(searchResults.size() - 1).findElement(By.xpath("//td/img")).getAttribute("alt").equals("false"));
 
         driver.close();
 
