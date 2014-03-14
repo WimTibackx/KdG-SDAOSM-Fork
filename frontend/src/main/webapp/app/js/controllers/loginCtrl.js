@@ -53,10 +53,11 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
             $scope.displayPWRError = false;
 
             var sendPassword = $('#sendPasswordForm');
-            sendPassword.submit(function (e) {
+            $scope.sendPassword = function (e) {
                 var jsonObject = {};
                 jsonObject.username = $scope.usernameEmail;
                 $scope.displayPWRFeedback = true;
+                console.log(JSON.stringify(jsonObject));
 
                 $http.post(rootUrl + "/resetPassword", JSON.stringify(jsonObject)).success(function (result) {
                     if(!result.hasOwnProperty("error")) {
@@ -75,7 +76,7 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$http', '$loc
                     error(function () {
                         console.log("An error occured");
                     });
-            });
+            };
         });
 
         function actionLogin(username, password) {
