@@ -1,6 +1,7 @@
 package be.kdg.groepa;
 
 import be.kdg.groepa.dtos.AddRouteDTO;
+import be.kdg.groepa.dtos.ChangeRouteDTO;
 import be.kdg.groepa.dtos.PlaceDTO;
 import be.kdg.groepa.model.*;
 import be.kdg.groepa.service.api.CarService;
@@ -111,5 +112,44 @@ public class RouteTests {
         //  because all these things should be added in one transaction.
         routeService.addRoute(r);
         assertTrue("Add repeating route failed", true);
+    }
+
+    @Test
+    public void testDeletePlaceTime() throws Exception {
+        User u = new User("testdeleteplacetime", User.Gender.MALE, true, "Password1", LocalDate.of(1993,1,1), "testdeleteplacetime@rcit.example.com");
+        Car c = new Car("Ford", "Fiesta", 8.3, Car.FuelType.DIESEL);
+        userService.addUser(u);
+        carService.addCar("testdeleteplacetime@rcit.example.com",c);
+        Route r = new Route(true, 3, LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), u, c);
+        WeekdayRoute wdr = new WeekdayRoute(r, LocalDate.now().getDayOfWeek().getValue()-1);
+        r.addWeekdayRoute(wdr);
+        new PlaceTime(LocalTime.of(9,5),new Place("Place1",51.3,4.2),wdr,r);
+        new PlaceTime(LocalTime.of(9,15), new Place("Place2",51.5, 4.4),wdr,r);
+        new PlaceTime(LocalTime.of(9,25), new Place("Place3",51.7, 4.6),wdr,r);
+        routeService.addRoute(r);
+
+        Route loadedR = routeService.getRoutes(this.userService.getUser("testdeleteplacetime@rcit.example.com")).get(0);
+
+        User user = this.userService.getUser("testdeleteplacetime@rcit.example.com");
+
+        ChangeRouteDTO dto = new ChangeRouteDTO();
+        dto.setRouteId(loadedR.getId());
+        dto.setStartDate(LocalDate.now().plusMonths(1));
+        ChangeRouteDTO.DeletePlaceTime change = new ChangeRouteDTO.DeletePlaceTime();
+        change.setPlaceTimeId(loadedR.getPlaceTimes().get(1).getPlacetimeId());
+        change.setWeekdayRouteId(routeService.getWeekdayRoutesOfRoute(loadedR.getId()).get(0).getWeekdayrouteId());
+        ChangeRouteDTO.PlaceTimeSpecifier pts1 = new ChangeRouteDTO.PlaceTimeSpecifier();
+        pts1.setLat(51.3);
+        pts1.setLng(4.2);
+        pts1.setTime(LocalTime.of(9,5));
+        change.addTime(pts1);
+        ChangeRouteDTO.PlaceTimeSpecifier pts2 = new ChangeRouteDTO.PlaceTimeSpecifier();
+        pts2.setLat(51.7);
+        pts2.setLng(4.6);
+        pts2.setTime(LocalTime.of(9,20));
+        change.addTime(pts2);
+        dto.addChange(change);
+
+        routeService.editRoute(dto, user);
     }
 }

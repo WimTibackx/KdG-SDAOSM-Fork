@@ -134,6 +134,7 @@ public class RouteDaoImpl implements RouteDao {
         Query query = ses.createQuery("from PlaceTime pt where pt.placetimeId = :id");
         query.setInteger("id", id);
         PlaceTime pt = (PlaceTime)query.uniqueResult();
+        pt.getPlace().getPlaceTimes().size();
         pt.getTrajecten().size();
         HibernateUtil.closeSession(ses);
         return pt;
@@ -199,5 +200,10 @@ public class RouteDaoImpl implements RouteDao {
         HibernateUtil.closeSession(ses);
     }
 
-
+    @Override
+    public void updateRoute(Route r) {
+        Session ses = HibernateUtil.openSession();
+        ses.saveOrUpdate(r);
+        HibernateUtil.closeSession(ses);
+    }
 }

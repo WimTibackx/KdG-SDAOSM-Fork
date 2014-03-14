@@ -143,4 +143,16 @@ public class Route {
     public int getCapacity() {
         return capacity;
     }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }
