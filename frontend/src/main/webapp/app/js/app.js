@@ -53,6 +53,9 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
             when('/inbox', {
                 templateUrl: 'partials/inbox.html'
             }).
+            when('/changeRoute/:routeId', {
+                templateUrl: 'partials/changeRoute.html'
+            }).
             otherwise({
                 redirectTo: '/login'
             });

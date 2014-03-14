@@ -89,6 +89,8 @@ carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '
 
     $scope.goRoute = function(id,day) { $location.path("/route/"+id).hash(day); };
     $scope.goAddRoute = function() { $location.path("/addRoute"); };
+    $scope.goChangeRoute = function(id) { $location.path("/changeRoute/"+id); };
+
 
     $scope.formatDate = function(date) {
         if (date == undefined) return "";

@@ -54,6 +54,7 @@
         <thead>
         <tr>
             <td></td>
+            <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
             <td>Herhalend</td>
@@ -65,6 +66,7 @@
         <tbody>
         <tr ng-repeat="route in routes | startFrom:currentPage.route*itemsPerPage | limitTo:itemsPerPage">
             <td class="details" ng-click="goRoute(route.id,route.day)"></td>
+            <td ng-click="goChangeRoute(route.id)">Edit</td>
             <td>{{formatDateString(route.startDate)}}</td>
             <td>{{formatDateString(route.endDate)}}</td>
             <td>{{booleanL10n(route.repeating)}}</td>
@@ -75,6 +77,7 @@
         </tbody>
         <tfoot>
         <tr>
+            <td></td>
             <td></td>
             <td>Vanaf</td>
             <td>Tot</td>
