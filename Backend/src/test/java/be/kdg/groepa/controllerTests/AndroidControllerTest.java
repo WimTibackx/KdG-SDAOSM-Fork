@@ -57,11 +57,6 @@ public class AndroidControllerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            this.userService.checkLogin("petertje@spoed.com", "Spoed12345");
-            cookie = new Cookie("Token", userService.getUserSession("petertje@spoed.com").getSessionToken());
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24);
-            init = true;
         }
     }
 

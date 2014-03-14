@@ -489,23 +489,4 @@ public class RouteTests {
 
         assertTrue("Add normal route trajects failed", true);
     }
-
-    @Test
-    public void succesGetTrajectDTOs() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put("username", "ludo.vanrosmalen@traj.example.com");
-        String myString = json.toString();
-        MockMvc mockMvc;
-        this.userService.checkLogin("ludo.vanrosmalen@traj.example.com", "Password1");
-        Cookie cookie;
-        cookie = new Cookie("Token", userService.getUserSession("ludo.vanrosmalen@traj.example.com").getSessionToken());
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24);
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(post("/authorized/traject/myupcoming")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .cookie(cookie)
-                .content(myString))
-                .andExpect(status().isOk());
-    }
 }
