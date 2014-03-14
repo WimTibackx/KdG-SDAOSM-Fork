@@ -3,18 +3,27 @@ package be.kdg.groepa.android.activity;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-import be.kdg.groepa.android.R;
+import be.kdg.groepa.android.*;
 import be.kdg.groepa.android.dto.UpcomingTrajectDto;
 import be.kdg.groepa.android.helper.UpcomingTrajectsViewAdapter;
+import be.kdg.groepa.android.task.ConfirmRideTask;
+import be.kdg.groepa.android.task.SetMessageReadTask;
 import be.kdg.groepa.android.task.apicall.UpcomingTrajectsCall;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -22,21 +31,41 @@ import java.util.Observer;
 /**
  * Created by delltvgateway on 3/3/14.
  */
-public class UpcomingTrajectsActivity extends ListActivity implements Observer {
+public class UpcomingTrajectsActivity extends ListActivity implements Observer, AsyncResponse {
     private List<UpcomingTrajectDto> trajects;
     private UpcomingTrajectsViewAdapter adapter;
     private View previousView;
     private Button btnSendMessage;
     private Button btnConfirmRide;
+    private NumberPicker nmbrPickerMinutes;
+    private NumberPicker nmbrPickerHours;
     UpcomingTrajectsViewAdapter.UpcomingTrajectCardView card;
+    SharedPreferences privPref;
+    private final int minMinutes = 5, maxMinutes = 60, stepMinutes = 5, minHours = 0, maxHours = 6, stepHours = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upcomingtrajects);
-        this.adapter = new UpcomingTrajectsViewAdapter((LayoutInflater)super.getSystemService(Context.LAYOUT_INFLATER_SERVICE), super.getApplicationContext());
-        btnSendMessage = (Button) this.findViewById(R.id.login);
-        btnConfirmRide = (Button) this.findViewById(R.id.login);
+        this.adapter = new UpcomingTrajectsViewAdapter((LayoutInflater) super.getSystemService(Context.LAYOUT_INFLATER_SERVICE), super.getApplicationContext());
+        btnSendMessage = (Button) this.findViewById(R.id.btnMessagePassengers);
+        btnConfirmRide = (Button) this.findViewById(R.id.btnConfirmRide);
+        btnConfirmRide.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                confirmRide();
+            }
+        });
+        // Only set the confirmRide button to clickable when the user clicks a route that he is the driver of.
+        btnConfirmRide.setClickable(false);
+        // Half opacity when it's not one of the user's trajects
+        btnConfirmRide.getBackground().setAlpha(128);
+        // The SendMessage-button will only activate when a route is clicked, and its function will alter based on the user
+        btnSendMessage.getBackground().setAlpha(128);
+        btnSendMessage.setClickable(false);
+
+        privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences", MODE_PRIVATE);
+
         super.setListAdapter(this.adapter);
         new UpcomingTrajectsCall(getApplicationContext(), this);
     }
@@ -44,7 +73,7 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         if (observable instanceof UpcomingTrajectsCall) {
-            this.trajects = ((UpcomingTrajectsCall)observable).getResultDtos();
+            this.trajects = ((UpcomingTrajectsCall) observable).getResultDtos();
             this.adapter.addItems(this.trajects);
             this.findViewById(R.id.uptLoading).setVisibility(View.GONE);
             if (this.trajects.isEmpty()) {
@@ -53,23 +82,76 @@ public class UpcomingTrajectsActivity extends ListActivity implements Observer {
         }
     }
 
+    @Override
+    public void processFinish(String response) {
+        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT);
+    }
+
     public void clickUptCard(View view) {
-        System.out.println("CONSOLE: CLICKED ROUTE");
+        btnSendMessage.getBackground().setAlpha(255);
         // Reset the previous selected card's background.
-        if(previousView != null){
-            previousView.setBackgroundResource(R.color.white);
+        if (previousView != null) {
+            previousView.setBackgroundResource(R.color.black);
         }
-        view.setBackgroundResource(R.color.black);
+        view.setBackgroundResource(R.color.blue);
         previousView = view;
-        card = (UpcomingTrajectsViewAdapter.UpcomingTrajectCardView)view.getTag();
-        Toast.makeText(super.getApplicationContext(), "Clicked route "+card.getTraject().getId(), Toast.LENGTH_LONG).show();
+        card = (UpcomingTrajectsViewAdapter.UpcomingTrajectCardView) view.getTag();
+        // If the logged user is the driver of the traject, allow him to confirm a ride.
+        if (card.getTraject().getChauffeurId() != privPref.getInt("UserId", -1)) {
+            btnConfirmRide.setClickable(false);
+            btnConfirmRide.getBackground().setAlpha(128);
+            btnSendMessage.setText("Message driver");
+            btnSendMessage.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    System.out.println("CONSOLE -- CLICKED -- USERNAME: " + card.getTraject().getChauffeurUsername());
+                    Intent goToMyActivity = new Intent(getApplicationContext(), SendMessageActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("receiverUsername", card.getTraject().getChauffeurUsername());
+                    goToMyActivity.putExtras(b);
+                    startActivity(goToMyActivity);
+                }
+            });
+
+        } else {
+            btnConfirmRide.setClickable(true);
+            btnConfirmRide.getBackground().setAlpha(255);
+            btnSendMessage.setText("Message passengers");
+            btnSendMessage.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    System.out.println("Going to messagePassengers");
+                    messagePassengers();
+                }
+            });
+        }
     }
 
-    public void messagePassengers(){
-
+    public void messagePassengers() {
+        Bundle b = new Bundle();
+        b.putStringArray("usernames", card.getTraject().getPassengerUsernames());
+        b.putStringArray("routePlaces", card.getTraject().getRoutePlaces());
+        Intent goToMyActivity = new Intent(this, SendRideStatusActivity.class);
+        goToMyActivity.putExtras(b);
+        startActivity(goToMyActivity);
     }
 
-    public void confirmRide(){
-
+    public void confirmRide() {
+        UpcomingTrajectDto traj = card.getTraject();
+        String[] time = traj.getPickupTime().split(":");
+        int year = traj.getNextOccurrence().get(Calendar.YEAR);
+        int month = traj.getNextOccurrence().get(Calendar.MONTH);
+        int day = traj.getNextOccurrence().get(Calendar.DAY_OF_WEEK);
+        int hour = Integer.parseInt(time[0]);
+        int min = Integer.parseInt(time[1]);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("year", year);
+            json.put("month", month);
+            json.put("day", day);
+            json.put("hour", hour);
+            json.put("minute", min);
+        } catch (JSONException e) {
+        }
+        ConfirmRideTask task = new ConfirmRideTask(traj.getRouteId(), year, month, day, hour, min, getApplicationContext(), this);
+        task.execute();
     }
 }

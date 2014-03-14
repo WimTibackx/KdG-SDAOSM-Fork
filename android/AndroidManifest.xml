@@ -23,12 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".HomePageActivity" android:label="@string/app_name"/>
+        <activity android:name=".HomePageActivity" android:label="Homepage"/>
         <activity android:name=".SendMessageActivity" android:label="@string/SendNewMessage"/>
-        <activity android:name=".InboxActivity" android:label="Go to your inbox"/>
+        <activity android:name=".InboxActivity" android:label="Inbox"/>
         <activity android:name=".MessageDetailActivity" android:label="Message detail"/>
         <activity android:name=".activity.UpcomingTrajectsActivity" android:label="View your upcoming rides" />
         <activity android:name=".notification.GoogleMessageActivity" android:label="Activity to get an androidId"/>
+        <activity android:name=".activity.SendRideStatusActivity" android:label="Send ride status"/>
 
         <receiver
                 android:name=".notification.GcmBroadcastReceiver"

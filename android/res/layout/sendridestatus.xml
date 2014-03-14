@@ -7,53 +7,93 @@
 
     <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/rgRideStatus"
+            android:layout_weight="0.7">
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Left"
-                android:id="@+id/leftButton"
-                android:layout_weight=".10"/>
+                android:id="@+id/btnLeft"
+                android:layout_weight=".10"
+                android:paddingLeft="5dp"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/TrafficJam"
-                android:id="@+id/trafficJamButton"
-                android:layout_weight=".10"/>
+                android:id="@+id/btnTrafficJam"
+                android:layout_weight=".10"
+                android:paddingLeft="5dp"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/NotLeft"
-                android:id="@+id/notLeftButton"
-                android:layout_weight=".10"/>
+                android:id="@+id/btnNotLeft"
+                android:layout_weight=".10"
+                android:paddingLeft="5dp"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/NotDrivingTomorrow"
-                android:id="@+id/notDrivingButton"
-                android:layout_weight=".10"/>
+                android:id="@+id/btnNotDriving"
+                android:layout_weight=".10"
+                android:paddingLeft="5dp"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton5"
-                android:layout_weight=".10"/>
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton6"
-                android:layout_weight=".10"/>
-        <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New RadioButton"
-                android:id="@+id/radioButton7"
-                android:layout_weight=".10"/>
+                android:text="@string/TimeUntilNextPoint"
+                android:id="@+id/btnTimeUntilNext"
+                android:layout_weight=".10"
+                android:paddingLeft="5dp"/>
     </RadioGroup>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Send"
-            android:id="@+id/buttonSendRideStatus"/>
+            android:text="@string/SendMessages"
+            android:id="@+id/buttonSendRideStatus" android:layout_weight="0.05"/>
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0.25">
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:weightSum="1">
+            <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nmbrHoursLeft" android:clickable="false"
+                    android:baselineAligned="false" android:layout_weight=".20"/>
+            <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/nmbrMinutesLeft" android:layout_weight=".20"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spnPlaces" android:layout_weight=".60"/>
+        </TableRow>
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_gravity="center_horizontal" android:weightSum="1">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/hours" android:singleLine="true" android:gravity="center_vertical"
+                    android:id="@+id/tvHours" android:layout_gravity="center_horizontal" android:layout_weight=".20"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/minutes"
+                    android:id="@+id/tvMinutes" android:singleLine="true" android:gravity="center_vertical"
+                    android:layout_gravity="center_horizontal" android:layout_weight=".20"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/place"
+                    android:id="@+id/tvPlace" android:layout_gravity="center_horizontal" android:layout_weight=".60"/>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

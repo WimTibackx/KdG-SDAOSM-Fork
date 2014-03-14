@@ -17,13 +17,17 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
     private int id;
     private Calendar nextOccurrence;
     private PlaceDto pickupPlace;
-    //TODO: Transform it into something other than string
     private String pickupTime;
     private PlaceDto dropoffPlace;
     private String dropoffTime;
     private int routeId;
     private int chauffeurId;
     private String chauffeurName;
+    private String chauffeurUsername;
+    private String[] passengerUsernames;
+    private String[] passengerNames;
+    private String[] passengerPictures;
+    private String[] routePlaces;
 
     public UpcomingTrajectDto(JSONObject data) {
         try {
@@ -39,6 +43,11 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
             this.routeId = data.getInt("routeId");
             this.chauffeurId = data.getInt("chauffeurId");
             this.chauffeurName = data.getString("chauffeurName");
+            this.chauffeurUsername = data.getString("chauffeurUsername");
+            this.passengerUsernames = (String[])data.get("passengerUsernames");
+            this.passengerNames = (String[])data.get("passengerNames");
+            this.passengerPictures = (String[])data.get("passengerPictures");
+            this.routePlaces = (String[])data.get("routePlaces");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("UpcomingTraject", e.getMessage());
@@ -81,6 +90,30 @@ public class UpcomingTrajectDto implements Comparable<UpcomingTrajectDto> {
 
     public String getChauffeurName() {
         return chauffeurName;
+    }
+
+    public String getChauffeurUsername() {
+        return chauffeurUsername;
+    }
+
+    public String[] getPassengerUsernames() {
+        return passengerUsernames;
+    }
+
+    public String[] getPassengerNames() {
+        return passengerNames;
+    }
+
+    public String[] getPassangerPictures() {
+        return passengerPictures;
+    }
+
+    public String[] getPassengerPictures() {
+        return passengerPictures;
+    }
+
+    public String[] getRoutePlaces() {
+        return routePlaces;
     }
 
     @Override

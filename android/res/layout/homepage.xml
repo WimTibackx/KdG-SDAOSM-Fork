@@ -5,29 +5,68 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:weightSum="1">
 
-    <Button
-            android:layout_width="53dp"
-            android:layout_height="52dp"
-            android:id="@+id/buttonInbox" android:layout_gravity="right"
-            android:background="@drawable/mail" android:textColor="#00d407" android:gravity="left|top"
-            android:textStyle="bold"
-            android:onClick="goToInbox"/>
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/SendNewMessage"
-            android:id="@+id/buttonGoToSendMessage"
-            android:onClick="goToSendMessage"/>
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ViewUpcomingTrajects"
-            android:id="@+id/buttonGoToUpcomingTrajects"
-            android:onClick="goToUpcomingTrajects"/>
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Logout"
-            android:id="@+id/buttonGoToLogOut"
-            android:onClick="logOut"/>
+    <Button android:layout_width="53dp" android:layout_height="65dp" android:id="@+id/btnGoToInbox"
+            android:layout_gravity="right" android:background="@drawable/mail" android:textColor="#00d407"
+            android:gravity="top|left"
+             android:textStyle="bold" android:onClick="goToInbox" android:layout_marginRight="15dp"/>
+    <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:weightSum="1" android:layout_weight="1">
+        <TableRow android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight=".30"
+                  android:baselineAligned="true">
+            <TextView/>
+        </TableRow>
+        <TableRow android:layout_height="fill_parent" android:layout_width="wrap_content" android:weightSum=".99"
+                  android:layout_weight=".05">
+            <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/SendNewMessage"
+                    android:id="@+id/textView" android:layout_gravity="center_horizontal" android:layout_column="0"
+                    android:layout_weight=".33" android:gravity="center"/>
+            <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/ViewUpcomingTrajects"
+                    android:id="@+id/textView2" android:layout_gravity="center_horizontal" android:layout_column="1"
+                    android:layout_weight=".33" android:gravity="center"/>
+            <TextView
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/Logout"
+                    android:id="@+id/textView3" android:layout_gravity="center_horizontal" android:layout_column="2"
+                    android:layout_weight=".33" android:gravity="center"/>
+        </TableRow>
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum=".99" android:layout_weight=".5">
+            <ImageButton
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/btnSendNewMessage"
+                    android:src="@drawable/sendmail"
+                    android:background="@color/blue"
+                    android:onClick="goToSendMessage"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_column="0"
+                    android:layout_weight=".33"/>
+            <ImageButton
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/car"
+                    android:id="@+id/btnLogOut"
+                    android:onClick="goToUpcomingTrajects"
+                    android:background="@color/blue"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_column="1"
+                    android:layout_weight=".33"/>
+            <ImageButton
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/btnViewUpcomingRides"
+                    android:src="@drawable/exit"
+                    android:background="@color/blue"
+                    android:onClick="logOut" android:layout_gravity="center_horizontal"
+                    android:layout_column="2"
+                    android:layout_weight=".33"/>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

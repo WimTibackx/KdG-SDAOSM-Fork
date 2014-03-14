@@ -29,8 +29,6 @@ public class HomePageActivity extends Activity implements AsyncResponse{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
-        SharedPreferences privPref = getApplicationContext().getSharedPreferences("CarpoolPreferences",MODE_PRIVATE);
-        //((TextView) this.findViewById(R.id.userToken)).invalidate();
         Intent gcmActivity = new Intent(this, GoogleMessageActivity.class);
         startActivity(gcmActivity);
         RequestMessagesTask task = new RequestMessagesTask(getApplicationContext(), this);
@@ -66,7 +64,7 @@ public class HomePageActivity extends Activity implements AsyncResponse{
                 e.printStackTrace();
             }
         }
-        ((Button) this.findViewById(R.id.buttonInbox)).setText(String.valueOf(unreadMessages));
+        ((Button) this.findViewById(R.id.btnGoToInbox)).setText(String.valueOf(unreadMessages));
     }
 
 

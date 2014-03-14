@@ -101,7 +101,7 @@ public class TrajectController extends BaseController{
         return myJson.toString();
     }
 
-    @RequestMapping(value="/myupcoming", method=RequestMethod.GET)
+    @RequestMapping(value="/myupcoming", method=RequestMethod.POST)
     public @ResponseBody String getMyUpcomingTrajects(HttpServletRequest request, HttpServletResponse response) {
         List<UpcomingTrajectDTO> upcoming = trajectService.getUpcomingTrajects(super.getCurrentUser(request));
         return new JSONArray(upcoming).toString();

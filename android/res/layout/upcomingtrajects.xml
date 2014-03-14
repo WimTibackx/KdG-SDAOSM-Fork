@@ -19,19 +19,20 @@
             android:layout_weight="0.70"/>
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom"
-            android:layout_weight=".20">
+            android:layout_weight=".15"
+            android:paddingBottom="10dp">
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/SendMessageToPassengers"
-                android:id="@+id/btnMessagePassenger"
-                android:layout_weight="0.80"/>
+                android:id="@+id/btnMessagePassengers"
+                android:layout_weight="0.15"/>
         <Button
-                android:layout_width="wrap_content"
-                android:layout_weight=".20"
+                android:layout_width="match_parent"
+                android:layout_weight=".15"
                 android:layout_height="wrap_content"
                 android:text="@string/ConfirmRide"
                 android:id="@+id/btnConfirmRide"/>

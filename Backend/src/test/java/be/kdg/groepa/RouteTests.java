@@ -12,6 +12,8 @@ import be.kdg.groepa.service.api.CarService;
 import be.kdg.groepa.service.api.RouteService;
 import be.kdg.groepa.service.api.TrajectService;
 import be.kdg.groepa.service.api.UserService;
+import javax.servlet.http.Cookie;
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
@@ -27,6 +32,8 @@ import org.threeten.bp.LocalTime;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Pieter-Jan on 18-2-14.
@@ -48,6 +55,9 @@ public class RouteTests {
 
     @Autowired
     private TrajectService trajectService;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Test
     public void testNonRepRoute()
@@ -372,6 +382,8 @@ public class RouteTests {
 
         try {
             userService.addUser(u);
+            userService.addUser(p1);
+            userService.addUser(p2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -432,6 +444,8 @@ public class RouteTests {
 
         try {
             userService.addUser(u);
+            userService.addUser(p1);
+            userService.addUser(p2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -474,5 +488,24 @@ public class RouteTests {
         trajectService.addTraject(t3);
 
         assertTrue("Add normal route trajects failed", true);
+    }
+
+    @Test
+    public void succesGetTrajectDTOs() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("username", "ludo.vanrosmalen@traj.example.com");
+        String myString = json.toString();
+        MockMvc mockMvc;
+        this.userService.checkLogin("ludo.vanrosmalen@traj.example.com", "Password1");
+        Cookie cookie;
+        cookie = new Cookie("Token", userService.getUserSession("ludo.vanrosmalen@traj.example.com").getSessionToken());
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(post("/authorized/traject/myupcoming")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .cookie(cookie)
+                .content(myString))
+                .andExpect(status().isOk());
     }
 }
