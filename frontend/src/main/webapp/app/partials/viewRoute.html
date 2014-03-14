@@ -46,8 +46,56 @@
                     <p><input type="submit" ng-click="requestTraject()" name="submit" value="Traject aanvragen" /></p>
                 </div>
                 <div class="rightpane">
+                    <div style="height:500px">
                     <div id="map-canvas-{{wdr.num}}" class="map-canvas">
-                        <cpa-gmap markers="wdr.markers" class="map-wrapper" is-shown="shouldShowTab(wdr.num)"></cpa-gmap>
+                        <cpa-gmap markers="wdr.markers" class="map-wrapper" isshown="{{shouldshow[wdr.num]}}"></cpa-gmap>
+                        <br class="clear" />
+                    </div></div><br class="clear" />
+
+                    <div ng-show="viewTrajects">
+                        <h4>Passagiers</h4>
+                        <table class="general color">
+                            <thead>
+                            <tr>
+                                <td>Pick-up</td>
+                                <td>Drop-off</td>
+                                <td>Passenger</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-show="wdr.trajectsEmpty" class="nodata">
+                                <td colspan="3">Geen trajecten gevonden</td>
+                            </tr>
+                            <tr ng-repeat="t in wdr.trajects | startFrom:currentPage*itemsPerPage | limitTo:itemsPerPage">
+                                <td>{{t.pickup}}</td>
+                                <td>{{t.dropoff}}</td>
+                                <td ng-click="goToProfile(t.passenger.id)"><img height="30px" width="30px" ng-src="{{getAvatarUrl(t.passenger.avatarURL)}}"/><span>{{t.passenger.name}}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td>Pick-up</td>
+                                <td>Drop-off</td>
+                                <td>Passenger</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="tableNavigation">
+                                    <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                                        Previous
+                                    </button>
+
+                                    {{currentPage+1}}
+                                    /
+                                    {{numberOfPages(wdr.trajects)}}
+
+                                    <button ng-disabled="currentPage >= wdr.trajects.length/itemsPerPage - 1" ng-click="currentPage=currentPage+1">
+                                        Next
+                                    </button>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
                 <br class="clear" />
