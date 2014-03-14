@@ -352,9 +352,9 @@ public class TrajectTests {
         Route routeA = new Route(true, 2, LocalDate.now(), LocalDate.now().plusDays(1), userA, carA);
         WeekdayRoute weekdayRouteA = new WeekdayRoute(routeA, LocalDateTime.now().getDayOfWeek().getValue());
         routeA.addWeekdayRoute(weekdayRouteA);
-        PlaceTime placeTimeAX = new PlaceTime(LocalTime.now(),new Place("N14 163-193, 2320 Hoogstraten, Belgium", 51.400110, 4.760710), weekdayRouteA, routeA);
-        PlaceTime placeTimeAY = new PlaceTime(LocalTime.now().plusHours(1), new Place("N177 100-122, 2850 Boom, Belgium", 51.090334, 4.365175), weekdayRouteA, routeA);
-        PlaceTime placeTimeAZ = new PlaceTime(LocalTime.now().plusHours(2), new Place("Willebroekkaai 35, 1000 Brussel, Belgium", 50.862557, 4.352118), weekdayRouteA, routeA);
+        PlaceTime placeTimeAX = new PlaceTime(LocalTime.of(6,0),new Place("N14 163-193, 2320 Hoogstraten, Belgium", 51.400110, 4.760710), weekdayRouteA, routeA);
+        PlaceTime placeTimeAY = new PlaceTime(LocalTime.of(7,0), new Place("N177 100-122, 2850 Boom, Belgium", 51.090334, 4.365175), weekdayRouteA, routeA);
+        PlaceTime placeTimeAZ = new PlaceTime(LocalTime.of(8,0), new Place("Willebroekkaai 35, 1000 Brussel, Belgium", 50.862557, 4.352118), weekdayRouteA, routeA);
         routeService.addRoute(routeA);
 
         List<PlaceTime> placeTimes = routeService.getRoutes(userService.getUser("successA@reqTraj.example.com")).get(0).getPlaceTimes();
