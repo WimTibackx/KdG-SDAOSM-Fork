@@ -9,3 +9,6 @@ target/
 bin/
 out/
 local.properties
+.classpath
+.project
+.settings/
