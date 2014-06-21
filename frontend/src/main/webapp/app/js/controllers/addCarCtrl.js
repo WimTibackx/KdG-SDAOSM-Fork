@@ -8,9 +8,9 @@ carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$lo
 
     var stateId=2;
 
-    if (readCookie("Token") == null) {
+    /*if (readCookie("Token") == null) {
         $location.path("/login");
-    }
+    }*/
 
     $scope.cdSubmit = function() {
         $scope.canStartCar=true;

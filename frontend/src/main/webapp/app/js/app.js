@@ -4,13 +4,11 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
     function ($routeProvider, $controllerProvider) {
         carpoolingApp.controllerProvider = $controllerProvider;
 
-        $routeProvider.
-            when('/login', {
-                templateUrl: 'partials/login.html'//,
-                //controller: 'loginCtrl',
-                //controller: 'registerCtrl'
-            }).
-            when('/myProfile', {
+        $routeProvider
+            .when('/login', { templateUrl: 'partials/login.html' })
+            .when('/register', { templateUrl: 'partials/register.html' })
+            .when('/resetPassword', { templateUrl: 'partials/resetPassword.html' })
+            .when('/myProfile', {
                 templateUrl: 'partials/myProfile.html'//,
                 //controller: 'myProfileCtrl'
             }).

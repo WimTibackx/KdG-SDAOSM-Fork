@@ -16,6 +16,23 @@ carpoolDirectives.directive('ngFileModel', ['$parse', function ($parse) {
     };
 }]);
 
+carpoolDirectives.directive('cpaDveUserAuthorized', function() {
+	//TODO: Attribute that indicates whether the user HAS TO BE authorized
+	//Check and redirect when this isn't the case.
+});
+
+carpoolDirectives.directive('cpaDveUserGuest', function() {
+	//TODO: Attribute that indicates whether the user HAS TO BE a guest.
+	//Check and redirect when this isn't the case.
+});
+
+carpoolDirectives.directive('cpaDveGuestcontainer', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'partials/guestcontainer.html'
+	};
+});
+
 carpoolDirectives.directive('cpaGmap',function() {
     var defaultMapOptions={
         center: new google.maps.LatLng(51.219448, 4.402464),

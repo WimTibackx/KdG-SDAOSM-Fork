@@ -1,0 +1,142 @@
+<script src="js/controllers/registerCtrl.js"></script>
+<script src="js/controllers/addCarCtrl.js"></script>
+<div class="content" id="register" ng-controller="registerCtrl">
+    <div class="form_wrapper">
+        <form name="ud" id="registerform" ng-submit="ud.submit()" novalidate ng-show="getNgShow(0)">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Uw gegevens</h4>
+
+            <div>
+                <label>Gebruikersnaam:</label>
+                <input type="text" ng-required="true" name="username" ng-pattern="{{ud.usernamePattern}}" ng-model="ud.model.username"/>
+            </div>
+            <div>
+                <label>Paswoord:</label>
+                <input type="password" ng-required="true" name="password" ng-pattern="{{ud.passwordPattern}}" ng-model="ud.model.password"/>
+            </div>
+            <div>
+                <label>Naam:</label>
+                <input type="text" ng-required="true" name="name" ng-model="ud.model.name"/>
+            </div>
+            <div>
+                <label>Geslacht:</label>
+                <input type="radio" ng-required="true" value="MALE" name="gender" ng-model="ud.model.gender" />Man
+                <input type="radio" ng-required="true" value="FEMALE" name="gender" ng-model="ud.model.gender" />Vrouw
+            </div>
+            <div>
+                <label>Roker:</label>
+                <input type="radio" ng-required="true" value="true" name="smoker" ng-model="ud.model.smoker" />Ja
+                <input type="radio" ng-required="true" value="false" name="smoker" ng-model="ud.model.smoker" />Nee
+            </div>
+            <div>
+                <label>Geboortedatum:</label>
+                <input type="text" ng-required="true" name="dateOfBirth" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="ud.model.dateOfBirth"/>
+            </div>
+            <div>
+                <label>Ik ben: </label>
+                <input type="radio" ng-required="true" value="driver" name="accounttype" ng-model="ud.model.accountType"/>Chauffeur
+                <input type="radio" ng-required="true" value="passenger" name="accounttype" ng-model="ud.model.accountType"/>Passagier
+            </div>
+
+            <div class="bottom">
+                <span class="error" ng-show="ud.errors.parse">Er is een probleem met onze server, gelieve later opnieuw te proberen.</span>
+                <span class="error" ng-show="ud.errors.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="ud.password.$error.pattern">Het wachtwoord voldoet niet aan het verplichte formaat (1 hoofdletter, 1 kleine letter, 1 getal, geen spaties, tussen de 7 en de 30 karakters in lengte).</span>
+                <span class="error" ng-show="ud.username.$error.pattern">Gelieve een geldig e-mailadres in te vullen in het veld "Gebruikersnaam".</span>
+                <span class="error" ng-show="ud.errors.required">Gelieve alle velden in te vullen.</span>
+                <span class="error" ng-show="ud.username.$error.exists">Dit e-mailadres is al in gebruik.</span>
+                <input type="submit" name="registreer" value="Registreer" ng-disabled="ud.inProgress" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        <form name="uiForm" id="userimageform" ng-show="getNgShow(1)" novalidate>
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Uw foto</h4>
+
+            <div>
+                <input type="file" id="userimage" ng-file-model="uiFile" name="file" ng-required="true" />
+            </div>
+            <div id="uiPreview" class="imageUploadPreview" ng-show="uiReady">
+                <img ng-src="{{getUiUrl()}}" alt="You" width="10em" />
+            </div>
+
+            <div class="bottom">
+                <span class="error" ng-show="uiForm.$error.image">Er is een fout opgetreden tijdens het uploaden van de afbeelding.</span>
+                <span class="error" ng-show="uiForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="uiForm.file.$error.required">Gelieve een afbeelding te selecteren of te kiezen voor "Overslaan".</span>
+                <span class="error" ng-show="uiForm.$error.removeimage">Er is een fout opgetreden tijdens het verwijderen van de afbeelding.</span>
+
+                <input type="submit" value="Upload" name="submit" ng-show="!uiReady" ng-click="uiUpload()" ng-disabled="uiInProgress" />
+                <input type="reset" value="Overslaan" name="skip" ng-show="!uiReady" ng-click="uiContinue()" ng-disabled="uiInProgress" />
+                <input type="submit" value="Ga door" name="continue" ng-show="uiReady" ng-click="uiContinue()" ng-disabled="uiInProgress" />
+                <input type="reset" value="Cancel" name="cancel" ng-show="uiReady" ng-click="uiCancel()" ng-disabled="uiInProgress" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        <div ng-controller="addCarCtrl">
+        <form id="driver-cardata" ng-submit="cdSubmit()" ng-show="getNgShow(2)" name="cdForm" novalidate>
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Autogegevens</h4>
+
+            <div>
+                <label>Merk</label>
+                <input ng-model="cdBrand" type="text" id="brand" name="brand" ng-required="true"/>
+            </div>
+            <div>
+                <label>Model</label>
+                <input ng-model="cdType" type="text" id="type" name="type" ng-required="true"/>
+            </div>
+            <div>
+                <label>Brandstoftype</label>
+                <select ng-model="cdFueltype" id="fueltype" name="fueltype" ng-required="true">
+                    <option value="DIESEL">Diesel</option>
+                    <option value="SUPER95">Super 95</option>
+                    <option value="SUPER98">Super 98</option>
+                </select>
+            </div>
+            <div>
+                <label>Verbruik</label>
+                <input ng-model="cdConsumption" type="text" id="consumption" name="consumption" ng-required="true" placeholder="0.0" ng-pattern="/([0-9]+)\.([0-9]+)/"/>
+                <span class="afterInputText">l/100km</span>
+            </div>
+
+            <div class="bottom">
+                <span class="error" ng-show="cdForm.$error.required">Gelieve alle velden in te vullen.</span>
+                <span class="error" ng-show="cdForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="cdForm.consumption.$error.pattern">Gelieve het formaat "X.Y" na te leven.</span>
+
+                <input type="submit" value="Toevoegen" ng-disabled="cdInProgress" name="submit" />
+                <div class="clear"></div>
+            </div>
+        </form>
+
+        <form id="carimageform" ng-show="getNgShow(3)" name="ciForm">
+            <h3 class="beforeh4">Registreer</h3>
+            <h4>Autofoto</h4>
+
+            <div>
+                <input type="file" ng-file-model="ciFile" name="file" />
+            </div>
+            <div id="ciPreview" class="imageUploadPreview" ng-show="ciReady">
+                <img ng-src="{{getCiUrl()}}" alt="Your car" width="10em" />
+            </div>
+
+            <div class="bottom">
+                <span class="error" ng-show="ciForm.$error.carnotfound">De auto kon niet gevonden worden.</span>
+                <span class="error" ng-show="ciForm.$error.carnotyours">Deze auto is niet van u.</span>
+                <span class="error" ng-show="ciForm.file.$error.uploading">Er is een fout opgetreden tijdens het uploaden van de afbeelding.</span>
+                <span class="error" ng-show="ciForm.$error.unknown">Er is een onbekende error opgetreden.</span>
+                <span class="error" ng-show="ciForm.$error.removingUnknown">Er is een fout opgetreden tijdens het verwijderen van de afbeelding.</span>
+
+                <input type="submit" value="Upload" name="submit" ng-show="!ciReady" ng-click="ciUpload()" ng-disabled="ciInProgress" />
+                <input type="reset" value="Overslaan" name="skip" ng-show="!ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />
+                <input type="submit" value="Ga door" name="continue" ng-show="ciReady" ng-click="ciContinue()" ng-disabled="ciInProgress" />
+                <input type="reset" value="Cancel" name="cancel" ng-show="ciReady" ng-click="ciCancel()" ng-disabled="ciInProgress" />
+                <div class="clear"></div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<cpa-dve-guestcontainer />

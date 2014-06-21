@@ -24,52 +24,6 @@ carpoolServices.service('$fileUpload', ['$http', function ($http) {
     }
 }]);
 
-carpoolServices.factory('$api', ['$http', '$location', function ($http, $location) {
-    var rootUrl = "http://localhost:8080/BackEnd";
-
-    function errorHandling(data, status, headers, config) {
-        statusCode = status;
-        if(data.hasOwnProperty('error')) {
-            if (data.error == "AuthorizationNeeded") statusCode = 401;
-        }
-
-        switch (statusCode) {
-            case 404:
-                break;
-            case 401:
-                $location.path("/login");
-                break;
-            default:
-        }
-    }
-
-    return {
-        get: function (endpoint, callback) {
-            $http.get(rootUrl + endpoint)
-                .success(function (data, status, headers, config) {
-                    if (data.hasOwnProperty('error')) {
-                        errorHandling(data, status, headers, config);
-                    } else {
-                        callback(status, data);
-                    }
-                })
-                .error(errorHandling);
-        },
-
-        post: function (endpoint, data, callback) {
-            $http.post(rootUrl + endpoint, data)
-                .success(function (data, status, headers, config) {
-                    if (data.hasOwnProperty('error')) {
-                        errorHandling(data, status, headers, config);
-                    } else {
-                        callback(status, data);
-                    }
-                })
-                .error(errorHandling);
-        }
-    }
-
-}]);
 
 carpoolServices.factory("$authChecker", ["$http", "$location", "SharedProperties", function($http, $location, SharedProperties) {
     function readCookie(name) {
