@@ -8,7 +8,8 @@ carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$lo
 
     var stateId=2;
 
-    /*if (readCookie("Token") == null) {
+    /* TODO: Fix bug: Having this uncommented fucks registration when not logged in.
+     * if (readCookie("Token") == null) {
         $location.path("/login");
     }*/
 

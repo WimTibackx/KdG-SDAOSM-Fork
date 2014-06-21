@@ -8,6 +8,7 @@ carpoolingApp.config(['$routeProvider', '$controllerProvider',
             .when('/login', { templateUrl: 'partials/login.html' })
             .when('/register', { templateUrl: 'partials/register.html' })
             .when('/resetPassword', { templateUrl: 'partials/resetPassword.html' })
+            .when('/logout', { templateUrl: 'partials/logout.html'})
             .when('/myProfile', {
                 templateUrl: 'partials/myProfile.html'//,
                 //controller: 'myProfileCtrl'

@@ -77,7 +77,7 @@ carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
 	 * Check authorization
 	 */
 	api.checkAuthorization = function(cbAll, cbAuthorized, cbUnauthorized, cbUnknown) {
-		$http.get(rootUrl + "/authorized/checkAuthorization")
+		$http.get(rootUrl + "/authorized/checkAuthorization/")
 			.success(function (data, status, headers, config) {
 				cbAll();
 				if (result.hasOwnProperty("status") && data.status == "ok") { cbAuthorized(); }
@@ -87,6 +87,16 @@ carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
 			.error(function (data, status, headers, config) {
 				cbAll();
 				cbUnknown(data, status, headers, config);
+			});
+	};
+	
+	/*
+	 * Logout
+	 */
+	api.logout = function(cbAll) {
+		$http.get(rootUrl + "/authorized/logout/")
+			.success(function (data, status, headers, config) {
+				cbAll();
 			});
 	};
 	
