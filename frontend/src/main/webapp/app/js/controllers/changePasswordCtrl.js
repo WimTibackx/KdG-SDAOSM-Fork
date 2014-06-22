@@ -2,9 +2,7 @@
  * Created by peter on 25/02/14.
  */
 // Change Password Controller
-carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$http', '$authChecker', function ($scope, $location, $http, $authChecker) {
-
-    $authChecker.checkAuthorization();
+carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$http', function ($scope, $location, $http) {
 
     deleteActiveClass();
     $('#PasswordTab').removeClass('active');

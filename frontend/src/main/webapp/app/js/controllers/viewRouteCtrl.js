@@ -1,8 +1,6 @@
-carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '$location', '$routeParams', '$authChecker', function ($scope, $http, $location, $routeParams, $authChecker) {
+carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
-
-    $authChecker.checkAuthorization();
 
     $scope.isLoading=true;
     $scope.route={};

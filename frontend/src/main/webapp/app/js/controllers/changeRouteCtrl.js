@@ -1,6 +1,4 @@
-carpoolingApp.controllerProvider.register('changeRouteCtrl', ['$scope', '$http', '$location', '$routeParams', '$authChecker', function ($scope, $http, $location, $routeParams, $authChecker) {
-    $authChecker.checkAuthorization();
-
+carpoolingApp.controllerProvider.register('changeRouteCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
     $scope.activeTab = 'car';
     $scope.isLoading = true;
     $scope.route = {};

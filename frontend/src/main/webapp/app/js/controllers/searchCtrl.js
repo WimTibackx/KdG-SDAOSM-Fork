@@ -17,12 +17,10 @@ var userClicked = false;
 
 var smoker = false;
 var gender = true;
-carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', '$authChecker', function ($scope, $http, $location, $authChecker) {
+carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     deleteActiveClass();
     $('#SearchTab').addClass('active');
-
-    $authChecker.checkAuthorization();
 
     $scope.itemsPerPage = itemsPerPage;
     $scope.currentPage = 0;

@@ -2,11 +2,10 @@
  * Created by peter on 25/02/14.
  */
 // CONTROLLER: My profile
-carpoolingApp.controllerProvider.register('profileCtrl', ['$scope', '$http', '$location', 'SharedProperties', "$authChecker", '$routeParams', function ($scope, $http, $location, SharedProperties, $authChecker, $routeParams) {
+carpoolingApp.controllerProvider.register('profileCtrl', ['$scope', '$http', '$location', 'SharedProperties', '$routeParams', function ($scope, $http, $location, SharedProperties, $routeParams) {
     deleteActiveClass();
     $('#MyProfileTab').addClass('active');
 
-    $authChecker.checkAuthorization();
     var userId = $routeParams.userId;
 
 
