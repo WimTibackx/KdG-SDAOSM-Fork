@@ -1,4 +1,4 @@
-var carpoolServices = angular.module('carpoolServices', []);
+var carpoolServices = angular.module('carpoolServices', ['ngCookies']);
 
 carpoolServices.factory('SharedProperties', function () {
     var property = null;
@@ -11,6 +11,37 @@ carpoolServices.factory('SharedProperties', function () {
             return property;
         }
     }
+});
+
+carpoolServices.factory('cpa.svc.pageaccess.v1', function() {
+	var current = undefined;
+	var options = { GUEST: 'GUEST', MEMBER: 'MEMBER', ANY: 'ANY' };
+	
+	var external = {};
+	external.set = function(option) {
+		if (!options.hasOwnProperty(option)) {
+			return undefined;
+		}
+		current = options[option];
+	};
+	external.setGuest = function() { external.set(options.GUEST); };
+	external.setMember = function() { external.set(options.MEMBER); };
+	external.setAny = function() { external.set(options.ANY); };
+	
+	external.get = function() { return current; };
+	external.isGuest = function() { return external.get() == options.GUEST; };
+	external.isMember = function() { return external.get() == options.MEMBER; };
+	external.isAny = function() { return external.get() == options.ANY; };
+	external.is = function(option) {
+		if (!options.hasOwnProperty(option)) {
+			return undefined;
+		}
+		return external.get() == options[option];
+	}
+	
+	external.setAny();
+	
+	return external;
 });
 
 carpoolServices.service('$fileUpload', ['$http', function ($http) {
@@ -71,3 +102,20 @@ carpoolServices.filter('startFrom', function() {
         return input.slice(start);
     }
 });
+
+carpoolServices.factory('cpa.svc.auth.v1', ['cpa.svc.pageaccess.v1', '$cookies', '$location', function(cpa_pageaccess,$cookies,$location) {
+	var auth = {};
+	auth.isGuest = function() { return $cookies.Token == undefined; };
+	auth.isMember = function() { return $cookies.Token != undefined; };
+	auth.check = function() {
+		if (cpa_pageaccess.isAny()) { return; }
+		if (cpa_pageaccess.isGuest() && auth.isMember()) {
+			$location.path('/myProfile'); //TODO: Show error
+		}
+		if (cpa_pageaccess.isMember() && auth.isGuest()) {
+			$location.path("/login"); //TODO: Show error
+		}
+	};
+	
+	return auth;
+}]);

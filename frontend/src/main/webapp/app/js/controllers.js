@@ -3,7 +3,7 @@
 var carpoolingControllers = angular.module('carpoolingControllers', ['ui.bootstrap']);
 
 
-function readCookie(name) {
+/*function readCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
@@ -12,7 +12,7 @@ function readCookie(name) {
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
-}
+}*/
 
 function deleteActiveClass(){
     $('#MyProfileTab').removeClass('active');

@@ -1,55 +1,11 @@
-body{
-	font-family:"Trebuchet MS", "Myriad Pro", Arial, sans-serif;
-	font-size:14px;
-	overflow-y:scroll;
-}
-h1{
-	font-size:56px;
-}
-h2{
-	font-size:20px;
-	padding:0px 0px 40px 0px;
-	color:#aaa;
-}
-h2 span{
-	color:rgb(239,182,1);
-}
-a{
-	color:#777;
-}
 
-p{
-	padding:5px 0px;
-}
-.wrapper{
-	width:960px;
-	margin:20px auto;
-	min-height:550px;
-}
-.box{
-	width:49%;
-}
-.left{
+
+/********************* Guest style ******************/
+section.guest {
 	float:left;
 }
-.right{
-	float:right;
-}
-.clear{
-	clear:both;
-}
-a.back{
-	color:#777;
-	position:fixed;
-	top:5px;
-	right:10px;
-	text-decoration:none;
-}
-/* Form Style */
-.content {
-    float: left;
-}
 
+/* Form Style */
 .form_wrapper{
 	background:#fff;
 	margin-left:2em;
@@ -58,42 +14,42 @@ a.back{
 	font-size:16px;
     color: #353535;
 }
-.form_wrapper h3,
-.form_wrapper h4 {
+section.guest h3,
+section.guest h4 {
 	padding:20px 30px 20px 30px;
 	background-color:#353535;
 	color:#fff;
 	font-size:25px;
 	border-bottom:1px solid #ddd;
 }
-.form_wrapper h4{
+section.guest h4{
 	font-size:18px;
 	font-style:italic;
 }
-.form_wrapper h3+h4 {
+section.guest h3+h4 {
     margin-top:0;
     padding-top:0;
 }
 /* Fucking css has a selector for element X after element Y, but not for element Y before element X */
-.form_wrapper h3.beforeh4 {
+section.guest h3.beforeh4 {
     margin-bottom:0;
     border-width:0;
 }
-:not(.content#register) .form_wrapper form{
+/*:not(.content#register) .form_wrapper form{
 	display:none;
 	background:#fff;
-}
+}*/
 .form_wrapper .column{
 	width:47%;
 	float:left;
 }
-form.active{
+/*form.active{
 	display:block;
-}
+}*/
 form.login{
 	width:350px;
 }
-.content#register form, .content#register .form_wrapper {
+section.guest#register form, section.guest#register .form_wrapper {
 	width:550px;
 }
 form.forgot_password{
@@ -107,17 +63,17 @@ form.forgot_password{
 .form_wrapper a:hover{
 	color:#000;
 }
-.form_wrapper label{
+section.guest form label{
 	display:block;
 	padding:0px 30px 0px 30px;
 	margin:10px 0px 0px 0px;
 }
-.form_wrapper input[type="radio"],
-.form_wrapper input[type="date"],
-.form_wrapper input[type="text"],
-.form_wrapper input[type="password"],
-.form_wrapper input[type="file"],
-.form_wrapper select {
+section.guest form input[type="radio"],
+section.guest form input[type="date"],
+section.guest form input[type="text"],
+section.guest form input[type="password"],
+section.guest form input[type="file"],
+section.guest form select {
     border: solid 1px #E5E5E5;
     background: #FFFFFF;
     margin: 5px 30px 0px 30px;
@@ -130,13 +86,13 @@ form.forgot_password{
     box-shadow: 0px 0px 8px #f0f0f0;
 }
 
-.form_wrapper input[type="text"],
-.form_wrapper input[type="password"] {
+section.guest form input[type="text"],
+section.guest form input[type="password"] {
     display: block;
     width: 76%;
 }
-.form_wrapper input[type="text"]:focus,
-.form_wrapper input[type="password"]:focus{
+section.guest form input[type="text"]:focus,
+section.guest form input[type="password"]:focus{
 	background:#feffef;
 }
 .content#register .imageUploadPreview {
@@ -186,8 +142,8 @@ form.forgot_password{
 	display:block;
 	margin:4px 30px;
 }
-.form_wrapper input[type="submit"],
-.form_wrapper input[type="reset"] {
+section.guest form input[type="submit"],
+section.guest form input[type="reset"] {
 	background: #ffffff;
 	border: 1px solid #ccc;
 	color: #353535;
@@ -202,23 +158,23 @@ form.forgot_password{
 	margin:15px 20px 10px 10px;
 	border-radius: 4px;
 }
-.form_wrapper input[type="submit"]:disabled,
-.form_wrapper input[type="reset"]:disabled,
-.form_wrapper input[type="submit"]:hover:disabled,
-.form_wrapper input[type="reset"]:hover:disabled {
+section.guest form input[type="submit"]:disabled,
+section.guest form input[type="reset"]:disabled,
+section.guest form input[type="submit"]:hover:disabled,
+section.guest form input[type="reset"]:hover:disabled {
     background-image:url(../img/loading.gif);
     height:39px;
     font-size:0;
     background-repeat: no-repeat;
     background-position: center;
 }
-.form_wrapper input[type="reset"] {
+section.guest form input[type="reset"] {
     background:#aaaaaa;
     float:left;
     margin-right:0;
 }
-.form_wrapper input[type="submit"]:hover,
-.form_wrapper input[type="reset"]:hover{
+section.guest form input[type="submit"]:hover,
+section.guest form input[type="reset"]:hover{
     background: #d1d1d1;
 }
 
@@ -235,45 +191,15 @@ form.forgot_password{
     display: block;
     margin: 4px 30px;
 }
-/*.form_wrapper input[type="submit"]:hover {
-	background: #d9d9d9;
-	-moz-box-shadow: 0px 0px 2px #eaeaea inset;
-	-webkit-box-shadow: 0px 0px 2px #eaeaea inset;
-	box-shadow: 0px 0px 2px #eaeaea inset;
-	color: #222;
-}*/
 
-
-/* #register, #password {
-    display: none;
-} */
-
-/* icons */
-#loginIcons {
+/************************* Guest Navigation ************************/
+nav#guestContainer {
     margin-left: 2.4em;
     float: left;
     margin-top: 2.2em;
 }
-
-#loginIcon, #registerIcon, #passwordIcon {
-    height: 100px;
-    width: 100px;
-    cursor: pointer;
-
-}
-
-form.register-wizard {
-	/*display:none;*/
-    /*-webkit-transition: 1s ease-in-out;
-    -moz-transition: 1s ease-in-out;
-    -o-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;*/
-}
-form.register-wizard.ng-hide-add {
-    /*-moz-transform: translateX(-350px);
-    -webkit-transform: translateX(-350px);
-    -o-transform: translateX(-350px);
-    -ms-transform: translateX(-350px);
-    transform: translateX(-350px);
-    display:block !important;*/
+nav#guestContainer img {
+	height: 100px;
+	width: 100px;
+	cursor: pointer;
 }

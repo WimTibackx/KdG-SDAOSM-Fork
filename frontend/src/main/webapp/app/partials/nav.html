@@ -1,0 +1,17 @@
+<div id='cssmenu'>
+    <ul ng-show="auth.isMember()">
+        <li class='active'><a ng-href="#/myProfile"><span>Mijn profiel</span></a></li>
+        <li><a ng-href='#/search'><span>Zoek carpoolers</span></a></li>
+        <li><a ng-href='#/changePassword'><span>Verander wachtwoord</span></a></li>
+
+        <li class='last'><a ng-href="#/logout"><span>Logout</span></a></li>
+        <li class="last"><a ng-href="#/inbox"><img src="../app/img/mailIco.png"/><span>Inbox</span></a></li>
+        <div class="clear"></div>
+    </ul>
+    <ul ng-show="auth.isGuest()">
+    	<li class="active"><a ng-href="#/login"><span>Log in</span></a></li>
+    	<li><a ng-href="#/register"><span>Registreer</span></a></li>
+    	<li><a ng-href="#/resetPassword"><span>Wachtwoord vergeten</span></a></li>
+    </ul>
+    <div class="clear"></div>
+</div>

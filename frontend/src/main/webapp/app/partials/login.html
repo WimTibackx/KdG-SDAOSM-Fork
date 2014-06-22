@@ -1,5 +1,5 @@
 <script src="js/controllers/loginCtrl.js"></script>
-<div class="content" id="login" ng-controller="loginCtrl">
+<section class="guest" id="login" ng-controller="loginCtrl" cpa-dve-user-access-v1="GUEST">
     <div id="form_wrapper" class="form_wrapper">
         <form class="login active" id="loginform" ng-submit="doLogin()">
             <h3>Login</h3>
@@ -13,12 +13,13 @@
                 <input type="password" name="password" ng-model="form.password"/>
             </div>
             <div class="bottom">
-                <span id="error" ng-show="form.hasError">{{form.error}}</span>
-                <input name="login" type="submit" value="Login">
+            	<span class="error" ng-show="form.errors.comboWrong">Combination username/password is wrong.</span>
+            	<span class="error" ng-show="form.errors.parseError">There is a problem with our server, please try again later.</span>
+            	<span class="error" ng-show="form.errors.unknownError">An unknown error occured, please try again later.</span>
+                <input name="login" type="submit" value="Login" />
                 <div class="clear"></div>
             </div>
         </form>
     </div>
     <div class="clear"></div>
-</div>
-<cpa-dve-guestcontainer />
+</section>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="$locale" ng-app="carpoolingApp" xmlns:i18n="http://genshi.edgewall.org/i18n">
 <head>
-    <title></title>
+    <title>Carpool</title>
 
     <script src="lib/jquery/jquery-1.10.2.js"></script>
 
@@ -9,6 +9,7 @@
     <script src="lib/angular/angular-animate.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
     <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-cookies.js"></script>
 
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="lib/angularui-bootstrap/ui-bootstrap-custom-0.10.0.js"></script>
@@ -38,21 +39,7 @@
 
 </head>
 <body>
-	<!-- TODO: Make cssmenu a controller, with an ng-show on a service-backed status-variable -->
-	<div id='cssmenu'>
-	    <ul>
-	        <li id="MyProfileTab" class='active'><a href='index.html'><span>Mijn profiel</span></a></li>
-	        <li id="SearchTab"><a href='#/search'><span>Zoek carpoolers</span></a></li>
-	        <li id="PasswordTab"><a name="changePassword" href='#/changePassword'><span>Verander wachtwoord</span></a></li>
-	
-	        <li class='last'><a ng-href="#/logout"><span>Logout</span></a></li>
-	        <li id="InboxTab" class="last">
-	            <a href="http://localhost:8080/frontend/app/index.html#/inbox">
-	                <img class="addIcon" src="../app/img/mailIco.png"/><span>Inbox</span>
-	            </a>
-	        </li>
-	    </ul>
-	</div>
+	<cpa-dve-nav-v1></cpa-dve-nav-v1>
 	
 	<div ng-view></div>
 </body>

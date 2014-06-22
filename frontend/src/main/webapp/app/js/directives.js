@@ -16,22 +16,27 @@ carpoolDirectives.directive('ngFileModel', ['$parse', function ($parse) {
     };
 }]);
 
-carpoolDirectives.directive('cpaDveUserAuthorized', function() {
-	//TODO: Attribute that indicates whether the user HAS TO BE authorized
-	//Check and redirect when this isn't the case.
-});
+carpoolDirectives.directive('cpaDveUserAccessV1', ['cpa.svc.pageaccess.v1', 'cpa.svc.auth.v1', function(cpa_pageaccess, cpa_auth) {
+	return {
+		restrict: 'A',
+		scope: {},
+		link: function(scope, element, attrs) {
+			cpa_pageaccess.set(attrs.cpaDveUserAccessV1);
+			cpa_auth.check();
+		}
+	};
+}]);
 
-carpoolDirectives.directive('cpaDveUserGuest', function() {
-	//TODO: Attribute that indicates whether the user HAS TO BE a guest.
-	//Check and redirect when this isn't the case.
-});
-
-carpoolDirectives.directive('cpaDveGuestcontainer', function() {
+carpoolDirectives.directive('cpaDveNavV1', ['cpa.svc.auth.v1', function(cpa_auth) {
 	return {
 		restrict: 'E',
-		templateUrl: 'partials/guestcontainer.html'
+		scope: {},
+		templateUrl: 'partials/nav.html',
+		link: function(scope, element, attrs) {
+			scope.auth = cpa_auth;
+		}
 	};
-});
+}]);
 
 carpoolDirectives.directive('cpaGmap',function() {
     var defaultMapOptions={

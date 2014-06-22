@@ -6,7 +6,7 @@ carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
 	/*
 	 * Login with a username and password
 	 */
-	api.login = function(username, password, cbAll, cbSuccess, cbComboWrong, cbParseError) {
+	api.login = function(username, password, cbAll, cbSuccess, cbComboWrong, cbParseError, cbUnknownError) {
 		$http.post(rootUrl + "/login/", {username: username, password: password})
 			.success(function (data, status, headers, config) {
 				cbAll();
@@ -17,20 +17,21 @@ carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
 						cbComboWrong();
 					} else if (data.error == "ParseError") {
 						cbParseError();
+					} else {
+						cbUnknownError();
 					}
-					//TODO: Add unknown error callback
 				}
 			})
 			.error(function (data, status, headers, config) {
 				cbAll();
-				//TODO: Add unknown error callback
+				cbUnknownError();
 			});
 	};
 	
 	/*
 	 * Register a new account
 	 */
-	api.register = function(username, password, name, smoker, gender, dateOfBirth, cbAll, cbSuccess, cbParseError, cbPassFormat, cbUserFormat, cbUserExists, cbMissingData, cbUnknownError) {
+	api.register = function(username, password, name, gender, smoker, dateOfBirth, cbAll, cbSuccess, cbParseError, cbPassFormat, cbUserFormat, cbUserExists, cbMissingData, cbUnknownError) {
 		var data = {username: username, password: password, name: name, smoker: smoker, gender: gender, dateofbirth: dateOfBirth};
 		$http.post(rootUrl + "/register/", data)
 			.success(function (data, status, headers, config) {
