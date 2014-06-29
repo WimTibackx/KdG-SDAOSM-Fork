@@ -1,7 +1,3 @@
-/**
- * Created by peter on 25/02/14.
- */
-// CONTROLLER: Login
 carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$location', 'cpa.svc.api.v1', function ($scope, $location, cpa_api) {
 	$scope.form = { username: "", password: "", errors: {} };
 	

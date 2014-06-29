@@ -1,4 +1,4 @@
-var carpoolServices = angular.module('carpoolServices', ['ngCookies']);
+var carpoolServices = angular.module('carpoolServices', ['ngCookies','ngRoute']);
 
 carpoolServices.factory('SharedProperties', function () {
     var property = null;

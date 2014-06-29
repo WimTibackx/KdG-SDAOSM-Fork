@@ -1,6 +1,4 @@
 carpoolingApp.controllerProvider.register('viewRouteCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
-    deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
 
     $scope.isLoading=true;
     $scope.route={};

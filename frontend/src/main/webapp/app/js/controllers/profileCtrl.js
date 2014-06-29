@@ -3,8 +3,6 @@
  */
 // CONTROLLER: My profile
 carpoolingApp.controllerProvider.register('profileCtrl', ['$scope', '$http', '$location', 'SharedProperties', '$routeParams', function ($scope, $http, $location, SharedProperties, $routeParams) {
-    deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
 
     var userId = $routeParams.userId;
 

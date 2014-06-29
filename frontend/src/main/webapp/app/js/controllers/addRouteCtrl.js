@@ -8,9 +8,6 @@ var selectedCar;
 
 carpoolingApp.controllerProvider.register('addRouteCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
-    deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
-
     $scope.passages = {};
 
     $http({

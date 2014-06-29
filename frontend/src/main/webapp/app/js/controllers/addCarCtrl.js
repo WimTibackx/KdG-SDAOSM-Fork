@@ -1,17 +1,8 @@
 carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$location', '$fileUpload', function ($scope, $http, $location, $fileUpload) {
-
-    deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
-
     var rootUrl = "http://localhost:8080/BackEnd/";
     var insertedCar = 0;
 
     var stateId=2;
-
-    /* TODO: Fix bug: Having this uncommented fucks registration when not logged in.
-     * if (readCookie("Token") == null) {
-        $location.path("/login");
-    }*/
 
     $scope.cdSubmit = function() {
         $scope.canStartCar=true;

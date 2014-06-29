@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-<html lang="$locale" ng-app="carpoolingApp" xmlns:i18n="http://genshi.edgewall.org/i18n">
+<html ng-app="cpa">
 <head>
     <title>Carpool</title>
 
-    <script src="lib/jquery/jquery-1.10.2.js"></script>
+    <!--<script src="lib/jquery/jquery-1.10.2.js"></script>-->
 
     <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-animate.js"></script>
+    <!--<script src="lib/angular/angular-animate.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
     <script src="lib/angular/angular-route.js"></script>
-    <script src="lib/angular/angular-cookies.js"></script>
+    <script src="lib/angular/angular-cookies.js"></script>-->
+    <script src="lib/angularui-router/angular-ui-router.min.js"></script>
 
-    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+    <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="lib/angularui-bootstrap/ui-bootstrap-custom-0.10.0.js"></script>
     <script src="lib/angularui-bootstrap/ui-bootstrap-custom-tpls-0.10.0.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
+	<!--<script src="js/services.js"></script>
     <script src="js/services/api.js"></script>
-    <script src="js/directives.js"></script>
+    <script src="js/services/routeUrls.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/directives.js"></script>-->
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
+    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
 
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAA-HYNltNyRvpiFBmkqbUD5SlJrJud_xo&sensor=false&libraries=places,geometry"></script>
-
-    <link rel="stylesheet" href="css/myProfile.css" type="text/css" />
+-->
+	
+	<script src="js/setup.js"></script>
+	<script src="js/app.js"></script>
+	
+	
+    <!--<link rel="stylesheet" href="css/myProfile.css" type="text/css" />
     <link rel="stylesheet" href="css/addRoute.css" type="text/css" />
     <link rel="stylesheet" href="css/layout.css" type="text/css" />
     <link rel="stylesheet" href="css/login.css" type="text/css" />
@@ -35,12 +41,17 @@
     <link rel="stylesheet" href="css/search.css" type="text/css" />
     <link rel="stylesheet" href="css/inbox.css" />
     <link rel="stylesheet" href="css/changeResetPwd.css" />
-    <link rel="stylesheet" href="css/addCar.css" />
+    <link rel="stylesheet" href="css/addCar.css" />-->
+    
+    <style>
+    	a.active { color: #FFFF00; }
+    </style>
 
 </head>
 <body>
-	<cpa-dve-nav-v1></cpa-dve-nav-v1>
-	
-	<div ng-view></div>
+	<!--<cpa-dve-nav-v1></cpa-dve-nav-v1>-->
+	<a ui-sref="login" ui-sref-active="active">Login</a> - <a ui-sref="register" ui-sref-active="active">Register</a> - <a ui-sref="myProfile" ui-sref-active="active" ng-class="{ active: $state.includes('myProfile.*')}">myProfile</a> - <a ui-sref="myProfile.foo" ui-sref-active="active">myProfile Foo</a>
+	<div ui-view="menu"></div>
+	<div ui-view="main"></div>
 </body>
 </html>

@@ -4,9 +4,6 @@
 // ChangeRemoveCar Controller
 carpoolingApp.controllerProvider.register('changeRemoveCarCtrl', ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
 
-    deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
-
     var id = $routeParams.carId;
 
     $scope.carChange = id;

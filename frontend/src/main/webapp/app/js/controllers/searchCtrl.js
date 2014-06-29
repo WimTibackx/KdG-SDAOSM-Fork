@@ -19,9 +19,6 @@ var smoker = false;
 var gender = true;
 carpoolingApp.controllerProvider.register('searchCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
-    deleteActiveClass();
-    $('#SearchTab').addClass('active');
-
     $scope.itemsPerPage = itemsPerPage;
     $scope.currentPage = 0;
 

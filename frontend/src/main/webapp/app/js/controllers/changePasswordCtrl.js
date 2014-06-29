@@ -4,13 +4,7 @@
 // Change Password Controller
 carpoolingApp.controllerProvider.register('changePasswordCtrl', ['$scope', '$location', '$http', function ($scope, $location, $http) {
 
-    deleteActiveClass();
-    $('#PasswordTab').removeClass('active');
-
     $scope.PasswordSubmit = function () {
-
-        deleteActiveClass();
-        $('#PasswordTab').addClass('active');
 
         if ($scope.newpwd1 == $scope.newpwd2) {
             jsonObj = {};

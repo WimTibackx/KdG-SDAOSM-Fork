@@ -6,8 +6,6 @@ var gender = null;
 var avatarUrl = null ;
 carpoolingApp.controllerProvider.register('myProfileCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
     //TODO: Automatically control navbar and tabbar styling.
-	deleteActiveClass();
-    $('#MyProfileTab').addClass('active');
 
     $scope.routes=[];
 

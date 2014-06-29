@@ -13,8 +13,6 @@ var clickedOverlay = false;
 var tabClicked = "recieve";
 
 carpoolingApp.controllerProvider.register('inboxCtrl', ['$scope', '$http', '$location', 'SharedProperties', function ($scope, $http, $location, SharedProperties) {
-    deleteActiveClass();
-    $('#InboxTab').addClass('active');
 
     var defaultActive = function () {
         $('#tabInbox').removeClass('activeTab');
