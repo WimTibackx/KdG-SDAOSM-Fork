@@ -1,4 +1,4 @@
-carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$location', 'cpa.svc.api.v1', function ($scope, $location, cpa_api) {
+angular.module("cpa.ctrl").controller('LoginCtrl', ['$scope', '$state', 'cpa.svc.api.v1', function ($scope, $state, cpa_api) {
 	$scope.form = { username: "", password: "", errors: {} };
 	
 	$scope.doLogin = function() {
@@ -6,7 +6,7 @@ carpoolingApp.controllerProvider.register('loginCtrl', ['$scope', '$location', '
 		var username = $scope.form.username,
 		password = $scope.form.password,
 		cbAll = function() {},
-		cbSuccess = function() { $location.path("/myProfile"); },
+		cbSuccess = function() { $state.go("myProfile"); },
 		cbComboWrong = function() { $scope.form.errors.comboWrong = true; },
 		cbParseError = function() { $scope.form.errors.parseError = true; };
 		cbUnknownError = function() { $scope.form.errors.unknownError = true; };

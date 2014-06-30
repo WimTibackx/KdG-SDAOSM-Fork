@@ -1,55 +1,48 @@
-//(function() {
-	angular.module('cpa', ['ui.router', 'cpa.ctrl']);
-	angular.module('cpa').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise("/login");
-		
-		var memberNav = {
-				templateUrl: "partials/nav.member.html"
-		};
-		var guestNav = {
-				templateUrl: "partials/nav.guest.html"
-		}
-		
-		$stateProvider
-			.state("login", {
-				url: "/login",
-				views: {
-					"main@": {
-						template: "<h1>login {{foo}}</h1>",
-						//templateUrl: "partials/login.html",
-						controller: "LoginCtrl",
-					},
-					"menu@": guestNav
-				}
-			}).state("register", {
-				url: "/register",
-				views: {
-					"main@": {
-						template: "<h1>register {{bar}}</h1>",
-						//templateUrl: "partials/register.html",
-						controller: "RegisterCtrl"
-					},
-					"menu@": guestNav
-				}
-			}).state("myProfile", {
-				url: "/myProfile",
-				views: {
-					"main@": {
-						template: "<h1>myProfile {{name}}</h1><div ui-view></div>",
-						//templateUrl: "partials/myProfile.html",
-						controller: "MyProfileCtrl"
-					},
-					"menu@": memberNav
-				}
-			}).state("myProfile.foo", {
-				url: "/foo",
-				template: "<h2>MyProfileFoo</h2>"
-			});
-	}]).run(function($rootScope, $state, $stateParams) {
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
-	});
-//})();
+angular.module('cpa', ['ui.router', 'cpa.ctrl']);
+angular.module('cpa').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+	$urlRouterProvider.otherwise("/login");
+	
+	var memberNav = { templateUrl: "partials/nav.member.html" };
+	var guestNav = { templateUrl: "partials/nav.guest.html" };
+	
+	$stateProvider
+		.state("login", {
+			url: "/login",
+			views: {
+				"main@": {
+					templateUrl: "partials/login.html",
+					controller: "LoginCtrl",
+				},
+				"menu@": guestNav
+			}
+		}).state("register", {
+			url: "/register",
+			views: {
+				"main@": {
+					templateUrl: "partials/register.html",
+					controller: "RegisterCtrl"
+				},
+				"menu@": guestNav
+			}
+		}).state("myProfile", {
+			url: "/myProfile",
+			views: {
+				"main@": {
+					template: "<h1>myProfile {{name}}</h1><div ui-view></div>",
+					//templateUrl: "partials/myProfile.html",
+					controller: "MyProfileCtrl"
+				},
+				"menu@": memberNav
+			}
+		}).state("myProfile.foo", {
+			url: "/foo",
+			template: "<h2>MyProfileFoo</h2>"
+		});
+}]).run(function($rootScope, $state, $stateParams) {
+	$rootScope.$state = $state;
+	$rootScope.$stateParams = $stateParams;
+});
+
 /*
 var carpoolingApp = angular.module('carpoolingApp', ['ui.router', 'carpoolingControllers', 'carpoolServices', 'carpoolDirectives']);
 

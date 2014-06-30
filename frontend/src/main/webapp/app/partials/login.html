@@ -1,25 +1,24 @@
-<script src="js/controllers/loginCtrl.js"></script>
-<section class="guest" id="login" ng-controller="loginCtrl" cpa-dve-user-access-v1="GUEST">
-    <div id="form_wrapper" class="form_wrapper">
-        <form class="login active" id="loginform" ng-submit="doLogin()">
-            <h3>Login</h3>
-
-            <div>
-                <label>Username:</label>
-                <input type="text" name="username" ng-model="form.username"/>
-            </div>
-            <div>
-                <label>Password: </label>
-                <input type="password" name="password" ng-model="form.password"/>
-            </div>
-            <div class="bottom">
-            	<span class="error" ng-show="form.errors.comboWrong">Combination username/password is wrong.</span>
-            	<span class="error" ng-show="form.errors.parseError">There is a problem with our server, please try again later.</span>
-            	<span class="error" ng-show="form.errors.unknownError">An unknown error occured, please try again later.</span>
-                <input name="login" type="submit" value="Login" />
-                <div class="clear"></div>
-            </div>
-        </form>
-    </div>
-    <div class="clear"></div>
+<section class="guest" id="login" cpa-dve-user-access-v1="GUEST">
+	<h1>Aanmelden</h1>
+	<form class="login active" id="loginform" ng-submit="doLogin()">
+		<div class="inner">
+			<p>
+		        <label>Username:</label>
+		        <input type="text" name="username" ng-model="form.username"/>
+		    </p>
+		    <p>
+		        <label>Password: </label>
+		        <input type="password" name="password" ng-model="form.password"/>
+		    </p>
+		</div>
+	    <footer>
+			<p class="error" ng-show="form.errors.comboWrong">Combination username/password is wrong.</p>
+			<p class="error" ng-show="form.errors.parseError">There is a problem with our server, please try again later.</p>
+			<p class="error" ng-show="form.errors.unknownError">An unknown error occured, please try again later.</p>
+			<p>
+				<input name="login" type="submit" value="Login" />
+				<br class="clear" />
+			</p>
+	    </footer>
+	</form>
 </section>

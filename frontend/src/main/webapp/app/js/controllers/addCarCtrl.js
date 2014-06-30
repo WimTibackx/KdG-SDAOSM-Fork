@@ -72,6 +72,6 @@ carpoolingApp.controllerProvider.register('addCarCtrl', ['$scope', '$http', '$lo
 
     function goMyProfile() {
         $location.path("/myProfile");
-        $("#cssmenu").show();
+        //$("#cssmenu").show();
     }
 }]);

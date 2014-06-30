@@ -1,4 +1,4 @@
-carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
+angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	var rootUrl = "http://localhost:8080/BackEnd";
 	
 	var api = {};
@@ -103,7 +103,7 @@ carpoolServices.factory('cpa.svc.api.v1', ['$http', function($http) {
 	
 	return api;
 }]);
-
+/*
 carpoolServices.factory('$api', ['$http', '$location', function ($http, $location) {
     var rootUrl = "http://localhost:8080/BackEnd";
 
@@ -149,4 +149,4 @@ carpoolServices.factory('$api', ['$http', '$location', function ($http, $locatio
         }
     }
 
-}]);
+}]);*/

@@ -1,48 +1,45 @@
-<script src="js/controllers/registerCtrl.js"></script>
-<section class="guest" id="register" ng-controller="registerCtrl" cpa-dve-user-access-v1="GUEST">
-    <div class="form_wrapper">
-        <form name="udForm" id="registerform" ng-submit="ud.submit()" novalidate>
-            <h3 class="beforeh4">Registreer</h3>
-            <h4>Uw gegevens</h4>
-
-            <div>
-                <label>Gebruikersnaam:</label>
-                <input type="text" ng-required="true" name="username" ng-pattern="/^[_a-z0-9-A-Z-]+(\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\.[a-z0-9-A-Z-]+)*(\.[a-zA-Z]{2,4})$/" ng-model="ud.model.username"/>
-            </div>
-            <div>
-                <label>Paswoord:</label>
-                <input type="password" ng-required="true" name="password" ng-pattern="/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{7,30}$/" ng-model="ud.model.password"/>
-            </div>
-            <div>
-                <label>Naam:</label>
-                <input type="text" ng-required="true" name="name" ng-model="ud.model.name"/>
-            </div>
-            <div>
-                <label>Geslacht:</label>
-                <input type="radio" ng-required="true" value="MALE" name="gender" ng-model="ud.model.gender" />Man
-                <input type="radio" ng-required="true" value="FEMALE" name="gender" ng-model="ud.model.gender" />Vrouw
-            </div>
-            <div>
-                <label>Roker:</label>
-                <input type="radio" ng-required="true" value="true" name="smoker" ng-model="ud.model.smoker" />Ja
-                <input type="radio" ng-required="true" value="false" name="smoker" ng-model="ud.model.smoker" />Nee
-            </div>
-            <div>
-                <label>Geboortedatum:</label>
-                <input type="text" ng-required="true" name="dateOfBirth" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="ud.model.dateOfBirth"/>
-            </div>
-
-            <div class="bottom">
-                <span class="error" ng-show="ud.errors.parse">Er is een probleem met onze server, gelieve later opnieuw te proberen.</span>
-                <span class="error" ng-show="ud.errors.unknown">Er is een onbekende error opgetreden.</span>
-                <span class="error" ng-show="udForm.password.$error.pattern || ud.errors.passFormat">Het wachtwoord voldoet niet aan het verplichte formaat (1 hoofdletter, 1 kleine letter, 1 getal, geen spaties, tussen de 7 en de 30 karakters in lengte).</span>
-                <span class="error" ng-show="udForm.username.$error.pattern || ud.errors.userFormat">Gelieve een geldig e-mailadres in te vullen in het veld "Gebruikersnaam".</span>
-                <span class="error" ng-show="ud.errors.required">Gelieve alle velden in te vullen.</span>
-                <span class="error" ng-show="udForm.username.$error.exists || ud.errors.userExists">Dit e-mailadres is al in gebruik.</span>
-                <input type="submit" name="registreer" value="Registreer" ng-disabled="ud.inProgress" />
-                <div class="clear"></div>
-            </div>
-        </form>
-    </div>
-    <div class="clear"></div>
+<section class="guest" id="register" cpa-dve-user-access-v1="GUEST">
+    <h1>Registreren</h1>
+	<form name="udForm" id="registerform" ng-submit="ud.submit()" novalidate>
+		<div class="inner">
+			<p>
+				<label>Gebruikersnaam:</label>
+				<input type="text" ng-required="true" name="username" ng-pattern="/^[_a-z0-9-A-Z-]+(\.[_a-z0-9-A-Z-]+)*@[a-z0-9-A-Z-]+(\.[a-z0-9-A-Z-]+)*(\.[a-zA-Z]{2,4})$/" ng-model="ud.model.username"/>
+			</p>
+			<p>
+				<label>Paswoord:</label>
+				<input type="password" ng-required="true" name="password" ng-pattern="/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{7,30}$/" ng-model="ud.model.password"/>
+			</p>
+			<p>
+				<label>Naam:</label>
+				<input type="text" ng-required="true" name="name" ng-model="ud.model.name"/>
+			</p>
+			<p>
+				<label>Geslacht:</label>
+				<input type="radio" ng-required="true" value="MALE" name="gender" ng-model="ud.model.gender" />Man
+				<input type="radio" ng-required="true" value="FEMALE" name="gender" ng-model="ud.model.gender" />Vrouw
+			</p>
+			<p>
+				<label>Roker:</label>
+				<input type="radio" ng-required="true" value="true" name="smoker" ng-model="ud.model.smoker" />Ja
+				<input type="radio" ng-required="true" value="false" name="smoker" ng-model="ud.model.smoker" />Nee
+			</p>
+			<p>
+				<label>Geboortedatum:</label>
+				<input type="text" ng-required="true" name="dateOfBirth" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="ud.model.dateOfBirth"/>
+			</p>
+		</div>
+		<footer>
+		    <p class="error" ng-show="ud.errors.parse">Er is een probleem met onze server, gelieve later opnieuw te proberen.</p>
+		    <p class="error" ng-show="ud.errors.unknown">Er is een onbekende error opgetreden.</p>
+		    <p class="error" ng-show="udForm.password.$error.pattern || ud.errors.passFormat">Het wachtwoord voldoet niet aan het verplichte formaat (1 hoofdletter, 1 kleine letter, 1 getal, geen spaties, tussen de 7 en de 30 karakters in lengte).</p>
+		    <p class="error" ng-show="udForm.username.$error.pattern || ud.errors.userFormat">Gelieve een geldig e-mailadres in te vullen in het veld "Gebruikersnaam".</p>
+		    <p class="error" ng-show="ud.errors.required">Gelieve alle velden in te vullen.</p>
+		    <p class="error" ng-show="udForm.username.$error.exists || ud.errors.userExists">Dit e-mailadres is al in gebruik.</p>
+			<p>
+				<input type="submit" name="registreer" value="Registreer" ng-disabled="ud.inProgress" />
+				<br class="clear" />
+			</p>
+		</footer>
+	</form>
 </section>
