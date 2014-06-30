@@ -1,47 +1,49 @@
-angular.module('cpa', ['ui.router', 'cpa.ctrl']);
+angular.module('cpa', ['ui.router', 'cpa.ctrl', 'cpa.svc', 'cpa.dve']);
 angular.module('cpa').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/login");
 	
-	var memberNav = { templateUrl: "partials/nav.member.html" };
-	var guestNav = { templateUrl: "partials/nav.guest.html" };
-	
-	$stateProvider
-		.state("login", {
-			url: "/login",
-			views: {
-				"main@": {
-					templateUrl: "partials/login.html",
-					controller: "LoginCtrl",
-				},
-				"menu@": guestNav
-			}
-		}).state("register", {
-			url: "/register",
-			views: {
-				"main@": {
-					templateUrl: "partials/register.html",
-					controller: "RegisterCtrl"
-				},
-				"menu@": guestNav
-			}
-		}).state("myProfile", {
-			url: "/myProfile",
-			views: {
-				"main@": {
-					template: "<h1>myProfile {{name}}</h1><div ui-view></div>",
-					//templateUrl: "partials/myProfile.html",
-					controller: "MyProfileCtrl"
-				},
-				"menu@": memberNav
-			}
-		}).state("myProfile.foo", {
-			url: "/foo",
-			template: "<h2>MyProfileFoo</h2>"
-		});
-}]).run(function($rootScope, $state, $stateParams) {
+	$stateProvider.state("login", {
+		url: "/login",
+		templateUrl: "partials/login.html",
+		controller: "LoginCtrl",
+		data: { access: "GUEST" }
+	}).state("register", {
+		url: "/register",
+		templateUrl: "partials/register.html",
+		controller: "RegisterCtrl",
+		data: { access: "GUEST" }
+	}).state("resetPassword", {
+		url: "/resetPassword",
+		templateUrl: "partials/resetPassword.html",
+		controller: "ResetPasswordCtrl",
+		data: { access: "GUEST" }
+	}).state("myProfile", {
+		url: "/myProfile",
+		template: "<h1>myProfile {{name}}</h1><div ui-view></div>",
+		//templateUrl: "partials/myProfile.html",
+		controller: "MyProfileCtrl",
+		data: { access: "MEMBER" }
+	}).state("myProfile.foo", {
+		url: "/foo",
+		template: "<h2>MyProfileFoo</h2>"
+	}).state("myProfile.changePassword", {
+		url: "/changePassword",
+		templateUrl: "partials/changePassword.html",
+		controller: "ChangePasswordCtrl"
+	}).state("dummy", {
+		url: "/dummy",
+		template: "<h1>DUMMY</h1>",
+		data: { access: "ANY" }
+	});
+}]).run(['$rootScope','$state','$stateParams','cpa.svc.pageAccess.v1', 'cpa.svc.auth.v1', function($rootScope, $state, $stateParams, cpa_pageAccess, cpa_auth) {
 	$rootScope.$state = $state;
 	$rootScope.$stateParams = $stateParams;
-});
+	$rootScope.auth = cpa_auth;
+	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+		cpa_pageAccess.set(toState.data.access);
+		cpa_auth.check();
+	});
+}]);
 
 /*
 var carpoolingApp = angular.module('carpoolingApp', ['ui.router', 'carpoolingControllers', 'carpoolServices', 'carpoolDirectives']);

@@ -8,24 +8,24 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	 */
 	api.login = function(username, password, cbAll, cbSuccess, cbComboWrong, cbParseError, cbUnknownError) {
 		$http.post(rootUrl + "/login/", {username: username, password: password})
-			.success(function (data, status, headers, config) {
-				cbAll();
-				if (data.hasOwnProperty("Token")) {
-					cbSuccess();
-				} else if (data.hasOwnProperty("error")) {
-					if (data.error == "LoginComboWrong") {
-						cbComboWrong();
-					} else if (data.error == "ParseError") {
-						cbParseError();
-					} else {
-						cbUnknownError();
-					}
+		.success(function (data, status, headers, config) {
+			cbAll();
+			if (data.hasOwnProperty("Token")) {
+				cbSuccess();
+			} else if (data.hasOwnProperty("error")) {
+				if (data.error == "LoginComboWrong") {
+					cbComboWrong();
+				} else if (data.error == "ParseError") {
+					cbParseError();
+				} else {
+					cbUnknownError();
 				}
-			})
-			.error(function (data, status, headers, config) {
-				cbAll();
-				cbUnknownError();
-			});
+			}
+		})
+		.error(function (data, status, headers, config) {
+			cbAll();
+			cbUnknownError();
+		});
 	};
 	
 	/*
@@ -34,25 +34,25 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	api.register = function(username, password, name, gender, smoker, dateOfBirth, cbAll, cbSuccess, cbParseError, cbPassFormat, cbUserFormat, cbUserExists, cbMissingData, cbUnknownError) {
 		var data = {username: username, password: password, name: name, smoker: smoker, gender: gender, dateofbirth: dateOfBirth};
 		$http.post(rootUrl + "/register/", data)
-			.success(function (data, status, headers, config) {
-				cbAll();
-				if (data.hasOwnProperty("result")) {
-					cbSuccess();
-				} else if (data.hasOwnProperty("error")) {
-					switch (data.error) {
-						case "ParseError": cbParseError(); break;
-						case "PasswordFormatException": cbPassFormat(); break;
-						case "UsernameFormatException": cbUserFormat(); break;
-						case "UsernameExistsException": cbUserExists(); break;
-						case "MissingDataException": cbMissingData(); break;
-						default: cbUnknownError(); break;
-					}
+		.success(function (data, status, headers, config) {
+			cbAll();
+			if (data.hasOwnProperty("result")) {
+				cbSuccess();
+			} else if (data.hasOwnProperty("error")) {
+				switch (data.error) {
+					case "ParseError": cbParseError(); break;
+					case "PasswordFormatException": cbPassFormat(); break;
+					case "UsernameFormatException": cbUserFormat(); break;
+					case "UsernameExistsException": cbUserExists(); break;
+					case "MissingDataException": cbMissingData(); break;
+					default: cbUnknownError(); break;
 				}
-			})
-			.error(function (data, status, headers, config) {
-				cbAll();
-				cbUnknownError();
-			});
+			}
+		})
+		.error(function (data, status, headers, config) {
+			cbAll();
+			cbUnknownError();
+		});
 	};
 	
 	/*
@@ -60,18 +60,18 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	 */
 	api.resetPassword = function(username, cbAll, cbSuccess, cbError) {
 		$http.post(rootUrl + "/resetPassword/", {username: username})
-			.success(function (data, status, headers, config) {
-				cbAll();
-				if (!result.hasOwnProperty("error")) {
-					cbSuccess();
-				} else {
-					cbError(data.error);
-				}
-			})
-			.error(function (data, status, headers, config) {
-				cbAll();
-				cbError(data);
-			});
+		.success(function (data, status, headers, config) {
+			cbAll();
+			if (!result.hasOwnProperty("error")) {
+				cbSuccess();
+			} else {
+				cbError(data.error);
+			}
+		})
+		.error(function (data, status, headers, config) {
+			cbAll();
+			cbError(data);
+		});
 	};
 	
 	/*
@@ -79,16 +79,16 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	 */
 	api.checkAuthorization = function(cbAll, cbAuthorized, cbUnauthorized, cbUnknown) {
 		$http.get(rootUrl + "/authorized/checkAuthorization/")
-			.success(function (data, status, headers, config) {
-				cbAll();
-				if (result.hasOwnProperty("status") && data.status == "ok") { cbAuthorized(); }
-				else if (result.hasOwnProperty("error") && data.error == "AuthorizationNeeded") { cbUnauthorized(); }
-				else { cbUnknown(data, status, headers, config); }
-			})
-			.error(function (data, status, headers, config) {
-				cbAll();
-				cbUnknown(data, status, headers, config);
-			});
+		.success(function (data, status, headers, config) {
+			cbAll();
+			if (result.hasOwnProperty("status") && data.status == "ok") { cbAuthorized(); }
+			else if (result.hasOwnProperty("error") && data.error == "AuthorizationNeeded") { cbUnauthorized(); }
+			else { cbUnknown(data, status, headers, config); }
+		})
+		.error(function (data, status, headers, config) {
+			cbAll();
+			cbUnknown(data, status, headers, config);
+		});
 	};
 	
 	/*
@@ -96,10 +96,43 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	 */
 	api.logout = function(cbAll) {
 		$http.get(rootUrl + "/authorized/logout/")
-			.success(function (data, status, headers, config) {
-				cbAll();
-			});
+		.success(function (data, status, headers, config) {
+			cbAll();
+		});
 	};
+	
+	/*
+	 * Change password
+	 */
+	api.changePassword = function(oldPassword, newPassword, cbAll, cbSuccess, cbOldPasswordWrong, cbFormat, cbUnknown) {
+		$http.post(rootUrl + "/authorized/changepassword", {oldpassword: oldPassword, newpassword: newPassword})
+		.success(function (data, status, headers, config) {
+			cbAll();
+			if (data.hasOwnProperty("result")) {
+				switch (data.result) {
+					case "PasswordChanged":
+						cbSuccess();
+						return;
+					case "OldPasswordWrong":
+						cbOldPasswordWrong();
+						return;
+					case "NewPasswordFormatWrong":
+						cbFormat();
+						return;
+					default:
+						cbUnknown();
+						return;
+				}
+			} else {
+				cbUnknown();
+				return;
+			}
+		}).error(function (data, status, headers, config) {
+			cbAll();
+			cbUnknown();
+			return;
+		});
+	}
 	
 	return api;
 }]);

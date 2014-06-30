@@ -1,8 +1,4 @@
-/**
- * Created by peter on 25/02/14.
- */
-// CONTROLLER: Password
-carpoolingApp.controllerProvider.register('passwordCtrl', ['$scope', '$http', '$location', 'cpa.svc.api.v1', function ($scope, $http, $location, cpa_api) {
+angular.module("cpa.ctrl").controller('ResetPasswordCtrl', ['$scope', 'cpa.svc.api.v1', function ($scope, cpa_api) {
     $scope.form = { username: "" };
     $scope.PWRFeedback = "";
     $scope.displayPWRFeedback = false;

@@ -8,8 +8,8 @@
     <script src="lib/angular/angular.js"></script>
     <!--<script src="lib/angular/angular-animate.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
-    <script src="lib/angular/angular-route.js"></script>
-    <script src="lib/angular/angular-cookies.js"></script>-->
+    <script src="lib/angular/angular-route.js"></script>-->
+    <script src="lib/angular/angular-cookies.js"></script>
     <script src="lib/angularui-router/angular-ui-router.min.js"></script>
 
     <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
@@ -31,11 +31,15 @@
 	
 	<script src="js/setup.js"></script>
 	<script src="js/services/api.js"></script>
+	<script src="js/services/pageAccess.js"></script>
+	<script src="js/services/auth.js"></script>
 	<script src="js/controllers/LoginCtrl.js"></script>
 	<script src="js/controllers/RegisterCtrl.js"></script>
+	<script src="js/controllers/ResetPasswordCtrl.js"></script>
+	<script src="js/controllers/ChangePasswordCtrl.js"></script>
 	<script src="js/app.js"></script>
 	
-	<link rel="stylesheet" href="css/layout.css" type="text/css" />
+	<link rel="stylesheet" href="css/layout.css"/>
 	
     <!--<link rel="stylesheet" href="css/myProfile.css" type="text/css" />
     <link rel="stylesheet" href="css/addRoute.css" type="text/css" />
@@ -51,12 +55,30 @@
 <body>
 	<header>
 		<nav>
-			<ul ui-view="menu"><div class="clear"></div></ul>
-			<div class="clear"></div>
+			<ul ng-if="auth.isGuest()">
+				<cpa-menu-item state="login" text="Aanmelden" link-id="login"></cpa-menu-item>
+				<cpa-menu-item state="register" text="Registreren" link-id="register"></cpa-menu-item>
+				<cpa-menu-item state="resetPassword" text="Wachtwoord vergeten" link-id="resetPassword"></cpa-menu-item>
+				<!-- <li ui-sref-active="active"><a ui-sref="login">Log in</a></li>
+				<li ui-sref-active="active"><a ui-sref="register">Registreer</a></li>
+				<li ui-sref-active="active"><a ui-sref="resetPassword">Wachtwoord vergeten</a></li>-->
+			</ul>
+			<ul ng-if="auth.isMember()">
+				<cpa-menu-item state="myProfile" text="Mijn profiel" link-id="myProfile"></cpa-menu-item>
+				<cpa-menu-item state="dummy" text="Zoek carpoolers" link-id="search"></cpa-menu-item>
+				<cpa-menu-item state="myProfile.changePassword" text="Verander wachtwoord" link-id="changePassword"></cpa-menu-item>
+				
+				<cpa-menu-item state="dummy" text="Afmelden" link-id="logout" item-class="last"></cpa-menu-item>
+				<cpa-menu-item state="dummy" text="Berichten" link-id="inbox" item-class="last"></cpa-menu-item>
+				<!-- <li ui-sref-active="active" ng-class="{ active: $state.includes('myProfile.*')}"><a ui-sref="myProfile">Mijn profiel</a></li>
+				<li ui-sref-active="active"><a>Zoek carpoolers</a></li>
+				<li ui-sref-active="active"><a>Verander wachtwoord</a></li>
+				
+				<li class='last' ui-sref-active="active"><a>Logout</a></li>
+				<li class="last" ui-sref-active="active"><a id="inbox">Inbox</a></li> -->
+			</ul>
 		</nav>
 	</header>
-	<!--<cpa-dve-nav-v1></cpa-dve-nav-v1>-->
-	<!-- <a ui-sref="login" ui-sref-active="active">Login</a> - <a ui-sref="register" ui-sref-active="active">Register</a> - <a ui-sref="myProfile" ui-sref-active="active" ng-class="{ active: $state.includes('myProfile.*')}">myProfile</a> - <a ui-sref="myProfile.foo" ui-sref-active="active">myProfile Foo</a> -->
-	<div class="wrapper" ui-view="main"></div>
+	<div class="wrapper" ui-view></div>
 </body>
 </html>

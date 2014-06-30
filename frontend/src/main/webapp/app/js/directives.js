@@ -16,28 +16,6 @@ carpoolDirectives.directive('ngFileModel', ['$parse', function ($parse) {
     };
 }]);
 
-carpoolDirectives.directive('cpaDveUserAccessV1', ['cpa.svc.pageaccess.v1', 'cpa.svc.auth.v1', function(cpa_pageaccess, cpa_auth) {
-	return {
-		restrict: 'A',
-		scope: {},
-		link: function(scope, element, attrs) {
-			cpa_pageaccess.set(attrs.cpaDveUserAccessV1);
-			cpa_auth.check();
-		}
-	};
-}]);
-
-carpoolDirectives.directive('cpaDveNavV1', ['cpa.svc.auth.v1', function(cpa_auth) {
-	return {
-		restrict: 'E',
-		scope: {},
-		templateUrl: 'partials/nav.html',
-		link: function(scope, element, attrs) {
-			scope.auth = cpa_auth;
-		}
-	};
-}]);
-
 carpoolDirectives.directive('cpaGmap',function() {
     var defaultMapOptions={
         center: new google.maps.LatLng(51.219448, 4.402464),

@@ -18,6 +18,32 @@ body > header {
 body > .wrapper {
 	margin: 2em auto;
 }
+section.mainSite {
+    min-height: 580px;
+    background-color: rgba(53, 53, 53, 0.8);
+    border: solid 1px gray;
+    padding:10px;
+    color:#FFFFFF;
+}
+section.mainSite > header {
+	font-size: 2rem;
+	color: white;
+	border-bottom: solid 1px gray;
+}
+section.mainSite .inner {
+	width:40rem;
+}
+section.mainSite .inner label {
+	width: 15rem;
+	font-size: 1.4rem;
+}
+section.mainSite .inner input {
+	width: 15rem; /* Might not be correct, original had syntax error.*/
+}
+section.mainSite > footer,
+section.mainSite > form > footer {
+	margin-top: 20px;
+}
 
 /********************* Top Menu ********************/
 body > header > nav {
@@ -31,6 +57,11 @@ body > header > nav ul {
     padding: 0 0 1px 0;
     font-size: 12px;
 }
+body > header > nav ul:after {
+	content: "";
+	clear: both;
+	display:block;
+}
 
 body > header > nav li {
     display: block;
@@ -39,13 +70,23 @@ body > header > nav li {
     padding: 0 2px;
 }
 
+body > header > nav li a#inbox {
+	background-image: url(../img/inbox-small.png);
+}
+
+body > header > nav li.last {
+	float: right;
+}
+
 body > header > nav li a {
-    display: block;
+    display: inline-block;
     color: #FFFFFF;
     font-weight: bold;
-    padding: 10px 20px 7px 20px;
+    padding: 12px 10px 5px 30px;
     border-bottom: 3px solid transparent;
     text-decoration: none;
+    background: transparent no-repeat 10px 10px;
+    height: 15px;
 }
 
 body > header > nav li a:hover {
@@ -55,12 +96,6 @@ body > header > nav li a:hover {
 
 body > header > nav li.active a {
     border-bottom-color: rgb(59, 150, 206);
-}
-
-body > header > nav li a img {
-	height: 15px;
-	width: 15px;
-	margin-right: 1em;
 }
 
 /************ GENERIC TABLE STYLES *******************/
@@ -170,8 +205,10 @@ section.guest footer {
 section.guest footer p.error {
 	color: #FF0000;
 }
-section.guest footer input[type="submit"],
-section.guest footer input[type="reset"] {
+
+/******************************** Form styles ***************************/
+section footer input[type="submit"],
+section footer input[type="reset"] {
 	background: #ffffff;
 	border: 1px solid #ccc;
 	color: #353535;
@@ -184,23 +221,23 @@ section.guest footer input[type="reset"] {
 	padding: 0;
 	cursor: pointer;
 }
-section.guest footer input[type="submit"]:disabled,
-section.guest footer input[type="reset"]:disabled,
-section.guest footer input[type="submit"]:hover:disabled,
-section.guest footer input[type="reset"]:hover:disabled {
+section footer input[type="submit"]:disabled,
+section footer input[type="reset"]:disabled,
+section footer input[type="submit"]:hover:disabled,
+section footer input[type="reset"]:hover:disabled {
     background-image:url(../img/loading.gif);
     height:39px;
     font-size:0;
     background-repeat: no-repeat;
     background-position: center;
 }
-section.guest footer input[type="reset"] {
+section footer input[type="reset"] {
     background:#aaaaaa;
     float:left;
     margin-right:0;
 }
-section.guest footer input[type="submit"]:hover,
-section.guest footer input[type="reset"]:hover{
+section footer input[type="submit"]:hover,
+section footer input[type="reset"]:hover{
     background: #d1d1d1;
 }
 
