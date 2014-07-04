@@ -30,6 +30,11 @@ angular.module('cpa').config(['$stateProvider', '$urlRouterProvider', function (
 		url: "/changePassword",
 		templateUrl: "partials/changePassword.html",
 		controller: "ChangePasswordCtrl"
+	}).state("inbox", {
+		url: "/inbox",
+		templateUrl: "partials/inbox.html",
+		controller: "InboxCtrl",
+		data: { access: "MEMBER" }
 	}).state("dummy", {
 		url: "/dummy",
 		template: "<h1>DUMMY</h1>",
@@ -77,10 +82,10 @@ carpoolingApp.run(function($rootScope, $route, cpaSvcRouteurlsV1) {
 */
 // BEGIN GLOBAL VARIABLES
 // Root URL for API calls
-//var rootUrl = "http://localhost:8080/BackEnd";
+var rootUrl = "http://localhost:8080/BackEnd";
 
 // Table paginating: items per page
-//var itemsPerPage = 1;
+var itemsPerPage = 1;
 
 // END GLOBAL VARIABLES
 

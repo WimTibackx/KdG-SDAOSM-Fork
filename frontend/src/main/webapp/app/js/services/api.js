@@ -132,7 +132,57 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 			cbUnknown();
 			return;
 		});
-	}
+	};
+	
+	api.notifyReadMsg = function (messageId, cbAll, cbSuccess, cbUnknown) {
+		$http.post(rootUrl + "/authorized/textmessage/read", {messageId: messageId})
+		.success(function (data, status, headers, config)) {
+			cbAll();
+			cbSuccess();
+		}.error(function (data, status, headers, config)) {
+			cbAll();
+			cbUnknown();
+		}
+	};
+	
+	api.sendMsg = function(sender, receiver, msg, subject, cbAll, cbSuccess, cbUnknown) {
+		var data = {
+			senderUsername: sender,
+			receiverUsername: receiver,
+			messageBody: msg,
+			messageSubject: subject
+		};
+		$http.post(rootUrl + "/authorized/textmessage/send", data)
+		.success(function (data, status, headers, config)) {
+			cbAll();
+			cbSuccess();
+		}.error(function (data, status, headers, config)) {
+			cbAll();
+			cbUnknown();
+		}
+	};
+	
+	api.getMsgs = function(cbAll, cbSuccess, cbError) {
+		$http.get(rootUrl + "/authorized/textmessage/get")
+		.success(function (data, status, headers, config) {
+			cbAll();
+			cbSuccess(data);
+		}).error(function (data, status, headers, config) {
+			cbAll();
+			cbError();
+		})
+	};
+	
+	api.getMyProfile = function(cbAll, cbSuccess, cbError) {
+		$http.get(rootUrl + "/authorized/myprofile")
+		.success(function (data, status, headers, config) {
+			cbAll();
+			cbSuccess(data);
+		}).error(function (data, status, headers, config) {
+			cbAll();
+			cbError();
+		});
+	};
 	
 	return api;
 }]);

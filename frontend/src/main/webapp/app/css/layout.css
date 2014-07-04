@@ -30,12 +30,12 @@ section.mainSite > header {
 	color: white;
 	border-bottom: solid 1px gray;
 }
-section.mainSite .inner {
+section.mainSite .inner,
+section.mainSite footer {
 	width:40rem;
 }
 section.mainSite .inner label {
 	width: 15rem;
-	font-size: 1.4rem;
 }
 section.mainSite .inner input {
 	width: 15rem; /* Might not be correct, original had syntax error.*/
@@ -163,46 +163,46 @@ section.guest .inner {
     color: #353535;
     padding: 20px;
 }
-section.guest .inner p,
-section.guest footer p {
+section .inner p,
+section footer p {
 	margin-bottom: 10px;
 }
-section.guest .inner p:last-child,
-section.guest footer p:last-child {
+section .inner p:last-child,
+section footer p:last-child {
 	margin: 0;
 }
-section.guest .inner label{
+section .inner label{
 	display: block;
 	margin-bottom: 5px;
 }
-section.guest .inner input[type="radio"],
-section.guest .inner input[type="date"],
-section.guest .inner input[type="text"],
-section.guest .inner input[type="password"],
-section.guest .inner input[type="file"],
-section.guest .inner select {
+section .inner input[type="radio"],
+section .inner input[type="date"],
+section .inner input[type="text"],
+section .inner input[type="password"],
+section .inner input[type="file"],
+section .inner select {
     border: 1px solid #353535;
     margin: 0 auto;
     padding: 5px;
     font-size: 16px;
 }
 
-section.guest .inner input[type="text"],
-section.guest .inner input[type="password"] {
+section .inner input[type="text"],
+section .inner input[type="password"] {
     display: block;
     width: 80%;
 }
-section.guest .inner input[type="text"]:focus,
-section.guest .inner input[type="password"]:focus{
+section .inner input[type="text"]:focus,
+section .inner input[type="password"]:focus{
 	border:1px solid #3B96CE;
 	outline: 0;
 }
 
-section.guest footer {
+section footer {
 	padding: 15px;
 }
 
-section.guest footer p.error {
+section footer p.error {
 	color: #FF0000;
 }
 
@@ -214,11 +214,11 @@ section footer input[type="reset"] {
 	color: #353535;
 	font-weight: bold;
 	text-align: center;
-	width: 150px;
+	min-width: 150px;
 	float: right;
 	font-size: 1em;
 	height: 40px;
-	padding: 0;
+	padding: 0 20px;
 	cursor: pointer;
 }
 section footer input[type="submit"]:disabled,

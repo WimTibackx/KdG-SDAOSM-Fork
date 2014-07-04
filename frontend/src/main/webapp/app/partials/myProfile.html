@@ -23,7 +23,7 @@
 
 
 <section id="carField" class="profilemiddle" ng-hide="hideCars">
-    <section id="carsOverview" ng-repeat="car in cars" ng-click="clickCar(car)">
+    <section id="carsOverview" ang-repeat="car in cars" ng-click="clickCar(car)">
         <img class="carImage" alt="{{car.brand}}"
              ng-src="{{getCarImageUrl(car.photoUrl)}}"/>
         <section id="carSpecs">
@@ -96,85 +96,6 @@
     <p class="addTextProfile" ng-click="goAddRoute()"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg
         route toe</p>
 </section>
-
-
-<!--div class="blockRight">
-    <table class="ritTable general blackwhite">
-        <thead>
-        <tr class="tableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Fort verboomstraat 32, 9130 Kieldrecht
-            </td>
-            <td>
-                Nationalestraat 22, 2000 Antwerpen
-            </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr class="tableTitles">
-            <td>
-                Vertrek
-            </td>
-            <td>
-                Bestemming
-            </td>
-        </tr>
-        </tfoot>
-    </table>
-    <section class="addTextProfile"><img class="addIcon" src="../app/img/profilePage/addIcon.png"/>Voeg rit
-        toe
-    </section>
-</div-->
 
 <div id="profileTrajecten" class="myRoutes profilemiddle" ng-hide="hideTrajects">
     <div class="loadingoverlay"
