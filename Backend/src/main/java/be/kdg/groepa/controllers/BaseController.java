@@ -3,6 +3,7 @@ package be.kdg.groepa.controllers;
 import be.kdg.groepa.model.SessionObject;
 import be.kdg.groepa.model.User;
 import be.kdg.groepa.service.api.UserService;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.logging.Logger;
 
 /**
@@ -17,21 +19,26 @@ import java.util.logging.Logger;
  */
 @Controller
 public class BaseController {
+	
+	protected final static int COOKIELENGTH = 86400; // 1 day
 
     @Autowired
     private UserService userService;
+    
+    protected void makeCookie(String token, HttpServletResponse response) {
+    	Cookie cookie = new Cookie("Token", token);
+        cookie.setPath("/");
+        cookie.setMaxAge(BaseController.COOKIELENGTH);
+        response.addCookie(cookie);
+    }
 
     protected void updateCookie(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies ){
+        for (Cookie cookie : cookies){
             if (cookie.getName() != null && cookie.getName().equals("Token")) {
                 Logger.getGlobal().info("Token cookie value is: "+cookie.getValue());
                 if (userService.isUserSessionByToken(cookie.getValue())) {
-                    Cookie updatedCookie = new Cookie("Token", cookie.getValue());
-                    updatedCookie.setPath("/");
-                    //Set max age of cookie to 1 day
-                    updatedCookie.setMaxAge(60 * 60 * 24);
-                    response.addCookie(updatedCookie);
+                    this.makeCookie(cookie.getValue(), response);
                 }
             }
         }

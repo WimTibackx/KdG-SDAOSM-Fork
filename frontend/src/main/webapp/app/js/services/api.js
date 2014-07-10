@@ -12,19 +12,18 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 			cbAll();
 			if (data.hasOwnProperty("Token")) {
 				cbSuccess();
-			} else if (data.hasOwnProperty("error")) {
-				if (data.error == "LoginComboWrong") {
-					cbComboWrong();
-				} else if (data.error == "ParseError") {
-					cbParseError();
-				} else {
-					cbUnknownError();
-				}
 			}
 		})
 		.error(function (data, status, headers, config) {
 			cbAll();
-			cbUnknownError();
+			switch (status) {
+				case 400:
+					cbParseError();
+				case 401:
+					cbComboWrong();
+				default:
+					cbUnknownError();
+			}
 		});
 	};
 	
@@ -136,13 +135,13 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 	
 	api.notifyReadMsg = function (messageId, cbAll, cbSuccess, cbUnknown) {
 		$http.post(rootUrl + "/authorized/textmessage/read", {messageId: messageId})
-		.success(function (data, status, headers, config)) {
+		.success(function (data, status, headers, config) {
 			cbAll();
 			cbSuccess();
-		}.error(function (data, status, headers, config)) {
+		}).error(function (data, status, headers, config) {
 			cbAll();
 			cbUnknown();
-		}
+		});
 	};
 	
 	api.sendMsg = function(sender, receiver, msg, subject, cbAll, cbSuccess, cbUnknown) {
@@ -153,13 +152,13 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 			messageSubject: subject
 		};
 		$http.post(rootUrl + "/authorized/textmessage/send", data)
-		.success(function (data, status, headers, config)) {
+		.success(function (data, status, headers, config) {
 			cbAll();
 			cbSuccess();
-		}.error(function (data, status, headers, config)) {
+		}).error(function (data, status, headers, config) {
 			cbAll();
 			cbUnknown();
-		}
+		});
 	};
 	
 	api.getMsgs = function(cbAll, cbSuccess, cbError) {
@@ -170,7 +169,7 @@ angular.module("cpa.svc").factory('cpa.svc.api.v1', ['$http', function($http) {
 		}).error(function (data, status, headers, config) {
 			cbAll();
 			cbError();
-		})
+		});
 	};
 	
 	api.getMyProfile = function(cbAll, cbSuccess, cbError) {
